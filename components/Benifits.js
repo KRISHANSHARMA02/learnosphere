@@ -49,7 +49,11 @@ const Benifits = [
 ]
 
   return (
+
     <div className='bg-slate-100 md:m-7'>
+
+  
+
         <div className="flex justify-center p-5 sm:p-0 md:p-0 items-center flex-col ">
         <h1 className="text-4xl font-bold pt-8 ">BENEFITS AT A GLANCE</h1>
         <p className="text-xl pt-1">
