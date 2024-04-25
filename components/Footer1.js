@@ -6,7 +6,11 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 const Footer1 = () => {
     
   return (
-    <div className='z-0'>
+
+    <div className='z-0 md:mt-5'>
+
+   
+
        <div className="flex justify-center items-center sticky bottom-0 flex-col bg-slate-100">
         <h1 className="text-4xl font-bold pt-8 ">Get in Touch</h1>
         <p className="text-xl pt-1 pl-[68px] md:pl-1">
