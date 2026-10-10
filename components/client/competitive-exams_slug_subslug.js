@@ -1,0 +1,527 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Footer1 from "@/components/Footer1";
+import {
+  FaCheckCircle,
+  FaStar,
+  FaUsers,
+  FaChevronDown,
+  FaRegHandPointRight,
+} from "react-icons/fa";
+
+// 👉 TERA STUDY NOTES COMPONENT
+import StudyNotes from "@/components/StudyNotes";
+
+export default function SubExamPage({ params }) {
+  const unwrappedParams = React.use(params);
+  const slug = unwrappedParams.slug;
+  const subslug = unwrappedParams.subslug;
+
+  const examName = subslug.replace(/-/g, " ").toUpperCase();
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [openFaq, setOpenFaq] = useState(null);
+
+  // 👉 NAYA LOGIC: Check karo ki kya yeh special tab hai?
+  const specialTabs = ["study-notes", "mock-tests", "pyq", "syllabus"];
+  const isSpecialTab = specialTabs.includes(subslug);
+
+  // ==========================================
+  // 🚀 1. TERA NAYA DYNAMIC USE-EFFECT
+  // ==========================================
+  useEffect(() => {
+    setLoading(true);
+
+    // Dynamic URL Logic:
+    // Agar 'study-notes' hai, toh main exam (slug) ki details laao
+    // ✅ SAHI (Naya code)
+    const fetchUrl = isSpecialTab
+      ? `https://learnospherebackend.learnosphere.in/api/route/get-competitive-exam-details/${slug}`
+      : `https://learnospherebackend.learnosphere.in/api/route/get-sub-details/${slug}/${subslug}`;
+
+    fetch(fetchUrl)
+      .then((res) => res.json())
+      .then((result) => {
+        setData(result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        setLoading(false);
+      });
+  }, [slug, subslug, isSpecialTab]);
+
+  const toggleFaq = (index) => setOpenFaq(openFaq === index ? null : index);
+
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  // ==============================================================
+  // 🎯 SPECIAL TABS RENDERING (STUDY NOTES YAHAN RENDER HOGA)
+  // ==============================================================
+
+  if (subslug === "study-notes") {
+    return (
+      <div className="bg-[#FBFCFE] font-Poppins min-h-screen flex flex-col pt-[70px] md:pt-[80px]">
+        <Navbar />
+
+        {/* ================= PREMIUM HEADER ================= */}
+        <div
+          className="pt-16 pb-16 px-6 relative overflow-hidden bg-orange-50/80 border-b border-orange-100"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ea580c' fill-opacity='0.06' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1.5'/%3E%3Ccircle cx='13' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent"></div>
+
+          <div className="max-w-7xl mx-auto relative z-10 text-left">
+            <nav
+              className="text-sm mb-6 font-medium flex justify-start"
+              aria-label="Breadcrumb"
+            >
+              <ol className="list-none p-0 inline-flex items-center text-gray-500">
+                <li className="flex items-center">
+                  <Link
+                    href="/"
+                    className="hover:text-orange-600 transition-colors"
+                  >
+                    Home
+                  </Link>
+                  <span className="mx-3">/</span>
+                </li>
+                <li className="flex items-center">
+                  <Link
+                    href={`/competitive-exams`}
+                    className="hover:text-orange-600 transition-colors"
+                  >
+                    Competitive Exams
+                  </Link>
+                  <span className="mx-3">/</span>
+                </li>
+                <li className="flex items-center">
+                  <Link
+                    href={`/competitive-exams/${slug}`}
+                    className="hover:text-orange-600 transition-colors uppercase"
+                  >
+                    {slug.replace(/-/g, " ")}
+                  </Link>
+                  <span className="mx-3">/</span>
+                </li>
+                <li className="flex items-center text-orange-600 font-bold tracking-wide uppercase">
+                  Study Notes
+                </li>
+              </ol>
+            </nav>
+
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-4 uppercase">
+              {slug.replace(/-/g, " ")} Study Notes
+            </h1>
+            <p className="text-gray-600 text-lg max-w-3xl">
+              Access premium PDF notes, chapter-wise materials, and
+              comprehensive study guides to boost your preparation.
+            </p>
+          </div>
+        </div>
+
+        {/* ================= MAIN CONTENT ================= */}
+        <div className="flex-grow container mx-auto max-w-6xl p-6 md:p-12 relative z-10">
+          {/* 🚀 2. YAHAN TERA COMPONENT AB DYNAMIC HO GAYA */}
+          <StudyNotes slug={slug} sessionId={data?.id || data?._id} />
+        </div>
+
+        <div className="mt-auto">
+          <Footer1 />
+          <Footer />
+        </div>
+      </div>
+    );
+  }
+
+  // ==============================================================
+  // 📌 NORMAL EXAM PAGE RENDERING (TERA PURANA CODE)
+  // ==============================================================
+
+  if (!data || data.error) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex flex-col items-center">
+        <Navbar />
+        <div className="mt-40 text-center p-10 bg-white rounded-3xl shadow-sm border border-gray-100 max-w-md">
+          <h2 className="text-2xl text-red-600 font-black mb-2">
+            Data Not Found
+          </h2>
+          <p className="text-gray-500">
+            Is page ka data abhi database mein add nahi hua hai.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  let cardsList = [];
+  if (data.page_type === "cards" && data.cards_data) {
+    cardsList =
+      typeof data.cards_data === "string"
+        ? JSON.parse(data.cards_data)
+        : data.cards_data;
+  }
+
+  const faqs = [
+    {
+      q: `Is the ${examName} exam conducted in multiple languages?`,
+      a: "Yes, the examination is generally bilingual. Questions are provided in both English and Hindi, except for the language comprehension section which must be answered in English.",
+    },
+    {
+      q: `What is the negative marking scheme for ${examName}?`,
+      a: "Typically, there is a penalty for incorrect answers. In the preliminary stages, 0.50 marks are deducted for each wrong answer, though this may vary slightly based on the specific paper.",
+    },
+    {
+      q: `Can final year graduation students apply?`,
+      a: "Candidates who are in their final year can apply, provided they acquire the essential educational qualification on or before the crucial date mentioned in the official notification.",
+    },
+    {
+      q: `Is there any interview round?`,
+      a: "For most Group B and C posts under this category, the interview round has been dispensed with. Selection is primarily based on computer-based tests and document verification.",
+    },
+  ];
+
+  return (
+    <div className="bg-[#FBFCFE] font-Poppins min-h-screen flex flex-col pt-[70px] md:pt-[80px]">
+      <Navbar />
+
+      {/* ================= PREMIUM HEADER ================= */}
+      <div
+        className="pt-16 pb-16 px-6 relative overflow-hidden bg-orange-50/80 border-b border-orange-100"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ea580c' fill-opacity='0.06' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1.5'/%3E%3Ccircle cx='13' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10 text-left">
+          <nav
+            className="text-sm mb-6 font-medium flex justify-start"
+            aria-label="Breadcrumb"
+          >
+            <ol className="list-none p-0 inline-flex items-center text-gray-500">
+              <li className="flex items-center">
+                <Link
+                  href="/"
+                  className="hover:text-orange-600 transition-colors"
+                >
+                  Home
+                </Link>
+                <span className="mx-3">/</span>
+              </li>
+              <li className="flex items-center">
+                <Link
+                  href={`/government-exams/${slug}`}
+                  className="hover:text-orange-600 transition-colors uppercase"
+                >
+                  {slug.replace(/-/g, " ")}
+                </Link>
+                <span className="mx-3">/</span>
+              </li>
+              <li className="flex items-center text-orange-600 font-bold tracking-wide uppercase">
+                {examName}
+              </li>
+            </ol>
+          </nav>
+
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-4">
+            {data.page_title ||
+              data.title ||
+              `${examName} 2026 Preparation & Notification`}
+          </h1>
+          <p className="text-gray-600 text-lg max-w-3xl">
+            Everything you need to know about the {examName} exam. Explore our
+            top-rated courses, check the latest exam pattern, and read our
+            expert preparation tips below.
+          </p>
+        </div>
+      </div>
+
+      {/* ================= MAIN CONTENT AREA ================= */}
+      <div className="py-12 px-4 md:px-8 flex-grow">
+        <div className="max-w-7xl mx-auto">
+          {/* COURSE CARDS SECTION */}
+          {data.page_type === "cards" && cardsList.length > 0 && (
+            <div className="mb-20">
+              <h2 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-3">
+                <span className="w-2 h-8 bg-orange-500 rounded-full inline-block"></span>
+                Premium {examName} Courses
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {cardsList.map((card) => (
+                  <div
+                    key={card.id}
+                    className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-xl hover:border-orange-200 transition-all duration-300 group flex flex-col h-full relative overflow-hidden"
+                  >
+                    {card.badge && (
+                      <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                        <FaStar size={10} /> {card.badge}
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 mt-2 group-hover:text-orange-600 transition-colors">
+                      {card.title}
+                    </h3>
+                    <div className="space-y-3 mb-8 flex-grow">
+                      {card.features.map((feature, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5">
+                          <FaCheckCircle
+                            className="text-orange-500 mt-1 flex-shrink-0"
+                            size={14}
+                          />
+                          <span className="text-sm text-gray-600 font-medium">
+                            {feature}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-5 border-t border-gray-100 mt-auto">
+                      <div className="flex justify-between items-end mb-5">
+                        <div className="flex flex-col">
+                          <span className="text-xs text-gray-400 line-through font-semibold">
+                            {card.originalPrice}
+                          </span>
+                          <span className="text-3xl font-black text-gray-900 flex items-center tracking-tight">
+                            {card.price}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-orange-600 font-bold bg-orange-50 px-3 py-1.5 rounded-full border border-orange-100">
+                          <FaUsers size={12} /> 10k+ Enrolled
+                        </div>
+                      </div>
+                      <button className="w-full bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-500 hover:text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-sm uppercase tracking-wide text-sm">
+                        {card.buttonText || "View Details"}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ================= DETAILED INFORMATION SECTION ================= */}
+          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100 max-w-5xl mx-auto">
+            <h2 className="text-3xl font-black text-gray-900 mb-8 border-b border-gray-100 pb-6">
+              Complete Guide: {examName} 2026
+            </h2>
+
+            {/* Selection Process */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <FaRegHandPointRight className="text-orange-500" /> Selection
+                Process & Exam Pattern
+              </h3>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                The {examName} examination is typically conducted in multiple
+                tiers to ensure a rigorous selection of candidates.
+                Understanding these stages is crucial for effective preparation.
+              </p>
+              <div className="bg-orange-50/50 p-6 rounded-2xl border border-orange-100 space-y-4">
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg">
+                    Stage 1: Preliminary Exam (Tier-I)
+                  </h4>
+                  <p className="text-gray-600 mt-1">
+                    An objective-type computer-based test consisting of sections
+                    like General Intelligence, Quantitative Aptitude, General
+                    Awareness, and English. It serves as a screening test.
+                  </p>
+                </div>
+                <div className="w-full h-px bg-orange-200/50"></div>
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg">
+                    Stage 2: Mains Examination (Tier-II)
+                  </h4>
+                  <p className="text-gray-600 mt-1">
+                    A more comprehensive computer-based test that dives deep
+                    into core subjects. Depending on the specific post,
+                    candidates may have to appear for additional specialized
+                    papers (like Statistics or Finance).
+                  </p>
+                </div>
+                <div className="w-full h-px bg-orange-200/50"></div>
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg">
+                    Stage 3: Document Verification (DV)
+                  </h4>
+                  <p className="text-gray-600 mt-1">
+                    Candidates who clear the cut-offs are called to verify their
+                    original educational certificates, caste certificates, and
+                    identity proofs.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* How to Apply */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <FaRegHandPointRight className="text-orange-500" /> How to Apply
+                for {examName}?
+              </h3>
+              <p className="text-gray-600 mb-5 leading-relaxed">
+                Applying for the exam is a completely online process. Follow
+                these simplified steps to ensure your application is submitted
+                without any errors:
+              </p>
+              <ol className="relative border-l border-gray-200 ml-3 space-y-6">
+                <li className="mb-10 ml-6">
+                  <span className="absolute flex items-center justify-center w-8 h-8 bg-orange-100 rounded-full -left-4 ring-4 ring-white text-orange-600 font-bold text-sm shadow-sm">
+                    1
+                  </span>
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">
+                    One-Time Registration (OTR)
+                  </h4>
+                  <p className="text-gray-600">
+                    Visit the official recruitment portal and complete your
+                    one-time registration by providing basic details like Aadhar
+                    number, name, and contact info.
+                  </p>
+                </li>
+                <li className="mb-10 ml-6">
+                  <span className="absolute flex items-center justify-center w-8 h-8 bg-orange-100 rounded-full -left-4 ring-4 ring-white text-orange-600 font-bold text-sm shadow-sm">
+                    2
+                  </span>
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">
+                    Fill the Application Form
+                  </h4>
+                  <p className="text-gray-600">
+                    Log in with your new credentials, locate the {examName}{" "}
+                    dashboard, and fill out your educational qualifications and
+                    preferred exam centers.
+                  </p>
+                </li>
+                <li className="mb-10 ml-6">
+                  <span className="absolute flex items-center justify-center w-8 h-8 bg-orange-100 rounded-full -left-4 ring-4 ring-white text-orange-600 font-bold text-sm shadow-sm">
+                    3
+                  </span>
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">
+                    Upload Documents
+                  </h4>
+                  <p className="text-gray-600">
+                    Upload a recent, clear passport-size photograph (without
+                    spectacles/cap) and your scanned signature in the exact
+                    dimensions specified in the notice.
+                  </p>
+                </li>
+                <li className="ml-6">
+                  <span className="absolute flex items-center justify-center w-8 h-8 bg-orange-100 rounded-full -left-4 ring-4 ring-white text-orange-600 font-bold text-sm shadow-sm">
+                    4
+                  </span>
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">
+                    Final Submission
+                  </h4>
+                  <p className="text-gray-600">
+                    Preview all entered details carefully. Pay the required
+                    application fee (if applicable) through UPI, Net Banking, or
+                    Card, and take a printout of the final confirmation page.
+                  </p>
+                </li>
+              </ol>
+            </div>
+
+            {/* Preparation Tips */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <FaRegHandPointRight className="text-orange-500" /> Expert
+                Preparation Strategy
+              </h3>
+              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <ul className="space-y-4 text-gray-700">
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0"></div>
+                    <p>
+                      <strong>Master the Basics:</strong> Before jumping to
+                      short tricks, ensure your foundational concepts in
+                      Mathematics and English Grammar are crystal clear.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0"></div>
+                    <p>
+                      <strong>Consistent Mock Tests:</strong> Attempting
+                      full-length mock tests under a strict timer is
+                      non-negotiable. It builds stamina and highlights your weak
+                      areas.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0"></div>
+                    <p>
+                      <strong>Current Affairs:</strong> Dedicate 30 minutes
+                      daily to reading newspapers or monthly magazines. Focus on
+                      events from the last 6-8 months prior to the exam.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0"></div>
+                    <p>
+                      <strong>Previous Year Papers:</strong> Solve at least the
+                      last 5 years' question papers. You will notice a recurring
+                      pattern in the types of questions asked by the conducting
+                      body.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* FAQs */}
+            <div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <FaRegHandPointRight className="text-orange-500" /> Frequently
+                Asked Questions
+              </h3>
+              <div className="space-y-4">
+                {faqs.map((faq, idx) => {
+                  const isOpen = openFaq === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className="rounded-xl overflow-hidden bg-white border border-gray-200 transition-all duration-300 shadow-sm hover:border-orange-200"
+                    >
+                      <button
+                        onClick={() => toggleFaq(idx)}
+                        className="w-full flex justify-between items-center p-5 text-left transition-colors focus:outline-none"
+                      >
+                        <span className="font-semibold text-gray-800 pr-4">
+                          {faq.q}
+                        </span>
+                        <FaChevronDown
+                          className={`text-gray-400 transition-transform duration-300 flex-shrink-0 ${isOpen ? "rotate-180 text-orange-500" : ""}`}
+                        />
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out bg-gray-50 ${isOpen ? "max-h-[500px] opacity-100 border-t border-gray-100" : "max-h-0 opacity-0"}`}
+                      >
+                        <div className="p-5 text-gray-600 font-medium leading-relaxed">
+                          {faq.a}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-auto">
+        <Footer1 />
+        <Footer />
+      </div>
+    </div>
+  );
+}

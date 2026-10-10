@@ -1,0 +1,259 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/** @type {import('tailwindcss').Config} */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 20mm;
+  }
+  
+  body {
+    background: white !important;
+  }
+  
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .page-break {
+    page-break-after: always;
+  }
+}
+
+
+@keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-fadeInOut {
+    animation: fadeInOut 2s infinite;
+  }
+/* Enable smooth scrolling */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styles (if using scrollbar plugin) */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* For smooth transition effect */
+
+
+@keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-fadeInOut {
+    animation: fadeInOut 2s infinite;
+  }
+  /* Loader Style */
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+@keyframes blink {
+  0% {opacity:1;}
+  50% {opacity:0;}
+  100% {opacity:1;}
+}
+
+.blink{
+  animation:blink 1s infinite
+}
+
+/* styles.css or in a CSS module */
+.bgcontainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+  .bgcontainer {
+    height: auto; /* Adjust for smaller screens */
+    padding: 5px; /* Reduce padding for compact view */
+  }
+}
+
+@media (max-width: 480px) {
+  .bgcontainer {
+    height: auto; /* Further reduce height for very small screens */
+    
+  }
+
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+/* dropdown animations */
+
+.dropdown-up {
+  animation: slide-up 0.4s ease-in-out forwards;
+}
+.dropdown-down {
+  animation: slide-down 0.5s ease-in-out forwards;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes shimmer-bg {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.shimmer-button {
+  background: linear-gradient(45deg, #f97316 25%, #fbbf24 50%, #f97316 75%);
+  background-size: 200% 100%;
+  animation: shimmer-bg 1.5s infinite linear;
+  color: white;
+  font-weight: bold;
+  border-radius: 0.375rem;
+  
+}
+
+
+/* kite-rotation */
+@keyframes rotate-slow {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Fade Overlay */
+@keyframes popupFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.animate-popupFade {
+  animation: popupFade 0.3s ease-out;
+}
+
+/* Popup Slide Up */
+@keyframes popupSlide {
+  0% { transform: translateY(40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+.animate-popupSlide {
+  animation: popupSlide 0.45s ease-out;
+}
+
+/* Left Smooth Float */
+@keyframes leftFloat {
+  0% { opacity: 0; transform: translateX(-25px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.animate-leftFloat {
+  animation: leftFloat 0.5s ease-out;
+}
+
+/* Image Tilt */
+@keyframes imageTilt {
+  0% { transform: rotate(5deg) scale(0.9); opacity: 0; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+.animate-imageTilt {
+  animation: imageTilt 0.6s ease-out;
+}
+
+@keyframes shimmer-overlay {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  animation: shimmer-overlay 2.5s infinite;
+  pointer-events: none;
+}
