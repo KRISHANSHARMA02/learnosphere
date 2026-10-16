@@ -462,55 +462,95 @@ const Navbar = () => {
                 ref={dropdownRef}
                 className="relative list-none hidden lg:block hover:scale-105 transition-all ease-in-out rounded-lg dropdown-up"
               >
-                <div
-                  className="flex items-center gap-1 cursor-pointer"
-                  onClick={toggleDropdown}
-                >
-                  {user.profileImage ? (
-                    <Image
-                      src={user.profileImage}
-                      alt="Profile"
-                      height={200}
-                      width={200}
-                      className="w-8 h-8 rounded-full"
-                    />
-                  ) : (
-                    <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center bg-orange-600 text-white`}
-                    >
-                      <span className="text-white font-bold text-sm">
-                        {session?.user?.name
-                          ? session.user.name.charAt(0).toUpperCase()
-                          : "U"}
+                <div className="flex items-center gap-1">
+                  <Link
+                    href={
+                      role === "teacher" || session?.user?.role === "teacher"
+                        ? "/Teacherdashboard/Home"
+                        : "/Userdashboard/Home"
+                    }
+                    className="flex items-center gap-2 cursor-pointer hover:opacity-90"
+                    title="Open Dashboard"
+                  >
+                    {user.profileImage ? (
+                      <Image
+                        src={user.profileImage}
+                        alt="Profile"
+                        height={200}
+                        width={200}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        className={`w-9 h-9 rounded-full flex items-center justify-center bg-orange-600 text-white`}
+                      >
+                        <span className="text-white font-bold text-sm">
+                          {session?.user?.name
+                            ? session.user.name.charAt(0).toUpperCase()
+                            : "U"}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex flex-col items-start">
+                      <span className="text-sm font-bold max-w-[120px] truncate">
+                        {session?.user?.name || "User"}
+                      </span>
+                      <span className="text-gray-800 text-[10px] max-w-[120px] truncate">
+                        {session?.user?.email || "user"}
                       </span>
                     </div>
-                  )}
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm font-bold">
-                      {session?.user?.name || "User"}
-                    </span>
-                    <span className="text-gray-800 text-[10px]">
-                      {session?.user?.email || "user"}
-                    </span>
-                  </div>
+                  </Link>
 
-                  <RiArrowDropRightLine size={25} className="text-gray-800" />
+                  <button
+                    onClick={toggleDropdown}
+                    type="button"
+                    aria-label="User menu"
+                    className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <RiArrowDropRightLine
+                      size={25}
+                      className={`text-gray-800 transition-transform ${
+                        isDropdownOpen ? "rotate-90" : ""
+                      }`}
+                    />
+                  </button>
                 </div>
                 {isDropdownOpen && (
-                  <ul className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50 dropdown-up">
-                    <li className="py-2 px-4 hover:bg-gray-100">
+                  <ul className="absolute right-0 mt-2 w-52 bg-white shadow-xl rounded-xl border border-gray-100 z-50 dropdown-up py-2">
+                    <li className="py-2 px-4 hover:bg-orange-50 font-semibold text-gray-800">
                       <Link
                         href={
-                          role === "teacher"
-                            ? "/Teacherdashboard"
-                            : "/Userdashboard"
+                          role === "teacher" || session?.user?.role === "teacher"
+                            ? "/Teacherdashboard/Home"
+                            : "/Userdashboard/Home"
                         }
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center gap-2 text-orange-600"
                       >
-                        Profile
+                        <span>📊</span> Go to Dashboard
                       </Link>
                     </li>
-                    <li className="py-2 px-4 hover:bg-gray-100 rounded">
-                      <button onClick={handleLogout}>Logout</button>
+                    <li className="py-2 px-4 hover:bg-gray-50 text-gray-700">
+                      <Link
+                        href={
+                          role === "teacher" || session?.user?.role === "teacher"
+                            ? "/Teacherdashboard/Profileteacher"
+                            : "/Userdashboard/profileuser"
+                        }
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center gap-2"
+                      >
+                        <span>👤</span> My Profile
+                      </Link>
+                    </li>
+                    <li className="border-t border-gray-100 my-1"></li>
+                    <li className="py-2 px-4 hover:bg-red-50 text-red-600">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left flex items-center gap-2 font-medium"
+                      >
+                        <span>🚪</span> Logout
+                      </button>
                     </li>
                   </ul>
                 )}
@@ -566,57 +606,100 @@ const Navbar = () => {
               {user ? (
                 <li
                   ref={dropdownRef1}
-                  className="relative shadow-lg rounded-lg p-2 list-none lg:hidden text-black mb-3"
+                  className="relative shadow-md rounded-xl p-3 list-none lg:hidden text-black mb-3 bg-gray-50 border border-gray-200"
                 >
-                  <div
-                    className="flex items-center gap-1 cursor-pointer"
-                    onClick={toggleDropdown1}
-                  >
-                    {user.profileImage ? (
-                      <Image
-                        src={user.profileImage}
-                        alt="Profile"
-                        height={200}
-                        width={200}
-                        className="w-9 h-9 rounded-full"
-                      />
-                    ) : (
-                      <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center bg-orange-600 text-white`}
-                      >
-                        <span className="text-white font-bold text-sm">
+                  <div className="flex items-center justify-between">
+                    <Link
+                      href={
+                        role === "teacher" || session?.user?.role === "teacher"
+                          ? "/Teacherdashboard/Home"
+                          : "/Userdashboard/Home"
+                      }
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 cursor-pointer flex-1"
+                    >
+                      {user.profileImage ? (
+                        <Image
+                          src={user.profileImage}
+                          alt="Profile"
+                          height={200}
+                          width={200}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center bg-orange-600 text-white font-bold`}
+                        >
                           {session?.user?.name
                             ? session.user.name.charAt(0).toUpperCase()
                             : "U"}
+                        </div>
+                      )}
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-bold text-gray-900">
+                          {session?.user?.name || "User"}
+                        </span>
+                        <span className="text-gray-500 text-xs">
+                          {session?.user?.email || "user"}
+                        </span>
+                        <span className="text-[11px] text-orange-600 font-semibold mt-0.5">
+                          Tap to open Dashboard →
                         </span>
                       </div>
-                    )}
-                    <div className="flex flex-col items-start">
-                      <span className="text-sm font-bold">
-                        {session?.user?.name || "User"}
-                      </span>
-                      <span className="text-gray-800 text-[10px]">
-                        {session?.user?.email || "user"}
-                      </span>
-                    </div>
-
-                    <RiArrowDropRightLine size={25} className="text-gray-800" />
+                    </Link>
+                    <button
+                      onClick={toggleDropdown1}
+                      type="button"
+                      aria-label="Toggle user options"
+                      className="p-1 hover:bg-gray-200 rounded-lg text-gray-600"
+                    >
+                      <RiArrowDropRightLine
+                        size={28}
+                        className={`transition-transform ${
+                          isDropdownOpen1 ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
                   </div>
                   {isDropdownOpen1 && (
-                    <ul className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
-                      <li className="py-2 px-4 hover:bg-gray-100">
+                    <ul className="mt-3 bg-white border border-gray-100 shadow-md rounded-lg overflow-hidden py-1">
+                      <li className="py-2.5 px-4 hover:bg-orange-50 font-semibold text-orange-600">
                         <Link
                           href={
-                            role === "teacher"
-                              ? "/Teacherdashboard"
-                              : "/Userdashboard"
+                            role === "teacher" || session?.user?.role === "teacher"
+                              ? "/Teacherdashboard/Home"
+                              : "/Userdashboard/Home"
                           }
+                          onClick={() => {
+                            setIsDropdownOpen1(false);
+                            setIsMobileMenuOpen(false);
+                          }}
                         >
-                          Profile
+                          📊 Go to Dashboard
                         </Link>
                       </li>
-                      <li className="py-2 px-4 hover:bg-gray-100">
-                        <button onClick={handleLogout}>Logout</button>
+                      <li className="py-2.5 px-4 hover:bg-gray-50 text-gray-700">
+                        <Link
+                          href={
+                            role === "teacher" || session?.user?.role === "teacher"
+                              ? "/Teacherdashboard/Profileteacher"
+                              : "/Userdashboard/profileuser"
+                          }
+                          onClick={() => {
+                            setIsDropdownOpen1(false);
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          👤 My Profile
+                        </Link>
+                      </li>
+                      <li className="border-t border-gray-100 py-2.5 px-4 hover:bg-red-50 text-red-600">
+                        <button
+                          onClick={handleLogout}
+                          className="w-full text-left font-medium"
+                        >
+                          🚪 Logout
+                        </button>
                       </li>
                     </ul>
                   )}

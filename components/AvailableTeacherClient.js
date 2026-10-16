@@ -17,6 +17,9 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import Head from "next/head";
+import Image from "next/image";
+import StudentAppImg from "@/public/studentApp.png";
+import { FaGooglePlay, FaAppStore, FaRocket, FaFire, FaCheckCircle } from "react-icons/fa";
 import VerifiedBadge from "./VerifiedBadge";
 import { trackEvent } from "@/src/lib/eventTracker";
 // Import the Bridge Action
@@ -45,6 +48,7 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [bookingModalTeacher, setBookingModalTeacher] = useState(null);
 
   // --- POPUP STATES (Only for "Request Tutor" Floating Button) ---
   const [isGeneralFormVisible, setIsGeneralFormVisible] = useState(false);
@@ -333,12 +337,12 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
                         </span>
                       </div>
 
-                      {/* ✅ BOOK NOW BUTTON CLICK -> GOES TO PROFILE (As requested) */}
+                      {/* ✅ BOOK NOW BUTTON CLICK -> OPENS APP BOOKING MODAL */}
                       <button
                         className="px-6 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-xl shadow-lg shadow-orange-200 transition-all active:scale-95"
                         onClick={(e) => {
                           e.stopPropagation();
-                          goToProfile(teacher);
+                          setBookingModalTeacher(teacher);
                         }}
                       >
                         Book Now
@@ -528,6 +532,59 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
                 Submit Request
               </button>
             </form>
+            
+          </div>
+        </div>
+      )};
+      {/* COOL BOOKING APPLICATION MODAL */}
+      {bookingModalTeacher && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative border border-gray-100 animate-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setBookingModalTeacher(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-light"
+            >
+              &times;
+            </button>
+
+            <div className="text-center space-y-3">
+              <span className="inline-block bg-orange-100 text-orange-600 font-bold text-xs uppercase tracking-wider px-3.5 py-1 rounded-full border border-orange-200">
+                🎉 Hurry Up! First Trial Class is 100% FREE!
+              </span>
+
+              <h3 className="text-2xl font-extrabold text-gray-900 leading-tight">
+                Book Live 1-on-1 Session with {bookingModalTeacher.name}
+              </h3>
+
+              <p className="text-gray-600 text-sm leading-relaxed max-w-md mx-auto">
+                Booking an educator requires the <strong>Learnosphere Mobile App</strong>. Your first class is completely free — choose your subject, pick a slot on the tutor's live calendar, and begin learning.
+              </p>
+
+              <div className="bg-orange-50/60 p-4 rounded-2xl border border-orange-100 flex items-center justify-around my-4 text-xs font-semibold text-gray-700">
+                <span>📚 {bookingModalTeacher.subject || "All Subjects"}</span>
+                <span>⭐ {bookingModalTeacher.rating} Rating</span>
+                <span>⏱️ {bookingModalTeacher.rawExperience} Yrs Exp</span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition-all shadow-md shadow-orange-500/20"
+                >
+                  <FaGooglePlay size={18} /> Google Play
+                </a>
+                <a
+                  href="https://apps.apple.com/in/app/learnosphere-learning-app/id6748979882"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-4 rounded-xl text-sm transition-all"
+                >
+                  <FaAppStore size={18} /> App Store
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}

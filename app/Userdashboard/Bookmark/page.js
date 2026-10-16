@@ -1,419 +1,533 @@
 "use client";
-import React, { useEffect, useState } from 'react'
-import { BiMath } from "react-icons/bi";
-import { MdOutlineBookmark, MdOutlineScience } from "react-icons/md";
-import { MdQuestionMark } from "react-icons/md";
-import { Link } from 'react-scroll';
-import { PiNotepad } from "react-icons/pi";
-import Image from 'next/image';
-import Classroom from '@/public/classroom.webp'
-import { PiBookOpenText } from "react-icons/pi";
-import { GiWhiteBook } from "react-icons/gi";
-import Head from 'next/head';
-import axios from 'axios';
-import Logo from "@/public/Yellow Beige Feminine Thank You Card.png"
 
-import { useSession } from 'next-auth/react';
-import { FaArrowRightLong } from 'react-icons/fa6';
-import { set } from 'date-fns';
-import { CgPlayButtonO, CgPlayButtonR } from 'react-icons/cg'
-import NotFound from '@/public/NotFoundLogo.png';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import {
+  Bookmark,
+  BookmarkCheck,
+  BookOpen,
+  Video,
+  FileText,
+  ExternalLink,
+  Trash2,
+  Sparkles,
+  HelpCircle,
+  Play,
+  ArrowRight,
+  Smartphone,
+  Download,
+  Flame,
+  CheckCircle2,
+} from "lucide-react";
+import { SiGoogleplay, SiApple } from "react-icons/si";
+import StudentAppImg from "@/public/studentApp.png";
 
+const PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main";
+const APP_STORE_URL =
+  "https://apps.apple.com/in/app/learnosphere-learning-app/id6748979882";
 
-const Bookmark = () => {
-const { data: session, status } = useSession();
-  const[grade,setGrade] = useState(null)
-  const[registrationNumber,setRegistrationNumber] = useState(null)
-  const[loading,setLoading] = useState(false)
-  const[bookMarks,setBookMarks] = useState([])
-  const[videoBookmarks,setVideoBookmarks] = useState([])
-  const[subjects,setSubjects] = useState([])
-  const [error, setError] = useState(null);
-   const [bookmarkedFiles, setBookmarkedFiles] = useState(new Set());
-   const [selectedVideo, setSelectedVideo] = useState(null);
-   const [activeVideoId, setActiveVideoId] = useState(null);
-   const [showAll, setShowAll] = useState(false);
-   const [showAllVideos, setShowAllVideos] = useState(false);
+export default function BookmarkPage() {
+  const { data: session, status } = useSession();
+  const [grade, setGrade] = useState(null);
+  const [registrationNumber, setRegistrationNumber] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [bookMarks, setBookMarks] = useState([]);
+  const [videoBookmarks, setVideoBookmarks] = useState([]);
+  const [activeTab, setActiveTab] = useState("all"); // 'all', 'notes', 'videos'
+  const [activeVideoId, setActiveVideoId] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [showAllNotes, setShowAllNotes] = useState(false);
+  const [showAllVideos, setShowAllVideos] = useState(false);
 
-  const handleVideoClick = (videoId, videoUrl) => {
-    setActiveVideoId(videoId);
-    setSelectedVideo(videoUrl);
-  };
-
- 
-
-
-   useEffect(() => {
-    const fetchGrade = async () => {
-      if (status === 'authenticated' && session?.user?.email) {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
             "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
-          setRegistrationNumber(response.data.registrationNumber); // Save registrationNumber
+          setRegistrationNumber(response.data.registrationNumber);
         } catch (error) {
-          console.error("Error Fetching Grade:", error);
+          console.error("Error Fetching Student Profile:", error);
         }
       }
     };
-    fetchGrade();
+    fetchUserData();
   }, [session, status]);
-  
+
   useEffect(() => {
-    const fetchBookmarks = async () => {
-        if (registrationNumber && grade) {  // Ensure both userId and grade are available
-            try {
-                const response = await axios.post(
-                    "https://learnospherebackend.learnosphere.in/api/route/getBookmark",
-                    { 
-                        userId: registrationNumber, 
-                        grade: grade  // Send grade as well
-                    }
-                );
-                setBookMarks(response.data.message);
-            } catch (error) {
-                console.error("Error Fetching Bookmarks:", error);
-                setError(
-                    error.response?.data?.message ||
-                    "An error occurred while fetching bookmarks"
-                );
+    const fetchAllBookmarks = async () => {
+      if (!registrationNumber || !grade) return;
+      setLoading(true);
+
+      try {
+        const [notesRes, videoRes] = await Promise.allSettled([
+          axios.post(
+            "https://learnospherebackend.learnosphere.in/api/route/getBookmark",
+            {
+              userId: registrationNumber,
+              grade: grade,
             }
+          ),
+          axios.post(
+            "https://learnospherebackend.learnosphere.in/api/route/getVideoBookmark",
+            {
+              userId: registrationNumber,
+              grade: grade,
+            }
+          ),
+        ]);
+
+        if (notesRes.status === "fulfilled" && Array.isArray(notesRes.value?.data?.message)) {
+          setBookMarks(notesRes.value.data.message);
         } else {
-            setError("User is not authenticated or grade is missing.");
+          setBookMarks([]);
         }
+
+        if (videoRes.status === "fulfilled" && Array.isArray(videoRes.value?.data?.message)) {
+          setVideoBookmarks(videoRes.value.data.message);
+        } else {
+          setVideoBookmarks([]);
+        }
+      } catch (error) {
+        console.error("Error fetching bookmarks:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchBookmarks();
-}, [registrationNumber, grade]); // Add grade as a dependency
+    fetchAllBookmarks();
+  }, [registrationNumber, grade]);
 
-  
   const handleRemoveBookmark = async (fileId) => {
-    if (registrationNumber) {
-      try {
-        await axios.post("https://learnospherebackend.learnosphere.in/api/route/removeBookmark", {
-          userId: registrationNumber, // Use registrationNumber
-          fileId,
-        });
-  
-        setBookMarks((prev) => prev.filter((file) => file.fileId !== fileId));
-        alert("Bookmark Removed Successfully");
-      } catch (error) {
-        console.error("Error Removing Bookmark", error);
-        alert("An error occurred while removing the bookmark.");
-      }
-    } else {
-      alert("User is not authenticated.");
-    }
-  };
-  
-
-useEffect(() => {
-const fetchVideoBookmarks = async() => {
-  if(registrationNumber && grade){
-    try{
-      const response = await axios.post('https://learnospherebackend.learnosphere.in/api/route/getVideoBookmark',{
-        userId:registrationNumber,
-        grade:grade
-      });
-      setVideoBookmarks(response.data.message);
-    }
-    catch(error){
-      console.error("Error Fetching Bookmarks:",error)
-      setError(error.response?.data?.message || "An error occured while fetching bookmarks")
-    }
-
-  }
-  else{
-    setError("User is not authenticatd.")
-  }
-}
-fetchVideoBookmarks();
-},[registrationNumber,grade])
-
-const handleView = (pdfUrl) => {
-  const newWindow = window.open();
-  newWindow.document.write(`
-    <html>
-      <head><title>PDF Viewer</title></head>
-      <body style="margin:0;padding:0;overflow:hidden;">
-        <iframe src="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="100%" style="border:none;"></iframe>
-      </body>
-    </html>
-  `);
-};
-
-
-
-
-const handleRemoveVideoBookmark = async (videoId) => {
-  if (registrationNumber) {
+    if (!registrationNumber) return;
     try {
-      // Make a request to remove the bookmark
-      await axios.post("https://learnospherebackend.learnosphere.in/api/route/removevideoBookmark", {
-        userId: registrationNumber,
-        videoId,
-      });
-
-      // Remove the bookmark from the state after successful removal
-      setBookMarks((prev) => prev.filter((video) => video.videoId !== videoId));
-      alert("Bookmark Removed Successfully");
+      await axios.post(
+        "https://learnospherebackend.learnosphere.in/api/route/removeBookmark",
+        {
+          userId: registrationNumber,
+          fileId,
+        }
+      );
+      setBookMarks((prev) => prev.filter((file) => file.fileId !== fileId));
     } catch (error) {
       console.error("Error Removing Bookmark", error);
-      alert("An error occurred while removing the bookmark.");
     }
-  } else {
-    alert("User is not authenticated.");
-  }
-};
+  };
 
+  const handleRemoveVideoBookmark = async (videoId) => {
+    if (!registrationNumber) return;
+    try {
+      await axios.post(
+        "https://learnospherebackend.learnosphere.in/api/route/removevideoBookmark",
+        {
+          userId: registrationNumber,
+          videoId,
+        }
+      );
+      setVideoBookmarks((prev) => prev.filter((video) => video.videoId !== videoId));
+    } catch (error) {
+      console.error("Error Removing Video Bookmark", error);
+    }
+  };
 
+  const handleViewPdf = (pdfUrl) => {
+    if (!pdfUrl) return;
+    window.open(pdfUrl, "_blank", "noopener,noreferrer");
+  };
 
+  const activeNotes = bookMarks.filter((b) => b.isBookmarked === 1 || b.isBookmarked === undefined);
+  const activeVideos = videoBookmarks.filter((v) => v.isBookmarked === 1 || v.isBookmarked === undefined);
 
-
-
- 
   return (
-    <div>
-    <Head>
-    <meta name="robots" content="noindex, nofollow" />
-  </Head>
-
-  <div>
-  <div className='w-full flex items-center justify-between p-3'>
-  <h1 className="text-[.9em] md:text-[1.4em] text-center font-bold mt-6 text-orange-600">Bookmarked Notes</h1>
-  <button
-  className="bg-orange-100 text-orange-500 hover:text-orange-600 p-1 mt-6 rounded-full w-28 text-[.7em] md:text-[.9em] font-semibold"
-  onClick={() => setShowAll(!showAll)}
->
-  {showAll ? "Hide All" : "View All"}
-</button>
-  </div>
-  
-  {bookMarks.length > 0 ? (
-    <div className={`${showAll ? "max-h-[240px] overflow-y-auto" : "max-h-[200px] overflow-hidden"} scrollbar-thin scrollbar-thumb-orange-500 scrollbar-track-gray-200`}>
-    <ul className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 md:grid-cols-3 gap-2  overflow-y-auto  mt-6 mb-6">
-      {bookMarks.slice(0, showAll ? bookMarks.length: 3).map((bookmark, index) => (
-        // Check if the bookmark is active (isBookmarked = 1), only then display it
-        bookmark.isBookmarked === 1 && (
-
-          <div key={index} className="bg-gray-50 border relative flex flex-col justify-between  border-gray-300 rounded-md p-3">
-          <li className=" text-gray-800 font-bold text-[1em]">Subject:{bookmark.selectedSubject}</li>
-            <li className='text-orange-500  mt-2 font-bold'>{bookmark.title}</li>
-            <li className='w-[70%] mt-1'>{bookmark.topic}</li>
-           
-            <span>
-              {/* View Button */}
-              <button>
-                <FaArrowRightLong className='bg-orange-500 p-2 rounded-full text-white mt-2 animate-bounce' size={30 } onClick={() => handleView(bookmark.pdfUrl)} />
-              </button>
-              {/* Remove Bookmark Button */}
-              <button
-                className="absolute top-2 right-2 text-green-500 hover:text-green-600"
-                onClick={() => handleRemoveBookmark(bookmark.fileId)}
-              >
-                {/* Filled bookmark icon if the file is bookmarked */}
-                <MdOutlineBookmark size={25} />
-              </button>
-            </span>
+    <div className="min-h-screen bg-gradient-to-b from-orange-50/40 via-white to-gray-50/50 p-4 sm:p-6 lg:p-8">
+      {/* Header Banner */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-600 via-amber-600 to-orange-500 p-6 sm:p-8 text-white shadow-lg mb-8">
+        <div className="relative z-10 max-w-3xl">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3.5 py-1 text-xs font-semibold backdrop-blur-md mb-3">
+            <BookmarkCheck className="h-4 w-4" />
+            Saved Revision Vault
           </div>
-        )
-      ))}
-    </ul>
-    </div>
-  ) : (
-    <div className='p-4 '>
-    
-     <div className='p-16 border rounded-lg mt-4 bg-gray-50 border-gray-300 flex flex-col justify-center items-center'>
-     < GiWhiteBook size={120} className='text-orange-500'/>
-     <p className='font-bold text-[1.2em] text-center md:text-start'>No bookmarks to show yet</p>
-     <p className='font-semibold text-gray-600 text-[1em] text-center md:text-start'>No bookmarked files found. Start saving your favorites!</p>
-    
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            My Bookmarks & Study Library
+          </h1>
+          <p className="mt-2 text-sm sm:text-base text-orange-100 font-medium">
+            Quickly revise your saved formulas, chapter notes, and video lectures in one place. All bookmarks sync in real-time with the Learnosphere Mobile App.
+          </p>
+        </div>
 
-     </div>
-   </div>
-  )}
-</div>
+        {/* Decorative elements */}
+        <div className="absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+        <div className="absolute right-12 bottom-0 w-36 h-36 bg-amber-400/20 rounded-full blur-xl pointer-events-none" />
+      </div>
 
-
-<div>
-<div className="w-full flex items-center justify-between p-3">
-  <h1 className="text-[.9em] md:text-[1.4em] text-center font-bold mt-6 text-orange-600">
-    Bookmarked Videos
-  </h1>
-  <button
-    className="bg-orange-100 text-orange-500 hover:text-orange-600 p-1 mt-6 rounded-full w-28 text-[.7em] md:text-[.9em] font-semibold"
-    onClick={() => setShowAllVideos(!showAllVideos)}
-  >
-    {showAllVideos ? "Hide All" : "View All"}
-  </button>
-</div>
-
-<div className={`${showAllVideos ? "max-h-[400px] overflow-y-auto" : "max-h-[350px] overflow-hidden"} scrollbar-thin scrollbar-thumb-orange-500 scrollbar-track-gray-200`}>
-  {videoBookmarks.filter((videobookmark) => videobookmark.isBookmarked === 1).length > 0 ? (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-6 mb-6">
-      {videoBookmarks
-        .filter((videobookmark) => videobookmark.isBookmarked === 1)
-        .slice(0, showAllVideos ? videoBookmarks.length : 3)
-        .map((videobookmark, index) => (
-          <div
-            key={index}
-            className="bg-gray-200 rounded-2xl w-full relative flex flex-col gap-2 p-6 cursor-pointer"
-            onClick={() => handleVideoClick(videobookmark.videoId, videobookmark.video_url)}
+      {/* Filter Tabs & Stats Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white border border-gray-100 rounded-2xl p-3 shadow-sm">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setActiveTab("all")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              activeTab === "all"
+                ? "bg-orange-500 text-white shadow-sm shadow-orange-200"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
           >
-            {activeVideoId === videobookmark.videoId ? (
-              <video
-                src={videobookmark.video_url}
-                className="w-full h-40 mt-3 object-cover"
-                controls
-                autoPlay
-              />
-            ) : (
-              <video
-                src={videobookmark.video_url}
-                className="w-full h-40 mt-3 object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
-            )}
+            All Saved ({activeNotes.length + activeVideos.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("notes")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
+              activeTab === "notes"
+                ? "bg-orange-500 text-white shadow-sm shadow-orange-200"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            Notes & PDFs ({activeNotes.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("videos")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
+              activeTab === "videos"
+                ? "bg-orange-500 text-white shadow-sm shadow-orange-200"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <Video className="w-3.5 h-3.5" />
+            Concept Videos ({activeVideos.length})
+          </button>
+        </div>
 
-            <li className="text-blue-500 font-bold text-[1em]">
-              Subject: {videobookmark.selectedSubject}
-            </li>
-            <li className="text-orange-500 mt-1 font-bold">
-              {videobookmark.title}
-            </li>
-            <div className="w-full flex justify-between items-center">
-              <li className="w-[70%]">{videobookmark.topic}</li>
-              <span>
-                <button>
-                  <CgPlayButtonO className="text-orange-600 rounded-lg" size={25} />
-                </button>
-              </span>
+        <div className="text-xs text-gray-500 font-medium px-2">
+          Class: <span className="font-bold text-gray-800">{grade || "Standard"}</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Section: Bookmarks Content */}
+        <div className="lg:col-span-8 space-y-8">
+          {/* Notes & PDF Section */}
+          {(activeTab === "all" || activeTab === "notes") && (
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 font-bold">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900">Bookmarked Notes & Documents</h2>
+                    <p className="text-xs text-gray-500">PDFs, topic summaries & high-yield formula sheets</p>
+                  </div>
+                </div>
+
+                {activeNotes.length > 3 && (
+                  <button
+                    onClick={() => setShowAllNotes(!showAllNotes)}
+                    className="text-xs font-bold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-3 py-1.5 rounded-full transition-colors"
+                  >
+                    {showAllNotes ? "Show Less" : `View All (${activeNotes.length})`}
+                  </button>
+                )}
+              </div>
+
+              {activeNotes.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {(showAllNotes ? activeNotes : activeNotes.slice(0, 4)).map((bookmark, idx) => (
+                    <div
+                      key={bookmark.fileId || idx}
+                      className="group relative flex flex-col justify-between rounded-2xl border border-gray-100 bg-gradient-to-b from-gray-50/50 to-white p-5 hover:border-orange-200 hover:shadow-md transition-all"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="text-[11px] font-bold text-orange-700 bg-orange-100/70 px-2.5 py-0.5 rounded-md">
+                            {bookmark.selectedSubject || "General"}
+                          </span>
+                          <button
+                            onClick={() => handleRemoveBookmark(bookmark.fileId)}
+                            title="Remove bookmark"
+                            className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <h3 className="font-bold text-gray-900 text-sm line-clamp-1 group-hover:text-orange-600 transition-colors">
+                          {bookmark.title || "Study Material Note"}
+                        </h3>
+                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                          {bookmark.topic || "Detailed chapter summary and practice hints."}
+                        </p>
+                      </div>
+
+                      <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+                        <span className="text-[10px] text-gray-400 font-medium">Ready to revise</span>
+                        <button
+                          onClick={() => handleViewPdf(bookmark.pdfUrl)}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 hover:text-orange-700 group-hover:translate-x-0.5 transition-transform"
+                        >
+                          Open Document
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-10 px-4 rounded-2xl border-2 border-dashed border-gray-200 bg-orange-50/20">
+                  <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
+                    <BookOpen className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-base font-bold text-gray-800">No Bookmarked Notes Yet</h3>
+                  <p className="text-xs text-gray-500 max-w-md mx-auto mt-1 mb-4">
+                    Explore high-yield question sets and formulas. Tap the bookmark icon while reading to save them here and sync them with your mobile device.
+                  </p>
+                  <Link
+                    href="/Userdashboard/Practicequestion"
+                    className="inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-sm shadow-orange-200"
+                  >
+                    Browse Practice Material
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              )}
             </div>
-            <button
-              className="absolute top-2 right-2 text-green-500 hover:text-green-600"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemoveVideoBookmark(videobookmark.videoId);
-              }}
+          )}
+
+          {/* Videos Section */}
+          {(activeTab === "all" || activeTab === "videos") && (
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 font-bold">
+                    <Video className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900">Bookmarked Concept Videos</h2>
+                    <p className="text-xs text-gray-500">Video lectures, animations & 3D visualizations</p>
+                  </div>
+                </div>
+
+                {activeVideos.length > 3 && (
+                  <button
+                    onClick={() => setShowAllVideos(!showAllVideos)}
+                    className="text-xs font-bold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-3 py-1.5 rounded-full transition-colors"
+                  >
+                    {showAllVideos ? "Show Less" : `View All (${activeVideos.length})`}
+                  </button>
+                )}
+              </div>
+
+              {activeVideos.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {(showAllVideos ? activeVideos : activeVideos.slice(0, 4)).map((video, idx) => (
+                    <div
+                      key={video.videoId || idx}
+                      className="group relative rounded-2xl border border-gray-100 overflow-hidden bg-white hover:border-orange-200 hover:shadow-md transition-all flex flex-col justify-between"
+                    >
+                      <div className="relative aspect-video bg-gray-900 overflow-hidden">
+                        {activeVideoId === video.videoId ? (
+                          <video
+                            src={video.video_url}
+                            className="w-full h-full object-cover"
+                            controls
+                            autoPlay
+                          />
+                        ) : (
+                          <div
+                            onClick={() => {
+                              setActiveVideoId(video.videoId);
+                              setSelectedVideo(video.video_url);
+                            }}
+                            className="w-full h-full flex items-center justify-center cursor-pointer group/video bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+                          >
+                            <div className="w-12 h-12 rounded-full bg-white/90 text-orange-600 flex items-center justify-center shadow-lg group-hover/video:scale-110 transition-transform">
+                              <Play className="w-5 h-5 fill-current ml-0.5" />
+                            </div>
+                          </div>
+                        )}
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveVideoBookmark(video.videoId);
+                          }}
+                          className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:text-red-400 hover:bg-black/80 backdrop-blur-sm transition-all"
+                          title="Remove bookmark"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+
+                        <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 backdrop-blur-sm text-[10px] font-semibold text-white">
+                          {video.selectedSubject || "Science"}
+                        </div>
+                      </div>
+
+                      <div className="p-4">
+                        <h4 className="font-bold text-gray-900 text-sm line-clamp-1 group-hover:text-orange-600 transition-colors">
+                          {video.title || "Concept Lecture"}
+                        </h4>
+                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
+                          {video.topic || "Core concept explanation"}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-10 px-4 rounded-2xl border-2 border-dashed border-gray-200 bg-amber-50/20">
+                  <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+                    <Video className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-base font-bold text-gray-800">No Saved Videos Yet</h3>
+                  <p className="text-xs text-gray-500 max-w-md mx-auto mt-1 mb-4">
+                    Watch short 3D concept explainers and bookmark tricky concepts to review anytime before exams.
+                  </p>
+                  <Link
+                    href="/Userdashboard/Conceptvideo"
+                    className="inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-sm shadow-amber-200"
+                  >
+                    Watch Free Concept Videos
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Right Section: Mobile App Vault Promo & Quick Tools */}
+        <div className="lg:col-span-4 space-y-6">
+          {/* Mobile App Bookmark Sync Banner */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-orange-950 to-slate-900 p-6 text-white shadow-xl border border-orange-500/20">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-orange-500/20 border border-orange-500/30 px-3 py-1 text-[11px] font-bold text-orange-400 mb-3">
+              <Smartphone className="w-3.5 h-3.5" />
+              Learnosphere Mobile
+            </div>
+
+            <h3 className="text-lg font-extrabold text-white">
+              Sync & Revise Offline on App
+            </h3>
+            <p className="mt-1 text-xs text-gray-300 leading-relaxed">
+              Never lose your notes! Download your bookmarks directly to your phone for uninterrupted revision without Internet.
+            </p>
+
+            <div className="my-5 flex items-center justify-center">
+              <div className="relative w-44 h-60 drop-shadow-2xl">
+                <Image
+                  src={StudentAppImg}
+                  alt="Learnosphere Mobile App Bookmark"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </div>
+
+            <ul className="space-y-2 mb-5 text-xs text-gray-200">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-orange-400 shrink-0" />
+                <span>Offline bookmark reading with zero lag</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-orange-400 shrink-0" />
+                <span>One-tap flashcard generation from bookmarks</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-orange-400 shrink-0" />
+                <span>Instant doubt-solve directly from saved PDFs</span>
+              </li>
+            </ul>
+
+            <div className="flex flex-col gap-2.5">
+              <a
+                href={PLAY_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all shadow-md active:scale-95"
+              >
+                <SiGoogleplay className="w-4 h-4" />
+                <span>Get it on Google Play</span>
+              </a>
+              <a
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all border border-white/10 active:scale-95"
+              >
+                <SiApple className="w-4 h-4" />
+                <span>Download on App Store</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Study Hub Shortcuts */}
+          <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm space-y-3">
+            <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-orange-500" />
+              Quick Study Tools
+            </h4>
+
+            <Link
+              href="/Userdashboard/Askquestion"
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-orange-50/70 hover:bg-orange-100/70 transition-all group border border-orange-100"
             >
-              <MdOutlineBookmark size={25} />
-            </button>
-          </div>
-        ))}
-    </ul>
-  ) : (
-    <div className='p-4 '>
-    
-    <div className='p-16 border rounded-lg mt-4 bg-gray-50 border-gray-300 flex flex-col justify-center items-center'>
-    < GiWhiteBook size={120} className='text-orange-500'/>
-    <p className='font-bold text-[1.2em] text-center md:text-start'>No bookmarks to show yet</p>
-    <p className='font-semibold text-gray-600 text-[1em] text-center md:text-start'>No bookmarked videos found. Start saving your favorites!</p>
-   
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-orange-500 text-white flex items-center justify-center">
+                  <HelpCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
+                    Ask an AI Doubt
+                  </h5>
+                  <p className="text-[11px] text-gray-500">24/7 instant step-by-step guidance</p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-orange-600 group-hover:translate-x-0.5 transition-all" />
+            </Link>
 
+            <Link
+              href="/Userdashboard/Practicequestion"
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-blue-50/70 hover:bg-blue-100/70 transition-all group border border-blue-100"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-500 text-white flex items-center justify-center">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    Take Practice Tests
+                  </h5>
+                  <p className="text-[11px] text-gray-500">Subject-wise tests & score cards</p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+            </Link>
+
+            <Link
+              href="/Userdashboard/Conceptvideo"
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-amber-50/70 hover:bg-amber-100/70 transition-all group border border-amber-100"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center">
+                  <Play className="w-5 h-5 fill-current" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-gray-900 group-hover:text-amber-600 transition-colors">
+                    Watch Concept Videos
+                  </h5>
+                  <p className="text-[11px] text-gray-500">Visual explanation of tough chapters</p>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-amber-600 group-hover:translate-x-0.5 transition-all" />
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  )}
-</div>
-
-</div>
-
-
-      <div className='flex flex-col md:flex-row mt-4  '>
-        <div className='w-full md:w-[55%] h-auto md:h-[80vh] flex flex-col  gap-6'>
-      <div className='p-8 md:p-10 mx-2 xl:mx-2 2xl:mx-8 border border-gray-300  h-auto xl:h-[45vh] 2xl:h-[35vh] rounded-lg'>
-        <p className='text-[.9em] md:text-[1.4em] font-bold'>Subjects Bookmarks</p>
-        <p className='font-semibold text-orange-400 mt-2'>Total Bookmarks:</p>
-        <div className='flex flex-wrap gap-4 mt-8'>
-          <span  className='p-5 bg-green-200 w-48 flex flex-col justify-between h-40 rounded-md'>
-            <p className="flex items-center font-bold text-[1em] text-gray-700 gap-2"><BiMath className='text-green-40000' size={30} />Mathematics</p>
-            <p className='text-orange-600 text-[.6em] md:text-[.8em] bg-white text-center p-1 rounded-full hover:bg-green-200 '>No Bookmarks Yet</p>
-          </span>
-          <span  className=' bg-cyan-200 w-48 p-5 flex flex-col justify-between h-40 rounded-md'>
-            <p className='flex items-center font-bold text-[1em] text-gray-700 gap-2' ><MdOutlineScience className='text-cyan-400' size={30} />Science</p>
-            <p className='text-orange-600 text-[.6em] md:text-[.8em] bg-white text-center p-1 rounded-full hover:bg-cyan-200 '>No Bookmarks Yet</p>
-          </span>
-        </div>
-      </div>
-      <div className='p-4 xl:p-2 2xl:p-10 mx-2 xl:mx-3 2xl:mx-8 border border-gray-300 h-auto xl:h-[55vh] 2xl:h-[35vh] rounded-lg'>
-        <p className='text-[0.9em] md:text-[1.4em] font-bold'>Bookmarked Categories</p>
-   
-        <div className=' flex flex-wrap  gap-2 mt-8'>
-          <span  className='p-5 bg-green-100 w-32 xl:w-40 2xl:w-48 flex flex-col justify-between h-40 rounded-md'>
-            <p className="flex items-center font-bold text-[.9em] text-gray-700 gap-2"><MdQuestionMark className='text-green-400' size={30} />Questions</p>
-            <p className='text-green-400 text-[.6em] md:text-[.8em] bg-white text-center p-1 rounded-full hover:bg-green-100 '>No Bookmarks Yet</p>
-          </span>
-          <span  className=' bg-cyan-100  w-32 xl:w-40 2xl:w-56 p-5 flex flex-col justify-between h-40 rounded-md'>
-            <p className='flex items-center font-bold text-[.9em] text-gray-700 gap-2' ><PiBookOpenText  className='text-cyan-400' size={30} /> Summaries</p>
-            <p className='text-cyan-400 text-[.6em] md:text-[.8em] bg-white text-center p-1 rounded-full hover:bg-cyan-100 '>No Bookmarks Yet</p>
-          </span>
-          <span  className=' bg-orange-100 w-32 xl:w-40 2xl:w-48 p-5 flex flex-col justify-between h-40 rounded-md'>
-            <p className='flex items-center font-bold text-[.9em] text-gray-700 gap-2' ><PiNotepad  className='text-orange-400' size={30} />Exam Papers</p>
-            <p className='text-orange-400 text-[.6em] md:text-[.8em] bg-white text-center p-1 rounded-full hover:bg-orange-100 '>No Bookmarks Yet</p>
-          </span>
-        </div>
-      </div>
-      </div>
-      <div className='w-full md:w-[45%] border border-gray-300 rounded-lg p-4 flex flex-col gap-2'>
-        <div className='flex justify-between  mt-5 rounded-lg gap-8 p-4 bg-orange-50 '>
-          <div className='flex gap-8 ' >
-
-         <span className=' p-3 h-12 w-12 bg-orange-300 rounded-full'>
-          <MdQuestionMark className='bg-orange-400 h-6 w-6 rounded-full ' size={20}/>
-          </span>
-          <span>
-             <p className='font-bold text-[0.6em] md:text-[1.2em] text-black'>Have a Doubt?</p>
-        <p className='font-semibold text-[0.6em] md:text-[.9em] mt-1 md:mt-2 text-orange-500'>Clarify Your Doubt</p>
-          </span>
-          </div>
-          <div>
-            <Link href='/Userdashboard/Askquestion'>
-            <button className='p-2 bg-orange-400 rounded-full text-[0.6em] md:text-[1em]  text-semibold text-white'>Click here</button></Link>
-          </div>
-         
-        </div>
-        <div className='flex justify-between  mt-2 rounded-lg gap-8 p-4 bg-sky-50 '>
-          <div className='flex gap-8 ' >
-
-         <span className=' p-3 h-12 w-12 bg-sky-300 rounded-full'>
-          <PiNotepad className='h-6 w-6' size={20}/>
-          </span>
-          <span>
-             <p className='font-bold text-[0.6em] md:text-[1.2em] text-black'>Take a Test?</p>
-        <p className='font-semibold text-[0.6em] md:text-[.9em] mt-1 md:mt-2 text-sky-500 w-20 md:w-auto'>Take Chapter-Wise Test</p>
-          </span>
-          </div>
-          <div>
-            <Link href='/Userdashboard/Practicequestion'>
-            <button className='p-2 bg-sky-400 text-[0.6em] md:text-[1em] rounded-full text-semibold text-white'>Click here</button></Link>
-          </div>
-         
-        </div>
-        <div className='flex flex-col gap-2  mt-2 rounded-lg  p-4 bg-sky-50 '>
-         
-         
-          <Image className='h-80 rounded-lg' src ={Classroom} alt=''/>
-             <p className='font-bold text-[0.6em] md:text-[1.2em] text-black'>Concept Video</p>
-        <p className='font-semibold text-[0.6em] md:text-[.9em] mt-1 md:mt-2  text-sky-500'>Browse Video Lessons</p>
-         
-            <Link href='/Userdashboard/Conceptvideo'>
-            <button className='p-2 bg-sky-400 rounded-lg text-semibold text-[0.7em] md:text-[.9em]  text-white'>view Concept Videos</button></Link>
-          </div>
-        
-         
-         
-      
-        
-      </div>
-      </div>
-     
-     
-    </div>
-  )
+  );
 }
-
-export default Bookmark

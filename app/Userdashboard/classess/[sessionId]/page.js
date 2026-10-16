@@ -1,7 +1,7 @@
 "use client";
 import React, { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft, FaRegCommentDots, FaChevronRight } from "react-icons/fa";
+import { FaArrowLeft, FaChevronRight, FaRedo, FaRocket, FaGooglePlay, FaAppStore } from "react-icons/fa";
 import { FiClock, FiAlertCircle } from "react-icons/fi"; 
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import {
@@ -26,6 +26,7 @@ const SessionDetails = ({ params }) => {
 
   const [activeTab, setActiveTab] = useState("overview");
   const [showPendingModal, setShowPendingModal] = useState(false);
+  const [showRebookModal, setShowRebookModal] = useState(false);
 
   const [bookingData, setBookingData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -510,15 +511,13 @@ const SessionDetails = ({ params }) => {
                       {sessionData.tutorTitle}
                     </p>
 
-                    {bookingData?.teacher && (
-                      <button 
-                        onClick={handleWhatsAppRedirect} 
-                        className="w-full flex items-center justify-center gap-2 bg-white border-2 border-orange-500 text-orange-500 hover:bg-orange-50 transition-colors font-bold py-2.5 px-4 rounded-xl text-sm"
-                      >
-                        <FaRegCommentDots size={16} />
-                        Message Tutor
-                      </button>
-                    )}
+                    <button 
+                      onClick={() => setShowRebookModal(true)} 
+                      className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md transition-all active:scale-95"
+                    >
+                      <FaRedo size={14} />
+                      Rebook Again (via App)
+                    </button>
                   </div>
                 </div>
               </div>
@@ -614,6 +613,47 @@ const SessionDetails = ({ params }) => {
             >
               Understood
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* REBOOK MODAL REDIRECTING TO APP */}
+      {showRebookModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-[28px] p-6 md:p-8 max-w-md w-full shadow-2xl relative text-center">
+            <button
+              onClick={() => setShowRebookModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-light"
+            >
+              &times;
+            </button>
+            <div className="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-100">
+              <FaRocket size={26} />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Rebook Session via Mobile App
+            </h3>
+            <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+              Booking and slot scheduling for educators is managed exclusively on the <strong>Learnosphere Mobile App</strong> for real-time calendar syncing and instant educator confirmation.
+            </p>
+            <div className="flex flex-col gap-3">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl text-sm transition-all shadow-md shadow-orange-500/20"
+              >
+                <FaGooglePlay size={18} /> Open on Google Play
+              </a>
+              <a
+                href="https://apps.apple.com/in/app/learnosphere-learning-app/id6748979882"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 bg-gray-900 hover:bg-black text-white font-bold py-3 px-4 rounded-xl text-sm transition-all"
+              >
+                <FaAppStore size={18} /> Open on App Store
+              </a>
+            </div>
           </div>
         </div>
       )}

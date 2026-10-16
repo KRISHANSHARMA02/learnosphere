@@ -7,36 +7,43 @@ import gif from "@/public/Teacher_gif_dashboard2.gif";
 import {
   MdCurrencyRupee,
   MdOutlineKeyboardDoubleArrowRight,
+  MdOutlineNotificationsActive,
+  MdVideoCall,
+  MdCloudUpload,
 } from "react-icons/md";
- 
 import Aos from "aos";
 import "aos/dist/aos.css";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaCheckCircle,
+  FaTasks,
+  FaCalendarAlt,
+  FaGraduationCap,
+  FaApple,
+} from "react-icons/fa";
 import { BsStopwatch } from "react-icons/bs";
-import Money from "@/public/test.jpg";
 import { RxCross1 } from "react-icons/rx";
-
 import { useRouter } from "next/navigation";
-
 import Link from "next/link";
-
+import Swal from "sweetalert2";
+import TeacherAppBanner from "@/components/TeacherAppBanner";
+import playstore from "@/public/playstore.svg";
 
 const Home = () => {
   const { data: session, status } = useSession();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [todayTask, setTodayTask] = useState(false);
   const [active7, setActive7] = useState("Upcoming Class");
   const [upcomingClasses, setUpcomingClasses] = useState([]);
   const [profileData, setProfileData] = useState(null);
   const [bookings, setBookings] = useState([]);
-  const [bookingrequest, setBookingRequest] = useState(false);
-  const [upcomingClass, setUpcomingClass] = useState(false);
-  const [Upload, setUpload] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [actionLoadingId, setActionLoadingId] = useState(null);
   const router = useRouter();
+
   const calculateTimeRemaining = (bookingDate) => {
     const classDate = new Date(bookingDate);
     const now = new Date();
@@ -45,15 +52,14 @@ const Home = () => {
     if (timeDiff > 0) {
       const hours = Math.floor(timeDiff / (1000 * 60 * 60));
       const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-      return `${hours} hrs ${minutes} mins`;
+      return `${hours}h ${minutes}m left`;
     } else {
-      return "Class has started or ended";
+      return "Class time reached";
     }
   };
 
   useEffect(() => {
-    Aos.init();
+    Aos.init({ duration: 600 });
   }, []);
 
   const handlePrev = () => {
@@ -71,6 +77,29 @@ const Home = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  // Fetch teacher profile
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+      if (status === "authenticated" && session?.user?.email) {
+        try {
+          const response = await axios.post(
+            "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
+            {
+              gmail: session.user.email,
+            }
+          );
+          setProfileData(response.data?.data || null);
+        } catch (error) {
+          console.error("Error fetching teacher profile data:", error);
+        }
+      }
+    };
+
+    fetchTeacherData();
+  }, [session, status]);
+
+  // Fetch booking requests
   useEffect(() => {
     const fetchBookings = async () => {
       if (profileData) {
@@ -83,9 +112,13 @@ const Home = () => {
               teacherSubject: profileData.subject,
             }
           );
-          setBookings(response.data);
+          if (Array.isArray(response.data)) {
+            setBookings(response.data);
+          } else {
+            setBookings([]);
+          }
         } catch (err) {
-          setError(err.response?.data?.errors || "No bookings found");
+          setBookings([]);
         }
       }
     };
@@ -93,33 +126,16 @@ const Home = () => {
     fetchBookings();
   }, [profileData]);
 
-  useEffect(() => {
-    const fetchTeacherData = async () => {
-      if (status === "authenticated" && session?.user?.email) {
-        try {
-          const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
-            {
-              gmail: session.user.email,
-            }
-          );
-          setProfileData(response.data.data);
-        } catch (error) {
-          console.error("Error fetching teacher profile data:", error);
-        }
-      }
-    };
-
-    fetchTeacherData();
-  }, [session, status]);
+  // Handle accept booking
   const handleAcceptRequest = async (bookingId) => {
     if (!profileData) {
       setError("Teacher profile data is not available.");
       return;
     }
 
+    setActionLoadingId(bookingId);
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://learnospherebackend.learnosphere.in/api/route/acceptBooking",
         {
           bookingId,
@@ -134,29 +150,36 @@ const Home = () => {
       Swal.fire({
         icon: "success",
         title: "Booking Accepted",
-        text: "The booking request has been accepted successfully!",
-        confirmButtonText: "OK",
+        text: "The booking request has been accepted successfully! You can join the session from your schedule.",
+        confirmButtonColor: "#ea580c",
       });
 
       setBookings((prevBookings) =>
         prevBookings.filter((booking) => booking.id !== bookingId)
       );
     } catch (error) {
-      console.error(
-        "Error accepting booking request:",
-        error.response?.data.errors
-      );
-      setError("Could not accept the booking. Please try again.");
+      console.error("Error accepting booking request:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Could not accept",
+        text: "Could not accept the booking. Please try again or use the mobile app for instant sync.",
+        confirmButtonColor: "#ea580c",
+      });
+    } finally {
+      setActionLoadingId(null);
     }
   };
+
+  // Handle reject booking
   const handleRejectRequest = async (bookingId) => {
     if (!profileData) {
       setError("Teacher profile data is not available.");
       return;
     }
 
+    setActionLoadingId(bookingId);
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://learnospherebackend.learnosphere.in/api/route/rejectBooking",
         {
           bookingId,
@@ -165,36 +188,44 @@ const Home = () => {
       );
 
       Swal.fire({
-        icon: "success",
-        title: "Booking Rejected",
-        text: "The booking request has been rejected successfully!",
-        confirmButtonText: "OK",
+        icon: "info",
+        title: "Booking Declined",
+        text: "The booking request was declined.",
+        confirmButtonColor: "#ea580c",
       });
 
       setBookings((prevBookings) =>
         prevBookings.filter((booking) => booking.id !== bookingId)
       );
     } catch (error) {
-      console.error(
-        "Error rejecting booking request:",
-        error.response?.data.errors
-      );
-      setError("Could not reject the booking. Please try again.");
+      console.error("Error rejecting booking request:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Could not reject the booking. Please try again.",
+        confirmButtonColor: "#ea580c",
+      });
+    } finally {
+      setActionLoadingId(null);
     }
   };
 
-  // Fetch tasks when the session is authenticated
+  // Fetch tasks
   useEffect(() => {
-    if (status === "authenticated") {
+    if (status === "authenticated" && session?.user?.email) {
       const fetchTasks = async () => {
         try {
-          const teacherEmail = session.user.email; // Teacher's email from session
+          const teacherEmail = session.user.email;
           const response = await axios.get(
             `https://learnospherebackend.learnosphere.in/api/route/gettaskforteacher/${teacherEmail}`
           );
-          setTasks(response.data);
+          if (Array.isArray(response.data)) {
+            setTasks(response.data);
+          } else {
+            setTasks([]);
+          }
         } catch (err) {
-          setError("No Task Found");
+          setTasks([]);
         } finally {
           setLoading(false);
         }
@@ -204,8 +235,10 @@ const Home = () => {
     }
   }, [status, session]);
 
+  // Update task status
   const handleUpdateStatus = async (taskId) => {
     const currentTask = tasks.find((task) => task.id === taskId);
+    if (!currentTask) return;
     const newStatus =
       currentTask.task_status === "pending" ? "completed" : "pending";
 
@@ -216,19 +249,29 @@ const Home = () => {
           task_status: newStatus,
         }
       );
-      // Update the local task state with the new status
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === taskId ? { ...task, task_status: newStatus } : task
         )
       );
-      alert(response.data.message); // Display success message
+      Swal.fire({
+        icon: "success",
+        title: "Task Updated",
+        text: response.data.message || `Task marked as ${newStatus}!`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (error) {
       console.error("Error updating task status:", error);
-      setError("Failed to update task status");
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: "Failed to update task status. Please retry.",
+      });
     }
   };
-  // Fetch upcoming classes when the session is authenticated
+
+  // Fetch upcoming classes
   useEffect(() => {
     const fetchClasses = async () => {
       if (status === "authenticated" && session?.user?.email) {
@@ -236,392 +279,469 @@ const Home = () => {
           "https://learnospherebackend.learnosphere.in/api/route/getbookingsforteacher";
 
         const params = new URLSearchParams();
-        params.append("status", "upcoming"); // Only fetching upcoming classes
+        params.append("status", "upcoming");
         params.append("teacherEmail", session.user.email);
 
         try {
           const response = await axios.get(endpoint, { params });
-
-          if (response.status === 200) {
-            setUpcomingClasses(response.data); // Set the upcoming classes state
+          if (response.status === 200 && Array.isArray(response.data)) {
+            setUpcomingClasses(response.data);
           } else {
-            throw new Error("Failed to fetch upcoming classes");
+            setUpcomingClasses([]);
           }
         } catch (error) {
-          console.error("Error fetching upcoming classes:", error);
-          setError("Failed to fetch upcoming classes");
+          setUpcomingClasses([]);
         }
       }
     };
 
-    if (active7 === "Upcoming Class") {
-      fetchClasses();
-    }
-  }, [active7, session, status]);
+    fetchClasses();
+  }, [session, status]);
 
   const handleViewBookingRequest = () => {
-   router.push("/Teacherdashboard/Booking/BookingRequests");
+    router.push("/Teacherdashboard/Booking/BookingRequests");
   };
+
   const handleViewAllUpcomingClass = () => {
     router.push("/Teacherdashboard/Booking");
   };
-  const handleViewUploadContent = () => {
-    router.push("/Teacherdashboard/UploadContent");
-  };
 
-  const handleSeeAll = () => {
+  const handleSeeAllTasks = () => {
     router.push("/Teacherdashboard/Booking/TodaysTask");
   };
 
-
-
-  // Get the newest task (last task in the list)
-  const newTask = tasks[tasks.length - 1];
-
-  const UpcomingClass = () => (
-    <div className="flex flex-col items-start w-full p-1 md:p-4 ">
-      <div className="flex justify-between w-full">
-        <h3 className="font-bold text-slate-700 text-[1.2em] md:text-[1.5em]">
-          Upcoming Class
-        </h3>
-        <p
-          className="bg-orange-50 hover:bg-orange-100 text-orange-500 cursor-pointer font-bold rounded-full p-2 text-[.8em]"
-          onClick={handleViewAllUpcomingClass}
-        >
-          View All Request
-        </p>
-      </div>
-      <div className="overflow-x-auto w-full">
-        {upcomingClasses.length > 0 ? (
-          <table className="min-w-full table-auto mt-4">
-            <thead>
-              <tr>
-                <th className="px-5 py-3 border-b bg-cyan-200 text-left text-sm text-gray-600">
-                  Class Name
-                </th>
-                <th className="px-5 py-3 border-b bg-cyan-200 text-left text-sm text-gray-600">
-                  Date & Time
-                </th>
-                <th className="px-5 py-3 border-b bg-cyan-200 text-left text-sm text-gray-600">
-                  Subject
-                </th>
-                <th className="px-5 py-3 border-b bg-cyan-200 text-left text-sm text-gray-600">
-                  Fee
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {upcomingClasses.slice(0, 2).map((classItem) => (
-                <tr key={classItem.id}>
-                  <td className="px-5 py-5 border-b bg-white text-sm">
-                    {classItem.name}
-                  </td>
-                  <td className="px-5 py-5 border-b bg-white text-sm">
-                    {classItem.date} at {classItem.time}
-                  </td>
-                  <td className="px-5 py-5 border-b bg-white text-sm">
-                    {classItem.subject}
-                  </td>
-                  <td className="px-5 py-5 border-b bg-white text-sm">
-                    ₹{classItem.fees} /hr
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <h2>There are no upcoming classes</h2>
-        )}
-      </div>
-    </div>
-  );
-
   return (
-    <div>
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row gap-10 p-4 items-center justify-center border-b-2 border-gray-300">
-        <div>
-          <Image
-            className="rounded-lg"
-            src={gif}
-            height={150}
-            width={150}
-            alt="Gif Of Teacher Dashboard"
-          />
-        </div>
-        <div className="flex flex-col text-gray-700">
-          <h2 className="text-[1.5em] md:text-[3em] text-center md:text-start font-bold">
-            Welcome, {session?.user?.name || "Teacher"} 🎉
-          </h2>
-          <p className="text-[.8em] md:text-[1.2em] text-center md:text-start font-semibold">
-            Ready to guide and inspire your personalized learning journey?
-          </p>
+    <div className="space-y-8 px-4 md:px-8 pb-12 font-sans antialiased max-w-7xl mx-auto">
+      {/* 🌟 HERO GREETING BANNER */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-6 md:p-10 text-white shadow-xl">
+        <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+          <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
+            <div className="relative shrink-0">
+              <Image
+                className="rounded-2xl shadow-lg border-2 border-white/20 bg-white/10"
+                src={gif}
+                height={120}
+                width={120}
+                alt="Teacher Welcome"
+              />
+              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow">
+                Active Tutor
+              </span>
+            </div>
+            <div className="space-y-1.5">
+              <div className="inline-flex items-center gap-1.5 bg-black/20 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                <FaGraduationCap /> Learnosphere Educator Studio
+              </div>
+              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">
+                Welcome back, {session?.user?.name || "Educator"}! 👋
+              </h1>
+              <p className="text-white/90 text-sm md:text-base max-w-xl">
+                Ready to mentor your students today? Accept live class bookings, share study notes, and track your daily payouts.
+              </p>
+            </div>
+          </div>
+
+          {/* Quick Shortcuts */}
+          <div className="flex flex-wrap md:flex-col gap-2.5 shrink-0 w-full md:w-auto">
+            <Link
+              href="/Teacherdashboard/UploadContent"
+              className="flex-1 md:flex-initial flex items-center justify-center gap-2 bg-white text-orange-600 hover:bg-orange-50 px-4 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all"
+            >
+              <MdCloudUpload size={18} /> Upload Material
+            </Link>
+            <Link
+              href="/Teacherdashboard/Progress"
+              className="flex-1 md:flex-initial flex items-center justify-center gap-2 bg-black/30 hover:bg-black/40 text-white border border-white/20 px-4 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all"
+            >
+              <MdCurrencyRupee size={18} /> View Earnings
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="p-4 flex justify-between text-center ">
-        <h3 className="text-[1.2em] md:text-[1.5em] font-bold text-slate-700 ">
-          Today's Task
-        </h3>
-        <button
-          className="bg-orange-50 hover:bg-orange-100 text-orange-500 font-bold rounded-full p-2 text-[.8em]"
-          onClick={handleSeeAll}
-        >
-          View All Tasks
-        </button>
-      </div>
+      {/* 📋 TODAY'S TASKS SECTION */}
+      <section className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-orange-100 text-orange-600 rounded-xl">
+              <FaTasks size={20} />
+            </div>
+            <div>
+              <h2 className="text-lg md:text-xl font-bold text-slate-800">
+                Today's Teaching Tasks
+              </h2>
+              <p className="text-xs text-slate-500">
+                Review assigned milestones, course uploads, and daily targets
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={handleSeeAllTasks}
+            className="text-xs font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 px-4 py-2 rounded-xl transition-colors"
+          >
+            View All Tasks →
+          </button>
+        </div>
 
-      {/* Tasks Section */}
-      <div className="relative w-full border-b-2 border-gray-300 flex flex-col items-center">
         {loading ? (
-          <p className="text-center text-gray-500 py-10">Loading tasks...</p>
-        ) : error ? (
-          <p className="text-center text-red-500 py-10">{error}</p>
+          <div className="py-12 text-center text-slate-400">Loading your tasks...</div>
         ) : tasks.length > 0 ? (
-          <div className="relative w-full flex  flex-col items-center">
-            <div className="w-full relative flex justify-center items-center">
-              {/* Task Card */}
+          <div className="relative">
+            {/* Task Card Slider */}
+            <div className="flex justify-center items-center">
               <div
                 key={tasks[currentIndex].id}
-                className="bg-white  rounded-lg p-2 md:p-6 shadow-2xl w-[80%] md:w-[60%] xl:w-[45%] h-auto xl:h-[30vh] flex flex-col justify-between items-start transform transition-transform duration-300"
+                className="w-full max-w-2xl bg-gradient-to-br from-slate-50 to-orange-50/40 rounded-2xl p-6 border border-orange-100 shadow-md relative"
                 data-aos="fade-up"
               >
-                <p
-                  className="text-gray-600 overflow-hidden text-ellipsis"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                  }}
-                >
+                <div className="flex justify-between items-start gap-4 mb-4">
+                  <span
+                    className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
+                      tasks[currentIndex].task_status === "completed"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-amber-100 text-amber-700"
+                    }`}
+                  >
+                    Status: {tasks[currentIndex].task_status}
+                  </span>
+                  <span className="text-xs text-slate-400 font-medium">
+                    Task {currentIndex + 1} of {tasks.length}
+                  </span>
+                </div>
+
+                <p className="text-slate-700 font-medium text-base mb-4 leading-relaxed line-clamp-3">
                   {tasks[currentIndex].task_description}
                 </p>
-                {tasks[currentIndex].task_description.length > 100 && (
+
+                {tasks[currentIndex].task_description.length > 120 && (
                   <button
                     onClick={handleViewMore}
-                    className="text-orange-500 mt-2 underline hover:text-blue-700"
+                    className="text-xs font-bold text-orange-600 underline hover:text-orange-700 mb-4 block"
                   >
-                    View More
+                    Read full task description
                   </button>
                 )}
-                {tasks.is_default ? <span>(Default Task)</span> : <span></span>}
-                <div className="flex w-full gap-3">
-  {/* Existing button to mark as completed or pending */}
-  <button
-    onClick={() => handleUpdateStatus(tasks[currentIndex].id)}
-    className={`mt-4 mb-4 text-white font-bold py-2 px-4 rounded w-full ${
-      tasks[currentIndex].task_status === "pending"
-        ? "bg-red-500 hover:bg-red-600"
-        : "bg-green-500 hover:bg-green-600"
-    }`}
-  >
-    Mark as{" "}
-    {tasks[currentIndex].task_status === "pending" ? "Completed" : "Pending"}
-  </button>
 
-  {/* Conditional button for uploading, only visible if task is "pending" */}
-  {tasks[currentIndex].task_status === "pending" && (
-    <Link href = "/Teacherdashboard/UploadContent"
-      onClick={() => handleUpload(tasks[currentIndex].id)} // Handle upload logic here
-      className="mt-4 mb-4 bg-blue-500  hover:bg-blue-600 text-center text-white font-bold py-2 px-4 rounded w-full"
-    >
-      Upload Task
-    </Link>
-  )}
-</div>
+                <div className="flex flex-col sm:flex-row items-center gap-3 pt-2 border-t border-orange-100/60">
+                  <button
+                    onClick={() => handleUpdateStatus(tasks[currentIndex].id)}
+                    className={`w-full sm:flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-white transition-all shadow-sm ${
+                      tasks[currentIndex].task_status === "pending"
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-slate-600 hover:bg-slate-700"
+                    }`}
+                  >
+                    {tasks[currentIndex].task_status === "pending"
+                      ? "✓ Mark as Completed"
+                      : "↺ Reopen Task"}
+                  </button>
 
-              
-                <p className="text-orange-600 font-bold mt-4 absolute text-[.8em]  bottom-1 right-2">
-                  Issued at:{" "}
-                  {new Date(
-                    tasks[currentIndex].created_at
-                  ).toLocaleDateString()}
+                  {tasks[currentIndex].task_status === "pending" && (
+                    <Link
+                      href="/Teacherdashboard/UploadContent"
+                      className="w-full sm:flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-center bg-orange-600 hover:bg-orange-700 text-white shadow-sm transition-all"
+                    >
+                      Upload Submission →
+                    </Link>
+                  )}
+                </div>
+
+                <p className="text-[10px] text-slate-400 text-right mt-3">
+                  Assigned on:{" "}
+                  {new Date(tasks[currentIndex].created_at).toLocaleDateString()}
                 </p>
               </div>
             </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex justify-between w-full mt-6 px-2 md:px-10">
-              <button
-                onClick={() => {
-                  handlePrev();
-                  Aos.refresh();
-                }}
-                className="bg-orange-100 hover:bg-orange-200 absolute left-0 md:left-10 top-20 text-orange-600 font-bold py-2 px-4 rounded-full disabled:opacity-50"
-                disabled={currentIndex === 0}
-              >
-                <FaAngleLeft size={25} />
-              </button>
-              <button
-                onClick={() => {
-                  handleNext();
-                  Aos.refresh();
-                }}
-                className="bg-orange-100 hover:bg-orange-200 absolute right-0 md:right-10 top-20  text-orange-600 font-bold py-2 px-4 rounded-full disabled:opacity-50"
-                disabled={currentIndex === tasks.length - 1}
-              >
-                <FaAngleRight size={25} />
-              </button>
-            </div>
-
-            {/* Modal for Full Description */}
-            {isModalOpen && (
-              <div className="fixed inset-0 bg-black p-8 bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-white rounded-lg p-6 relative shadow-lg w-full overflow-y-auto scrollbar-hide h-auto md:w-[70%] ">
-                  <h2 className="text-lg font-bold mb-4">Task Details</h2>
-                  <p className="text-gray-700 mb-6">
-                    {tasks[currentIndex].task_description}
-                  </p>
-                  <button
-                    onClick={closeModal}
-                    className="bg-red-500 hover:bg-red-600 text-white absolute top-2 right-2 font-bold py-2 px-2 rounded-full"
-                  >
-                    <RxCross1 size={15} />
-                  </button>
+            {/* Slider Arrows */}
+            {tasks.length > 1 && (
+              <div className="flex justify-between items-center max-w-2xl mx-auto mt-4 px-2">
+                <button
+                  onClick={handlePrev}
+                  disabled={currentIndex === 0}
+                  className="p-2 rounded-full bg-slate-100 hover:bg-orange-100 text-slate-700 disabled:opacity-30 transition-colors"
+                >
+                  <FaAngleLeft size={18} />
+                </button>
+                <div className="flex gap-1.5">
+                  {tasks.map((_, i) => (
+                    <div
+                      key={i}
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === currentIndex ? "w-6 bg-orange-500" : "w-1.5 bg-slate-200"
+                      }`}
+                    />
+                  ))}
                 </div>
+                <button
+                  onClick={handleNext}
+                  disabled={currentIndex === tasks.length - 1}
+                  className="p-2 rounded-full bg-slate-100 hover:bg-orange-100 text-slate-700 disabled:opacity-30 transition-colors"
+                >
+                  <FaAngleRight size={18} />
+                </button>
               </div>
             )}
           </div>
         ) : (
-          <p className="text-center text-gray-500 py-10">No tasks available.</p>
+          /* ✨ LOW DATA STATE: Prompt Tutor to use Mobile App for Daily Missions */
+          <TeacherAppBanner
+            variant="compact"
+            badge="⚡ DAILY TEACHER MISSIONS"
+            title="Unlock Daily Rewards & Student Queries on the Tutor App!"
+            subtitle="Web tasks are currently all clear! Daily student questions, doubt bounties, and bonus earnings tasks are waiting for you in the Learnosphere Tutor Mobile App."
+          />
         )}
-      </div>
-      <div className="p-1 md:p-4 border-b-2 border-gray-300 mt-4 mb-4">
-        <div className="overflow-x-auto  mt-4">
-          {bookings.length > 0 ? (
-            <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-6">
-              <div className="flex justify-between">
-                <h3 className="font-bold text-[1.2em] md:text-[1.5em] text-slate-700">
-                  Pending Request
-                </h3>
-                <p
-                  className="bg-orange-50 hover:bg-orange-100 cursor-pointer text-orange-500 font-bold rounded-full p-2 text-[.8em]"
-                  onClick={handleViewBookingRequest}
+      </section>
+
+      {/* 🔔 PENDING BOOKING REQUESTS */}
+      <section className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-amber-100 text-amber-600 rounded-xl">
+              <MdOutlineNotificationsActive size={20} />
+            </div>
+            <div>
+              <h2 className="text-lg md:text-xl font-bold text-slate-800">
+                Pending Student Bookings
+              </h2>
+              <p className="text-xs text-slate-500">
+                Accept 1-on-1 sessions within time to secure student bookings
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={handleViewBookingRequest}
+            className="text-xs font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 px-4 py-2 rounded-xl transition-colors"
+          >
+            All Bookings ({bookings.length}) →
+          </button>
+        </div>
+
+        {bookings.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {bookings
+              .sort((a, b) => new Date(b.issuedDate || b.created_at) - new Date(a.issuedDate || a.created_at))
+              .slice(0, 3)
+              .map((booking) => (
+                <div
+                  key={booking.id}
+                  className="bg-white border-2 border-slate-100 hover:border-orange-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
                 >
-                  View All Request
-                </p>
-              </div>
-              {bookings
-                .sort(
-                  (a, b) => new Date(b.issuedDate) - new Date(a.issuedDate) // Sort by issue date
-                )
-                .slice(0, 3) // Show the top 3 most recent issue dates
-                .map((booking) => (
-                  <div
-                    key={booking.id}
-                    className="bg-gradient-to-r relative  from-blue-50 to-cyan-50 shadow-lg rounded-xl p-6 border border-gray-300 hover:shadow-2xl transition duration-300"
-                  >
-                    <div className="mb-4 mt-3">
-                      <h3 className="text-xl font-semibold text-gray-800">
-                        {booking.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        {booking.grade} Grade
-                      </p>
+                  <div>
+                    <div className="flex justify-between items-start gap-2 mb-3">
+                      <div>
+                        <h3 className="font-bold text-slate-900 text-lg">
+                          {booking.name || "Student"}
+                        </h3>
+                        <p className="text-xs text-slate-400 font-medium">
+                          {booking.grade ? `${booking.grade} Grade` : "Student Inquiry"}
+                        </p>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                        <BsStopwatch size={12} /> {calculateTimeRemaining(booking.date)}
+                      </span>
                     </div>
-                    <div className="mb-4">
-                      <p className="flex items-center text-sm text-gray-700">
-                        <span className="font-semibold mr-2">Date:</span>{" "}
-                        {booking.date}
+
+                    <div className="space-y-1.5 py-3 border-y border-slate-100 text-xs text-slate-600 my-3">
+                      <p className="flex justify-between">
+                        <span className="text-slate-400">Subject:</span>
+                        <span className="font-semibold text-slate-800">{booking.subject}</span>
                       </p>
-                      <p className="flex items-center text-sm text-gray-700">
-                        <span className="font-semibold mr-2">Time:</span>{" "}
-                        {booking.time} {booking.timePeriod}
+                      <p className="flex justify-between">
+                        <span className="text-slate-400">Class Date:</span>
+                        <span className="font-semibold text-slate-800">{booking.date}</span>
                       </p>
-                      <p className="flex items-center text-sm text-gray-700">
-                        <span className="font-semibold mr-2">Subject:</span>{" "}
-                        {booking.subject}
-                      </p>
-                      {/* Add the created_at field here */}
-                      <p className="flex items-center absolute  bottom-2 mt-4 text-[.8em] right-2 text-gray-700">
-                        <span className="font-semibold   mr-2">
-                          Request Date:
+                      <p className="flex justify-between">
+                        <span className="text-slate-400">Time:</span>
+                        <span className="font-semibold text-slate-800">
+                          {booking.time} {booking.timePeriod || ""}
                         </span>
-                        {new Date(booking.created_at).toLocaleString()}{" "}
-                        {/* Format the created_at */}
                       </p>
                     </div>
-                    <div className="mb-6">
-                      <p className="flex items-center text-gray-800 text-lg font-bold">
-                        <MdCurrencyRupee
-                          size={20}
-                          className="inline-block text-cyan-600 mr-1"
-                        />
-                        {booking.fees} /hr
-                      </p>
-                    </div>
-                    <div>
-                      <p className="flex items-center absolute top-2 right-2 text-[.8em] text-gray-700">
-                        <span className="font-semibold mr-2">
-                          <BsStopwatch size={20} />
-                        </span>
-                        {calculateTimeRemaining(booking.date)}
-                      </p>
-                    </div>
-                    <div className="flex justify-between mb-4 gap-4">
-                      <button
-                        className="w-full bg-green-500 text-white py-2 rounded-lg font-semibold hover:bg-green-600 shadow-md"
-                        onClick={() => handleAcceptRequest(booking.id)}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        className="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 shadow-md"
-                        onClick={() => handleRejectRequest(booking.id)}
-                      >
-                        Reject
-                      </button>
+
+                    <div className="flex items-center justify-between py-2">
+                      <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                        Class Fee
+                      </span>
+                      <span className="text-xl font-black text-slate-900 flex items-center">
+                        <MdCurrencyRupee size={18} className="text-orange-500" />
+                        {booking.fees}
+                        <span className="text-xs text-slate-400 font-normal ml-0.5">/hr</span>
+                      </span>
                     </div>
                   </div>
-                ))}
+
+                  <div className="flex gap-2.5 mt-4 pt-3 border-t border-slate-100">
+                    <button
+                      disabled={actionLoadingId === booking.id}
+                      onClick={() => handleAcceptRequest(booking.id)}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-sm transition-all disabled:opacity-50"
+                    >
+                      {actionLoadingId === booking.id ? "Processing..." : "✓ Accept"}
+                    </button>
+                    <button
+                      disabled={actionLoadingId === booking.id}
+                      onClick={() => handleRejectRequest(booking.id)}
+                      className="flex-1 bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-600 font-bold py-2.5 rounded-xl text-xs transition-all disabled:opacity-50"
+                    >
+                      Decline
+                    </button>
+                  </div>
+                </div>
+              ))}
+          </div>
+        ) : (
+          /* ✨ LOW DATA / ZERO BOOKING: Prompt Tutor to use Mobile App */
+          <TeacherAppBanner
+            title="Get 10x More Student Bookings with the Learnosphere Tutor App!"
+            subtitle="Thousands of students across India are searching for home tutors & live online classes right now. Switch to the mobile app for instant push notifications, 1-click booking confirmation, and direct student chats."
+            badge="💰 BOOST YOUR MONTHLY REVENUE"
+          />
+        )}
+      </section>
+
+      {/* 📅 UPCOMING CLASSES */}
+      <section className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-blue-100 text-blue-600 rounded-xl">
+              <FaCalendarAlt size={18} />
             </div>
-          ) : (
             <div>
-              <h2 className="font-extrabold border-2 border-purple-500 p-1 md:p-4 mt-2 md:mt-14 rounded-lg  text-center  w-ful md:w-[70%] m-auto  text-lg md:text-2xl   bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent  from-purple-600 to-red-600">
-                Turn Your Knowledge into Earnings and Rewards!
+              <h2 className="text-lg md:text-xl font-bold text-slate-800">
+                Scheduled Upcoming Classes
               </h2>
-              <div className="col-span-full flex flex-col md:flex-row gap-8 mb-10 mt-4   font-bold  p-2 md:p-8 rounded-lg  ">
-                <div>
-                  <Image
-                    src={Money}
-                    height={160}
-                    width={300}
-                    alt="Earn Money"
-                    className="rounded-xl shadow-xl"
-                  />
-                </div>
-                <div className="flex flex-col gap-2 w-full md:w-[60%]">
-                  <h2 className="text-black text-[1.2em] md:text-[1.5em]">
-                    Earn Money and Get Exciting Rewards
-                  </h2>
-                  <p className="text-gray-600 text-[.8em] md:text-[.9em] font-semibold">
-                    Earn money by uploading your study notes, sharing
-                    educational videos, and teaching others. The more you
-                    contribute, the more you can earn—unlock cash rewards, gift
-                    cards, and exclusive offers! Start now and turn your
-                    knowledge into exciting opportunities. Plus, you can boost
-                    your earnings by referring friends and completing special
-                    tasks. The platform is easy to use, and you can track your
-                    progress in real-time. Don’t wait—begin your journey to
-                    earning today!
-                  </p>
-
-                  <button
-                    onClick={handleViewUploadContent}
-                    className=" bg-gradient-to-r w-full md:w-[40%] mt-4 from-purple-500 to-red-500 text-white p-2 rounded-lg font-bold"
-                  >
-                    Upload Study Material
-                  </button>
-                </div>
-              </div>
+              <p className="text-xs text-slate-500">
+                Confirmed 1-on-1 live classes ready to launch
+              </p>
             </div>
-          )}
+          </div>
+          <button
+            onClick={handleViewAllUpcomingClass}
+            className="text-xs font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 px-4 py-2 rounded-xl transition-colors"
+          >
+            Schedule Overview →
+          </button>
         </div>
-      </div>
 
-      {/* Upcoming Classes Section */}
-      <UpcomingClass />
+        {upcomingClasses.length > 0 ? (
+          <div className="overflow-x-auto rounded-2xl border border-slate-100">
+            <table className="min-w-full divide-y divide-slate-100">
+              <thead className="bg-slate-50 text-slate-500 text-[11px] font-bold uppercase tracking-wider text-left">
+                <tr>
+                  <th className="px-6 py-4">Student & Class</th>
+                  <th className="px-6 py-4">Scheduled Date & Time</th>
+                  <th className="px-6 py-4">Subject</th>
+                  <th className="px-6 py-4">Rate / Fee</th>
+                  <th className="px-6 py-4 text-right">Live Class</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-sm">
+                {upcomingClasses.slice(0, 3).map((item) => (
+                  <tr key={item.id} className="hover:bg-slate-50/60 transition-colors">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      {item.name}
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">
+                      {item.date} at {item.time}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="px-2.5 py-1 bg-orange-50 text-orange-600 font-semibold text-xs rounded-lg border border-orange-100">
+                        {item.subject}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 font-bold text-slate-900">
+                      ₹{item.fees} /hr
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <a
+                        href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_app"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-bold shadow-sm"
+                      >
+                        <MdVideoCall size={18} /> Launch on App
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          /* ✨ LOW DATA: App suggestion */
+          <div className="bg-gradient-to-br from-slate-50 to-orange-50/30 rounded-2xl p-6 md:p-8 text-center border border-slate-200/80 flex flex-col items-center">
+            <div className="w-16 h-16 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-3">
+              <MdVideoCall size={32} />
+            </div>
+            <h3 className="text-lg font-bold text-slate-800 mb-1">
+              No Upcoming Classes Scheduled
+            </h3>
+            <p className="text-slate-500 text-xs md:text-sm max-w-md mb-6">
+              Go live or accept on-demand bookings directly on the <strong>Learnosphere Tutor Mobile App</strong>. Tutors with active app presence receive 3x more class requests!
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow"
+              >
+                <Image src={playstore} alt="Google Play" width={16} height={16} />
+                Open Tutor App
+              </a>
+              <Link
+                href="/Teacherdashboard/UploadContent"
+                className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow"
+              >
+                Upload Study Material Instead →
+              </Link>
+            </div>
+          </div>
+        )}
+      </section>
 
+      {/* 🔍 FULL TASK DESCRIPTION MODAL */}
+      {isModalOpen && tasks[currentIndex] && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm p-4 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl p-6 md:p-8 relative shadow-2xl w-full max-w-xl">
+            <button
+              onClick={closeModal}
+              className="p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 absolute top-4 right-4 transition-colors"
+            >
+              <RxCross1 size={18} />
+            </button>
+            <span className="text-xs font-bold uppercase tracking-wider text-orange-600 mb-2 block">
+              Task Details
+            </span>
+            <h3 className="text-xl font-bold text-slate-900 mb-4">
+              Assignment Information
+            </h3>
+            <p className="text-slate-700 text-sm leading-relaxed mb-6 whitespace-pre-wrap">
+              {tasks[currentIndex].task_description}
+            </p>
+            <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+              <button
+                onClick={closeModal}
+                className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  handleUpdateStatus(tasks[currentIndex].id);
+                  closeModal();
+                }}
+                className="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition-colors"
+              >
+                Mark Status
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

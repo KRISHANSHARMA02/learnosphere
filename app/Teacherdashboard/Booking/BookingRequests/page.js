@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import TeacherAppBanner from "@/components/TeacherAppBanner";
 
 const BookingRequest = () => {
   const router = useRouter();
@@ -99,8 +100,12 @@ const BookingRequest = () => {
       </h2>
 
       {bookings.length === 0 ? (
-        <div className="text-center text-slate-500 mt-20">
-          <p className="text-lg font-medium">No booking requests found.</p>
+        <div className="max-w-[1050px] mx-auto">
+          <TeacherAppBanner
+            title="Get 10x More Student Bookings with the Learnosphere Tutor App!"
+            subtitle="Web inquiries are synced with our mobile educator network. Over 85% of bookings are confirmed instantly by tutors on the mobile app with real-time push alerts. Switch now to start receiving student requests!"
+            badge="💰 BOOST YOUR BOOKINGS"
+          />
         </div>
       ) : (
         <div className="max-w-[1050px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

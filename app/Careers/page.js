@@ -13,7 +13,6 @@ import Nextimg from "@/public/nextjs-svgrepo-com.svg";
 import Jsimg from "@/public/js-svgrepo-com.svg";
 import { BsFillRouterFill } from "react-icons/bs";
 import { GoStopwatch } from "react-icons/go";
-import { SiStudyverse } from "react-icons/si";
 import Dreamimg from "@/public/studenthome.jpg";
 import Successimg from "@/public/Success.jpg";
 import Deliverimg from "@/public/Deliver.jpg";

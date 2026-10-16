@@ -18,15 +18,21 @@ export const chatbotApi = {
     return fetch(`${BASE_URL}/users`).then(handleResponse);
   },
   getOptions: async (userType, path = []) => {
+    const cleanPath = (Array.isArray(path) ? path : [path])
+      .filter(Boolean)
+      .filter((p, i, arr) => i === 0 || p !== arr[i - 1]);
     const params = new URLSearchParams();
     params.append("user_type", userType);
-    path.forEach(p => params.append("path", p));
+    cleanPath.forEach(p => params.append("path", p));
     return fetch(`${BASE_URL}/options?${params.toString()}`).then(handleResponse);
   },
   getAnswer: async (userType, path = [], question) => {
+    const cleanPath = (Array.isArray(path) ? path : [path])
+      .filter(Boolean)
+      .filter((p, i, arr) => i === 0 || p !== arr[i - 1]);
     const params = new URLSearchParams();
     params.append("user_type", userType);
-    path.forEach(p => params.append("path", p));
+    cleanPath.forEach(p => params.append("path", p));
     params.append("question", question);
     return fetch(`${BASE_URL}/answer?${params.toString()}`).then(handleResponse);
   },

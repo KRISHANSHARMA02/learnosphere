@@ -1,25 +1,34 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-
 import Videodata from "./videodata/page";
 import Loader from "@/components/Loader";
 import Overlay from "@/components/Overlay";
 import Swal from "sweetalert2";
-import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import VideoInstructions from "@/components/VideoInstructions";
 import Head from "next/head";
 import { trackEvent } from "@/src/lib/eventTracker";
+import {
+  BsPersonVideo3,
+  BsCameraVideoFill,
+  BsTrash,
+  BsPlayCircle,
+} from "react-icons/bs";
+import {
+  AiOutlineCloudUpload,
+  AiOutlineCheckCircle,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
+import { Loader2 } from "lucide-react";
 
 const Video = () => {
-  const [selectedClass, setSelectedClass] = useState("All");
+  const [selectedClass, setSelectedClass] = useState("");
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
   const [videoFile, setVideoFile] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
-  const [selectedFilter, setSelectedFilter] = useState("All");
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Default to false so it doesn't block users!
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const videoInputRef = useRef(null);
@@ -31,7 +40,7 @@ const Video = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    category: "",
+    category: "English",
     selectedClass: "",
     subject: "",
   });
@@ -44,10 +53,7 @@ const Video = () => {
             "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
             { gmail: session.user.email }
           );
-          const teacherProfile = response.data.data; // Access the data object
-
-          // Save the teacher data including the mobilenumber
-          setTeacherData(teacherProfile);
+          setTeacherData(response.data?.data || null);
         } catch (error) {
           console.error("Error fetching teacher profile data:", error);
         }
@@ -61,22 +67,30 @@ const Video = () => {
     const file = e.target.files[0];
 
     if (file && file.type.startsWith("video/")) {
-      // Create a new file with custom name
       const customFileName = `video_${Date.now()}.mp4`;
       const customFile = new File([file], customFileName, { type: file.type });
 
       setVideoFile(customFile);
       setVideoPreview(URL.createObjectURL(customFile));
+      setFormErrors((prev) => ({ ...prev, video: null }));
     } else {
-      alert("Please select a valid video file");
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid File",
+        text: "Please select a valid video file (MP4, WebM).",
+      });
     }
   };
 
   const handleVideoUnload = () => {
     setVideoFile(null);
+    if (videoPreview) {
+      URL.revokeObjectURL(videoPreview);
+    }
     setVideoPreview(null);
-    URL.revokeObjectURL(videoPreview); // Clear memory
-    videoInputRef.current.value = ""; // Clear file input
+    if (videoInputRef.current) {
+      videoInputRef.current.value = "";
+    }
   };
 
   const handleClassChange = (e) => {
@@ -84,14 +98,11 @@ const Video = () => {
     setSelectedClass(classValue);
     setSelectedSubject("");
 
-    // Update formData
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData((prev) => ({
+      ...prev,
       selectedClass: classValue,
+      subject: "",
     }));
-
-    // Set filter based on selected class
-    setSelectedFilter(classValue);
 
     const classSubjects = {
       "Class-1": ["Maths", "English", "Science", "EVS", "Hindi"],
@@ -99,33 +110,11 @@ const Video = () => {
       "Class-3": ["Maths", "English", "Science", "EVS", "Hindi"],
       "Class-4": ["Maths", "English", "Science", "EVS", "Hindi"],
       "Class-5": ["Maths", "English", "Science", "EVS", "Hindi"],
-      "Class-6": ["Maths", "English", "Science", "EVS", "Hindi"],
-      "Class-7": ["Maths", "English", "Science", "EVS", "Hindi"],
-      "Class-8": ["Maths", "English", "Science", "EVS", "Hindi"],
-      "Class-9": [
-        "Maths",
-        "Physics",
-        "Chemistry",
-        "Biology",
-        "English",
-        "Hindi",
-        "Accountancy",
-        "Bussiness Studies",
-        "Economics",
-        "Political Science",
-      ],
-      "Class-10": [
-        "Maths",
-        "Physics",
-        "Chemistry",
-        "Biology",
-        "English",
-        "Hindi",
-        "Accountancy",
-        "Bussiness Studies",
-        "Economics",
-        "Political Science",
-      ],
+      "Class-6": ["Maths", "Science", "English", "Social Science", "Hindi"],
+      "Class-7": ["Maths", "Science", "English", "Social Science", "Hindi"],
+      "Class-8": ["Maths", "Science", "English", "Social Science", "Hindi"],
+      "Class-9": ["Maths", "Science", "English", "Social Science", "Hindi"],
+      "Class-10": ["Maths", "Science", "English", "Social Science", "Hindi"],
       "Class-11": [
         "Maths",
         "Physics",
@@ -134,7 +123,7 @@ const Video = () => {
         "English",
         "Hindi",
         "Accountancy",
-        "Bussiness Studies",
+        "Business Studies",
         "Economics",
         "Political Science",
       ],
@@ -146,39 +135,58 @@ const Video = () => {
         "English",
         "Hindi",
         "Accountancy",
-        "Bussiness Studies",
+        "Business Studies",
         "Economics",
         "Political Science",
       ],
-      // Add more subjects for other classes as needed
     };
+
     setSubjects(classSubjects[classValue] || []);
   };
 
   const handleSubjectChange = (e) => {
     const subjectValue = e.target.value;
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setSelectedSubject(subjectValue);
+    setFormData((prev) => ({
+      ...prev,
       subject: subjectValue,
     }));
+  };
 
-    setSelectedSubject(subjectValue);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Clear previous errors
     setFormErrors({});
     setErrorMessage("");
-    setSuccessMessage("");
 
     if (!videoFile) {
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        video: "Please upload a video file.",
-      }));
+      setFormErrors({ video: "Please select a video to upload." });
+      return;
+    }
+
+    if (!formData.title.trim()) {
+      setFormErrors({ title: "Video title is required." });
+      return;
+    }
+
+    if (!formData.selectedClass) {
+      setFormErrors({ selectedClass: "Target class is required." });
+      return;
+    }
+
+    if (!teacherData) {
+      Swal.fire({
+        icon: "error",
+        title: "Session Error",
+        text: "Teacher profile not loaded. Please re-login.",
+      });
       return;
     }
 
@@ -192,11 +200,9 @@ const Video = () => {
       form.append("selectedClass", formData.selectedClass);
       form.append("subject", formData.subject);
       form.append("video", videoFile);
-
-      form.append("teacherEmail", teacherData.email);
-      form.append("Mobilenumber", teacherData.mobilenumber);
-      form.append("teacherName", teacherData.name);
-
+      form.append("teacherEmail", teacherData.email || session?.user?.email);
+      form.append("Mobilenumber", teacherData.mobilenumber || "");
+      form.append("teacherName", teacherData.name || session?.user?.name || "Teacher");
 
       const response = await axios.post(
         "https://learnospherebackend.learnosphere.in/api/route/teachervideoupload",
@@ -217,287 +223,279 @@ const Video = () => {
           subject: formData.subject,
           video_file_name: videoFile?.name || "",
         });
-        // Handle success response
+
         Swal.fire({
-          title: "Success",
-          text: response.data.message,
+          title: "Video Uploaded Successfully!",
+          text: "Your concept video is submitted for verification and will appear in student feeds once approved.",
           icon: "success",
-          confirmButtonText: "OK",
+          confirmButtonColor: "#ea580c",
         }).then(() => {
-          // Clear form and reset all states after user clicks 'OK'
           setFormData({
             title: "",
             description: "",
-            category: "",
+            category: "English",
             selectedClass: "",
             subject: "",
           });
-          setSuccessMessage(response.data.message);
-          setVideoFile(null); // Clear video file
-          setVideoPreview(null); // Clear preview
-          setSelectedClass("All"); // Reset class to default
-          setSelectedSubject(""); // Reset subject
-          setSubjects([]); // Reset subjects list
-          if (videoInputRef.current) videoInputRef.current.value = "";
+          handleVideoUnload();
+          setSelectedClass("");
+          setSelectedSubject("");
+          setSubjects([]);
         });
       } else {
-        // If response is not successful, show a general error message
-        setErrorMessage("Something went wrong. Please try again.");
+        setErrorMessage("Something went wrong with the upload. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting form: ", error); // Log error for debugging
-
-      if (error.response && error.response.data.errors) {
-        setFormErrors(error.response.data.errors); // Set field-specific errors
+      console.error("Error submitting video: ", error);
+      if (error.response?.data?.errors) {
+        setFormErrors(error.response.data.errors);
       } else {
-        setErrorMessage("Something went wrong. Please try again."); // General error
+        setErrorMessage("An error occurred during upload. Please check video size and format.");
       }
     } finally {
-      setIsLoading(false); // Ensure loading state is cleared
+      setIsLoading(false);
     }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
   return (
-    <div className="w-[90vw] md:w-[80vw] min-h-screen">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8 font-sans antialiased w-full">
       <Head>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
+
       {isLoading && <Overlay />}
       {isLoading && <Loader />}
-      <div className="border-gray-300 rounded-lg shadow-lg border font-Poppins">
-        <h2 className="font-bold text-center mt-2 text-[1.5em]">
-          Concept Video Management
-        </h2>
-        <p className="text-center text-gray-600 mt-2">
-          Teachers can also upload their task videos here.
-        </p>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 p-2 md:p-12 "
+
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="space-y-2 text-center md:text-left w-full md:w-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/20 text-white">
+            <BsCameraVideoFill size={14} /> Video Creator Studio
+          </span>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight">
+            Upload Educational Concept Videos
+          </h1>
+          <p className="text-white/90 text-xs sm:text-sm max-w-xl">
+            Publish micro-lectures, topic walkthroughs, and solutions to earn royalties and reach thousands of learners.
+          </p>
+        </div>
+
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="w-full sm:w-auto px-4 py-2.5 rounded-2xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 border border-white/20 shrink-0"
         >
-          <div className="flex flex-col md:flex-row w-full gap-8 mt-4">
-            <span className="w-full md:w-[50%]">
-              <label
-                htmlFor="title"
-                className="block text-gray-700 text-[.9em]"
-              >
-                Title*
-              </label>
-              <input
-                id="title"
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                placeholder="Enter Video Title"
-                className="border p-1 border-gray-300 placeholder:text-[.9em] w-full rounded-md focus:outline-none focus:border-blue-500"
-              />
-              {formErrors.title && (
-                <p className="text-red-500">{formErrors.title}</p>
-              )}
-            </span>
-            <span className="w-full md:w-[50%]">
-              <label
-                htmlFor="description"
-                className="block text-gray-700 text-[.9em]"
-              >
-                Description*
-              </label>
-              <input
-                id="description"
-                type="text"
-                name="description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                placeholder="Enter Video Description"
-                className="p-1 border border-gray-300 placeholder:text-[.9em] w-full rounded-md focus:outline-none focus:border-blue-500"
-              />
-              {formErrors.description && (
-                <p className="text-red-500">{formErrors.description}</p>
-              )}
-            </span>
-          </div>
-          <div className="flex flex-col md:flex-row w-full gap-8">
-            <span className="w-full md:w-[50%]">
-              <label
-                htmlFor="category"
-                className="block text-gray-700 text-[.9em]"
-              >
-                Category*
-              </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
-                }
-                className="border border-gray-300 p-1 placeholder:text-[.9em] w-full rounded-md focus:outline-none focus:border-blue-500"
-              >
-                <option value="">Select Category</option>
-                <option value="English">English</option>
-                <option value="Hindi">Hindi</option>
-              </select>
-              {formErrors.category && (
-                <p className="text-red-500">{formErrors.category}</p>
-              )}
-            </span>
-            <span className="w-full md:w-[50%]">
-              <label
-                htmlFor="class"
-                className="block text-gray-700 text-[.9em]"
-              >
-                Class*
-              </label>
-              <select
-                id="class"
-                name="class"
-                value={selectedClass}
-                onChange={handleClassChange}
-                className="border border-gray-300 p-1 placeholder:text-[.9em] w-full rounded-md focus:outline-none focus:border-blue-500"
-              >
-                <option value="">Select Class</option>
-                <option value="Class-1">Class-1</option>
-                <option value="Class-2">Class-2</option>
-                <option value="Class-3">Class-3</option>
-                <option value="Class-4">Class-4</option>
-                <option value="Class-5">Class-5</option>
-                <option value="Class-6">Class-6</option>
-                <option value="Class-7">Class-7</option>
-                <option value="Class-8">Class-8</option>
-                <option value="Class-9">Class-9</option>
-                <option value="Class-10">Class-10</option>
-                <option value="Class-11">Class-11</option>
-                <option value="Class-12">Class-12</option>
-              </select>
-              {formErrors.selectedClass && (
-                <p className="text-red-500">{formErrors.selectedClass}</p>
-              )}
-            </span>
-          </div>
-          <div></div>
-          {selectedClass && subjects.length > 0 && (
-            <div className="w-full md:w-[49%]">
-              <label
-                htmlFor="subject"
-                className="block text-gray-700 text-[.9em]"
-              >
-                Subject*
-              </label>
-              <select
-                id="subject"
-                name="subject"
-                value={selectedSubject}
-                onChange={handleSubjectChange}
-                className="border p-1 border-gray-300 placeholder:text-[.9em] w-full rounded-md focus:outline-none focus:border-blue-500"
-              >
-                <option value="">Select Subject</option>
-                {subjects.map((subject, index) => (
-                  <option key={index} value={subject}>
-                    {subject}
-                  </option>
-                ))}
-              </select>
-              {formErrors.subject && (
-                <p className="text-red-500">{formErrors.subject}</p>
-              )}
-            </div>
-          )}
-          <span className="w-auto md:w-[50%] p-2">
-            <label
-              htmlFor="video-upload"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              Upload Video:*
+          <AiOutlineInfoCircle size={16} /> View Video Guidelines
+        </button>
+      </div>
+
+      {/* Form Container */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 border border-slate-200/80 shadow-sm space-y-6"
+      >
+        <div className="border-b border-slate-100 pb-4">
+          <h2 className="text-base sm:text-lg font-bold text-slate-800">
+            Video Metadata & Details
+          </h2>
+          <p className="text-xs text-slate-500">
+            Provide descriptive titles and select target curriculum categories
+          </p>
+        </div>
+
+        {/* Title and Category */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label htmlFor="title" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Video Title <span className="text-red-500">*</span>
             </label>
             <input
-              id="video-upload"
-              type="file"
-              name="video"
-              ref={videoInputRef}
-              accept="video/*"
-              onChange={handleVideoUpload}
-              className="rounded-lg p-1 w-full bg-orange-500 font-bold text-white px-0 md:px-4 py-0 md:py-2 focus:outline-none focus:border-blue-500"
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="e.g. Newton's 3 Laws of Motion with Real-Life Examples"
+              className="w-full px-3.5 sm:px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all placeholder:text-slate-400"
             />
-            {formErrors.video && (
-              <p className="text-red-500">{formErrors.video}</p>
+            {formErrors.title && <p className="text-red-500 text-xs mt-1">{formErrors.title}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="category" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Medium / Language <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="w-full px-3.5 sm:px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all"
+            >
+              <option value="English">English</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Hinglish">Hinglish (Hindi + English)</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Class and Subject */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label htmlFor="selectedClass" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Target Class <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="selectedClass"
+              value={selectedClass}
+              onChange={handleClassChange}
+              className="w-full px-3.5 sm:px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all"
+            >
+              <option value="">Select Target Class</option>
+              {[...Array(12)].map((_, i) => (
+                <option key={i} value={`Class-${i + 1}`}>
+                  Class {i + 1}
+                </option>
+              ))}
+            </select>
+            {formErrors.selectedClass && (
+              <p className="text-red-500 text-xs mt-1">{formErrors.selectedClass}</p>
             )}
-            <p className="text-gray-600 font-Poppins text-sm mt-2">
-              Supported formats only : MP4 and max size 500Mb.
-            </p>
-          </span>
-          {videoPreview && (
-            <div className="video-preview mt-4">
-              <video width="320" height="240" controls>
-                <source src={videoPreview} type={videoFile?.type} />
-                Your browser does not support the video tag.
-              </video>
-              <div className="mt-2">
+          </div>
+
+          <div>
+            <label htmlFor="subject" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Subject <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="subject"
+              value={selectedSubject}
+              onChange={handleSubjectChange}
+              disabled={!selectedClass}
+              className="w-full px-3.5 sm:px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all disabled:bg-slate-50 disabled:text-slate-400"
+            >
+              <option value="">{selectedClass ? "Select Subject" : "Select Class First"}</option>
+              {subjects.map((sub, i) => (
+                <option key={i} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label htmlFor="description" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Lesson Description & Key Concepts Covered
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            rows={3}
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Briefly summarize what students will learn from this lecture..."
+            className="w-full px-3.5 sm:px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all placeholder:text-slate-400"
+          />
+        </div>
+
+        {/* Video Upload Dropzone & Preview */}
+        <div>
+          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Lesson Video File (MP4, WebM) <span className="text-red-500">*</span>
+          </label>
+
+          <input
+            type="file"
+            accept="video/*"
+            ref={videoInputRef}
+            onChange={handleVideoUpload}
+            className="hidden"
+          />
+
+          {!videoPreview ? (
+            <div
+              onClick={() => videoInputRef.current?.click()}
+              className="border-2 border-dashed border-slate-300 hover:border-orange-500 bg-slate-50/60 hover:bg-orange-50/30 rounded-2xl p-6 sm:p-8 text-center cursor-pointer transition-all flex flex-col items-center justify-center group"
+            >
+              <div className="w-12 sm:w-14 h-12 sm:h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <AiOutlineCloudUpload size={32} />
+              </div>
+              <p className="text-xs sm:text-sm font-bold text-slate-800">
+                Click to browse or drop your video file
+              </p>
+              <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+                Supports MP4, WebM formats (Recommended: 720p or 1080p, Max 100MB)
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-slate-200 overflow-hidden bg-slate-900 p-3 sm:p-4 w-full max-w-xl">
+              <div className="aspect-video w-full rounded-xl overflow-hidden bg-black mb-3">
+                <video src={videoPreview} controls className="w-full h-full object-contain" />
+              </div>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-white">
+                <span className="text-xs font-semibold truncate max-w-full sm:max-w-xs text-slate-300">
+                  {videoFile?.name}
+                </span>
                 <button
+                  type="button"
                   onClick={handleVideoUnload}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md"
+                  className="inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-bold px-3 py-1.5 rounded-xl bg-red-500/20 transition-colors shrink-0"
                 >
-                  Unload Video
+                  <BsTrash size={14} /> Remove Video
                 </button>
               </div>
             </div>
           )}
+          {formErrors.video && <p className="text-red-500 text-xs mt-1">{formErrors.video}</p>}
+        </div>
 
-          <div className="flex items-center justify-center">
-            <button
-              type="submit"
-              className="bg-orange-600 rounded-lg text-center p-3 text-white font-bold"
-            >
-              Upload Video
-            </button>
+        {/* Feedback message */}
+        {errorMessage && (
+          <div className="p-4 bg-red-50 text-red-700 rounded-2xl border border-red-200 text-xs font-bold">
+            {errorMessage}
           </div>
+        )}
 
-          {successMessage && <p className="text-green-500">{successMessage}</p>}
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        </form>
-        <div className="flex flex-col justify-around mx-5">
-          <div className="bg-yellow-100 text-yellow-800 text-sm p-2 rounded-lg text-center mb-2">
-            <strong>Note:</strong> Please read all the instructions before
-            uploading your video.
-          </div>
-          <button onClick={openModal} className="text-blue-600 underline mb-4">
-            View Video Upload Instructions
+        {/* Submit Button */}
+        <div className="flex justify-end pt-2">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-md shadow-orange-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="animate-spin w-4 h-4" />
+                Uploading Lesson Video...
+              </>
+            ) : (
+              <>
+                <BsPlayCircle size={18} />
+                Publish Concept Video
+              </>
+            )}
           </button>
         </div>
-      </div>
-      {/* Popup Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 p-4">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-4/5 md:w-3/5 lg:w-3/5 xl:w-1/2 relative max-h-[80vh] overflow-y-auto">
-            {/* Instructions Content */}
-            <VideoInstructions />
+      </form>
 
-            {/* Close Button */}
-            <div className="flex items-center justify-center mt-3">
-              <button
-                onClick={closeModal}
-                className="flex items-center gap-2 border border-gray-200 p-2 font-bold rounded-lg bg-orange-600 hover:bg-orange-500 text-white"
-                aria-label="Close"
-              >
-                Close Instructions <RxCross2 size={20} />
-              </button>
-            </div>
+      {/* Render Previously Uploaded Videos */}
+      <Videodata />
+
+      {/* Guidelines Modal (only when triggered) */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100"
+            >
+              ✕
+            </button>
+            <VideoInstructions />
           </div>
         </div>
       )}
-
-      <Videodata />
     </div>
   );
 };

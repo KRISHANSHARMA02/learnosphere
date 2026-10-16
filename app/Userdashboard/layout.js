@@ -29,6 +29,7 @@ import { LuMessagesSquare } from "react-icons/lu";
 import { TbMoodPuzzled, TbUserQuestion } from "react-icons/tb";
 import { GiTeacher } from "react-icons/gi";
 import { BiBook } from "react-icons/bi";
+import Chatbot from "@/components/Chatbot";
 // import { encryptData } from "@/src/utils/crypto";
 
 
@@ -253,12 +254,12 @@ export default function Layout({ children }) {
   };
 
   const user = {
-    name: session?.user?.name || "Student Name",
-    src: profileimg,
+    name: profileData?.studentName || session?.user?.name || "Student",
+    src: session?.user?.image || profileimg,
   };
 
   const question1Click = () => {
-    handleFocusAskQuestion(); // Focus on "Ask a Question" input field
+    handleNavigation("question1", "/Userdashboard/Askquestion");
   };
 
   useEffect(() => {
@@ -746,133 +747,125 @@ export default function Layout({ children }) {
             onClick={() => setIsMobileMenuOpen(false)}
           />
         )}
-        <div className="w-full ">
-          <nav className="bg-white border-b-2 w-full border-gray-200 p-4 flex justify-end items-center">
-            <div className="flex items-center gap-5 w-full justify-start md:justify-end">
-              <div className="flex items-center px-4">
-                {/* Input field with ref */}
-                <input
-                  ref={askQuestionRef}
-                  className={`text-gray-300 border border-gray-300 p-2 bg-white rounded-lg ${
-                    isInputVisible ? "block" : "hidden"
-                  } md:block`}
-                  id="question"
-                  name="question"
-                  placeholder="Ask a Question"
-                />
+        <div className="w-full min-w-0 md:pl-64 flex flex-col min-h-screen">
+          {/* Top Navbar */}
+          <nav className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 flex justify-between items-center sticky top-0 z-30 shadow-sm">
+            {/* Left: Mobile Menu Trigger & Dashboard Indicator */}
+            <div className="flex items-center gap-3">
+              <button
+                className="md:hidden p-2 rounded-xl text-gray-600 hover:bg-gray-100 transition-colors"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle navigation menu"
+              >
+                <HiMenu size={24} />
+              </button>
+              <div className="hidden sm:flex items-center gap-2">
+                <span className="text-[11px] font-bold text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  Student Dashboard
+                </span>
               </div>
-              {user && !isInputVisible && (
-                <div
-                  onClick={handleDropdownClick}
-                  className="flex items-center"
-                >
-                  <div className="flex items-center relative gap-4 cursor-pointer">
-                    {/* Dynamic border based on approval status */}
+            </div>
+
+            {/* Right: Full Student Name & Avatar Profile Menu */}
+            {user && (
+              <div className="flex items-center gap-3">
+                {/* Student Full Name & Class/Stream */}
+                <div className="text-right">
+                  <p className="text-sm sm:text-base font-bold text-gray-900 capitalize leading-tight">
+                    {user.name}
+                  </p>
+                  <p className="text-[11px] font-semibold text-gray-500">
+                    {profileData?.grade ? `Class ${profileData.grade}` : "Learner"}
+                    {profileData?.stream ? ` • ${profileData.stream}` : ""}
+                  </p>
+                </div>
+
+                {/* Avatar with Dropdown */}
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={handleDropdownClick}
+                    className="relative block rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 transition-transform active:scale-95"
+                    aria-expanded={showDropdown}
+                    aria-label="User profile menu"
+                  >
                     <div
-                      className={`rounded-full border-2 overflow-hidden cursor-pointer ${
+                      className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 overflow-hidden flex items-center justify-center bg-orange-50 ${
                         profileData?.is_approved
-                          ? "border-green-500"
-                          : "border-red-600"
-                      } mr-2`}
+                          ? "border-emerald-500 shadow-sm"
+                          : "border-orange-500 shadow-sm"
+                      }`}
                     >
                       <Image
-                        width={100}
-                        height={100}
+                        width={44}
+                        height={44}
                         src={user.src}
-                        alt={user.name}
-                        className="w-10 h-10 rounded-full"
+                        alt={user.name || "Student Avatar"}
+                        className="w-full h-full object-cover rounded-full"
                       />
-                      {/* Status Badge */}
-                      {profileData?.is_approved ? (
-                        <MdVerified
-                          size={25}
-                          className="absolute bottom-0 left-5 md:left-8 p-1 bg-white text-green-500 rounded-full"
-                        />
-                      ) : (
-                        <div className="absolute bottom-0 left-5 md:left-8 p-1 bg-white text-red-500 rounded-full flex items-center">
-                          <AiOutlineClockCircle
-                            size={20}
-                            className="text-red-500"
-                          />
-                        </div>
-                      )}
                     </div>
 
-                    {/* Dropdown Menu */}
-                    {showDropdown && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute z-50 left-2 md:right-0 mt-40 w-48 bg-white shadow-lg rounded-lg border"
-                      >
-                        <ul>
-                          <Link href="/Userdashboard/profileuser">
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                              View Profile
-                            </li>
-                          </Link>
-                          <Link href="/Userdashboard/LoginActivity">
-                            <li
-                              onClick={loginActivityClick}
-                              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                              Login Activity
-                            </li>
-                          </Link>
-                              {/* 🚀 NEW: Delete Account Button */}
-                          <li
-                            onClick={handleDeleteAccount}
-                            className="px-4 py-2 hover:bg-red-50 text-red-500 font-medium cursor-pointer transition-colors"
-                          >
-                            Delete Account
-                          </li>
-                          <li
-                            onClick={handleLogout}
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-t border-gray-100"
-                          >
-                            Log Out
-                          </li>
-                        </ul>
+                    {/* Status Badge */}
+                    {profileData?.is_approved ? (
+                      <div className="absolute -bottom-0.5 -right-0.5 bg-white text-emerald-500 rounded-full p-0.5 shadow-sm border border-gray-100">
+                        <MdVerified size={14} />
+                      </div>
+                    ) : (
+                      <div className="absolute -bottom-0.5 -right-0.5 bg-white text-orange-500 rounded-full p-0.5 shadow-sm border border-gray-100">
+                        <AiOutlineClockCircle size={14} />
                       </div>
                     )}
-                    {/* Student name */}
-                    <span className="text-black text-sm md:text-lg font-semibold  mr-2">
-                      {user.name}
-                    </span>
-                  </div>
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {showDropdown && (
+                    <div className="absolute right-0 top-full mt-2 w-52 bg-white shadow-xl rounded-2xl border border-gray-100 py-2 z-50">
+                      <div className="px-4 py-2 border-b border-gray-100 sm:hidden">
+                        <p className="text-xs font-bold text-gray-900 truncate">{user.name}</p>
+                        <p className="text-[10px] text-gray-500">{session?.user?.email}</p>
+                      </div>
+                      <ul>
+                        <Link
+                          href="/Userdashboard/profileuser"
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          <li className="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
+                            View Profile
+                          </li>
+                        </Link>
+                        <Link
+                          href="/Userdashboard/LoginActivity"
+                          onClick={() => {
+                            setShowDropdown(false);
+                            loginActivityClick();
+                          }}
+                        >
+                          <li className="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition-colors">
+                            Login Activity
+                          </li>
+                        </Link>
+                        <li
+                          onClick={handleDeleteAccount}
+                          className="px-4 py-2.5 text-xs sm:text-sm font-medium text-red-500 hover:bg-red-50 cursor-pointer transition-colors"
+                        >
+                          Delete Account
+                        </li>
+                        <li
+                          onClick={handleLogout}
+                          className="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-100 cursor-pointer border-t border-gray-100 transition-colors"
+                        >
+                          Log Out
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
-              )}
-
-              {isInputVisible && (
-                <button
-                  className="md:hidden p-2 ml-4"
-                  onClick={() => setIsInputVisible(false)}
-                >
-                  &times;
-                </button>
-              )}
-
-              <FaSearch
-                size={24}
-                className={`md:hidden cursor-pointer ${
-                  isInputVisible ? "hidden" : "block"
-                }`}
-                onClick={() => setIsInputVisible(true)}
-              />
-            </div>
-            <button
-              className={`md:hidden p-2 ml-4 ${
-                isInputVisible ? "hidden" : "block"
-              }`}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <HiMenu size={24} />
-            </button>
+              </div>
+            )}
           </nav>
 
-           {/* 🚀 REMOVED QR CONDITION: Always show content once loaded */}
+          {/* Page Content & Loaders */}
           {isLoading ? (
-            <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-              {/* Square loader with the full name of Learnosphere */}
+            <div className="w-full h-[calc(100vh-65px)] flex items-center justify-center bg-gray-50">
               <div className="flex items-center justify-center border-4 border-slate-500 rounded-xl animate-pulse">
                 <span className="text-xl font-bold text-gray-600 p-3">
                   Learn<span className="text-orange-600">O</span>sphere..
@@ -880,22 +873,27 @@ export default function Layout({ children }) {
               </div>
             </div>
           ) : (
-            <div>
+            <>
+              {/* Floating Feedback Trigger */}
               <div
-                className={`fixed bottom-10 md:bottom-16 right-4 z-50 p-5 bg-orange-500 text-white rounded-full cursor-pointer shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
+                className={`fixed bottom-28 right-5 z-40 p-4 bg-white border border-orange-200 text-orange-600 rounded-full cursor-pointer shadow-lg hover:shadow-xl hover:bg-orange-50 flex items-center justify-center transition-all duration-300 ease-in-out ${
                   isFeedbackOpen ? "scale-90" : "scale-100"
                 }`}
                 onClick={toggleFeedback}
+                title="Send Feedback"
               >
-                <LuMessagesSquare size={24} />
+                <LuMessagesSquare size={20} />
               </div>
 
-              <main className="p-2 ml-0 md:ml-64">
+              {/* AI Doubt Chatbot (Item 11) */}
+              <Chatbot />
+
+              <main className="p-4 sm:p-6 w-full flex-1">
                 <Suspense fallback={<div>Loading...</div>}>
                   {children}
                 </Suspense>
               </main>
-            </div>
+            </>
           )}
         </div>
         {isFeedbackOpen && (

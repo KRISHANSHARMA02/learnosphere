@@ -1,29 +1,46 @@
 import EnrollmentCheckPage from "@/components/client/DashboardCourseMain";
 import { fetchStudentDashboardData } from "@/src/lib/actions/course_in_dashboard_main";
-// import { decryptData } from "@/src/utils/cryptodecrypt";
+import { auth } from "@/src/auth";
 
 export const revalidate = 60; // ✅ re-fetch from backend every 60s
 
 export default async function Page(props) {
   const searchParams = await props.searchParams;
 
-  const registrationNumber = searchParams?.token;
-  const grade = searchParams?.grade;
-
-
-
+  let registrationNumber = searchParams?.token;
+  let grade = searchParams?.grade;
+  let stream = searchParams?.stream;
 
   if (!registrationNumber || !grade) {
-    console.error("❌ ERROR: Missing required params");
+    try {
+      const session = await auth();
+      if (session?.user?.email) {
+        const userRes = await fetch(
+          "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ gmail: session.user.email }),
+            cache: "no-store",
+          }
+        );
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          registrationNumber = registrationNumber || userData?.registrationNumber;
+          grade = grade || userData?.grade;
+          stream = stream || userData?.stream;
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching student profile for courses:", err);
+    }
   }
-
-  // const decryptedRegNo = decryptData(registrationNumber);
 
   const dashboardData = await fetchStudentDashboardData(
     registrationNumber,
-    grade
+    grade,
+    stream
   );
-
 
   return <EnrollmentCheckPage serverData={dashboardData} />;
 }

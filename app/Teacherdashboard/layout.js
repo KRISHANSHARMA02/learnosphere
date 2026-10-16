@@ -32,7 +32,8 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import DashboardFooter from "@/components/DashboardFooter";
 import Feedbackform from "./teacherfeedbackform/page";
 import { VscReferences } from "react-icons/vsc";
-// import KycRequiredPopup from "@/components/widgets/TutorKycAlert";
+import Chatbot from "@/components/Chatbot";
+import KycRequiredPopup from "@/components/widgets/TutorKycAlert";
 
 export default function Layout({ children }) {
   // State management
@@ -246,8 +247,21 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     const checkKycStatus = async () => {
-      if (status !== "authenticated" || !profileData?.RegistrationNumber)
+      if (status !== "authenticated" || !profileData) return;
+
+      // If already verified in main database, allow access
+      if (profileData.is_approved === true || profileData.is_approved === 1) {
+        setKycRequired(false);
+        setKycLoading(false);
         return;
+      }
+
+      // If unverified and no registration number yet, require KYC
+      if (!profileData.RegistrationNumber) {
+        setKycRequired(true);
+        setKycLoading(false);
+        return;
+      }
 
       try {
         const res = await axios.get(
@@ -269,7 +283,11 @@ export default function Layout({ children }) {
         setKycRequired(kycRequired || shouldBlockByStatus);
       } catch (error) {
         console.error("KYC check failed:", error);
-        setKycRequired(true); // 🔒 fail-safe
+        if (profileData?.is_approved === true || profileData?.is_approved === 1) {
+          setKycRequired(false);
+        } else {
+          setKycRequired(true); // 🔒 fail-safe
+        }
       } finally {
         setKycLoading(false);
       }
@@ -310,7 +328,7 @@ export default function Layout({ children }) {
     <>
       {/* 🔒 BLURRED & BLOCKED DASHBOARD */}
       <div className={`${kycRequired ? "pointer-events-none blur-sm" : ""}`}>
-        <div className="flex h-screen">
+        <div className="flex min-h-screen bg-slate-50/60">
           {/* Sidebar */}
           <div
             className={`fixed bg-white border-r-2 border-gray-300 p-4 w-3/4 md:w-64 z-40 h-screen transform transition-transform ${
@@ -457,118 +475,127 @@ export default function Layout({ children }) {
           )}
 
           {/* Main content area */}
-          <div className="flex-1 ml-0 md:ml-64">
+          <div className="w-full min-w-0 md:pl-64 flex flex-col min-h-screen">
             {/* Top Navigation */}
-            <nav className="bg-white  top-0 w-full p-4 border-b-2 flex justify-end items-center">
-              <div className="flex items-center w-full justify-between md:justify-end">
-                <div className="flex gap-4 items-center">
-                  <div className="relative">
-                    <Link href="/Teacherdashboard/Notificationfile">
-                      <IoIosNotifications
-                        onClick={notificationClick}
-                        className="text-gray-600 cursor-pointer"
-                        size={30}
-                      />
-                    </Link>
-                    {hasUnreadNotifications && (
-                      <div className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
-                        {unreadNotificationCount > 99
-                          ? "99+"
-                          : unreadNotificationCount}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    onClick={toggleMenu}
-                    className="flex cursor-pointer items-center mr-4 relative gap-4"
-                  >
+            <nav className="bg-white sticky top-0 z-30 w-full px-3 sm:px-6 py-2.5 sm:py-3 border-b border-gray-200 flex justify-between items-center shadow-sm">
+              {/* Mobile Hamburger Button */}
+              <button
+                className="md:hidden p-2 -ml-1 text-gray-700 hover:text-orange-600 focus:outline-none rounded-lg"
+                onClick={toggleMobileMenu}
+                aria-label="Open Menu"
+              >
+                <HiMenu size={24} />
+              </button>
+
+              {/* Right Side: Notifications & Profile */}
+              <div className="flex items-center gap-3 sm:gap-4 ml-auto">
+                <div className="relative">
+                  <Link href="/Teacherdashboard/Notificationfile">
+                    <IoIosNotifications
+                      onClick={notificationClick}
+                      className="text-gray-600 cursor-pointer hover:text-orange-600 transition-colors"
+                      size={28}
+                    />
+                  </Link>
+                  {hasUnreadNotifications && (
+                    <div className="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
+                      {unreadNotificationCount > 99
+                        ? "99+"
+                        : unreadNotificationCount}
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  onClick={toggleMenu}
+                  className="flex cursor-pointer items-center relative gap-2 sm:gap-3"
+                >
+                  <div className="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0">
                     <div
-                      className={`rounded-full border-2 ${
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 ${
                         profileData?.is_approved
                           ? "border-green-500"
-                          : "border-red-600"
-                      } mr-2 overflow-hidden`}
+                          : "border-amber-500"
+                      } overflow-hidden`}
                     >
                       <Image
                         width={100}
                         height={100}
                         src={session?.user?.image || "/profile.png"}
                         alt={session?.user?.name || "Profile"}
-                        className="w-10 h-10 rounded-full cursor-pointer"
+                        className="w-full h-full object-cover cursor-pointer"
                       />
-                      <span>
-                        {profileData?.is_approved ? (
-                          <MdVerified
-                            size={25}
-                            className="absolute top-0 right-26 md:left-[30px] bg-white text-green-500 rounded-full"
-                          />
-                        ) : (
-                          <AiOutlineClockCircle
-                            size={20}
-                            className="absolute top-0 right-28 md:right-36 bg-white text-red-500 rounded-full"
-                          />
-                        )}
-                      </span>
                     </div>
-                    {isMenuOpen && (
-                      <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg z-50 w-48">
-                        <Link href="/Teacherdashboard/Profileteacher">
-                          <button
-                            onClick={ProfileClick}
-                            className="w-full px-4 py-2 text-left hover:bg-gray-100 text-black"
-                          >
-                            View Profile
-                          </button>
-                        </Link>
-                        <button
-                          onClick={handleLogout}
-                          className="w-full px-4 py-2 text-left hover:bg-gray-100 text-black"
-                        >
-                          Logout
-                        </button>
-                        <Link href="/Teacherdashboard/AccountSetting">
-                          <button
-                            onClick={AccountClick}
-                            className="w-full px-4 py-2 text-left hover:bg-gray-100 text-black"
-                          >
-                            Account Setting
-                          </button>
-                        </Link>
-                      </div>
+                    {profileData?.is_approved ? (
+                      <MdVerified
+                        size={16}
+                        className="absolute -bottom-1 -right-1 bg-white text-green-500 rounded-full shadow"
+                        title="Verified Educator"
+                      />
+                    ) : (
+                      <AiOutlineClockCircle
+                        size={15}
+                        className="absolute -bottom-1 -right-1 bg-white text-amber-500 rounded-full shadow"
+                        title="KYC Pending"
+                      />
                     )}
-                    <div className="flex flex-col items-start">
-                      <span className="text-black cursor-pointer font-semibold mr-2">
-                        {session?.user?.name || "Teacher"}
-                      </span>
-                      <span className="text-gray-700 cursor-pointer text-[8px] md:text-[11px]">
-                        {session?.user?.email}
-                      </span>
+                  </div>
+
+                  {isMenuOpen && (
+                    <div className="absolute top-12 sm:top-14 right-0 bg-white shadow-xl rounded-2xl border border-gray-100 z-50 w-52 py-2">
+                      <Link href="/Teacherdashboard/Profileteacher">
+                        <button
+                          onClick={ProfileClick}
+                          className="w-full px-4 py-2.5 text-left hover:bg-orange-50 text-gray-800 text-xs font-semibold flex items-center gap-2"
+                        >
+                          <span>👤</span> View Profile
+                        </button>
+                      </Link>
+                      <Link href="/Teacherdashboard/AccountSetting">
+                        <button
+                          onClick={AccountClick}
+                          className="w-full px-4 py-2.5 text-left hover:bg-gray-50 text-gray-800 text-xs font-semibold flex items-center gap-2"
+                        >
+                          <span>⚙️</span> Account Settings
+                        </button>
+                      </Link>
+                      <div className="border-t border-gray-100 my-1"></div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full px-4 py-2.5 text-left hover:bg-red-50 text-red-600 text-xs font-semibold flex items-center gap-2"
+                      >
+                        <span>🚪</span> Logout
+                      </button>
                     </div>
+                  )}
+
+                  <div className="hidden sm:flex flex-col items-start max-w-[130px] md:max-w-[160px] truncate">
+                    <span className="text-black cursor-pointer font-bold text-xs truncate w-full">
+                      {session?.user?.name || "Teacher"}
+                    </span>
+                    <span className="text-gray-500 cursor-pointer text-[10px] truncate w-full">
+                      {session?.user?.email}
+                    </span>
                   </div>
                 </div>
               </div>
-
-              <button
-                className={`md:hidden p-2 ml-4 ${
-                  isInputVisible ? "hidden" : "block"
-                }`}
-                onClick={toggleMobileMenu}
-              >
-                <HiMenu size={24} />
-              </button>
             </nav>
+            {/* Floating Feedback Trigger */}
             <div
-              className={`fixed bottom-10 md:bottom-16 right-4 p-5 z-50 bg-orange-500 text-white rounded-full cursor-pointer shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
+              className={`fixed bottom-28 right-5 z-40 p-4 bg-white border border-orange-200 text-orange-600 rounded-full cursor-pointer shadow-lg hover:shadow-xl hover:bg-orange-50 flex items-center justify-center transition-all duration-300 ease-in-out ${
                 isFeedbackOpen ? "scale-90" : "scale-100"
               }`}
               onClick={toggleFeedback}
+              title="Teacher Feedback"
             >
-              <TbMessageCircleQuestion size={24} />
+              <TbMessageCircleQuestion size={22} />
             </div>
 
-            {/* Main content */}
+            {/* AI Assistant Chatbot */}
+            <Chatbot />
 
-            <main className="pt-4">
+            {/* Main content */}
+            <main className="p-2 sm:p-4 md:p-6 w-full flex-1 min-w-0 overflow-x-hidden">
               {showAgreement && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                   <div className="rounded-lg w-auto h-auto relative">
@@ -621,7 +648,7 @@ export default function Layout({ children }) {
         </div>
       </div>
       {/* 🚨 KYC POPUP (ALWAYS ON TOP) */}
-      {/* {kycRequired && <KycRequiredPopup />} */}
+      {kycRequired && <KycRequiredPopup onLogout={handleLogout} />}
     </>
   );
 }

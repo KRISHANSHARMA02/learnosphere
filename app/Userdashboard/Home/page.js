@@ -38,9 +38,12 @@ import Head from "next/head";
 import { set } from "date-fns";
 import { useRouter } from "next/navigation";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import StudentAppImg from "@/public/studentApp.png";
+import { FaGooglePlay, FaAppStore, FaMobileAlt, FaFire, FaCheckCircle, FaStar, FaDownload, FaRocket } from "react-icons/fa";
 
 const HomePage = () => {
   const { data: session, status } = useSession();
+  const [studentName, setStudentName] = useState("");
   const [grade, setGrade] = useState(null);
   const [stream, setStream] = useState(null);
   const [videos, setVideos] = useState([]);
@@ -71,6 +74,7 @@ const HomePage = () => {
             "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
             { gmail: session.user.email }
           );
+          setStudentName(response.data.studentName || response.data.name || "");
           setGrade(response.data.grade);
           setUserId(response.data.registrationNumber);
 
@@ -377,10 +381,17 @@ const HomePage = () => {
           className="w-auto h-auto rounded-md"
         />
         <div className="flex-1 text-center md:text-start p-2">
-          <h1 className="text-2xl md:text-5xl font-bold text-gray-700">
-            Welcome, {session?.user?.name || "Student"}! 🎉
-          </h1>
-          <p className="text-lg text-gray-600 mt-2">
+          <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
+            <h1 className="text-2xl md:text-4xl font-extrabold text-gray-800 tracking-tight capitalize">
+              Welcome, {studentName || session?.user?.name || "Student"}! 🎉
+            </h1>
+            {grade && (
+              <span className="text-xs font-bold text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full uppercase tracking-wider">
+                Class {grade} {stream ? `• ${stream}` : ""}
+              </span>
+            )}
+          </div>
+          <p className="text-base md:text-lg text-gray-600 mt-2">
             Ready to explore your personalized learning journey?
           </p>
         </div>
@@ -529,8 +540,45 @@ const HomePage = () => {
               </div>
             </div>
           ) : (
-            <div className="text-center text-gray-500">
-              No activities found.
+            <div className="w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+              <div className="flex-1 space-y-3 z-10 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white">
+                  <FaFire className="text-yellow-300 animate-pulse" /> Daily Learning Streaks
+                </div>
+                <h3 className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
+                  Track Your Progress & Study Daily on the App!
+                </h3>
+                <p className="text-white/90 text-sm max-w-xl leading-relaxed">
+                  Join thousands of students building a daily study habit. Solve interactive quizzes, attend live sessions, and climb the leaderboard on the Learnosphere Mobile App.
+                </p>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-white text-gray-900 px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-orange-50 transition-all shadow"
+                  >
+                    <FaGooglePlay className="text-green-600" size={16} /> Google Play
+                  </a>
+                  <a
+                    href="https://apps.apple.com/in/app/learnosphere-learning-app/id6748979882"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-black/40 backdrop-blur-sm border border-white/30 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-black/60 transition-all shadow"
+                  >
+                    <FaAppStore size={18} /> App Store
+                  </a>
+                </div>
+              </div>
+              <div className="w-44 md:w-52 shrink-0 relative flex justify-center z-10">
+                <Image
+                  src={StudentAppImg}
+                  alt="Learnosphere Mobile App"
+                  width={200}
+                  height={200}
+                  className="object-contain drop-shadow-2xl transform hover:scale-105 transition-transform"
+                />
+              </div>
             </div>
           )}
         </div>
@@ -607,7 +655,36 @@ const HomePage = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center text-gray-500">No videos found.</div>
+              <div className="col-span-full bg-slate-900 text-white rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800 shadow-lg">
+                <div className="flex-1 space-y-3 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <FaRocket /> 500+ HD Concept Videos
+                  </div>
+                  <h3 className="text-2xl font-bold text-white">Watch Concept Videos Anywhere, Anytime!</h3>
+                  <p className="text-slate-300 text-sm max-w-lg leading-relaxed">
+                    Free animated concept lessons, step-by-step NCERT explanations, and offline video downloads are ready for your grade on the mobile app.
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
+                    <a
+                      href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md shadow-orange-600/30"
+                    >
+                      <FaDownload size={14} /> Download Free on Mobile
+                    </a>
+                  </div>
+                </div>
+                <div className="w-40 md:w-48 shrink-0 flex justify-center">
+                  <Image
+                    src={StudentAppImg}
+                    alt="Learnosphere Video App"
+                    width={180}
+                    height={180}
+                    className="object-contain drop-shadow-xl"
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -669,6 +746,27 @@ const HomePage = () => {
               </div>
             </div>
           ))}
+          </div>
+
+          {/* High UX App Question Bank Highlight Banner */}
+          <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shrink-0 font-bold text-xs shadow-sm">
+                10k+
+              </div>
+              <div>
+                <p className="font-bold text-gray-900 text-sm">Need 1,000+ Chapter-wise Solved Questions & CBSE Sample Papers?</p>
+                <p className="text-gray-500 text-xs">Unlock detailed solutions, step-by-step marking schemes, and previous year papers on the mobile app.</p>
+              </div>
+            </div>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl whitespace-nowrap shadow-md shadow-orange-500/20 transition-all shrink-0"
+            >
+              Explore Full Bank in App
+            </a>
           </div>
         </div>
       )}

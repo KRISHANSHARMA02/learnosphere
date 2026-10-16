@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { FaClock, FaGraduationCap } from "react-icons/fa";
+import { FaClock, FaGraduationCap, FaChalkboardTeacher, FaGooglePlay, FaAppStore } from "react-icons/fa";
 import Image from "next/image";
 import axios from "axios";
-import { SiStudyverse } from "react-icons/si";
 import { TbUserQuestion } from "react-icons/tb";
 import { RiParentFill } from "react-icons/ri";
 import { MdLibraryBooks } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import School from "@/public/Classes Img.jpg";
+import StudentAppImg from "@/public/studentApp.png";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
@@ -136,7 +136,7 @@ const Classes = () => {
                 <span className="font-semibold text-gray-700 text-sm">All-Round Learning Approach</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500"><SiStudyverse size={18} /></div>
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500"><FaChalkboardTeacher size={18} /></div>
                 <span className="font-semibold text-gray-700 text-sm">Expert teachers explain concepts</span>
               </div>
               <div className="flex items-center gap-3">
@@ -161,8 +161,45 @@ const Classes = () => {
         {/* Dynamic Session Cards Section */}
         <div className="mt-12">
           {classes.length === 0 ? (
-            <div className="text-center mt-6 text-gray-700 font-semibold text-lg bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-              <p>No classes found. You haven't booked any sessions yet!</p>
+            <div className="w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-6 md:p-10 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-8 mt-6">
+              <div className="space-y-4 text-center md:text-left flex-1">
+                <span className="inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full">
+                  1-on-1 Personalized Live Classes
+                </span>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
+                  Book Top Verified Educators on the Learnosphere App!
+                </h3>
+                <p className="text-white/90 text-sm md:text-base max-w-xl leading-relaxed">
+                  You haven't booked any classes yet. Experience customized learning with India's best tutors. Hurry up — your <strong className="underline decoration-yellow-300">first trial class is 100% FREE!</strong>
+                </p>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 bg-white text-gray-900 px-5 py-3 rounded-2xl text-xs md:text-sm font-bold hover:bg-orange-50 transition-all shadow-md"
+                  >
+                    <FaGooglePlay className="text-green-600" size={18} /> Google Play
+                  </a>
+                  <a
+                    href="https://apps.apple.com/in/app/learnosphere-learning-app/id6748979882"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 bg-black/40 backdrop-blur-sm border border-white/30 text-white px-5 py-3 rounded-2xl text-xs md:text-sm font-bold hover:bg-black/60 transition-all shadow-md"
+                  >
+                    <FaAppStore size={20} /> App Store
+                  </a>
+                </div>
+              </div>
+              <div className="w-48 md:w-56 shrink-0 flex justify-center">
+                <Image
+                  src={StudentAppImg}
+                  alt="Book Educator App"
+                  width={220}
+                  height={220}
+                  className="object-contain drop-shadow-2xl"
+                />
+              </div>
             </div>
           ) : (
             <>

@@ -19,6 +19,7 @@ import {
   FaPlayCircle,
   FaUserGraduate,
 } from "react-icons/fa";
+import StudentAppImg from "@/public/studentApp.png";
 // import { encryptData } from "@/src/utils/crypto";
 
 const HorizontalSlider = ({ children }) => (
@@ -234,6 +235,17 @@ const AppDownloadCard = () => (
         </div>
       </div>
 
+      {/* App Image Mockup */}
+      <div className="hidden xl:flex shrink-0 justify-center">
+        <Image
+          src={StudentAppImg}
+          alt="Learnosphere App Mockup"
+          width={180}
+          height={180}
+          className="object-contain drop-shadow-2xl"
+        />
+      </div>
+
       {/* Right Feature List */}
       <div className="flex-1 w-full max-w-sm bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-md">
         <h4 className="text-sm font-bold mb-4 flex items-center gap-2 text-white border-b border-white/10 pb-3">
@@ -328,31 +340,12 @@ export default function EnrollmentCheckPage({ serverData }) {
           </div>
         </section>
       ) : (
-        // B: NO ENROLLMENTS
         <section className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shrink-0">
-                <FaUserGraduate size={24} />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-slate-800">
-                  Start your journey today
-                </h2>
-                <p className="text-sm text-slate-600 mt-1 max-w-lg">
-                  You aren't enrolled in any courses yet. Browse our catalog to
-                  find the perfect course for your career goals.
-                </p>
-              </div>
-            </div>
-            <button className="bg-slate-900 text-white px-6 py-2.5 rounded-lg text-sm font-bold hover:bg-orange-600 transition-colors whitespace-nowrap">
-              Browse Catalog
-            </button>
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <FaStar className="text-orange-600" /> Recommended For Your Grade
+            </h2>
           </div>
-
-          <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2 mb-5">
-            <FaStar className="text-orange-600" /> Recommended For You
-          </h2>
 
           {studentData.recommendedCourses.length > 0 ? (
             studentData.recommendedCourses.length > 3 ? (
@@ -373,8 +366,35 @@ export default function EnrollmentCheckPage({ serverData }) {
               </div>
             )
           ) : (
-            <div className="text-center py-10 text-slate-500 bg-white rounded-xl border border-dashed border-slate-200">
-              No recommended courses found.
+            <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg mb-4">
+              <div className="space-y-3 text-center md:text-left flex-1">
+                <span className="inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                  Interactive Learning Modules
+                </span>
+                <h3 className="text-2xl font-bold text-white">Explore Full Courses on the Learnosphere App</h3>
+                <p className="text-white/90 text-sm max-w-lg">
+                  Full-syllabus animated courses, recorded chapter lectures, and live revision masterclasses for your grade are ready on the mobile app.
+                </p>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.karotaraj.learnosphere_main"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white text-gray-900 px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-orange-50 transition-colors shadow"
+                  >
+                    Open in Mobile App
+                  </a>
+                </div>
+              </div>
+              <div className="w-36 md:w-44 shrink-0 flex justify-center">
+                <Image
+                  src={StudentAppImg}
+                  alt="Courses App Preview"
+                  width={160}
+                  height={160}
+                  className="object-contain drop-shadow-xl"
+                />
+              </div>
             </div>
           )}
         </section>
