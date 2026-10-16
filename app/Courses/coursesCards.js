@@ -156,9 +156,9 @@ const navigateToCourse = useCourseNavigation();
         <div className=" w-full inset-0 z-50  ">
           <div className="relative z-10 flex flex-col md:flex-row 2xl:ml-[200px]  ">
             <div className="w-full 2xl:w-[60%] xl:w-1/2 m-5 xl:mx-10   items-center justify-center">
-              <h1 className="text-2xl md:text-4xl font-bold mb-4">
+              <h2 className="text-2xl md:text-4xl font-bold mb-4">
                 Our Popular Courses
-              </h1>
+              </h2>
               <p className="text-gray-700 text-lg ">Explore our courses</p>
             </div>
           </div>

@@ -29,7 +29,7 @@ const Syllabus = () => {
       <div className="p-4 md:p-12 flex flex-col font-Poppins justify-center mt-20 ">
         <div>
           <h1 className="p-4 text-4xl font-extrabold bg-black text-orange-500  w-full md:w-1/5 m-auto text-center  rounded-lg shadow-2xl shadow-orange-900 ">
-            Class 10th
+            CBSE Class 10 Syllabus 2024-25
           </h1>
         </div>
         <div className="pt-6">
@@ -119,7 +119,7 @@ const Syllabus = () => {
           <div className="max-w-6xl mx-auto">
             {/* Header */}
             <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4">
-              CBSE Class 10 Syllabus 2024-25
+              CBSE Class 10 Complete Syllabus
             </h1>
             <p className="text-center text-gray-700 max-w-3xl mx-auto leading-relaxed">
               At <b>Learnosphere</b>, we guide students to make the most of

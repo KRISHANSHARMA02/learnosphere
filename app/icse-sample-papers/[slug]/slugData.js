@@ -228,7 +228,7 @@ const DataTable = ({ data }) => {
                 )}
                 <div>
                   {item.heading17 ? ( // Check if item.heading24 has a value
-                    (<h1 className="text-[1.2em]">{item.heading17}</h1>)
+                    (<h2 className="text-[1.2em]">{item.heading17}</h2>)
                   ) : null}
                   <p className="mb-2 mt-4 text-gray-800">{item.para17}</p>
 
@@ -238,9 +238,9 @@ const DataTable = ({ data }) => {
                     (item.anotherField && item.anotherField.length > 0)) && (
                       <div className="grid border border-slate-800 mt-4">
                         {item.heading4 && (
-                          <h1 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
+                          <h2 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
                             {item.heading4}
-                          </h1>
+                          </h2>
                         )}
                         {item.para4 && <p className="">{item.para4}</p>}
 
@@ -358,9 +358,9 @@ const DataTable = ({ data }) => {
                       </div>
                     )}
                 </div>
-                <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                   {item.heading5}
-                </h1>
+                </h2>
                 <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
                 {item.list2 && item.list2.length > 0 && (
                   <ol className="list-disc text-orange-600 pl-5 mb-2">
@@ -371,13 +371,13 @@ const DataTable = ({ data }) => {
                     ))}
                   </ol>
                 )}
-                <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                   {item.heading6}
-                </h1>
+                </h2>
                 <p className="mb-2 mt-4 text-gray-800">{item.para6}</p>
-                <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                   {item.heading7}
-                </h1>
+                </h2>
                 <p className="mb-2 mt-4 text-gray-800">{item.para7}</p>
 
                 {(item.heading11 ||
@@ -385,9 +385,9 @@ const DataTable = ({ data }) => {
                   (item.anotherField1 && item.anotherField1.length > 0)) && (
                     <div className="border border-slate-800">
                       {item.heading11 && (
-                        <h1 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
+                        <h2 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
                           {item.heading11}
-                        </h1>
+                        </h2>
                       )}
                       {item.para11 && <p className="">{item.para11}</p>}
 
@@ -417,18 +417,18 @@ const DataTable = ({ data }) => {
                     </div>
                   )}
 
-                <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                   {item.heading8}
-                </h1>
+                </h3>
                 <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
-                <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                   {item.heading18}
-                </h1>
+                </h3>
                 <p className="mb-2 mt-4 text-gray-800">{item.para18}</p>
 
-                <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                   {item.heading19}
-                </h1>
+                </h3>
                 {(item.anotherField6 && item.anotherField6.length > 0) ||
                   (item.anotherField7 && item.anotherField7.length > 0) ||
                   (item.anotherField8 && item.anotherField8.length > 0) ? (
@@ -496,9 +496,9 @@ const DataTable = ({ data }) => {
                   (item.anotherField2 && item.anotherField2.length > 0)) && (
                     <div className="border border-slate-800 mt-3">
                       {item.heading9 ? (
-                        <h1 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
+                        <h3 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
                           {item.heading9}
-                        </h1>
+                        </h3>
                       ) : null}
 
                       <p className="">{item.para9}</p>
@@ -533,9 +533,9 @@ const DataTable = ({ data }) => {
                   (item.anotherField3 && item.anotherField3.length > 0)) && (
                     <div className="border border-slate-800 mt-4">
                       {item.heading12 ? (
-                        <h1 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
+                        <h3 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
                           {item.heading12}
-                        </h1>
+                        </h3>
                       ) : null}
 
                       <p className="m">{item.para12}</p>
@@ -568,7 +568,7 @@ const DataTable = ({ data }) => {
                   (item.anotherField4 && item.anotherField4.length > 0)) && (
                     <div>
                       {item.heading13 ? (
-                        <h1 className="mt-3 text-[1.2em]">{item.heading13}</h1>
+                        <h3 className="mt-3 text-[1.2em]">{item.heading13}</h3>
                       ) : null}
 
                       <p className="mb-2 mt-4 text-gray-800">{item.para13}</p>
@@ -598,7 +598,7 @@ const DataTable = ({ data }) => {
                   )}
 
                 {item.heading14 ? ( // Check if item.heading24 has a value
-                  (<h1 className="mt-3  text-[1.2em]">{item.heading14}</h1>)
+                  (<h3 className="mt-3  text-[1.2em]">{item.heading14}</h3>)
                 ) : null}
                 <p className="mb-2 mt-4 text-gray-800">{item.para14}</p>
 
@@ -625,7 +625,7 @@ const DataTable = ({ data }) => {
                 )}
 
                 {item.heading15 ? ( // Check if item.heading24 has a value
-                  (<h1 className="mt-3  text-[1.2em]">{item.heading15}</h1>)
+                  (<h3 className="mt-3  text-[1.2em]">{item.heading15}</h3>)
                 ) : null}
 
                 {item.list4 && item.list4.length > 0 && (
@@ -642,9 +642,9 @@ const DataTable = ({ data }) => {
                 <p className="mb-2 mt-4 text-gray-800">{item.para16}</p>
 
                 <div className="flex flex-col text-[.8em] mt-5 border border-slate-800 bg-white rounded-lg p-4">
-                  <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em] font-bold px-4">
+                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em] font-bold px-4">
                     {item.heading10}
-                  </h1>
+                  </h3>
                   <p className="mb-5 ">{item.para10}</p>
                   {item.list3 && item.list3.length > 0 && (
                     <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mb-4">

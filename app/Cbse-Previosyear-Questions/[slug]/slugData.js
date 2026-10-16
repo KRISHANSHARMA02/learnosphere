@@ -186,9 +186,9 @@ const DataTable = ({ data: serverData }) => {
 
                   <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
 
-                  <h1 className="mb-2 text-slate-800 text-[1.2em]">
+                  <h2 className="mb-2 text-slate-800 text-[1.2em]">
                     {item.heading2}
-                  </h1>
+                  </h2>
                   <p className="mb-2 mt-4 text-gray-800">{item.para2}</p>
 
                   <Image src={Banner2} alt="" />
@@ -203,7 +203,7 @@ const DataTable = ({ data: serverData }) => {
                   )}
                   <div>
                     {item.heading3 ? ( // Check if item.heading24 has a value
-                      <h1 className=" text-[1.2em]">{item.heading3}</h1>
+                      <h2 className=" text-[1.2em]">{item.heading3}</h2>
                     ) : null}
                     <p className="mb-2 mt-4 text-gray-800">{item.para3}</p>
 
@@ -212,9 +212,9 @@ const DataTable = ({ data: serverData }) => {
                       (item.anotherField && item.anotherField.length > 0)) && (
                       <div className="grid border border-slate-800 mt-4">
                         {item.heading4 && (
-                          <h1 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
+                          <h2 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
                             {item.heading4}
-                          </h1>
+                          </h2>
                         )}
                         {item.para4 && <p className="">{item.para4}</p>}
 
@@ -428,9 +428,9 @@ const DataTable = ({ data: serverData }) => {
                       </div>
                     )}
                   </div>
-                  <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                  <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                     {item.heading5}
-                  </h1>
+                  </h2>
                   <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
                   {item.list2 && item.list2.length > 0 && (
                     <ol className="list-disc text-orange-600 pl-5 mb-2">
@@ -441,25 +441,25 @@ const DataTable = ({ data: serverData }) => {
                       ))}
                     </ol>
                   )}
-                  <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                     {item.heading6}
-                  </h1>
+                  </h3>
                   <p className="mb-2 mt-4 text-gray-800">{item.para6}</p>
-                  <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                     {item.heading7}
-                  </h1>
+                  </h3>
                   <p className="mb-2 mt-4 text-gray-800">{item.para7}</p>
-                  <h1 className="mb-2 text-orange-600 mt-3 text-[1.2em]">
+                  <h3 className="mb-2 text-orange-600 mt-3 text-[1.2em]">
                     {item.heading8}
-                  </h1>
+                  </h3>
                   <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
-                  <h1 className="mb-2 text-orange-600 mt-3 text-[1.2em]">
+                  <h3 className="mb-2 text-orange-600 mt-3 text-[1.2em]">
                     {item.heading9}
-                  </h1>
+                  </h3>
                   <p className="mb-2 mt-4 text-gray-800">{item.para9}</p>
-                  <h1 className="mb-2 text-orange-600 mt-3 text-[1.2em]">
+                  <h3 className="mb-2 text-orange-600 mt-3 text-[1.2em]">
                     {item.heading10}
-                  </h1>
+                  </h3>
                   <p className="mb-2 mt-4 text-gray-800">{item.para10}</p>
 
                   {item.anotherField1 && item.anotherField1.length > 0 && (
@@ -560,7 +560,7 @@ const DataTable = ({ data: serverData }) => {
 
                   <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
                   <div className="flex flex-col text-[.8em] mt-5 border border-slate-800  rounded-lg p-1">
-                    <h1 className=" font-semibold">{item.heading13}</h1>
+                    <h3 className=" font-semibold">{item.heading13}</h3>
                     <p className=" ">{item.para13}</p>
                     {item.list3 && item.list3.length > 0 && (
                       <ol className="  flex flex-wrap gap-2 w-full p-4 text-orange-600  mb-2">

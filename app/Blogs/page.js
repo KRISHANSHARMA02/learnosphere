@@ -301,5 +301,6 @@ export default async function Blogs  () {
 
 
 export const metadata = {
-  title: "Education Blog | Study Tips, Guides & Resources | Learnosphere",
+  title: " Home Tuition | Study Tips, Guides & Resources",
+  description: "Explore helpful home tuition guides, study tips and educational resources for students and parents. Discover practical learning advice and useful tuition insights.",
 };

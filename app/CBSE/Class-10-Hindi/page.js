@@ -1,7 +1,8 @@
 import ClientPage from '@/components/client/CBSE_Class-10-Hindi';
 
 export const metadata = {
-  title: "Class 10 Hindi Notes & Study Material | Learnosphere",
+  title: "CBSE Class 10 Hindi | Notes & Study Material | Learnosphere",
+  description: "Explore CBSE Class 10 Hindi notes, chapter summaries, grammar topics and study material. Prepare for exams with useful learning resources from Learnosphere."
 };
 
 export default function Page(props) {

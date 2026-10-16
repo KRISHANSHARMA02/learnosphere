@@ -132,7 +132,7 @@ export default function StudyNotes({ slug, sessionId }) {
         });
 
         const options = {
-          key: "rzp_test_o35sEoKigHtluy", 
+          key: "rzp_live_RqzfXxBoqkJF1D", 
           amount: data.order.amount,
           currency: data.order.currency,
           name: "Learnosphere",
