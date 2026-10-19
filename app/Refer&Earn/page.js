@@ -726,7 +726,7 @@ const ReferAndEarn = () => {
     async function fetchLeaderboard() {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/route/getLeaderboardData?period=${activeTab}`,
+          `https://learnospherebackend.learnosphere.in/api/route/getLeaderboardData?period=${activeTab}`,
         );
         const data = await res.json();
 

@@ -76,7 +76,7 @@ const DashboardFooter = ({ setShowAgreement }) => {
       </div>
 
       <div className="max-w-7xl mx-auto mt-6 pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 gap-2">
-        <p>&copy; {new Date().getFullYear()} Learnosphere Education Pvt. Ltd. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Learnosphere. All rights reserved.</p>
         <p className="flex items-center gap-1">
           Made with <span className="text-red-500">❤️</span> for Educators across India
         </p>

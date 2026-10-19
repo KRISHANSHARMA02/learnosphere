@@ -5,6 +5,7 @@ import { FaApple, FaStar, FaShieldAlt, FaBolt, FaGraduationCap } from "react-ico
 import { MdCurrencyRupee, MdOutlineNotificationsActive } from "react-icons/md";
 import playstore from "@/public/playstore.svg";
 import tutorAppMockup from "@/public/tutor_kyc-app.jpg";
+import tutorRewardsMockup from "@/public/tutor_rewards_app.jpg";
 import tutorQr from "@/public/tutor_app_qr.png";
 
 const PLAY_STORE_URL =
@@ -13,11 +14,33 @@ const APP_STORE_URL =
   "https://apps.apple.com/in/app/learnosphere/id6744967495";
 
 export default function TeacherAppBanner({
-  title = "Supercharge Your Teaching & Maximize Earnings on the Tutor App!",
-  subtitle = "Experience instant student bookings, real-time push alerts, and direct live classes. Over 10,000+ students are looking for expert teachers right now.",
-  badge = "🚀 EXCLUSIVE EDUCATOR HUB",
+  title,
+  subtitle,
+  badge,
   variant = "full", // "full" | "compact" | "card"
+  isVerified = true, // Defaults to true for active dashboard educators
 }) {
+  const isTeacherVerified = isVerified === true || isVerified === 1;
+
+  // Dynamic titles and subtitles based on verified status
+  const displayTitle =
+    title ||
+    (isTeacherVerified
+      ? "Supercharge Your Teaching & Maximize Earnings on the Tutor App!"
+      : "Complete Your Educator KYC & Start Earning Today!");
+
+  const displaySubtitle =
+    subtitle ||
+    (isTeacherVerified
+      ? "Experience instant student bookings, real-time push alerts, and direct live classes. Over 10,000+ students are looking for expert teachers right now."
+      : "Verify your tutor credentials in 2 minutes on the Learnosphere Tutor App to unlock live classes and instant student bookings.");
+
+  const displayBadge =
+    badge ||
+    (isTeacherVerified
+      ? "🚀 EXCLUSIVE EDUCATOR HUB"
+      : "🛡️ MANDATORY EDUCATOR KYC");
+
   if (variant === "compact") {
     return (
       <div className="w-full bg-gradient-to-br from-orange-500 via-amber-500 to-orange-600 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden my-4">
@@ -25,10 +48,10 @@ export default function TeacherAppBanner({
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
           <div className="space-y-2 text-center md:text-left">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 text-white backdrop-blur-sm">
-              <FaBolt className="text-yellow-300" /> {badge}
+              <FaBolt className="text-yellow-300" /> {displayBadge}
             </span>
-            <h3 className="text-xl md:text-2xl font-black tracking-tight">{title}</h3>
-            <p className="text-white/90 text-sm max-w-xl">{subtitle}</p>
+            <h3 className="text-xl md:text-2xl font-black tracking-tight">{displayTitle}</h3>
+            <p className="text-white/90 text-sm max-w-xl">{displaySubtitle}</p>
           </div>
           <div className="flex flex-wrap gap-3 shrink-0">
             <a
@@ -72,15 +95,15 @@ export default function TeacherAppBanner({
         <div className="lg:col-span-7 space-y-4 sm:space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-500/20 text-orange-400 border border-orange-500/30">
             <FaBolt className="text-orange-400" />
-            {badge}
+            {displayBadge}
           </div>
 
           <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold leading-tight text-white tracking-tight">
-            {title}
+            {displayTitle}
           </h2>
 
           <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed">
-            {subtitle}
+            {displaySubtitle}
           </p>
 
           {/* Benefits Grid */}
@@ -100,8 +123,14 @@ export default function TeacherAppBanner({
                 <MdCurrencyRupee size={20} />
               </div>
               <div>
-                <h4 className="font-bold text-xs sm:text-sm text-white">Earn ₹500–₹1,500/hr</h4>
-                <p className="text-zinc-400 text-xs">Live 1-on-1 classes, doubt-solving & study note royalties.</p>
+                <h4 className="font-bold text-xs sm:text-sm text-white">
+                  {isTeacherVerified ? "Earn ₹500–₹1,500/hr" : "Unlock High Payouts"}
+                </h4>
+                <p className="text-zinc-400 text-xs">
+                  {isTeacherVerified
+                    ? "Live 1-on-1 classes, doubt-solving & study note royalties."
+                    : "Earn ₹500–₹1,500/hr once your KYC identity is approved."}
+                </p>
               </div>
             </div>
 
@@ -120,8 +149,14 @@ export default function TeacherAppBanner({
                 <FaShieldAlt size={18} />
               </div>
               <div>
-                <h4 className="font-bold text-xs sm:text-sm text-white">Verified Tutor Badge</h4>
-                <p className="text-zinc-400 text-xs">Instant KYC completion and 100% verified educator badge.</p>
+                <h4 className="font-bold text-xs sm:text-sm text-white">
+                  {isTeacherVerified ? "Instant Payouts & Rewards" : "Verified Tutor Badge"}
+                </h4>
+                <p className="text-zinc-400 text-xs">
+                  {isTeacherVerified
+                    ? "Direct bank transfers, zero commission fees & bonus milestones."
+                    : "Instant 2-minute app KYC to receive official verified tutor badge."}
+                </p>
               </div>
             </div>
           </div>
@@ -171,15 +206,22 @@ export default function TeacherAppBanner({
         <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
           <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border-4 border-white/10 shadow-2xl bg-zinc-950 group">
             <Image
-              src={tutorAppMockup}
-              alt="Learnosphere Tutor App"
+              src={isTeacherVerified ? tutorRewardsMockup : tutorAppMockup}
+              alt={isTeacherVerified ? "Learnosphere Tutor Rewards App" : "Learnosphere Tutor App"}
               width={500}
               height={400}
+              priority
               className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-5">
-              <span className="text-xs uppercase tracking-wider font-bold text-orange-400">Tutor Mobile Suite</span>
-              <p className="text-white font-semibold text-sm">Real-time classroom, doubt resolution & earnings dashboard</p>
+              <span className="text-xs uppercase tracking-wider font-bold text-orange-400">
+                {isTeacherVerified ? "Tutor Earnings & Rewards Suite" : "Educator KYC Suite"}
+              </span>
+              <p className="text-white font-semibold text-sm">
+                {isTeacherVerified
+                  ? "Real-time earnings, instant direct payouts & student booking alerts"
+                  : "Complete KYC in 2 minutes & unlock full teaching features"}
+              </p>
             </div>
           </div>
 

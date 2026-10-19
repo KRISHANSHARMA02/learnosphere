@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { chatbotApi } from "@/src/helper/chatbot_api";
-import { X, RotateCcw, Send, Sparkles } from "lucide-react";
+import { X, RotateCcw, Send, Sparkles, ShieldCheck, Mail, ArrowLeft, RefreshCw } from "lucide-react";
 
 const FOLLOWUP_OPTIONS = [
   { type: "followup", id: "more_q", label: "Another question" },
@@ -17,6 +17,14 @@ const FOLLOWUP_OPTIONS_SHORT = [
   { type: "followup", id: "more_q", label: "Another question" },
   { type: "followup", id: "diff_cat", label: "Different category" },
 ];
+
+const normalizeRole = (r) => {
+  if (!r) return "student";
+  const lower = r.toLowerCase();
+  if (lower === "tutor") return "teacher";
+  if (lower === "teacher" || lower === "parent" || lower === "student") return lower;
+  return "student";
+};
 
 const Chatbot = () => {
   const { data: session } = useSession();
@@ -34,6 +42,12 @@ const Chatbot = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [leadData, setLeadData] = useState({ name: "", email: "", number: "", role: "student" });
   
+  // OTP Verification States
+  const [leadStep, setLeadStep] = useState("form"); // "form" | "otp"
+  const [otpCode, setOtpCode] = useState("");
+  const [otpTimer, setOtpTimer] = useState(0);
+  const [otpSuccessMsg, setOtpSuccessMsg] = useState("");
+  
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -42,25 +56,58 @@ const Chatbot = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isOpen, authStage]);
+  }, [messages, isOpen, authStage, leadStep]);
+
+  // Countdown timer for OTP resend
+  useEffect(() => {
+    let interval = null;
+    if (otpTimer > 0) {
+      interval = setInterval(() => {
+        setOtpTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [otpTimer]);
+
+  const getEffectiveEmail = () => {
+    return (
+      userEmail ||
+      session?.user?.email ||
+      (typeof window !== "undefined" ? localStorage.getItem("chatbot_guest_email") : "") ||
+      ""
+    );
+  };
+
+  const getEffectiveRole = () => {
+    if (userType) return userType;
+    if (session?.user?.role) return normalizeRole(session.user.role);
+    if (typeof window !== "undefined") {
+      const r = localStorage.getItem("chatbot_guest_role");
+      if (r) return normalizeRole(r);
+    }
+    return "student";
+  };
 
   // Handle auth initialization immediately so status badge can reflect state
   useEffect(() => {
     if (session?.user?.email) {
-      setUserEmail(session.user.email);
+      const email = session.user.email;
       const isTeacher =
         session?.user?.role === "teacher" ||
+        session?.user?.role === "tutor" ||
         (typeof window !== "undefined" &&
           window.location.pathname.toLowerCase().includes("teacherdashboard"));
-      setUserType(isTeacher ? "teacher" : (session?.user?.role || "student")); 
+      const cleanRole = isTeacher ? "teacher" : normalizeRole(session?.user?.role);
+      setUserEmail(email);
+      setUserType(cleanRole);
       setAuthStage("authenticated");
       return;
     }
     
     // Check for guest in localStorage
-    const guestEmail = localStorage.getItem("chatbot_guest_email");
+    const guestEmail = typeof window !== "undefined" ? localStorage.getItem("chatbot_guest_email") : null;
     if (guestEmail) {
-      const guestRole = localStorage.getItem("chatbot_guest_role") || "student";
+      const guestRole = normalizeRole(localStorage.getItem("chatbot_guest_role"));
       setUserEmail(guestEmail);
       setUserType(guestRole);
       setAuthStage("authenticated");
@@ -70,25 +117,102 @@ const Chatbot = () => {
     setAuthStage("lead_form");
   }, [session]);
 
-  const handleLeadSubmit = async (e) => {
-    e.preventDefault();
+  // Step 1: Send OTP to guest email
+  const handleSendOtp = async (e) => {
+    if (e) e.preventDefault();
+    if (!leadData.name.trim() || !leadData.email.trim() || !leadData.number.trim()) {
+      setErrorMsg("Please fill in all details before continuing.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(leadData.email.trim())) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMsg("");
+    setOtpSuccessMsg("");
+
+    try {
+      await chatbotApi.sendOtp(leadData.email.trim());
+      setLeadStep("otp");
+      setOtpTimer(60);
+      setOtpSuccessMsg(`A 6-digit OTP has been sent to ${leadData.email.trim()}`);
+    } catch (err) {
+      console.error("OTP send error:", err);
+      setErrorMsg(err.message || "Failed to send verification code. Please check your email.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Step 1.5: Resend OTP
+  const handleResendOtp = async () => {
+    if (otpTimer > 0 || isLoading) return;
     setIsLoading(true);
     setErrorMsg("");
     try {
-      await chatbotApi.postLead({
-        name: leadData.name,
-        email: leadData.email,
-        number: leadData.number,
-        role: leadData.role
-      });
-      localStorage.setItem("chatbot_guest_email", leadData.email);
-      localStorage.setItem("chatbot_guest_role", leadData.role);
-      setUserEmail(leadData.email);
-      setUserType(leadData.role);
-      setAuthStage("authenticated");
+      await chatbotApi.sendOtp(leadData.email.trim());
+      setOtpTimer(60);
+      setOtpSuccessMsg(`New OTP sent to ${leadData.email.trim()}`);
     } catch (err) {
-      console.error(err);
-      setErrorMsg(err.message || "Failed to submit details.");
+      console.error("OTP resend error:", err);
+      setErrorMsg(err.message || "Failed to resend OTP.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Step 2: Verify OTP and save lead
+  const handleVerifyOtp = async (e) => {
+    if (e) e.preventDefault();
+    const cleanOtp = otpCode.trim();
+    if (cleanOtp.length < 6) {
+      setErrorMsg("Please enter the complete 6-digit verification code.");
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMsg("");
+
+    try {
+      // 1. Verify OTP with backend
+      await chatbotApi.verifyOtp(leadData.email.trim(), cleanOtp);
+
+      // 2. Post lead details
+      let cleanRole = normalizeRole(leadData.role);
+      const leadPayload = {
+        name: leadData.name.trim(),
+        email: leadData.email.trim(),
+        number: leadData.number.trim(),
+        role: cleanRole,
+      };
+
+      try {
+        await chatbotApi.postLead(leadPayload);
+      } catch (leadErr) {
+        console.warn("Lead registration notice:", leadErr.message);
+        if (leadErr.message && leadErr.message.includes("already exists as")) {
+          const match = leadErr.message.match(/already exists as (\w+)/i);
+          if (match && match[1]) {
+            cleanRole = normalizeRole(match[1]);
+          }
+        }
+      }
+
+      // 3. Authenticate guest in localStorage & state
+      const cleanEmail = leadData.email.trim();
+      localStorage.setItem("chatbot_guest_email", cleanEmail);
+      localStorage.setItem("chatbot_guest_role", cleanRole);
+      setUserEmail(cleanEmail);
+      setUserType(cleanRole);
+      setAuthStage("authenticated");
+      initChat(cleanEmail, cleanRole);
+    } catch (err) {
+      console.error("OTP verification error:", err);
+      setErrorMsg(err.message || "Invalid or expired OTP. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -99,18 +223,23 @@ const Chatbot = () => {
     if (authStage === "authenticated" && isOpen && !conversationId) {
       initChat();
     }
-  }, [authStage, isOpen]);
+  }, [authStage, isOpen, userEmail]);
 
-  const initChat = async () => {
+  const initChat = async (overrideEmail = null, overrideRole = null) => {
+    const email = overrideEmail || getEffectiveEmail();
+    const role = overrideRole || getEffectiveRole();
+    if (!email) return;
+
     setIsLoading(true);
     setErrorMsg("");
     try {
-      const activeRes = await chatbotApi.checkActiveConversation(userEmail);
-      if (activeRes.active) {
+      const activeRes = await chatbotApi.checkActiveConversation(email);
+      if (activeRes && activeRes.active && activeRes.conversation_id) {
+        setConversationId(activeRes.conversation_id);
         setMessages([
           {
             role: "assistant",
-            content: "",
+            content: "Welcome back! Would you like to continue our previous conversation or start fresh?",
             options: [
               { type: "conversation_choice", id: "continue", label: "Continue chat" },
               { type: "conversation_choice", id: "new", label: "Start new chat" }
@@ -121,99 +250,147 @@ const Chatbot = () => {
         return;
       }
       
-      await startFreshConversation(false);
+      await startFreshConversation(false, email, role);
     } catch (err) {
-      console.error(err);
-      setErrorMsg(err.message || "");
+      console.warn("checkActiveConversation notice:", err);
+      try {
+        await startFreshConversation(false, email, role);
+      } catch (fallbackErr) {
+        console.error("Failed to start initial conversation:", fallbackErr);
+        setErrorMsg(fallbackErr.message || "Failed to start chat.");
+      }
+    } finally {
       setIsLoading(false);
     }
   };
 
-  const startFreshConversation = async (continueExisting) => {
-      const sessionData = await chatbotApi.startConversation(userEmail, userType, continueExisting);
-      setConversationId(sessionData.conversation_id);
+  const startFreshConversation = async (continueExisting, overrideEmail = null, overrideRole = null) => {
+    const email = overrideEmail || getEffectiveEmail();
+    const role = overrideRole || getEffectiveRole();
+    if (!email) return null;
+
+    try {
+      const sessionData = await chatbotApi.startConversation(email, role, continueExisting);
+      const convId = sessionData?.conversation_id;
+      if (convId) {
+        setConversationId(convId);
+      }
       
       let formattedHistory = [];
-      if (continueExisting) {
-        const hist = await chatbotApi.getConversationHistory(userEmail, sessionData.conversation_id);
-        if (hist && hist.history && hist.history.length > 0) {
-          hist.history.forEach(item => {
-            formattedHistory.push({ role: "user", content: item.question });
-            if (item.answer) {
-              formattedHistory.push({ role: "assistant", content: item.answer });
-            }
-          });
+      if (continueExisting && convId) {
+        try {
+          const hist = await chatbotApi.getConversationHistory(email, convId);
+          if (hist && hist.history && hist.history.length > 0) {
+            hist.history.forEach(item => {
+              if (item.question) {
+                formattedHistory.push({ role: "user", content: item.question });
+              }
+              if (item.answer) {
+                formattedHistory.push({ role: "assistant", content: item.answer });
+              }
+            });
+          }
+        } catch (histErr) {
+          console.warn("Could not retrieve conversation history:", histErr);
         }
       }
 
-      const rootOptions = await chatbotApi.getOptions(userType, []);
+      const rootOptions = await chatbotApi.getOptions(role, []);
       formattedHistory.push({
         role: "assistant",
-        content: "",
+        content: continueExisting && formattedHistory.length > 0
+          ? "Here is our previous chat history. What would you like to explore next?"
+          : "Hello! How can I help you today? Please choose a topic below:",
         pathContext: [],
         options: Array.isArray(rootOptions) ? rootOptions : (rootOptions?.value || [])
       });
       
       setMessages(formattedHistory);
+      return convId;
+    } catch (err) {
+      console.error("startFreshConversation error:", err);
+      throw err;
+    }
   };
 
   const toggleChat = () => setIsOpen(!isOpen);
 
   const handleEscalateSubmit = async (text, msgIdx) => {
     if (!text.trim()) return;
+    const email = getEffectiveEmail();
+    const role = getEffectiveRole();
+
     setMessages(prev => prev.map((m, i) => i === msgIdx ? { ...m, isEscalateInput: false } : m));
     setMessages(prev => [...prev, { role: "user", content: text }]);
     setIsLoading(true);
     
     try {
-        const ticketRes = await fetch("https://ai-backend.learnosphere.in/chatbot/tickets", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            conversation_id: conversationId,
-            email: userEmail,
-            name: session?.user?.name || "",
-            role: userType,
+      let activeConvId = conversationId;
+      if (!activeConvId && email) {
+        try {
+          const sess = await chatbotApi.startConversation(email, role, false);
+          activeConvId = sess?.conversation_id;
+          if (activeConvId) setConversationId(activeConvId);
+        } catch(e) {}
+      }
+
+      let ticketData = null;
+      if (activeConvId && email) {
+        try {
+          ticketData = await chatbotApi.createTicket({
+            conversation_id: activeConvId,
+            email: email,
+            name: session?.user?.name || leadData?.name || "",
+            role: role,
             question: text,
-            category: lastQueryData?.path[0] || "",
-            subcategory: lastQueryData?.path[1] || "",
-            subsubcategory: lastQueryData?.path[2] || "",
+            category: lastQueryData?.path?.[0] || "General Support",
+            subcategory: lastQueryData?.path?.[1] || "",
+            subsubcategory: lastQueryData?.path?.[2] || "",
             source: "unresolved_textbox"
-          })
-        });
-        
-        let ticketData = null;
-        if (ticketRes.ok) ticketData = await ticketRes.json();
-        
-        const categoryEncoded = encodeURIComponent(lastQueryData?.path[0] || "Support");
-        const waUrl = ticketData 
-          ? `https://wa.me/918769600449?text=Hello,%20my%20ticket%20ID%20is%20${ticketData.ticket_id}%20regarding%20${categoryEncoded}.`
-          : `https://wa.me/918769600449?text=Hello,%20I%20have%20a%20query%20regarding%20${categoryEncoded}.`;
-        
-        setMessages(prev => [...prev, {
-          role: "assistant",
-          content: "",
-          whatsappUrl: waUrl
-        }]);
-        
+          });
+        } catch (ticketErr) {
+          console.warn("Ticket creation note:", ticketErr);
+        }
+      }
+      
+      const categoryEncoded = encodeURIComponent(lastQueryData?.path?.[0] || "Support");
+      const waUrl = ticketData?.ticket_id 
+        ? `https://wa.me/918769600449?text=Hello,%20my%20ticket%20ID%20is%20${ticketData.ticket_id}%20regarding%20${categoryEncoded}:%20${encodeURIComponent(text)}`
+        : `https://wa.me/918769600449?text=Hello,%20I%20have%20a%20query%20regarding%20${categoryEncoded}:%20${encodeURIComponent(text)}`;
+      
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: ticketData?.ticket_id
+          ? `Your ticket **#${ticketData.ticket_id}** has been registered! Our support team will assist you shortly. You can also chat with us directly on WhatsApp:`
+          : "Thank you! Our support team has received your query and will connect with you shortly. You can also chat with us directly on WhatsApp:",
+        whatsappUrl: waUrl
+      }]);
+      
+      if (activeConvId && email) {
         try {
           await chatbotApi.logConversation({
-            conversation_id: conversationId,
-            email: userEmail,
+            conversation_id: activeConvId,
+            email: email,
+            name: session?.user?.name || leadData?.name || "",
+            role: role,
+            category: lastQueryData?.path?.[0] || "",
+            subcategory: lastQueryData?.path?.[1] || "",
+            subsubcategory: lastQueryData?.path?.[2] || "",
             question: text,
-            answer: "",
+            answer: "Support ticket registered",
             source: "unresolved_textbox"
           });
         } catch(e) {}
+      }
     } catch(err) {
-        console.error("Ticket Error:", err);
+      console.error("Ticket Error:", err);
     } finally {
-        setIsLoading(false);
-        setMessages(prev => [...prev, {
-          role: "assistant",
-          content: "",
-          options: FOLLOWUP_OPTIONS_SHORT
-        }]);
+      setIsLoading(false);
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: "",
+        options: FOLLOWUP_OPTIONS_SHORT
+      }]);
     }
   };
 
@@ -232,8 +409,11 @@ const Chatbot = () => {
     setMessages(prev => [...prev, { role: "user", content: option.label }]);
     
     try {
+      const email = getEffectiveEmail();
+      const role = getEffectiveRole();
+
       if (option.type === "conversation_choice") {
-        await startFreshConversation(option.id === "continue");
+        await startFreshConversation(option.id === "continue", email, role);
       } else if (option.type === "group") {
         let newPath = [];
         if (ROOT_GROUPS.includes(option.id)) {
@@ -253,7 +433,7 @@ const Chatbot = () => {
         }
 
         setCurrentPath(newPath);
-        const nextOptions = await chatbotApi.getOptions(userType, newPath);
+        const nextOptions = await chatbotApi.getOptions(role, newPath);
         
         setMessages(prev => [...prev, {
           role: "assistant", 
@@ -263,36 +443,63 @@ const Chatbot = () => {
         }]);
       } else if (option.type === "question") {
         const queryPath = Array.isArray(msgPathContext) ? msgPathContext : currentPath;
-        const answerData = await chatbotApi.getAnswer(userType, queryPath, option.id);
+        const answerData = await chatbotApi.getAnswer(role, queryPath, option.id);
         const answerText = answerData.answer || "";
         
-        setMessages(prev => [...prev, { role: "assistant", content: answerText }]);
-        
-        // Log it
-        try {
-          await chatbotApi.logConversation({
-            conversation_id: conversationId,
-            email: userEmail,
-            question: option.id,
-            answer: answerText,
-            source: "options_menu"
-          });
-        } catch (logErr) {
-          console.error("Failed to log conversation:", logErr);
-        }
+        // Immediately render answer AND "Was your query solved?" prompt
+        setMessages(prev => [
+          ...prev,
+          { role: "assistant", content: answerText },
+          {
+            role: "assistant",
+            content: "Was your query solved?",
+            pathContext: queryPath,
+            options: [
+              { type: "resolved", id: "yes", label: "Yes, solved ✅" },
+              { type: "resolved", id: "no", label: "No, not solved ❌" },
+              { type: "followup", id: "more_q", label: "Another question" },
+              { type: "followup", id: "diff_cat", label: "Different category" },
+              { type: "followup", id: "support", label: "Talk to support 💬" }
+            ]
+          }
+        ]);
         
         setLastQueryData({ path: queryPath, question: option.id });
-        
-        setMessages(prev => [...prev, {
-          role: "assistant",
-          content: "",
-          pathContext: queryPath,
-          options: FOLLOWUP_OPTIONS
-        }]);
+        setIsLoading(false); // Stop typing indicator immediately so prompt and answer are immediately usable!
+
+        // Asynchronously ensure session & log to database without blocking UI
+        (async () => {
+          try {
+            let activeConvId = conversationId;
+            if (!activeConvId && email) {
+              const sess = await chatbotApi.startConversation(email, role, false);
+              activeConvId = sess?.conversation_id;
+              if (activeConvId) setConversationId(activeConvId);
+            }
+
+            if (activeConvId && email) {
+              await chatbotApi.logConversation({
+                conversation_id: activeConvId,
+                email: email,
+                name: session?.user?.name || leadData?.name || "",
+                role: role,
+                category: queryPath[0] || "",
+                subcategory: queryPath[1] || "",
+                subsubcategory: queryPath[2] || "",
+                question: option.id,
+                answer: answerText,
+                source: "options_menu"
+              });
+            }
+          } catch (logErr) {
+            console.error("Failed to log conversation:", logErr);
+          }
+        })();
+        return; // Return early since setIsLoading(false) has already been called
       } else if (option.type === "followup") {
         if (option.id === "more_q") {
           const queryPath = Array.isArray(msgPathContext) ? msgPathContext : currentPath;
-          const nodes = await chatbotApi.getOptions(userType, queryPath);
+          const nodes = await chatbotApi.getOptions(role, queryPath);
           setMessages(prev => [...prev, {
             role: "assistant",
             content: "",
@@ -301,7 +508,7 @@ const Chatbot = () => {
           }]);
         } else if (option.id === "diff_cat") {
           setCurrentPath([]);
-          const nodes = await chatbotApi.getOptions(userType, []);
+          const nodes = await chatbotApi.getOptions(role, []);
           setMessages(prev => [...prev, {
             role: "assistant",
             content: "",
@@ -311,61 +518,118 @@ const Chatbot = () => {
         } else if (option.id === "check_solved") {
           setMessages(prev => [...prev, {
             role: "assistant",
-            content: "",
+            content: "Was your query solved?",
             pathContext: currentPath,
             options: [
               { type: "resolved", id: "yes", label: "Yes, solved ✅" },
-              { type: "resolved", id: "no", label: "No, not solved" }
+              { type: "resolved", id: "no", label: "No, not solved ❌" }
             ]
           }]);
         } else if (option.id === "support") {
+          let activeConvId = conversationId;
+          if (!activeConvId && email) {
+            try {
+              const sess = await chatbotApi.startConversation(email, role, false);
+              activeConvId = sess?.conversation_id;
+              if (activeConvId) setConversationId(activeConvId);
+            } catch(e) {}
+          }
+
           let waUrl = `https://wa.me/918769600449`;
-          try {
-            const ticketRes = await fetch("https://ai-backend.learnosphere.in/chatbot/tickets", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                conversation_id: conversationId,
-                email: userEmail,
-                name: session?.user?.name || "",
-                role: userType,
-                question: lastQueryData?.question || "",
-                category: lastQueryData?.path[0] || "",
-                subcategory: lastQueryData?.path[1] || "",
-                subsubcategory: lastQueryData?.path[2] || "",
+          let ticketId = null;
+          if (activeConvId && email) {
+            try {
+              const ticketData = await chatbotApi.createTicket({
+                conversation_id: activeConvId,
+                email: email,
+                name: session?.user?.name || leadData?.name || "",
+                role: role,
+                question: lastQueryData?.question || "Talk to support request",
+                category: lastQueryData?.path?.[0] || "General Support",
+                subcategory: lastQueryData?.path?.[1] || "",
+                subsubcategory: lastQueryData?.path?.[2] || "",
                 source: "talk_to_support_button"
-              })
-            });
-            if (ticketRes.ok) {
-              const ticketData = await ticketRes.json();
-              const categoryEncoded = encodeURIComponent(lastQueryData?.path[0] || "Support");
-              waUrl = `https://wa.me/918769600449?text=Hello,%20my%20ticket%20ID%20is%20${ticketData.ticket_id}%20regarding%20${categoryEncoded}.`;
+              });
+              if (ticketData?.ticket_id) {
+                ticketId = ticketData.ticket_id;
+                const categoryEncoded = encodeURIComponent(lastQueryData?.path?.[0] || "Support");
+                waUrl = `https://wa.me/918769600449?text=Hello,%20my%20ticket%20ID%20is%20${ticketData.ticket_id}%20regarding%20${categoryEncoded}.`;
+              }
+            } catch(err) {
+              console.warn("Support ticket notice:", err);
             }
-          } catch(err) {}
+          }
           
           setMessages(prev => [...prev, {
             role: "assistant",
-            content: "",
+            content: ticketId 
+              ? `Support Ticket **#${ticketId}** has been created. Connect directly with our team on WhatsApp:`
+              : "Our support team is ready to assist you on WhatsApp:",
             whatsappUrl: waUrl,
             options: FOLLOWUP_OPTIONS_SHORT
           }]);
         }
       } else if (option.type === "resolved") {
+        let activeConvId = conversationId;
+        if (!activeConvId && email) {
+          try {
+            const sess = await chatbotApi.startConversation(email, role, false);
+            activeConvId = sess?.conversation_id;
+            if (activeConvId) setConversationId(activeConvId);
+          } catch(e) {}
+        }
+
         if (option.id === "yes") {
-          try { await chatbotApi.resolveConversation(conversationId, "yes"); } catch(e) {}
-          const rootOptions = await chatbotApi.getOptions(userType, []);
-          setCurrentPath([]);
+          if (activeConvId) {
+            chatbotApi.resolveConversation(activeConvId, "yes").catch(e => console.warn(e));
+          }
           setMessages(prev => [...prev, {
             role: "assistant",
-            content: "",
+            content: "Glad we could help! 😊 Feel free to explore other topics or ask another question.",
             pathContext: [],
-            options: Array.isArray(rootOptions) ? rootOptions : (rootOptions?.value || [])
+            options: [
+              { type: "followup", id: "more_q", label: "Another question" },
+              { type: "followup", id: "diff_cat", label: "Different category" },
+              { type: "followup", id: "support", label: "Talk to support 💬" }
+            ]
           }]);
         } else {
-          try { await chatbotApi.resolveConversation(conversationId, "no"); } catch(e) {}
+          // option.id === "no"
+          if (activeConvId) {
+            chatbotApi.resolveConversation(activeConvId, "no").catch(e => console.warn(e));
+          }
+
+          let ticketId = null;
+          let waUrl = "https://wa.me/918769600449";
+          if (activeConvId && email) {
+            try {
+              const ticketData = await chatbotApi.createTicket({
+                conversation_id: activeConvId,
+                email: email,
+                name: session?.user?.name || leadData?.name || "",
+                role: role,
+                question: lastQueryData?.question || "Unresolved Query",
+                category: lastQueryData?.path?.[0] || "General Support",
+                subcategory: lastQueryData?.path?.[1] || "",
+                subsubcategory: lastQueryData?.path?.[2] || "",
+                source: "unresolved_textbox"
+              });
+              if (ticketData?.ticket_id) {
+                ticketId = ticketData.ticket_id;
+                const catEncoded = encodeURIComponent(lastQueryData?.path?.[0] || "Support");
+                waUrl = `https://wa.me/918769600449?text=Hello,%20my%20ticket%20ID%20is%20${ticketId}%20regarding%20${catEncoded}.%20My%20query%20was%20not%20solved.`;
+              }
+            } catch (tErr) {
+              console.warn("Failed to create ticket on 'no':", tErr);
+            }
+          }
+
           setMessages(prev => [...prev, {
             role: "assistant",
-            content: "",
+            content: ticketId
+              ? `We apologize that your query was not resolved. A support ticket **#${ticketId}** has been created for you.\n\nYou can chat directly with our team on WhatsApp or describe your issue below:`
+              : "We apologize that your query was not resolved. You can chat directly with our support team on WhatsApp or describe your issue below:",
+            whatsappUrl: waUrl,
             isEscalateInput: true
           }]);
         }
@@ -501,81 +765,190 @@ const Chatbot = () => {
                  </div>
               )}
 
-              {/* Stage: Lead Form */}
+              {/* Stage: Lead Form (Two-step with OTP verification) */}
               {authStage === "lead_form" && (
                 <div className="p-5 sm:p-6 flex flex-col h-full bg-white relative overflow-y-auto overflow-x-hidden chatbot-scroll-area">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
-                      <Sparkles size={16} />
-                    </div>
-                    <h4 className="text-gray-800 font-bold text-base">Welcome!</h4>
-                  </div>
-                  <p className="text-gray-500 text-xs mb-4">Please provide your details to start chatting with AI.</p>
-                  {errorMsg && (
-                    <p className="text-red-600 text-xs mb-3 p-2.5 bg-red-50 rounded-xl border border-red-200">
-                      {errorMsg}
-                    </p>
+                  {leadStep === "form" ? (
+                    <>
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                          <Sparkles size={16} />
+                        </div>
+                        <h4 className="text-gray-800 font-bold text-base">Welcome!</h4>
+                      </div>
+                      <p className="text-gray-500 text-xs mb-3.5">
+                        Please provide your details. We'll send a quick verification code to your email.
+                      </p>
+
+                      {errorMsg && (
+                        <p className="text-red-600 text-xs mb-3 p-2.5 bg-red-50 rounded-xl border border-red-200">
+                          {errorMsg}
+                        </p>
+                      )}
+
+                      <form onSubmit={handleSendOtp} className="space-y-3 flex flex-col flex-1">
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 mb-1">Name</label>
+                          <input
+                            type="text"
+                            required
+                            value={leadData.name}
+                            onChange={(e) => setLeadData({ ...leadData, name: e.target.value })}
+                            className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all"
+                            placeholder="Your Full Name"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 mb-1">Email</label>
+                          <input
+                            type="email"
+                            required
+                            value={leadData.email}
+                            onChange={(e) => setLeadData({ ...leadData, email: e.target.value })}
+                            className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all"
+                            placeholder="your.email@example.com"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 mb-1">Phone Number</label>
+                          <input
+                            type="tel"
+                            required
+                            value={leadData.number}
+                            onChange={(e) => setLeadData({ ...leadData, number: e.target.value })}
+                            className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all"
+                            placeholder="Your Mobile Number"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 mb-1">I am a</label>
+                          <select
+                            required
+                            value={leadData.role}
+                            onChange={(e) => setLeadData({ ...leadData, role: e.target.value })}
+                            className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 text-gray-800 bg-white transition-all"
+                          >
+                            <option value="student">Student</option>
+                            <option value="teacher">Tutor / Teacher</option>
+                            <option value="parent">Parent</option>
+                          </select>
+                        </div>
+                        <div className="mt-auto pt-3">
+                          <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl py-2.5 text-xs sm:text-sm font-bold transition-all disabled:opacity-50 flex items-center justify-center shadow-md active:scale-[0.98]"
+                          >
+                            {isLoading ? (
+                              <div className="flex items-center gap-2">
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                <span>Sending OTP...</span>
+                              </div>
+                            ) : (
+                              "Send Verification Code →"
+                            )}
+                          </button>
+                        </div>
+                      </form>
+                    </>
+                  ) : (
+                    /* Step 2: OTP Verification */
+                    <>
+                      <div className="flex items-center justify-between mb-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setLeadStep("form");
+                            setErrorMsg("");
+                          }}
+                          className="flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+                        >
+                          <ArrowLeft size={14} /> Edit Details
+                        </button>
+                        <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Step 2 of 2</span>
+                      </div>
+
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                          <ShieldCheck size={18} />
+                        </div>
+                        <h4 className="text-gray-800 font-bold text-base">Verify Your Email</h4>
+                      </div>
+
+                      <p className="text-gray-500 text-xs mb-3 leading-relaxed">
+                        We sent a 6-digit code to <strong className="text-gray-700">{leadData.email}</strong>.
+                      </p>
+
+                      {otpSuccessMsg && (
+                        <p className="text-emerald-700 text-xs mb-3 p-2.5 bg-emerald-50 rounded-xl border border-emerald-200">
+                          {otpSuccessMsg}
+                        </p>
+                      )}
+
+                      {errorMsg && (
+                        <p className="text-red-600 text-xs mb-3 p-2.5 bg-red-50 rounded-xl border border-red-200">
+                          {errorMsg}
+                        </p>
+                      )}
+
+                      <form onSubmit={handleVerifyOtp} className="space-y-4 flex flex-col flex-1">
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                            Enter 6-Digit OTP Code
+                          </label>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                            maxLength={6}
+                            required
+                            autoFocus
+                            value={otpCode}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              setOtpCode(val);
+                            }}
+                            className="w-full border-2 border-orange-200 focus:border-orange-500 rounded-xl px-4 py-3 text-center text-xl sm:text-2xl font-black tracking-[0.4em] text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 bg-orange-50/20 transition-all placeholder:text-gray-300 placeholder:tracking-[0.2em]"
+                            placeholder="••••••"
+                          />
+                        </div>
+
+                        {/* Resend OTP Row */}
+                        <div className="flex items-center justify-between text-xs pt-1">
+                          <span className="text-gray-500">Didn't receive code?</span>
+                          {otpTimer > 0 ? (
+                            <span className="text-gray-400 font-medium">Resend in {otpTimer}s</span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={handleResendOtp}
+                              disabled={isLoading}
+                              className="text-orange-600 font-bold hover:text-orange-700 hover:underline flex items-center gap-1"
+                            >
+                              <RefreshCw size={12} className={isLoading ? "animate-spin" : ""} /> Resend OTP
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="mt-auto pt-4">
+                          <button
+                            type="submit"
+                            disabled={isLoading || otpCode.length < 6}
+                            className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl py-2.5 text-xs sm:text-sm font-bold transition-all disabled:opacity-50 flex items-center justify-center shadow-md active:scale-[0.98]"
+                          >
+                            {isLoading ? (
+                              <div className="flex items-center gap-2">
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                <span>Verifying...</span>
+                              </div>
+                            ) : (
+                              "Verify & Start Chatting"
+                            )}
+                          </button>
+                        </div>
+                      </form>
+                    </>
                   )}
-                  
-                  <form onSubmit={handleLeadSubmit} className="space-y-3.5 flex flex-col flex-1">
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Name</label>
-                      <input
-                        type="text"
-                        required
-                        value={leadData.name}
-                        onChange={e => setLeadData({...leadData, name: e.target.value})}
-                        className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all"
-                        placeholder="Your Name"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Email</label>
-                      <input
-                        type="email"
-                        required
-                        value={leadData.email}
-                        onChange={e => setLeadData({...leadData, email: e.target.value})}
-                        className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Phone Number</label>
-                      <input
-                        type="tel"
-                        required
-                        value={leadData.number}
-                        onChange={e => setLeadData({...leadData, number: e.target.value})}
-                        className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all"
-                        placeholder="Your Number"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Role</label>
-                      <select
-                        required
-                        value={leadData.role}
-                        onChange={e => setLeadData({...leadData, role: e.target.value})}
-                        className="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 text-gray-800 bg-white transition-all"
-                      >
-                        <option value="student">Student</option>
-                        <option value="tutor">Tutor</option>
-                        <option value="parent">Parent</option>
-                      </select>
-                    </div>
-                    <div className="mt-auto pt-4">
-                      <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl py-2.5 text-xs sm:text-sm font-bold transition-all disabled:opacity-50 flex items-center justify-center shadow-md active:scale-[0.98]"
-                      >
-                        {isLoading ? (
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        ) : "Start Chat"}
-                      </button>
-                    </div>
-                  </form>
                 </div>
               )}
 
