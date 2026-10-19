@@ -491,6 +491,7 @@ const Home = () => {
             badge="⚡ DAILY TEACHER MISSIONS"
             title="Unlock Daily Rewards & Student Queries on the Tutor App!"
             subtitle="Web tasks are currently all clear! Daily student questions, doubt bounties, and bonus earnings tasks are waiting for you in the Learnosphere Tutor Mobile App."
+            isVerified={profileData?.is_approved === true || profileData?.is_approved === 1}
           />
         )}
       </section>
@@ -598,6 +599,7 @@ const Home = () => {
             title="Get 10x More Student Bookings with the Learnosphere Tutor App!"
             subtitle="Thousands of students across India are searching for home tutors & live online classes right now. Switch to the mobile app for instant push notifications, 1-click booking confirmation, and direct student chats."
             badge="💰 BOOST YOUR MONTHLY REVENUE"
+            isVerified={profileData?.is_approved === true || profileData?.is_approved === 1}
           />
         )}
       </section>

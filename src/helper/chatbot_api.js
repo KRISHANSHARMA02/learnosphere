@@ -1,6 +1,7 @@
-
-
-const BASE_URL = "https://ai-backend.learnosphere.in/chatbot";
+const BASE_URL =
+  typeof window !== "undefined"
+    ? "/api/chatbot"
+    : "https://ai-backend.learnosphere.in/chatbot";
 
 const handleResponse = async (res) => {
   if (!res.ok) {
@@ -8,12 +9,13 @@ const handleResponse = async (res) => {
     let msg = errData.detail || "";
     if (Array.isArray(msg)) msg = msg.map(e => e.msg).join(", ");
     else if (typeof msg === "object") msg = JSON.stringify(msg);
-    throw new Error(msg);
+    throw new Error(msg || `Request failed with status ${res.status}`);
   }
   return res.json();
 };
 
 export const chatbotApi = {
+  BASE_URL,
   getUsers: async () => {
     return fetch(`${BASE_URL}/users`).then(handleResponse);
   },
@@ -40,7 +42,7 @@ export const chatbotApi = {
     return fetch(`${BASE_URL}/conversations/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, user_type: userType, continue_existing: continueExisting }),
+      body: JSON.stringify({ email, user_type: userType, role: userType, continue_existing: continueExisting }),
     }).then(handleResponse);
   },
   checkActiveConversation: async (email) => {
@@ -55,9 +57,8 @@ export const chatbotApi = {
     }).then(handleResponse);
   },
   getConversationHistory: async (email, conversationId = null) => {
-    const url = new URL(`${BASE_URL}/conversation/${encodeURIComponent(email)}`);
-    if (conversationId) url.searchParams.append("conversation_id", conversationId);
-    return fetch(url.toString()).then(handleResponse);
+    const query = conversationId ? `?conversation_id=${encodeURIComponent(conversationId)}` : "";
+    return fetch(`${BASE_URL}/conversation/${encodeURIComponent(email)}${query}`).then(handleResponse);
   },
   resolveConversation: async (conversationId, resolved = "yes") => {
     return fetch(`${BASE_URL}/conversation/resolve`, {
@@ -85,6 +86,13 @@ export const chatbotApi = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+    }).then(handleResponse);
+  },
+  createTicket: async (ticketData) => {
+    return fetch(`${BASE_URL}/tickets`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(ticketData),
     }).then(handleResponse);
   }
 };
