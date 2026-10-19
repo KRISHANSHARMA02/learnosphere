@@ -37,6 +37,7 @@ const Profileteacher = () => {
   const [videoPreview, setVideoPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [message, setMessage] = useState(" ");
 
   // Video Select Function
   const handleVideoChange = (e) => {
