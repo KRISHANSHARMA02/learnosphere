@@ -1,3 +1,4 @@
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import axios from "axios";
 import { trackEvent } from "../lib/eventTracker";
 
@@ -25,7 +26,7 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
   try {
     // STEP 1: Create Razorpay Order from backend
     const orderRes = await axios.post(
-      "https://mobileapp.backend.learnosphere.in/api/route/createOrder",
+      `${APP_BACKEND_URL}/api/route/createOrder`,
       {
         amount: finalAmount,
         userId: user.userId,
@@ -49,7 +50,7 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
           const userId = user.userId;
 
           const verifyRes = await axios.post(
-            "https://mobileapp.backend.learnosphere.in/api/route/enrollStudentInCourse",
+            `${APP_BACKEND_URL}/api/route/enrollStudentInCourse`,
             {
               userId,
               courseId,

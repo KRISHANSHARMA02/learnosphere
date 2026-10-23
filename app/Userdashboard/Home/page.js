@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
@@ -71,7 +72,7 @@ const HomePage = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setStudentName(response.data.studentName || response.data.name || "");
@@ -94,7 +95,7 @@ const HomePage = () => {
 
       try {
         const response = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getVideosForStudent",
+          `${WEB_BACKEND_URL}/api/route/getVideosForStudent`,
           { params: { grade: gradeToFetch } }
         );
         setVideos(response.data.videos || []);
@@ -119,7 +120,7 @@ const HomePage = () => {
             params.stream = stream;
           }
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/getSeletedSubject`,
+            `${WEB_BACKEND_URL}/api/route/getSeletedSubject`,
             { params }
           );
           setPaginatedSubjects(response.data.selectedSubjects);
@@ -137,7 +138,7 @@ const HomePage = () => {
   const handleNavigation = async (subject) => {
     try {
       const response = await axios.get(
-        `https://learnospherebackend.learnosphere.in/api/route/fetchBooks`,
+        `${WEB_BACKEND_URL}/api/route/fetchBooks`,
         { params: { grade, selectedSubject: subject.selectedSubject } }
       );
   
@@ -172,7 +173,7 @@ const HomePage = () => {
         setError(null); // Clear any previous error messages
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/get-learning-activity-status-recent",
+            `${WEB_BACKEND_URL}/api/route/get-learning-activity-status-recent`,
             { userId, grade } // Sending data in the request body
           );
 
@@ -184,8 +185,11 @@ const HomePage = () => {
             setError("No activities found."); // Custom message for no activities
           }
         } catch (error) {
-          // Log the error silently or handle it without showing a message
-          console.error("Error fetching activity data:", error);
+          if (error.response?.status === 404) {
+            setActivity([]);
+          } else {
+            console.error("Error fetching activity data:", error);
+          }
         } finally {
           setLoading(false);
         }
@@ -196,10 +200,11 @@ const HomePage = () => {
   }, [userId, grade]);
 
   useEffect(() => {
+    if (!userId || !grade) return;
     const fetchBookmarkedVideos = async () => {
       try {
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/getVideoBookmark",
+          `${WEB_BACKEND_URL}/api/route/getVideoBookmark`,
           {
             userId,
             grade: grade,
@@ -217,7 +222,11 @@ const HomePage = () => {
           setBookmarkedVideos(bookmarkedMap); // Set bookmarks in state
         }
       } catch (error) {
-        console.error("Error fetching bookmarked files:", error);
+        if (error.response?.status === 404) {
+          setBookmarkedVideos({});
+        } else {
+          console.error("Error fetching bookmarked files:", error);
+        }
       }
     };
 
@@ -231,7 +240,7 @@ const HomePage = () => {
       if (isBookmarked) {
         // If already bookmarked, send a request to remove it
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/removevideoBookmark",
+          `${WEB_BACKEND_URL}/api/route/removevideoBookmark`,
           {
             userId,
             videoId: video.id,
@@ -248,7 +257,7 @@ const HomePage = () => {
       } else {
         // If not bookmarked, send a request to add it
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/videobookMark",
+          `${WEB_BACKEND_URL}/api/route/videobookMark`,
           {
             grade,
             videoId: video.id,

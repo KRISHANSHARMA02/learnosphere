@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -61,14 +62,14 @@ const StudentLoginActivity = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const studentResponse = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
 
           const registrationNumber = studentResponse.data.registrationNumber;
 
           const loginDataResponse = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/show-login-activity-student",
+            `${WEB_BACKEND_URL}/api/route/show-login-activity-student`,
             { registrationNumber }
           );
 

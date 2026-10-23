@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaChevronLeft } from 'react-icons/fa';
@@ -56,7 +57,7 @@ export default function DeleteUserPage() {
       };
 
       // 1. Delete API Call
-      const response = await axios.post( "https://learnospherebackend.learnosphere.in/api/route/deleteStudentAccount", payload);
+      const response = await axios.post( `${WEB_BACKEND_URL}/api/route/deleteStudentAccount`, payload);
      
 
       if (response.data.success || response.status === 200) {
@@ -66,7 +67,7 @@ export default function DeleteUserPage() {
 
         // 3. Try to record logout activity (Fire and Forget)
         try {
-          await axios.post("https://learnospherebackend.learnosphere.in/api/route/record-logout-activity-student", {
+          await axios.post(`${WEB_BACKEND_URL}/api/route/record-logout-activity-student`, {
             studentEmail: session.user.email 
           });
         } catch (activityError) {

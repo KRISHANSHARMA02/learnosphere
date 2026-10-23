@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSession } from "next-auth/react";
@@ -38,7 +39,7 @@ const DPQs = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -57,7 +58,7 @@ useEffect(() => {
   
       try {
         const response = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/getDPQsChapterwiseContent", // ✅ No query params in URL
+          `${WEB_BACKEND_URL}/api/route/getDPQsChapterwiseContent`, // ✅ No query params in URL
           {
             method: "POST", // ✅ Changed to POST
             headers: {

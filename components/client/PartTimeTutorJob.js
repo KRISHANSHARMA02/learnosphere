@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
 import Navbar from "@/components/Navbar";
@@ -43,7 +44,7 @@ const PartTime = () => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries"
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`
         );
         setCountries(res.data);
       } catch (err) {
@@ -67,7 +68,7 @@ const PartTime = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/teachercontact",
+        `${WEB_BACKEND_URL}/api/route/teachercontact`,
         formData,
         {
           headers: {

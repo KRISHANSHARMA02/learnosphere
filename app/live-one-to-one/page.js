@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import HomeLearnO from "@/public/HomeLearnO.png";
@@ -185,7 +186,7 @@ export default function OnboardingForm() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const res = await axios.get("https://learnospherebackend.learnosphere.in/api/route/getAllCountries");
+        const res = await axios.get(`${WEB_BACKEND_URL}/api/route/getAllCountries`);
         setCountries(res.data);
       } catch (err) {
         console.error("Error fetching countries:", err);
@@ -224,7 +225,7 @@ export default function OnboardingForm() {
 
 
     try {
-      const res = await axios.post("https://learnospherebackend.learnosphere.in/api/route/liveForm", payload);
+      const res = await axios.post(`${WEB_BACKEND_URL}/api/route/liveForm`, payload);
 
       if (res.status === 200) {
         trackEvent("LIVE_ONE_TO_ONE_FORM_SUBMITTED", {

@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { useState, useEffect, Suspense } from "react";
 import {
@@ -63,7 +64,7 @@ const WalletPageContent = () => {
         if (userId) {
           // 3. Get Wallet Summary dynamically using the studentIso
           const summaryRes = await fetch(
-            `https://mobileapp.backend.learnosphere.in/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`
+            `${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`
           );
           const summary = await summaryRes.json();
 
@@ -77,7 +78,7 @@ const WalletPageContent = () => {
 
           // 4. Get Transaction History
           const historyRes = await fetch(
-            `https://mobileapp.backend.learnosphere.in/api/route/get_wallet_history/${userId}`
+            `${APP_BACKEND_URL}/api/route/get_wallet_history/${userId}`
           );
           const historyData = await historyRes.json();
 

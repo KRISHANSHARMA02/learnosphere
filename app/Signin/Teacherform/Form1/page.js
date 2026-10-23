@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { FormContext } from "@/src/context/FormContext";
 import axios from "axios";
@@ -183,7 +184,7 @@ const Form1 = ({ onContinue }) => {
     const fetchInputValues = async () => {
       try {
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/getTeacherForm1Data?email=${formData.email}`
+          `${WEB_BACKEND_URL}/api/route/getTeacherForm1Data?email=${formData.email}`
         );
 
         const data = response.data;
@@ -215,7 +216,7 @@ const Form1 = ({ onContinue }) => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/get_all_countries_data"
+          `${WEB_BACKEND_URL}/api/route/get_all_countries_data`
         );
         const data = response.data.data || [];
         setCountries(data);
@@ -261,7 +262,7 @@ const Form1 = ({ onContinue }) => {
     const fetchLocations = async () => {
       try {
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/get_state_city_by_country_code/${formData.countryIso}`
+          `${WEB_BACKEND_URL}/api/route/get_state_city_by_country_code/${formData.countryIso}`
         );
         const rawData = response.data.data || [];
 
@@ -300,7 +301,7 @@ const Form1 = ({ onContinue }) => {
       try {
         // Check duplicate
         const checkResponse = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/checkteachersdata",
+          `${WEB_BACKEND_URL}/api/route/checkteachersdata`,
           {
             email: formData.email,
             mobilenumber: formData.mobilenumber,
@@ -312,7 +313,7 @@ const Form1 = ({ onContinue }) => {
           // Insert Data
           try {
             const insertResponse = await axios.post(
-              "https://learnospherebackend.learnosphere.in/api/route/insertTeacherSignupData",
+              `${WEB_BACKEND_URL}/api/route/insertTeacherSignupData`,
               {
                 name: formData.name,
                 email: formData.email,

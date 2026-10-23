@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaChevronRight } from "react-icons/fa";
@@ -29,7 +30,7 @@ const TeacherBookingDetails = ({ params }) => {
     const fetchBookingDetails = async () => {
       try {
         const response = await axios.get(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_session_details_for_teacher_app/${sessionId}`
+          `${APP_BACKEND_URL}/api/session/v1/get_session_details_for_teacher_app/${sessionId}`
         );
         if (response.data.success) {
           setBookingData(response.data.booking);
@@ -49,7 +50,7 @@ const TeacherBookingDetails = ({ params }) => {
   const handleAcceptBooking = async () => {
     setIsAcceptLoading(true);
     try {
-      const response = await axios.post("https://mobileapp.backend.learnosphere.in/api/session/v1/accept_booking_teacher", {
+      const response = await axios.post(`${APP_BACKEND_URL}/api/session/v1/accept_booking_teacher`, {
         bookingId: sessionId
       });
       if (response.data.success) {
@@ -68,7 +69,7 @@ const TeacherBookingDetails = ({ params }) => {
   const handleRejectBooking = async () => {
     setIsRejectLoading(true);
     try {
-      const response = await axios.post("https://mobileapp.backend.learnosphere.in/api/session/v1/reject_booking_by_teacher", {
+      const response = await axios.post(`${APP_BACKEND_URL}/api/session/v1/reject_booking_by_teacher`, {
         bookingId: sessionId
       });
       if (response.data.success) {

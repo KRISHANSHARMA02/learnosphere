@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
@@ -128,7 +129,7 @@ export default function ChildrenSlug({ course }) {
 
     try {
       const res = await axios.post(
-        "https://mobileapp.backend.learnosphere.in/api/route/getStudentUserIdByEmail",
+        `${APP_BACKEND_URL}/api/route/getStudentUserIdByEmail`,
         {
           email: session.user.email,
           courseId: courseInfo.id, // send courseId

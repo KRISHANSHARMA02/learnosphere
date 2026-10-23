@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import Swal from "sweetalert2";
@@ -28,7 +29,7 @@ const Videodata = () => {
 
       try {
         const response = await fetch(
-          `https://learnospherebackend.learnosphere.in/api/route/getTeacherVideosForDashboard${queryString}`,
+          `${WEB_BACKEND_URL}/api/route/getTeacherVideosForDashboard${queryString}`,
           {
             method: "GET",
             headers: {
@@ -66,7 +67,7 @@ const Videodata = () => {
 
     try {
       const response = await fetch(
-        `https://learnospherebackend.learnosphere.in/api/route/deleteTeacherVideo/${videoId}`,
+        `${WEB_BACKEND_URL}/api/route/deleteTeacherVideo/${videoId}`,
         {
           method: "DELETE",
           headers: {

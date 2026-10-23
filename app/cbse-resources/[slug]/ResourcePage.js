@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
@@ -45,7 +46,7 @@ export default function ResourcePage({ slug }) {
     setActivePdfId(index);
     if (!pdfUrls[index]) {
       try {
-        const res = await fetch(`https://learnospherebackend.learnosphere.in/api/route/cbsepreviouspaperspdf/${pypSlug}`);
+        const res = await fetch(`${WEB_BACKEND_URL}/api/route/cbsepreviouspaperspdf/${pypSlug}`);
         const json = await res.json();
         if (json?.data?.[0]?.pdfUrl) {
           setPdfUrls(prev => ({ ...prev, [index]: json.data[0].pdfUrl }));

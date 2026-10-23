@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"; // Assuming you're using next-auth for authentication
@@ -22,7 +23,7 @@ const Feedback = ({ onClose }) => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setProfileData(response.data);
@@ -50,7 +51,7 @@ const Feedback = ({ onClose }) => {
   
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/studentfeedbackform",
+        `${WEB_BACKEND_URL}/api/route/studentfeedbackform`,
         formData,
         {
           headers: {

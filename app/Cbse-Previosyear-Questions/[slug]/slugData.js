@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
@@ -69,7 +70,7 @@ const DataTable = ({ data: serverData }) => {
     if (!pdfUrls[dataItemId]) {
       try {
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/cbsepreviouspaperspdf/${generatedSlug}`,
+          `${WEB_BACKEND_URL}/api/route/cbsepreviouspaperspdf/${generatedSlug}`,
         );
         if (
           response.data &&
@@ -115,7 +116,7 @@ const DataTable = ({ data: serverData }) => {
 
         // const response = await axios.get(`http://localhost:4000/api/route/CbsePreviousyearQuestions/${slug}`);
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/CbsePreviousyearQuestions/${slug}`,
+          `${WEB_BACKEND_URL}/api/route/CbsePreviousyearQuestions/${slug}`,
         );
         console.log("API Response:", response.data);
 

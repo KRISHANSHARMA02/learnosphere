@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { useState, Suspense, useEffect, useRef } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Gift, AlertCircle } from 'lucide-react';
@@ -42,7 +43,7 @@ const AddMoneyContent = () => {
         const studentIso = userData?.user?.countryIso || "IN";
 
         if (userId) {
-            const summaryRes = await fetch(`https://mobileapp.backend.learnosphere.in/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
+            const summaryRes = await fetch(`${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
             const summary = await summaryRes.json();
 
             if (summary.minTopupAmount) setMinAmount(summary.minTopupAmount);

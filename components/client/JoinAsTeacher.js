@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { trackEvent } from "@/src/lib/eventTracker";
@@ -71,7 +72,7 @@ const JoinAsTeacher = () => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries"
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`
         );
         setCountries(res.data);
       } catch (err) {
@@ -96,7 +97,7 @@ const JoinAsTeacher = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/teachercontact",
+        `${WEB_BACKEND_URL}/api/route/teachercontact`,
         formData,
         {
           headers: {

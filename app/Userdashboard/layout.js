@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { trackEvent } from "@/src/lib/eventTracker";
 import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
@@ -125,7 +126,7 @@ export default function Layout({ children }) {
 
           // Step 1: Check if login activity is already recorded in the backend
           const activityCheckResponse = await fetch(
-            "https://learnospherebackend.learnosphere.in/api/route/check-login-activity-google",
+            `${WEB_BACKEND_URL}/api/route/check-login-activity-google`,
             {
               method: "POST",
               headers: {
@@ -149,7 +150,7 @@ export default function Layout({ children }) {
 
           // Step 2: If login activity is not recorded, send login details
           const backendResponse = await fetch(
-            "https://learnospherebackend.learnosphere.in/api/route/student-login-activity-google",
+            `${WEB_BACKEND_URL}/api/route/student-login-activity-google`,
             {
               method: "POST",
               headers: {
@@ -213,36 +214,20 @@ export default function Layout({ children }) {
 
   const handleLogout = async () => {
     try {
-      const studentEmail = session?.user?.email; // Extract email from session
-      // Send the student ID to the backend API
-      const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/record-logout-activity-student",
-        {
-          studentEmail, // Send the extracted email
+      const studentEmail = session?.user?.email;
+      if (studentEmail) {
+        try {
+          await axios.post(
+            `${WEB_BACKEND_URL}/api/route/record-logout-activity-student`,
+            { studentEmail }
+          );
+        } catch (err) {
+          console.warn("Logout recording warning:", err.message);
         }
-      );
-
-      if (response.status === 200) {
-      } else {
-          // Sign out from the user session
-      await signOut({ redirect: false });
-
-      // Redirect to the login page or home
-      window.location.href = "/Student";   //router.push("/Student");
       }
-
-      // Sign out from the user session
+    } finally {
       await signOut({ redirect: false });
-
-      // Redirect to the login page or home
-       window.location.href = "/Student"; 
-      
-    } catch (error) {
-      console.error(
-        "Error during logout:",
-        error.response?.data?.errors || error.message
-      );
-      alert("An error occurred while logging out. Please try again.");
+      window.location.href = "/Student";
     }
   };
 
@@ -257,6 +242,9 @@ export default function Layout({ children }) {
     name: profileData?.studentName || session?.user?.name || "Student",
     src: session?.user?.image || profileimg,
   };
+
+  // By default every student must be approved
+  const isApproved = profileData ? profileData.is_approved !== false : true;
 
   const question1Click = () => {
     handleNavigation("question1", "/Userdashboard/Askquestion");
@@ -277,14 +265,15 @@ export default function Layout({ children }) {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setProfileData(response.data);
                   setIsLoading(false); // Stop loader after fetch finishes
         } catch (error) {
           console.error("Error fetching profile data:", error);
-          router.push("/StudentForm");
+          setIsLoading(false);
+          window.location.href = "/StudentForm";
         }
       }
     };
@@ -314,7 +303,7 @@ export default function Layout({ children }) {
 
   const handleNavigation = (page, route) => {
     setActivePage(page);
-    if (profileData?.is_approved) {
+    if (isApproved) {
       router.push(route);
     }
   };
@@ -386,7 +375,7 @@ export default function Layout({ children }) {
             {/* Home Button */}
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "home"
                     ? "bg-orange-500 text-white"
                     : "hover:bg-orange-500 hover:text-white"
@@ -396,20 +385,20 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHoveredProfile(true)}
               onMouseLeave={() => setIsHoveredProfile(false)}
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <IoHomeOutline size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" />
               )}
               <button
                 className={`flex pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
                 Home
               </button>
 
-              {!profileData?.is_approved && isHoveredProfile && (
+              {!isApproved && isHoveredProfile && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the home
                 </div>
@@ -418,30 +407,30 @@ export default function Layout({ children }) {
 
              <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "courses"
                     ? "bg-orange-500 text-white"
                     : "hover:bg-orange-500 hover:text-white"
                   : "bg-gray-200"
               }`}
-              onClick={() => handleNavigation("courses", `/Userdashboard/MyCourses?token=${profileData?.registrationNumber}&grade=${profileData?.grade}`)}
+              onClick={() => handleNavigation("courses", `/Userdashboard/MyCourses?token=${profileData?.registrationNumber}&grade=${profileData?.grade}&stream=${profileData?.stream || ""}`)}
               onMouseEnter={() => setIsHoveredCourses(true)}
               onMouseLeave={() => setIsHoveredCourses(false)}
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <FaCrown size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" />
               )}
               <button
                 className={`flex pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
                 My Courses
               </button>
 
-              {!profileData?.is_approved && isHoveredProfile && (
+              {!isApproved && isHoveredProfile && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the courses
                 </div>
@@ -451,7 +440,7 @@ export default function Layout({ children }) {
             {/* Your Bookings Button */}
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "student"
                     ? "bg-orange-500 text-white"
                     : "hover:bg-orange-500 hover:text-white"
@@ -463,20 +452,20 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHoveredLearnosphereClass(true)}
               onMouseLeave={() => setIsHoveredLearnosphereClass(false)}
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <SiGoogleclassroom size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" />
               )}
               <button
                 className={`pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
                 My Bookings
               </button>
 
-              {!profileData?.is_approved && isHoveredLearnosphereClass && (
+              {!isApproved && isHoveredLearnosphereClass && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the Bookings
                 </div>
@@ -486,14 +475,14 @@ export default function Layout({ children }) {
             {/* Study Material */}
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "studyMaterial"
                     ? "bg-orange-500 text-white"
                     : "hover:bg-orange-500 hover:text-white"
                   : "bg-gray-200"
               }`}
               onClick={() => {
-                if (profileData?.is_approved) {
+                if (isApproved) {
                   handleNavigation(
                     "studyMaterial",
                     "/Userdashboard/chaptertest"
@@ -504,21 +493,21 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHoveredStudyMaterial(true)}
               onMouseLeave={() => setIsHoveredStudyMaterial(false)}
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <FaBookOpen size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" />
               )}
               <button
                 className={`pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
                 Study Material
               </button>
 
               {/* Tooltip when locked */}
-              {!profileData?.is_approved && isHoveredStudyMaterial && (
+              {!isApproved && isHoveredStudyMaterial && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the Study Material
                 </div>
@@ -526,7 +515,7 @@ export default function Layout({ children }) {
             </div>
 
             {/* Dropdown Menu */}
-            {isDropdownOpen && profileData?.is_approved && (
+            {isDropdownOpen && isApproved && (
               <div className="flex flex-col gap-2 font-semibold ml-2 mt-2">
                 <div
                   className={`text-[.9em] pl-4 mr-4 flex items-center rounded-md cursor-pointer ${
@@ -586,7 +575,7 @@ export default function Layout({ children }) {
                       ? "bg-orange-500 text-white"
                       : "hover:bg-orange-500 hover:text-white"
                   }`}
-                  onClick={profileData?.is_approved ? question1Click : null} // Disable click if not approved
+                  onClick={isApproved ? question1Click : null} // Disable click if not approved
                 >
                   <TbUserQuestion size={20} />
                   <button className="pl-2 py-1 font-semibold">
@@ -598,7 +587,7 @@ export default function Layout({ children }) {
 
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "teacher"
                     ? "bg-orange-500 text-white" // Keep orange background when active
                     : "hover:bg-orange-500 hover:text-white" // Only on hover if not active
@@ -610,23 +599,23 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHovered(true)} // Show message on hover
               onMouseLeave={() => setIsHovered(false)} // Hide message on hover out
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <GiTeacher size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" /> // Show lock icon if not approved
               )}
               <button
                 className={`pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
-                {profileData?.is_approved
+                {isApproved
                   ? "Available Teacher"
                   : "Available Teacher"}
               </button>
 
               {/* Tooltip message when locked and hovered */}
-              {!profileData?.is_approved && isHovered && (
+              {!isApproved && isHovered && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now for unlock the teachers
                 </div>
@@ -635,7 +624,7 @@ export default function Layout({ children }) {
 
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "quiz"
                     ? "bg-orange-500 text-white" // Keep orange background when active
                     : "hover:bg-orange-500 hover:text-white" // Only on hover if not active
@@ -645,21 +634,21 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHoveredQuiz(true)} // Show message on hover
               onMouseLeave={() => setIsHoveredQuiz(false)} // Hide message on hover out
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <MdQuiz size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" /> // Show lock icon if not approved
               )}
               <button
                 className={`pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
-                {profileData?.is_approved ? "Quizzes" : "Quizzes"}
+                {isApproved ? "Quizzes" : "Quizzes"}
               </button>
 
               {/* Tooltip message when locked and hovered */}
-              {!profileData?.is_approved && isHoveredQuiz && (
+              {!isApproved && isHoveredQuiz && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the quizzes
                 </div>
@@ -669,7 +658,7 @@ export default function Layout({ children }) {
             {/* 🚀 My Wallet Button (Moved up) */}
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "wallet"
                     ? "bg-orange-500 text-white"
                     : "hover:bg-orange-500 hover:text-white"
@@ -681,21 +670,21 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHoveredWallet(true)}
               onMouseLeave={() => setIsHoveredWallet(false)}
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <FaWallet size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" />
               )}
               <button
                 className={`pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
                 My Wallet
               </button>
 
               {/* Tooltip message when locked */}
-              {!profileData?.is_approved && isHoveredWallet && (
+              {!isApproved && isHoveredWallet && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the Wallet
                 </div>
@@ -705,7 +694,7 @@ export default function Layout({ children }) {
             {/* 🚀 Bookmarks Button (Moved down) */}
             <div
               className={`mt-3 p-2 mr-4 flex items-center rounded-md cursor-pointer ${
-                profileData?.is_approved
+                isApproved
                   ? activePage === "bookmark"
                     ? "bg-orange-500 text-white" // Keep orange background when active
                     : "hover:bg-orange-500 hover:text-white" // Only on hover if not active
@@ -717,21 +706,21 @@ export default function Layout({ children }) {
               onMouseEnter={() => setIsHoveredBookmark(true)} // Show message on hover
               onMouseLeave={() => setIsHoveredBookmark(false)} // Hide message on hover out
             >
-              {profileData?.is_approved ? (
+              {isApproved ? (
                 <FaRegBookmark size={20} />
               ) : (
                 <FiLock size={20} className="text-red-500" /> // Show lock icon if not approved
               )}
               <button
                 className={`pl-2 font-semibold ${
-                  !profileData?.is_approved ? "text-gray-500" : ""
+                  !isApproved ? "text-gray-500" : ""
                 }`}
               >
-                {profileData?.is_approved ? "Bookmarks" : "Bookmarks"}
+                {isApproved ? "Bookmarks" : "Bookmarks"}
               </button>
 
               {/* Tooltip message when locked and hovered */}
-              {!profileData?.is_approved && isHoveredBookmark && (
+              {!isApproved && isHoveredBookmark && (
                 <div className="absolute mt-12 bg-gray-700 text-white text-xs rounded-md p-2 z-10 shadow-lg">
                   Pay now to unlock the Bookmark feature
                 </div>
@@ -790,7 +779,7 @@ export default function Layout({ children }) {
                   >
                     <div
                       className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 overflow-hidden flex items-center justify-center bg-orange-50 ${
-                        profileData?.is_approved
+                        isApproved
                           ? "border-emerald-500 shadow-sm"
                           : "border-orange-500 shadow-sm"
                       }`}
@@ -805,7 +794,7 @@ export default function Layout({ children }) {
                     </div>
 
                     {/* Status Badge */}
-                    {profileData?.is_approved ? (
+                    {isApproved ? (
                       <div className="absolute -bottom-0.5 -right-0.5 bg-white text-emerald-500 rounded-full p-0.5 shadow-sm border border-gray-100">
                         <MdVerified size={14} />
                       </div>

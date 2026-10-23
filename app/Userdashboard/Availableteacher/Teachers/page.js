@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import React, { useState, useEffect, Suspense } from "react";
 import {
@@ -84,7 +85,7 @@ const BookingFormContent = () => {
 
       try {
         const response = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+          `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
           {
             method: "POST",
             headers: {

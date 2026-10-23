@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -39,8 +40,8 @@ export default function SubExamPage({ params }) {
     // Dynamic URL Logic:
     // Agar 'study-notes' hai, toh main exam (slug) ki details laao
     const fetchUrl = isSpecialTab
-      ? `https://learnospherebackend.learnosphere.in/api/route/get-exam-details/${slug}`
-      : `https://learnospherebackend.learnosphere.in/api/route/get-sub-details/${slug}/${subslug}`;
+      ? `${WEB_BACKEND_URL}/api/route/get-exam-details/${slug}`
+      : `${WEB_BACKEND_URL}/api/route/get-sub-details/${slug}/${subslug}`;
 
     fetch(fetchUrl)
       .then((res) => res.json())

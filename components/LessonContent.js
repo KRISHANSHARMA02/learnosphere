@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation"; // 🚀 ADDED THIS
@@ -127,7 +128,7 @@ export default function LessonsContent({
   const [reviewsList, setReviewsList] = useState([]);
 
   const getBackendUrl = () => {
-    return "https://learnospherebackend.learnosphere.in" ;
+    return WEB_BACKEND_URL ;
   };
 
   useEffect(() => {

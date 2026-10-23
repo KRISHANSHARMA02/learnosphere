@@ -1,4 +1,5 @@
 'use client';
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from '@/components/Navbar';
 import axios from 'axios';
 import Image from 'next/image';
@@ -27,7 +28,7 @@ const DataTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://learnospherebackend.learnosphere.in/api/route/formulapage');
+        const response = await axios.get(`${WEB_BACKEND_URL}/api/route/formulapage`);
         setData(response.data);
       } catch (err) {
         console.error('Error Fetching Data:', err.message);

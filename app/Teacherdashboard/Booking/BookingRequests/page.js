@@ -1,4 +1,6 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { useState, useEffect } from "react";
 import { FiCalendar } from "react-icons/fi";
 import { MdLibraryBooks } from "react-icons/md";
@@ -51,7 +53,7 @@ const BookingRequest = () => {
 
       try {
         const profileResponse = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
+          `${WEB_BACKEND_URL}/api/route/getTeacherByEmail`,
           { gmail: session.user.email }
         );
 
@@ -64,7 +66,7 @@ const BookingRequest = () => {
         }
 
         const response = await axios.get(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_teacher_bookings?teacherId=${dynamicTeacherId}`
+          `${APP_BACKEND_URL}/api/session/v1/get_teacher_bookings?teacherId=${dynamicTeacherId}`
         );
 
         if (response.data.success) {

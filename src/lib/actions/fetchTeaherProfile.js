@@ -1,7 +1,8 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 export async function fetchTeacherProfileData(teacherId, studentIso) {
   try {
     const res = await fetch(
-      `https://learnospherebackend.learnosphere.in/api/route/get_tutor_public_profile?tutorId=${teacherId}&studentIso=${studentIso}`,
+      `${WEB_BACKEND_URL}/api/route/get_tutor_public_profile?tutorId=${teacherId}&studentIso=${studentIso}`,
       {
         cache: "no-store",
       },
@@ -44,7 +45,7 @@ export async function fetchSimilarTeachers(teacher, teacherId) {
     // --- PRIORITY 1: Fetch by CITY ---
     if (teacher?.city) {
       const cityRes = await fetch(
-        `https://learnospherebackend.learnosphere.in/api/route/get_tutor_list_for_find_tutor?city=${teacher.city}`,
+        `${WEB_BACKEND_URL}/api/route/get_tutor_list_for_find_tutor?city=${teacher.city}`,
         {
           cache: "no-store",
         },
@@ -81,7 +82,7 @@ export async function fetchSimilarTeachers(teacher, teacherId) {
     // --- PRIORITY 2: Fetch RANDOM ---
     if (finalTeachers.length < limit) {
       const randomRes = await fetch(
-        `https://learnospherebackend.learnosphere.in/api/route/get_tutor_list_for_find_tutor`,
+        `${WEB_BACKEND_URL}/api/route/get_tutor_list_for_find_tutor`,
         {
           cache: "no-store",
         },

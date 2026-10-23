@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -19,7 +20,7 @@ const Pdfdata = () => {
       setLoading(true);
       try {
         let url =
-          "https://learnospherebackend.learnosphere.in/api/route/getteacherdatacontroller";
+          `${WEB_BACKEND_URL}/api/route/getteacherdatacontroller`;
         url += `?class=${selectedFilter}`;
 
         if (session?.user?.email) {
@@ -57,7 +58,7 @@ const Pdfdata = () => {
     if (result.isConfirmed) {
       try {
         await axios.delete(
-          `https://learnospherebackend.learnosphere.in/api/route/deleteTeacherData/${id}/${selectedClass}`
+          `${WEB_BACKEND_URL}/api/route/deleteTeacherData/${id}/${selectedClass}`
         );
         setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
         Swal.fire({

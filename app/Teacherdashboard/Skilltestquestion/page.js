@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState, useCallback } from "react";
@@ -19,7 +20,7 @@ const SkillTestQuestion = () => {
     const fetchTeacherQuestions = async () => {
       try {
         const response = await fetch(
-          `https://learnospherebackend.learnosphere.in/api/route/teacherquestions`
+          `${WEB_BACKEND_URL}/api/route/teacherquestions`
         );
         if (!response.ok) throw new Error("Failed to fetch questions");
         const data = await response.json();

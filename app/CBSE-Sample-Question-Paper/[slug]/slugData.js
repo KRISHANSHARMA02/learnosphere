@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -72,8 +73,8 @@ const DataTable = ({ data }) => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const res10 = await fetch(((typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : 'https://learnospherebackend.learnosphere.in') + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
-        const res12 = await fetch(((typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : 'https://learnospherebackend.learnosphere.in') + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
+        const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
+        const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
         const list = [...(res10.data || []), ...(res12.data || [])];
         setCbsePapersList(list);
       } catch (err) {
@@ -138,7 +139,7 @@ const DataTable = ({ data }) => {
   //             setLoading(true);
   //             setError('');
 
-  //             const response = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/samplepaperspdf/${slug}`);
+  //             const response = await axios.get(`${WEB_BACKEND_URL}/api/route/samplepaperspdf/${slug}`);
   //             console.log('API Response:', response.data);
   //             console.log('Slug from use:', slug);
 

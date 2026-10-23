@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,29 +17,13 @@ const DDPContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const getBackendUrl = () => {
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      if (
-        hostname === "localhost" ||
-        hostname === "127.0.0.1" ||
-        hostname.startsWith("192.168.") ||
-        hostname.startsWith("172.") ||
-        hostname.startsWith("10.")
-      ) {
-        return "http://localhost:5000";
-      }
-    }
-    return "https://learnospherebackend.learnosphere.in";
-  };
-
   // Fetch student grade based on authenticated email
   useEffect(() => {
     const fetchStudentProfile = async () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            `${getBackendUrl()}/api/route/getStudentByEmail`,
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           if (response.data && response.data.grade) {
@@ -71,7 +56,7 @@ const DDPContent = () => {
         params.subject = subject;
       }
       const response = await axios.get(
-        `${getBackendUrl()}/api/ddp`,
+        `${WEB_BACKEND_URL}/api/ddp`,
         { params }
       );
       if (response.data && response.data.success) {

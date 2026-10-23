@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import background from "@/public/stbg.png";
@@ -47,7 +48,7 @@ export default function StudentForm() {
         const fetchStateCityData = async () => {
             try {
                 const response = await axios.get(
-                    "https://learnospherebackend.learnosphere.in/api/route/getLocationsFromStateCity"
+                    `${WEB_BACKEND_URL}/api/route/getLocationsFromStateCity`
                 );
                 const data = response.data.data;
 
@@ -165,7 +166,7 @@ export default function StudentForm() {
 
         try {
             const response = await axios.post(
-                "https://learnospherebackend.learnosphere.in/api/route/studentFormCityPageController",
+                `${WEB_BACKEND_URL}/api/route/studentFormCityPageController`,
                 finalData
             );
 

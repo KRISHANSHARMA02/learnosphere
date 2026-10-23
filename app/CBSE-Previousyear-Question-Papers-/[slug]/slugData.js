@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import { getResourceRoute } from "@/src/utils/resourceRouteHelper";
@@ -70,7 +71,7 @@ const DataTable = ({ data }) => {
   //         setError("");
 
   //         const response = await axios.get(
-  //           `https://learnospherebackend.learnosphere.in/api/route/cbsepreviouspaperspdf/${slug}`
+  //           `${WEB_BACKEND_URL}/api/route/cbsepreviouspaperspdf/${slug}`
   //         );
   //         console.log("API Response:", response.data);
 

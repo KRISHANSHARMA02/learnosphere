@@ -210,12 +210,12 @@ export default function TeacherProfilePage({
             {teacher.profileImage && (
               <div className="relative inline-block">
                 <img
-                  src={teacher.profileImage || "DefaultAvtar.jpg"}
+                  src={teacher.profileImage || "https://learnosphere.s3.ap-south-1.amazonaws.com/profileImage/tutor_profile.png"}
                   className="w-40 h-40 rounded-[40px] object-cover mx-auto shadow-md"
                   alt={teacher.name}
                   onError={(e) => {
                     e.currentTarget.onerror = null;
-                    e.currentTarget.src = "/DefaultAvtar.jpg";
+                    e.currentTarget.src = "https://learnosphere.s3.ap-south-1.amazonaws.com/profileImage/tutor_profile.png";
                   }}
                 />
 
@@ -281,7 +281,7 @@ export default function TeacherProfilePage({
             {visibleTeachers.map((t) => {
               const getImageSrc = (imageUrl) => {
                 if (!imageUrl || imageUrl.trim() === "") {
-                  return "/DefaultAvtar.jpg";
+                  return "https://learnosphere.s3.ap-south-1.amazonaws.com/profileImage/tutor_profile.png";
                 }
                 return imageUrl;
               };
@@ -299,7 +299,7 @@ export default function TeacherProfilePage({
                     alt={t.name}
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src = "/DefaultAvtar.jpg";
+                      e.currentTarget.src = "https://learnosphere.s3.ap-south-1.amazonaws.com/profileImage/tutor_profile.png";
                     }}
                     className="w-full h-72 object-cover"
                   />

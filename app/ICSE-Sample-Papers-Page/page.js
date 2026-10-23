@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -54,7 +55,7 @@ const RelatedPage = () => {
     AOS.init({ duration: 800, easing: "ease-in-out" });
 
     // Fetch PDF map for ICSE Papers
-    axios.get("https://learnospherebackend.learnosphere.in/api/ics-papers")
+    axios.get(`${WEB_BACKEND_URL}/api/ics-papers`)
       .then(res => {
         let urlMap = {};
         if (res.data && res.data.data) {
@@ -64,7 +65,7 @@ const RelatedPage = () => {
         }
         
         // Fetch Class 8, 9, 11 ICSE papers
-        axios.get("https://learnospherebackend.learnosphere.in/api/icse-papers")
+        axios.get(`${WEB_BACKEND_URL}/api/icse-papers`)
           .then(res2 => {
             if (res2.data && res2.data.data) {
               res2.data.data.forEach(paper => {
@@ -84,7 +85,7 @@ const RelatedPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/icse-sample-papers-dedicated`
+          `${WEB_BACKEND_URL}/api/route/icse-sample-papers-dedicated`
         );
         if (response.data && response.data.data) {
           setData(response.data.data);

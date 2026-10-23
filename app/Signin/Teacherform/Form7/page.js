@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useContext, useEffect, useState, Suspense } from "react";
 import { FormContext } from "@/src/context/FormContext";
 import messages from "@/src/utils/popupMessage";
@@ -69,7 +70,7 @@ const Form7Content = ({ onBack }) => {
 
     try {
       const response = await fetch(
-        "https://learnospherebackend.learnosphere.in/api/route/submitTeachers",
+        `${WEB_BACKEND_URL}/api/route/submitTeachers`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

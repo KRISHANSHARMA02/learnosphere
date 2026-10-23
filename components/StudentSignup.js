@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useState, useRef, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Socialloginstudent, doCredentialLogin } from "@/app/actions";
@@ -93,7 +94,7 @@ const SignupForm = () => {
 
     try {
       const res = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/send_otp_email",
+        `${WEB_BACKEND_URL}/api/route/send_otp_email`,
         { email }
       );
 
@@ -139,7 +140,7 @@ const SignupForm = () => {
     try {
       // API call to verify OTP
       // Replace with your actual backend endpoint
-      await axios.post("https://learnospherebackend.learnosphere.in/api/route/verify_email_otp", {
+      await axios.post(`${WEB_BACKEND_URL}/api/route/verify_email_otp`, {
         email,
         otp: enteredOtp,
       });
@@ -185,7 +186,7 @@ const SignupForm = () => {
     try {
       // Make the API request to the backend
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/studentsignup", //https://learnospherebackend.learnosphere.in/api/route/studentsignup
+        `${WEB_BACKEND_URL}/api/route/studentsignup`, //${WEB_BACKEND_URL}/api/route/studentsignup
         { name, email, password }
       );
       trackEvent("STUDENT_REGISTERED", { email: email, name: name });
@@ -254,8 +255,8 @@ const SignupForm = () => {
         return;
       }
 
-      // Redirect to Teacher form
-      router.push("/StudentForm");
+      // Redirect to Student Form
+      window.location.href = "/StudentForm";
     } catch (error) {
       if (error.response && Array.isArray(error.response.data.errors)) {
         const errors = error.response.data.errors;

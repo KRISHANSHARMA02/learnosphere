@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import axios from "axios";
 import { useSession, signOut } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ const DeleteAccount = () => {
 
   const sendOtp = async () => {
     try {
-      const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/deleteTeacher/" + session.user.email);
+      const response = await axios.post(`${WEB_BACKEND_URL}/api/route/deleteTeacher/` + session.user.email);
       alert(response.data.message);
       setIsOtpSent(true);
       setShowOtpPopup(true);
@@ -26,7 +27,7 @@ const DeleteAccount = () => {
 
   const verifyOtpAndDelete = async () => {
     try {
-      const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/verifyDeleteTeacher", {
+      const response = await axios.post(`${WEB_BACKEND_URL}/api/route/verifyDeleteTeacher`, {
         email: session.user.email,
         otp,
       });

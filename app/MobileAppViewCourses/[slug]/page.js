@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -22,7 +23,7 @@ const CoursePage = () => {
     const fetchCourse = async () => {
       try {
         const response = await axios.post(
-          "https://mobileapp.backend.learnosphere.in/api/route/getCourseDetailsByIdonWeb",
+          `${APP_BACKEND_URL}/api/route/getCourseDetailsByIdonWeb`,
           { courseId }
         );
         setCourse(response.data);

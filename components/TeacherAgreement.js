@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
@@ -41,7 +42,7 @@ export default function TeacherAgreement({ setShowAgreement }) {
 
   const fetchAgreementStatus = async (email) => {
     try {
-      const response = await fetch("https://learnospherebackend.learnosphere.in/api/route/getAgreementStatus", {
+      const response = await fetch(`${WEB_BACKEND_URL}/api/route/getAgreementStatus`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +71,7 @@ export default function TeacherAgreement({ setShowAgreement }) {
 
     try {
       const response = await fetch(
-        "https://learnospherebackend.learnosphere.in/api/route/updateTeacherAgreementStatus",
+        `${WEB_BACKEND_URL}/api/route/updateTeacherAgreementStatus`,
         {
           method: "POST",
           headers: {

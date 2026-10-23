@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Socialloginstudent, doCredentialLogin } from "@/app/actions";
@@ -128,7 +129,7 @@ const LoginForm = () => {
   
         // Check if the user has completed the form
         const userResponse = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/checkStudent",
+          `${WEB_BACKEND_URL}/api/route/checkStudent`,
           {
             method: "POST",
             headers: {

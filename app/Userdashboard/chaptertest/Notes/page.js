@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
@@ -14,28 +15,12 @@ const NotesContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const getBackendUrl = () => {
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      if (
-        hostname === "localhost" ||
-        hostname === "127.0.0.1" ||
-        hostname.startsWith("192.168.") ||
-        hostname.startsWith("172.") ||
-        hostname.startsWith("10.")
-      ) {
-        return "http://localhost:5000";
-      }
-    }
-    return "https://learnospherebackend.learnosphere.in";
-  };
-
   useEffect(() => {
     const fetchNotes = async () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(`${getBackendUrl()}/api/notes`);
+        const response = await axios.get(`${WEB_BACKEND_URL}/api/notes`);
         
         let notesData = [];
         if (response.data) {
@@ -67,7 +52,7 @@ const NotesContent = () => {
     if (!pdfUrl) {
       try {
         const chapterId = item.chapter_id || item.title || 'default';
-        const res = await axios.get(`${getBackendUrl()}/api/pdfs/${selectedSubject}/${chapterId}`);
+        const res = await axios.get(`${WEB_BACKEND_URL}/api/pdfs/${selectedSubject}/${chapterId}`);
         if (res.data.success) {
           pdfUrl = res.data.data.s3_url;
         }

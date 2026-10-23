@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -29,7 +30,7 @@ const Book = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -48,7 +49,7 @@ const Book = () => {
         setIsLoading(true);
         try {
           const response = await axios.get(
-            "https://learnospherebackend.learnosphere.in/api/route/getBooks",
+            `${WEB_BACKEND_URL}/api/route/getBooks`,
             { params: { grade, selectedSubject } }
           );
 

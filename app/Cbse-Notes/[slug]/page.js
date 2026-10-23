@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -46,7 +47,7 @@ const RelatedPage = (props) => {
     AOS.init({ duration: 800, easing: "ease-in-out" });
 
     // Fetch PDF map
-    axios.get("https://learnospherebackend.learnosphere.in/api/cbse-papers")
+    axios.get(`${WEB_BACKEND_URL}/api/cbse-papers`)
       .then(res => {
         if (res.data && res.data.data) {
           const urlMap = {};
@@ -62,12 +63,12 @@ const RelatedPage = (props) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/cbse-related/${slug}`
+          `${WEB_BACKEND_URL}/api/route/cbse-related/${slug}`
         );
         if (response.data && response.data.data) {
           setData(response.data.data);
         } else {
-          const localRes = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/cbse-related/${slug}`);
+          const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/cbse-related/${slug}`);
           if (localRes.data && localRes.data.data) {
               setData(localRes.data.data);
           } else {
@@ -76,7 +77,7 @@ const RelatedPage = (props) => {
         }
       } catch (err) {
         try {
-            const localRes = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/cbse-related/${slug}`);
+            const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/cbse-related/${slug}`);
             if (localRes.data && localRes.data.data) {
                 setData(localRes.data.data);
                 setError(null);

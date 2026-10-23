@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaChevronRight, FaRedo, FaRocket, FaGooglePlay, FaAppStore } from "react-icons/fa";
@@ -41,7 +42,7 @@ const SessionDetails = ({ params }) => {
     const fetchBookingDetails = async () => {
       try {
         const response = await fetch(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_booking_details_by_bookingId/${sessionId}`,
+          `${APP_BACKEND_URL}/api/session/v1/get_booking_details_by_bookingId/${sessionId}`,
         );
         const data = await response.json();
 

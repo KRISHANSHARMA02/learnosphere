@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import picture from "@/public/profile.png";
@@ -75,7 +76,7 @@ const Profileteacher = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/UploadIntroVideo",
+        `${WEB_BACKEND_URL}/api/route/UploadIntroVideo`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -111,7 +112,7 @@ const Profileteacher = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.get(
-            "https://learnospherebackend.learnosphere.in/api/route/getIntroVideo",
+            `${WEB_BACKEND_URL}/api/route/getIntroVideo`,
             { params: { email: session.user.email } } // Send email as query param
           );
 
@@ -157,7 +158,7 @@ const Profileteacher = () => {
   
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/UpdateProfileImage",
+        `${WEB_BACKEND_URL}/api/route/UpdateProfileImage`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -196,7 +197,7 @@ const Profileteacher = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
+            `${WEB_BACKEND_URL}/api/route/getTeacherByEmail`,
             { gmail: session.user.email } // make sure you are sending the email correctly
           );
 

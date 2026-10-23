@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -26,7 +27,7 @@ const Questions = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -50,7 +51,7 @@ const Questions = () => {
             params.stream = stream;
           }
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/ImportantQuestion`,
+            `${WEB_BACKEND_URL}/api/route/ImportantQuestion`,
             { params }
           );
           setSelectedSubjects3(response.data.selectedSubjects3 || []); // Default to an empty array if undefined
@@ -185,7 +186,7 @@ const Questions = () => {
               params.stream = stream;
             }
              const response = await axios.get(
-               `https://learnospherebackend.learnosphere.in/api/route/ImportantQuestion`,
+               `${WEB_BACKEND_URL}/api/route/ImportantQuestion`,
                { params }
              );
              setSelectedSubjects3(response.data.selectedSubjects3 || []); // Default to an empty array if undefined

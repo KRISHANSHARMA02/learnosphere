@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { LuDot } from "react-icons/lu";
 import { MdCurrencyRupee } from "react-icons/md";
@@ -22,7 +23,7 @@ const Statisticsoverview = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getWalletData",
+            `${WEB_BACKEND_URL}/api/route/getWalletData`,
             { gmail: session.user.email } // make sure you are sending the email correctly
           );
 

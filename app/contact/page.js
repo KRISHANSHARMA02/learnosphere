@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { trackEvent } from "@/src/lib/eventTracker";
@@ -34,7 +35,7 @@ const Contact = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const res = await axios.get("https://learnospherebackend.learnosphere.in/api/route/getAllCountries");
+        const res = await axios.get(`${WEB_BACKEND_URL}/api/route/getAllCountries`);
         setCountries(res.data);
       } catch (err) {
         console.error("Error fetching countries:", err);
@@ -48,7 +49,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/contact",
+        `${WEB_BACKEND_URL}/contact`,
         formData
       );
        

@@ -1,3 +1,4 @@
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import axios from "axios";
 
 export const loadRazorpayScript = () => {
@@ -33,7 +34,7 @@ export const processWalletTopUp = async ({
 
     // STEP 1: CREATE ORDER
     const orderRes = await axios.post(
-      "https://mobileapp.backend.learnosphere.in/api/route/createOrder",
+      `${APP_BACKEND_URL}/api/route/createOrder`,
       {
         amount: totalPayable,
         currencyCode: currencyCode
@@ -74,7 +75,7 @@ export const processWalletTopUp = async ({
 
           // STEP 2: VERIFY PAYMENT
           const verifyRes = await axios.post(
-            "https://mobileapp.backend.learnosphere.in/api/route/verify_and_save_wallet_balance",
+            `${APP_BACKEND_URL}/api/route/verify_and_save_wallet_balance`,
             payload
           );
 

@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -48,7 +49,7 @@ export default function BookmarkPage() {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -69,14 +70,14 @@ export default function BookmarkPage() {
       try {
         const [notesRes, videoRes] = await Promise.allSettled([
           axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getBookmark",
+            `${WEB_BACKEND_URL}/api/route/getBookmark`,
             {
               userId: registrationNumber,
               grade: grade,
             }
           ),
           axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getVideoBookmark",
+            `${WEB_BACKEND_URL}/api/route/getVideoBookmark`,
             {
               userId: registrationNumber,
               grade: grade,
@@ -109,7 +110,7 @@ export default function BookmarkPage() {
     if (!registrationNumber) return;
     try {
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/removeBookmark",
+        `${WEB_BACKEND_URL}/api/route/removeBookmark`,
         {
           userId: registrationNumber,
           fileId,
@@ -125,7 +126,7 @@ export default function BookmarkPage() {
     if (!registrationNumber) return;
     try {
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/removevideoBookmark",
+        `${WEB_BACKEND_URL}/api/route/removevideoBookmark`,
         {
           userId: registrationNumber,
           videoId,

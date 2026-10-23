@@ -1,4 +1,5 @@
 "use client"
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -13,7 +14,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://learnospherebackend.learnosphere.in/api/route/forgot-password-students', {
+      const response = await fetch(`${WEB_BACKEND_URL}/api/route/forgot-password-students`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

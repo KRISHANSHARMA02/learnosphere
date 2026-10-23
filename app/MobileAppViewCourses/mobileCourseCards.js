@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
@@ -22,7 +23,7 @@ const MobileCourseCards = () => {
       try {
         setLoading(true); // Start loader
         const response = await axios.post(
-          "https://mobileapp.backend.learnosphere.in/api/route/getAllcourses",
+          `${APP_BACKEND_URL}/api/route/getAllcourses`,
           {
             userId,
             

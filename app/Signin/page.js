@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -109,7 +110,7 @@ const RegistrationForm = () => {
 
         // Check if the teacher has completed the form
         const teacherResponse = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/checkTeacher", // Updated route for checking form status
+          `${WEB_BACKEND_URL}/api/route/checkTeacher`, // Updated route for checking form status
           {
             method: "POST",
             headers: {
@@ -167,11 +168,11 @@ const RegistrationForm = () => {
     try {
       // First, check if the email is verified
       const emailVerificationResponse = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/checkTeacherEmailVerification",
+        `${WEB_BACKEND_URL}/api/route/checkTeacherEmailVerification`,
         { email: userdata.email }
       );
 
-      if (emailVerificationResponse.data?.is_verified === 0) {
+      if (!emailVerificationResponse.data?.is_verified) {
         // If email is not verified
 
         setOtpVerified(false); // Set OTP verification status to false
@@ -189,7 +190,7 @@ const RegistrationForm = () => {
 
       // If email is verified, proceed with signup
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/signup",
+        `${WEB_BACKEND_URL}/api/route/signup`,
         userdata
       );
 
@@ -260,7 +261,7 @@ const RegistrationForm = () => {
     try {
       // API call to send OTP to the backend
       const response = await fetch(
-        "https://learnospherebackend.learnosphere.in/api/route/sendOtpTeacher",
+        `${WEB_BACKEND_URL}/api/route/sendOtpTeacher`,
         {
           method: "POST",
           headers: {
@@ -348,7 +349,7 @@ const RegistrationForm = () => {
     const handleVerifyOtp = async () => {
       try {
         const response = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/verifyOtpTeacher",
+          `${WEB_BACKEND_URL}/api/route/verifyOtpTeacher`,
           {
             method: "POST",
             headers: {
@@ -391,7 +392,7 @@ const RegistrationForm = () => {
 
       try {
         const response = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/sendOtpTeacher",
+          `${WEB_BACKEND_URL}/api/route/sendOtpTeacher`,
           {
             method: "POST",
             headers: {

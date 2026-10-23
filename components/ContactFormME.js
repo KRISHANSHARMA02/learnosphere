@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import { useState, useEffect, useRef } from "react";
 import { trackEvent } from "@/src/lib/eventTracker";
@@ -91,7 +92,7 @@ const ContactForm = ({ countryName }) => {
 
   // 1. Fetch Country Codes
   useEffect(() => {
-    fetch(`https://learnospherebackend.learnosphere.in/api/route/get_all_countries_data`)
+    fetch(`${WEB_BACKEND_URL}/api/route/get_all_countries_data`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
@@ -197,7 +198,7 @@ const ContactForm = ({ countryName }) => {
 
     try {
       const response = await fetch(
-        `https://learnospherebackend.learnosphere.in/api/route/content/v1/submit_middle_east_inquiry`,
+        `${WEB_BACKEND_URL}/api/route/content/v1/submit_middle_east_inquiry`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

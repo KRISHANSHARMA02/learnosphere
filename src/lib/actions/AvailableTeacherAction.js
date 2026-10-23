@@ -1,5 +1,6 @@
 "use server";
 
+import { webBackendFetch } from "@/src/helper/webbackend_api";
 import { fetchTeachersForLessonPage } from "@/src/lib/actions/fetchTeacher"; 
 import { auth } from "@/src/auth";
 const cleanExperience = (exp) => {
@@ -14,7 +15,7 @@ export async function getSecureTeacherList(subject = "All") {
   try {
     let studentIso = "IN"; // Default fallback
 
-    // 1. Call getUser API to get the countryIso
+        // 1. Call getUser API to get the countryIso
     try {
       // 👇 Grab the session to get the user's email
       const session = await auth(); 
@@ -22,19 +23,15 @@ export async function getSecureTeacherList(subject = "All") {
 
       // Only fetch if we have an email
       if (userEmail) {
-        const baseUrl =  "https://learnosphere.in";
-        const userRes = await fetch(`${baseUrl}/api/getUser`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          // 👇 THIS WAS MISSING! We must pass the email to get the right user's ISO
-          body: JSON.stringify({ email: userEmail, gmail: userEmail }),
-          cache: "no-store" // Ensures it doesn't cache stale ISO data
-        });
-        
-        if (userRes.ok) {
-          const userData = await userRes.json();
-          // Update the ISO from the response
+        try {
+          const userData = await webBackendFetch("/api/route/checkUserFromSession", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: userEmail, gmail: userEmail }),
+          });
           studentIso = userData?.user?.countryIso || "IN";
+        } catch (fetchErr) {
+          studentIso = "IN";
         }
       }
     } catch (apiError) {

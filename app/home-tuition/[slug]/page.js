@@ -1,3 +1,4 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import HomeTuitionContent from "@/components/Hometuitioncontent";
 import Navbar from "@/components/Navbar";
 import Footer1 from "@/components/Footer1";
@@ -7,7 +8,7 @@ import { fetchTeachersForHomeTuition } from "@/src/lib/actions/fetchTeacher";
 async function getCityData(cityName) {
   try {
     const res = await fetch(
-      "https://learnospherebackend.learnosphere.in/api/route/getLocationsFromStateCity",
+      `${WEB_BACKEND_URL}/api/route/getLocationsFromStateCity`,
       {
         next: { revalidate: 3600 },
       },

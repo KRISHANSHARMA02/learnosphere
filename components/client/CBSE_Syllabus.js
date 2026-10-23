@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
@@ -29,7 +30,7 @@ const CbseSyllabus2025 = () => {
   }, []);
   useEffect(() => {
     axios
-      .get("https://mobileapp.backend.learnosphere.in/api/route/getCbseSyllabus")
+      .get(`${APP_BACKEND_URL}/api/route/getCbseSyllabus`)
       .then((res) => {
         setContent(res.data);
         setLoading(false);

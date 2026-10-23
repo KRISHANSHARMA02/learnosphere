@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -55,7 +56,7 @@ const DataTable = () => {
   useEffect(() => {
     AOS.init({ duration: 800, easing: "ease-in-out" }); // Initialize AOS with smooth settings
     // Fetch available PDFs from local backend
-    axios.get("https://learnospherebackend.learnosphere.in/api/ics-papers")
+    axios.get(`${WEB_BACKEND_URL}/api/ics-papers`)
       .then(res => {
         let urlMap = {};
         if (res.data && res.data.data) {
@@ -65,7 +66,7 @@ const DataTable = () => {
         }
         
         // Fetch Class 8, 9, 11 ICSE papers
-        axios.get("https://learnospherebackend.learnosphere.in/api/icse-papers")
+        axios.get(`${WEB_BACKEND_URL}/api/icse-papers`)
           .then(res2 => {
             if (res2.data && res2.data.data) {
               res2.data.data.forEach(paper => {
@@ -110,7 +111,7 @@ const DataTable = () => {
         // Ensure both parameters are present
         try {
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/icsesamplepaperpdf?classLevel=${classLevel}&id=${dataId}`
+            `${WEB_BACKEND_URL}/api/route/icsesamplepaperpdf?classLevel=${classLevel}&id=${dataId}`
           ); // Use query parameters
           console.log("Fetched Data:", response.data);
           setData(response.data);

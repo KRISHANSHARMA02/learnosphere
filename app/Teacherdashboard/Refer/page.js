@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react"; // Assuming you're using next-auth for session
@@ -43,7 +44,7 @@ const ReferralCodeFetcher = () => {
         try {
           // Fetch referral code using the email from session
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/get-referral/${session.user.email}`
+            `${WEB_BACKEND_URL}/api/route/get-referral/${session.user.email}`
           );
           setReferralCode(response.data.referralCode);
          

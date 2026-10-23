@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -90,7 +91,7 @@ export default function FormSection() {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries"
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`
         );
         setCountries(res.data);
       } catch (err) {
@@ -143,7 +144,7 @@ export default function FormSection() {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/formulaForm",
+        `${WEB_BACKEND_URL}/api/route/formulaForm`,
         formData,
         {
           headers: { "Content-Type": "application/json" },

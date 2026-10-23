@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaClock, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
@@ -27,7 +28,7 @@ export default function LiveExamPage() {
       return;
     }
 
-    axios.get(`https://learnospherebackend.learnosphere.in/api/route/exam/${examId}`)
+    axios.get(`${WEB_BACKEND_URL}/api/route/exam/${examId}`)
       .then((res) => {
         const data = res.data;
         setExamData(data.examDetails);
@@ -162,7 +163,7 @@ export default function LiveExamPage() {
     try {
       setLoading(true);
       // Ab yahan examId aaram se mil jayega bina kisi error ke! 😎
-      const res = await axios.post("https://learnospherebackend.learnosphere.in/api/route/submit", {
+      const res = await axios.post(`${WEB_BACKEND_URL}/api/route/submit`, {
         examId: examId, 
         studentAnswers: answers
       });

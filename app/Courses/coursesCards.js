@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer1 from "@/components/Footer1";
@@ -96,7 +97,7 @@ const navigateToCourse = useCourseNavigation();
   //   const fetchCourses = async () => {
   //     try {
   //       const response = await axios.post(
-  //         "/api/courses" //https://mobileapp.backend.learnosphere.in/api/route/getAllcourses
+  //         "/api/courses" //${APP_BACKEND_URL}/api/route/getAllcourses
   //       );
   //       setCourses(response.data);
   //     } catch (err) {

@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -46,7 +47,7 @@ const RelatedPage = (props) => {
     AOS.init({ duration: 800, easing: "ease-in-out" });
 
     // Fetch PDF map
-    axios.get("https://learnospherebackend.learnosphere.in/api/ics-papers")
+    axios.get(`${WEB_BACKEND_URL}/api/ics-papers`)
       .then(res => {
         let urlMap = {};
         if (res.data && res.data.data) {
@@ -55,7 +56,7 @@ const RelatedPage = (props) => {
           });
         }
         
-        axios.get("https://learnospherebackend.learnosphere.in/api/icse-papers")
+        axios.get(`${WEB_BACKEND_URL}/api/icse-papers`)
           .then(res2 => {
             if (res2.data && res2.data.data) {
               res2.data.data.forEach(paper => {
@@ -75,12 +76,12 @@ const RelatedPage = (props) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/icse-related/${slug}`
+          `${WEB_BACKEND_URL}/api/route/icse-related/${slug}`
         );
         if (response.data && response.data.data) {
           setData(response.data.data);
         } else {
-          const localRes = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/icse-related/${slug}`);
+          const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/icse-related/${slug}`);
           if (localRes.data && localRes.data.data) {
               setData(localRes.data.data);
           } else {
@@ -89,7 +90,7 @@ const RelatedPage = (props) => {
         }
       } catch (err) {
         try {
-            const localRes = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/icse-related/${slug}`);
+            const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/icse-related/${slug}`);
             if (localRes.data && localRes.data.data) {
                 setData(localRes.data.data);
                 setError(null);

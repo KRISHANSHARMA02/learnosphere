@@ -1,4 +1,6 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { trackEvent } from "@/src/lib/eventTracker";
@@ -606,7 +608,7 @@ const ReferAndEarn = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/teachercontact",
+        `${WEB_BACKEND_URL}/api/route/teachercontact`,
         formData,
         { headers: { "Content-Type": "application/json" } },
       );
@@ -726,7 +728,7 @@ const ReferAndEarn = () => {
     async function fetchLeaderboard() {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/route/getLeaderboardData?period=${activeTab}`,
+          `${APP_BACKEND_URL}/api/route/getLeaderboardData?period=${activeTab}`,
         );
         const data = await res.json();
 
@@ -752,7 +754,7 @@ const ReferAndEarn = () => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries",
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`,
         );
         setCountries(res.data);
       } catch (err) {
@@ -767,7 +769,7 @@ const ReferAndEarn = () => {
     const fetchCourses = async () => {
       try {
         const response = await axios.post(
-          "https://mobileapp.backend.learnosphere.in/api/route/getAllcourses",
+          `${APP_BACKEND_URL}/api/route/getAllcourses`,
         );
         setCourses(response.data);
       } catch (err) {

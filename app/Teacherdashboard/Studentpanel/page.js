@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -17,7 +18,7 @@ const StudentPanel = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           let endpoint =
-            "https://learnospherebackend.learnosphere.in/api/route/getbookingsforteacher";
+            `${WEB_BACKEND_URL}/api/route/getbookingsforteacher`;
           const params = new URLSearchParams();
           const teacherEmail = session.user.email;
           const classStatus = "recent";

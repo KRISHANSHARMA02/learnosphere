@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { Suspense, useState, useEffect } from "react";
 import {
@@ -101,7 +102,7 @@ const StudentPassContent = () => {
         if (userId) {
           setStudentId(userId); 
           
-          const summaryRes = await fetch(`https://mobileapp.backend.learnosphere.in/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
+          const summaryRes = await fetch(`${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
           const summary = await summaryRes.json();
           
           setWalletData({
@@ -195,7 +196,7 @@ const StudentPassContent = () => {
     const toastId = toast.loading("Processing Booking & Creating session Link...");
 
     try {
-      const response = await fetch("https://mobileapp.backend.learnosphere.in/api/route/bookSessionWithWallet", {
+      const response = await fetch(`${APP_BACKEND_URL}/api/route/bookSessionWithWallet`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

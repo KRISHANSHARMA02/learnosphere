@@ -1,5 +1,6 @@
 
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { FaFilePdf, FaTimes } from "react-icons/fa";
 import { trackEvent } from "@/src/lib/eventTracker";
@@ -12,7 +13,7 @@ export default function StudyNotes({ slug, sessionId }) {
   const [contact, setContact] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const backendUrl = "https://learnospherebackend.learnosphere.in";
+  const backendUrl = WEB_BACKEND_URL;
 
   // 🚀 NAYA LOGIC 1: Dropdown ki state
   const [selectedCategory, setSelectedCategory] = useState("All");

@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Image from "next/image";
@@ -27,7 +28,7 @@ const Home = ({ initialSlides }) => {
           setIsLoading(false);
         }
 
-        const response = await fetch("https://learnospherebackend.learnosphere.in/api/route/public");
+        const response = await fetch(`${WEB_BACKEND_URL}/api/route/public`);
         if (!response.ok) {
           throw new Error("Failed to fetch slides");
         }

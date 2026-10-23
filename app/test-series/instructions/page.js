@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
@@ -24,7 +25,7 @@ function InstructionsContent() {
     if (examId) {
       axios
         .get(
-          `https://learnospherebackend.learnosphere.in/api/route/exam/${examId}`,
+          `${WEB_BACKEND_URL}/api/route/exam/${examId}`,
         )
         .then((res) => {
           setExamData(res.data.examDetails);

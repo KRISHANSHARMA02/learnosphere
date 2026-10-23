@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 import {
   FaArrowLeft,
@@ -15,20 +16,27 @@ import {
   FaFileAlt,
   FaClipboardList,
   FaLayerGroup,
+  FaLock,
 } from "react-icons/fa";
 
 export default function SubjectContent({ contentData, subject }) {
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState("videos");
-  const [content, setContent] = useState({ videos: [], notes: [], tests: [] });
+  const [content, setContent] = useState({
+    videos: [],
+    notes: [],
+    tests: [],
+    isPurchased: true,
+    courseId: null,
+  });
   const [loading, setLoading] = useState(true);
 
   // Media Viewer State
   const [viewMode, setViewMode] = useState("list"); // 'list', 'player', 'pdf'
   const [activeMedia, setActiveMedia] = useState(null);
 
-  // ✅ When serverData becomes available, set loading false
+  // When serverData becomes available, set loading false
   useEffect(() => {
     if (contentData) {
       setContent(contentData);
@@ -46,6 +54,48 @@ export default function SubjectContent({ contentData, subject }) {
     }
   };
 
+  const handleVideoClick = (video) => {
+    if (video.isLocked || !video.url) {
+      Swal.fire({
+        icon: "info",
+        title: "Content Locked",
+        text: "This video lecture is part of a recommended course. Enroll now to get full access to all lectures, notes, and tests.",
+        showCancelButton: true,
+        confirmButtonText: "Enroll / Buy Now",
+        confirmButtonColor: "#ea580c",
+        cancelButtonText: "Close",
+      }).then((result) => {
+        if (result.isConfirmed && content.courseId) {
+          router.push(`/Courses/${content.courseId}`);
+        }
+      });
+      return;
+    }
+    setActiveMedia(video);
+    setViewMode("player");
+  };
+
+  const handleNoteClick = (note) => {
+    if (note.isLocked || !note.url) {
+      Swal.fire({
+        icon: "info",
+        title: "Content Locked",
+        text: "This study note is part of a recommended course. Enroll now to access and download all course study material.",
+        showCancelButton: true,
+        confirmButtonText: "Enroll / Buy Now",
+        confirmButtonColor: "#ea580c",
+        cancelButtonText: "Close",
+      }).then((result) => {
+        if (result.isConfirmed && content.courseId) {
+          router.push(`/Courses/${content.courseId}`);
+        }
+      });
+      return;
+    }
+    setActiveMedia(note);
+    setViewMode("pdf");
+  };
+
   // --- RENDERERS ---
 
   if (loading)
@@ -56,7 +106,7 @@ export default function SubjectContent({ contentData, subject }) {
     );
 
   // 1. VIDEO PLAYER VIEW
-  if (viewMode === "player" && activeMedia) {
+  if (viewMode === "player" && activeMedia && activeMedia.url) {
     return (
       <div className="flex flex-col h-screen bg-black text-white">
         <div className="p-4 flex items-center gap-4 bg-slate-900 border-b border-slate-800">
@@ -89,7 +139,7 @@ export default function SubjectContent({ contentData, subject }) {
   }
 
   // 2. PDF VIEWER VIEW
-  if (viewMode === "pdf" && activeMedia) {
+  if (viewMode === "pdf" && activeMedia && activeMedia.url) {
     return (
       <div className="flex flex-col h-screen bg-slate-100">
         <div className="p-4 flex items-center gap-4 bg-white border-b border-slate-200 shadow-sm">
@@ -181,6 +231,33 @@ export default function SubjectContent({ contentData, subject }) {
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
         <div className="max-w-4xl mx-auto">
+          {/* Preview Notice for Unpurchased / Recommended Courses */}
+          {content.isPurchased === false && (
+            <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                  <FaLock size={18} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm sm:text-base">
+                    Recommended Course Preview
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-600">
+                    You are viewing the syllabus structure for this recommended course. Enroll now to unlock all videos and PDF notes!
+                  </p>
+                </div>
+              </div>
+              {content.courseId && (
+                <button
+                  onClick={() => router.push(`/Courses/${content.courseId}`)}
+                  className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-lg shadow-md transition-all flex items-center gap-2"
+                >
+                  <FaLock size={12} /> Enroll Now
+                </button>
+              )}
+            </div>
+          )}
+
           {/* VIDEOS TAB */}
           {activeTab === "videos" && (
             <div className="space-y-4">
@@ -188,14 +265,11 @@ export default function SubjectContent({ contentData, subject }) {
                 content.videos.map((video) => (
                   <div
                     key={video.id}
-                    onClick={() => {
-                      setActiveMedia(video);
-                      setViewMode("player");
-                    }}
+                    onClick={() => handleVideoClick(video)}
                     className="flex items-center p-4 bg-white rounded-xl border border-slate-200 
                      hover:border-orange-600 hover:shadow-lg cursor-pointer transition-all group"
                   >
-                    {/* ✅ Realistic LearnOsphere Thumbnail */}
+                    {/* Realistic LearnOsphere Thumbnail */}
                     <div
                       className="relative w-32 h-20 rounded-xl overflow-hidden 
                        bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
@@ -203,18 +277,20 @@ export default function SubjectContent({ contentData, subject }) {
                        shadow-md group-hover:shadow-xl group-hover:scale-[1.03] 
                        transition-all duration-300"
                     >
-                      {/* Optional texture overlay */}
                       <div className="absolute inset-0 opacity-10 mix-blend-overlay"></div>
 
-                      {/* Play Icon */}
+                      {/* Play or Lock Icon */}
                       <div
                         className="relative bg-white/80 backdrop-blur-md w-10 h-10 rounded-full 
                             flex items-center justify-center shadow-lg"
                       >
-                        <FaPlay size={16} className="text-orange-600" />
+                        {video.isLocked || !video.url ? (
+                          <FaLock size={15} className="text-orange-600" />
+                        ) : (
+                          <FaPlay size={16} className="text-orange-600" />
+                        )}
                       </div>
 
-                      {/* Branding */}
                       <div className="absolute bottom-1 left-2 text-[9px] font-bold tracking-wide opacity-95">
                         Learn<span className="text-black">O</span>sphere
                       </div>
@@ -226,8 +302,14 @@ export default function SubjectContent({ contentData, subject }) {
                         {video.title}
                       </h3>
 
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-1">
-                        <p>Video Content</p>
+                      <div className="flex items-center gap-2 text-[11px] mt-1">
+                        {video.isLocked || !video.url ? (
+                          <span className="text-orange-600 font-semibold flex items-center gap-1">
+                            <FaLock size={10} /> Locked • Preview
+                          </span>
+                        ) : (
+                          <p className="text-slate-500">Video Content</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -239,6 +321,7 @@ export default function SubjectContent({ contentData, subject }) {
               )}
             </div>
           )}
+
           {/* NOTES TAB */}
           {activeTab === "notes" && (
             <div className="space-y-3">
@@ -246,22 +329,29 @@ export default function SubjectContent({ contentData, subject }) {
                 content.notes.map((note) => (
                   <div
                     key={note.id}
-                    onClick={() => {
-                      setActiveMedia(note);
-                      setViewMode("pdf");
-                    }}
+                    onClick={() => handleNoteClick(note)}
                     className="flex items-center p-4 bg-white rounded-xl border border-slate-200 hover:border-red-300 hover:shadow-md cursor-pointer transition-all group"
                   >
                     <div className="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0 group-hover:bg-red-500 group-hover:text-white transition-colors">
-                      <FaFilePdf size={18} />
+                      {note.isLocked || !note.url ? (
+                        <FaLock size={16} />
+                      ) : (
+                        <FaFilePdf size={18} />
+                      )}
                     </div>
                     <div className="ml-4 flex-1">
                       <h3 className="font-semibold text-slate-900 group-hover:text-red-700">
                         {note.title}
                       </h3>
-                      <p className="text-xs text-slate-500 mt-1">
-                        PDF Document
-                      </p>
+                      <div className="flex items-center gap-2 text-xs mt-1">
+                        {note.isLocked || !note.url ? (
+                          <span className="text-orange-600 font-semibold flex items-center gap-1">
+                            <FaLock size={10} /> Locked • PDF Document
+                          </span>
+                        ) : (
+                          <p className="text-slate-500">PDF Document</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))
@@ -273,7 +363,7 @@ export default function SubjectContent({ contentData, subject }) {
             </div>
           )}
 
-          {/* TESTS TAB (Mobile App Promotion - No Locks) */}
+          {/* TESTS TAB (Mobile App Promotion) */}
           {activeTab === "tests" && (
             <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
               <div
@@ -349,7 +439,7 @@ export default function SubjectContent({ contentData, subject }) {
                   </div>
                 </div>
 
-                {/* Right Side — Features Instead of Locked Items */}
+                {/* Right Side — Features */}
                 <div
                   className="flex-1 z-10 bg-white/5 border border-white/10 p-6 rounded-xl 
                       backdrop-blur-sm max-w-sm w-full"
