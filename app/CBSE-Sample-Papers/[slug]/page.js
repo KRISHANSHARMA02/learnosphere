@@ -18,7 +18,7 @@ export default async function SamplePapersPage({ params }) {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const titleMap = {
-    "CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard": "CBSE Class 10 Maths Sample Paper: Basic & Standard",
+    "CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard": "CBSE Class 10 Maths Sample Paper | Basic & Standard",
     "CBSE-Sample-Papers-for-Class-9-Maths": "CBSE Class 9 Maths Practice Papers & Questions",
     "CBSE-Sample-Papers-for-Class-11-Maths": "CBSE Class 11 Maths Sample Papers | Practice Papers",
   };

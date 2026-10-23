@@ -13,6 +13,7 @@ import {
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import VerifiedBadge from "@/components/VerifiedBadge";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 
 export default function TeacherProfilePage({
   teacher,
@@ -207,26 +208,21 @@ export default function TeacherProfilePage({
         {/* RIGHT COLUMN */}
         <div className="lg:col-span-1">
           <div className="lg:sticky lg:top-28 bg-white rounded-[40px] shadow-2xl border border-gray-100 p-8 text-center space-y-6">
-            {teacher.profileImage && (
-              <div className="relative inline-block">
-                <img
-                  src={teacher.profileImage || "DefaultAvtar.jpg"}
-                  className="w-40 h-40 rounded-[40px] object-cover mx-auto shadow-md"
-                  alt={teacher.name}
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "/DefaultAvtar.jpg";
-                  }}
-                />
+            <div className="relative inline-block">
+              <img
+                src={getTutorImageSrc(teacher)}
+                className="w-40 h-40 rounded-[40px] object-cover mx-auto shadow-md"
+                alt={teacher.name}
+                onError={(e) => handleTutorImageError(e, teacher)}
+              />
 
-                <div className="peer hidden lg:block absolute -bottom-2 -right-2 bg-orange-500 text-white p-2 rounded-full border-4 border-white z-20 cursor-pointer transition-transform hover:scale-110">
-                  <Sparkles
-                    size={24}
-                    className="text-yellow-400 fill-current"
-                  />
-                </div>
+              <div className="peer hidden lg:block absolute -bottom-2 -right-2 bg-orange-500 text-white p-2 rounded-full border-4 border-white z-20 cursor-pointer transition-transform hover:scale-110">
+                <Sparkles
+                  size={24}
+                  className="text-yellow-400 fill-current"
+                />
               </div>
-            )}
+            </div>
 
             <div className="flex items-center justify-center gap-1 mt-2">
               {teacher.name && (
@@ -279,12 +275,6 @@ export default function TeacherProfilePage({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {visibleTeachers.map((t) => {
-              const getImageSrc = (imageUrl) => {
-                if (!imageUrl || imageUrl.trim() === "") {
-                  return "/DefaultAvtar.jpg";
-                }
-                return imageUrl;
-              };
 
               return (
                 <div
@@ -295,12 +285,9 @@ export default function TeacherProfilePage({
                   {/* 🚀 ONCLICK ATTACHED HERE */}
 
                   <img
-                    src={getImageSrc(t.image)}
+                    src={getTutorImageSrc(t)}
                     alt={t.name}
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = "/DefaultAvtar.jpg";
-                    }}
+                    onError={(e) => handleTutorImageError(e, t)}
                     className="w-full h-72 object-cover"
                   />
 
