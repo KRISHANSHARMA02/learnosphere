@@ -25,6 +25,7 @@ import VerifiedBadge from "./VerifiedBadge";
 import { trackEvent } from "@/src/lib/eventTracker";
 // Import the Bridge Action
 import { getSecureTeacherList } from "@/src/lib/actions/AvailableTeacherAction";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 
 const isSubjectMatch = (teacher, reqSub) => {
   if (!reqSub || reqSub === "All") return true;
@@ -294,13 +295,10 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
                     <div className="flex items-start gap-4">
                       <div className="relative">
                         <img
-                          src={teacher.image || "https://learnosphere.s3.ap-south-1.amazonaws.com/profileImage/tutor_profile.png"}
+                          src={getTutorImageSrc(teacher)}
                           alt={teacher.name}
                           className="h-20 w-20 rounded-2xl object-cover shadow-sm"
-                          onError={(e) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = "https://learnosphere.s3.ap-south-1.amazonaws.com/profileImage/tutor_profile.png";
-                          }}
+                          onError={(e) => handleTutorImageError(e, teacher)}
                         />
                         <div className="absolute -bottom-2 -right-2 bg-white px-2 py-0.5 rounded-full shadow-sm text-xs font-bold text-orange-600 flex items-center gap-1 border border-orange-50">
                           <FiStar className="fill-orange-500 text-orange-500" />{" "}

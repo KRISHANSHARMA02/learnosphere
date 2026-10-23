@@ -1,4 +1,5 @@
 import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
+import { verifyTeacherImage, verifyTeachersImages } from "@/src/utils/tutorImageHelper";
 export async function fetchTeacherProfileData(teacherId, studentIso) {
   try {
     const res = await fetch(
@@ -16,10 +17,11 @@ export async function fetchTeacherProfileData(teacherId, studentIso) {
     const result = await res.json();
 
     if (result.data) {
-      return {
+      const teacherObj = {
         ...result.data,
-        isApproved: result.data.isApproved ?? false, // Backend ready hone tak false
+        isApproved: result.data.isApproved ?? false,
       };
+      return await verifyTeacherImage(teacherObj);
     }
     return result.data || null;
   } catch (err) {
@@ -117,7 +119,7 @@ export async function fetchSimilarTeachers(teacher, teacherId) {
       }
     }
 
-    return finalTeachers.slice(0, limit);
+    return await verifyTeachersImages(finalTeachers.slice(0, limit));
   } catch (err) {
     console.error("❌ Similar teachers fetch error:", err);
     return [];

@@ -14,17 +14,21 @@ import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
+import FAQAccordion from "@/components/FAQAccordion";
+import { faqData } from "./faqData";
 import { useSession } from "next-auth/react";
 
 import axios from "axios";
 import { getResourceRoute } from "@/src/utils/resourceRouteHelper";
-const DataTable = ({ data: serverData }) => {
+const DataTable = ({ data: serverData, slug: propSlug }) => {
   // const params = use(props.params);
   // const { slug } = params;
   const [Class, setClass] = useState(null);
 
   const params = useParams();
   const slug = params?.slug;
+  const currentSlug = propSlug || slug;
+  const faqs = (currentSlug && faqData[currentSlug]) || [];
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -57,7 +61,7 @@ const DataTable = ({ data: serverData }) => {
   const [pdfUrls, setPdfUrls] = useState({});
   const { data: session } = useSession();
 
-  const handleLinkClick = async (e, generatedSlug, dataItemId) => {
+  const handleLinkClick = async (e, generatedSlug, dataItemId, directPdfUrl) => {
     e.preventDefault();
 
     if (activePdfId === dataItemId) {
@@ -66,6 +70,11 @@ const DataTable = ({ data: serverData }) => {
     }
 
     setActivePdfId(dataItemId);
+
+    if (directPdfUrl) {
+      setPdfUrls((prev) => ({ ...prev, [dataItemId]: directPdfUrl }));
+      return;
+    }
 
     if (!pdfUrls[dataItemId]) {
       try {
@@ -109,24 +118,27 @@ const DataTable = ({ data: serverData }) => {
   }, []);
 
   useEffect(() => {
+    // If server already provided data, do not overwrite or refetch
+    if (serverData && serverData.length > 0) {
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
         setError("");
 
-        // const response = await axios.get(`http://localhost:4000/api/route/CbsePreviousyearQuestions/${slug}`);
+        const baseUrl = process.env.NEXT_PUBLIC_WEB_BACKEND_URL || (typeof window !== "undefined" && window.location.hostname === "localhost" ? "http://localhost:4000" : "https://learnospherebackend.learnosphere.in");
         const response = await axios.get(
           `${WEB_BACKEND_URL}/api/route/CbsePreviousyearQuestions/${slug}`,
         );
-        console.log("API Response:", response.data);
 
         if (response.data && response.data.data) {
           setData(response.data.data);
         } else {
-          setData([]); // No data found
+          setData([]);
         }
       } catch (err) {
-        console.error("Error fetching data:", err);
         setError(err.response?.data?.message || "Error fetching data.");
         setData([]);
       } finally {
@@ -135,7 +147,7 @@ const DataTable = ({ data: serverData }) => {
     };
 
     if (slug) fetchData();
-  }, [slug]);
+  }, [slug, serverData]);
 
   if (loading) {
     return <div className="text-gray-600">Loading...</div>;
@@ -254,6 +266,7 @@ const DataTable = ({ data: serverData }) => {
                                                   e,
                                                   generatedSlug,
                                                   dataItem.id,
+                                                  dataItem.pdfUrl,
                                                 )
                                               }
                                             >
@@ -357,6 +370,7 @@ const DataTable = ({ data: serverData }) => {
                                                       e,
                                                       generatedSlug,
                                                       dataItem.id,
+                                                      dataItem.pdfUrl,
                                                     )
                                                   }
                                                 >
@@ -619,6 +633,7 @@ const DataTable = ({ data: serverData }) => {
             </div>
           </div>
         </div>
+        <FAQAccordion faqs={faqs} />
         <Footer1 />
         <Footer />
       </div>

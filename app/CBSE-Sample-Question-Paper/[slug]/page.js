@@ -21,5 +21,5 @@ export default async function SamplePapersPDF({ params }) {
 
   if (!data || data.length === 0) return <p>No sample papers found</p>;
 
-  return <DataTable data={data} />;
+  return <DataTable data={data} slug={slug} />;
 }

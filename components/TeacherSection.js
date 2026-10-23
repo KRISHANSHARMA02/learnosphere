@@ -4,6 +4,7 @@ import React from "react";
 import { Star } from "lucide-react";
 import Link from "next/link";
 import VerifiedBadge from "./VerifiedBadge";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 
 export default function TeacherSection({
   limit = 6,
@@ -66,16 +67,14 @@ export default function TeacherSection({
                   {/* Image Card */}
                   <div className="relative h-[355px] w-full overflow-hidden rounded-[2rem] shadow-sm">
                     <img
-                      src={
-                        teacher.image && teacher.image.trim() !== ""
-                          ? teacher.image
-                          : "/DefaultAvtar.jpg"
-                      }
+                      src={getTutorImageSrc(teacher)}
                       alt={teacher.name}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "/DefaultAvtar.jpg";
+                      ref={(el) => {
+                        if (el && el.complete && el.naturalWidth === 0) {
+                          handleTutorImageError({ currentTarget: el }, teacher);
+                        }
                       }}
+                      onError={(e) => handleTutorImageError(e, teacher)}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
 

@@ -2,7 +2,9 @@
 import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import FAQAccordion from "@/components/FAQAccordion";
+import { faqData } from "./faqData";
 import React, { useEffect, useState, use } from "react";
 import Banner from "@/public/WhatsApp Image 2024-10-14 at 11.44.36.jpeg";
 import Link from "next/link";
@@ -49,7 +51,10 @@ const getRouteForTitle = (title) => {
   return `/ICSE-Related/${slugified}`;
 };
 
-const DataTable = ({ data }) => {
+const DataTable = ({ data, slug: propSlug }) => {
+  const params = useParams();
+  const currentSlug = propSlug || params?.slug;
+  const faqs = (currentSlug && faqData[currentSlug]) || [];
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
   const [selectedPdf, setSelectedPdf] = useState(null);
@@ -702,6 +707,7 @@ const DataTable = ({ data }) => {
           </div>
         </div>
       </div>
+      <FAQAccordion faqs={faqs} />
       <Sociallinks2 />
       <Footer1 />
       <Footer />

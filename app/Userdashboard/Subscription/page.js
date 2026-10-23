@@ -16,6 +16,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast"; 
 import VerifiedBadge from "@/components/VerifiedBadge";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 import SlotBookPopup from "@/components/SlotBookPopup";
 
 const StudentPassContent = () => {
@@ -55,7 +56,8 @@ const StudentPassContent = () => {
     price: finalPrice, // ✅ This seamlessly replaces the "Session Fee" across the whole page!
     originalPrice: safeParsePrice(rawTeacher?.originalPrice || 599),
     currency: rawTeacher?.currency?.symbol || "₹",
-    imageUrl: rawTeacher?.profileImage || "/DefaultAvtar.jpg",
+    imageUrl: getTutorImageSrc(rawTeacher),
+    gender: rawTeacher?.gender,
     rating: rawTeacher?.rating || 5,
     reviewCount: rawTeacher?.reviewCount || 0,
     isApproved: rawTeacher?.isApproved ?? false,
@@ -250,9 +252,7 @@ const StudentPassContent = () => {
                   src={teacher.imageUrl}
                   alt={teacher.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = "/DefaultAvtar.jpg";
-                  }}
+                  onError={(e) => handleTutorImageError(e, teacher)}
                 />
               </div>
               <div className="flex items-center justify-center gap-1 mt-2">

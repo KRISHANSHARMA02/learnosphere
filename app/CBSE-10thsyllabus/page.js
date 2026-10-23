@@ -6,6 +6,35 @@ import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
 import Image from "next/image";
 import SyllabusVisitTracker from "@/components/SyllabusVisitTracker";
+import FAQAccordion from "@/components/FAQAccordion";
+
+const cbse10thFaqs = [
+  {
+    question: "What is the latest CBSE Class 10 syllabus?",
+    answer:
+      "The latest CBSE Class 10 syllabus covers the prescribed subjects, chapters and topics students need to prepare for the current board examination.",
+  },
+  {
+    question: "Which chapters are included in CBSE Class 10?",
+    answer:
+      "The CBSE Class 10 syllabus includes subject-wise chapters and topics for Mathematics, Science, Social Science, languages and other subjects.",
+  },
+  {
+    question: "Does the CBSE Class 10 syllabus change every year?",
+    answer:
+      "The CBSE Class 10 syllabus can be revised for different academic sessions. Students should always follow the latest prescribed syllabus.",
+  },
+  {
+    question: "Is NCERT enough for CBSE Class 10?",
+    answer:
+      "NCERT books cover the core CBSE Class 10 syllabus. Students should also practise sample papers and previous-year questions for better preparation.",
+  },
+  {
+    question: "How should I complete the CBSE Class 10 syllabus?",
+    answer:
+      "Divide the CBSE Class 10 syllabus subject-wise, complete chapters systematically, revise regularly and solve practice papers to assess your preparation.",
+  },
+];
 
 const Syllabus = () => {
   const metadata = generateMetadata();
@@ -272,6 +301,7 @@ const Syllabus = () => {
           </div>
         </section>
       </div>
+        <FAQAccordion faqs={cbse10thFaqs} />
       <Footer1 />
       <Footer />
     </>
