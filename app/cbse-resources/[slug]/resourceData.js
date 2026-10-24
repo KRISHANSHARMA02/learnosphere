@@ -1,5 +1,147 @@
+/**
+ * Known CBSE Resource slugs from database (cbsepreviousquestion.list3) and API (cbseRelatedData.json).
+ */
+export const STATIC_DB_RESOURCE_SLUGS = new Set([
+  // list3 items from MySQL cbsepreviousquestion table
+  "chemistry-2015-board-paper",
+  "ncert-solutions-for-class-9-maths",
+  "cbse-class-10-maths-objective-questions",
+  "study-apps-for-class-10",
+  "class-10-biology-notes",
+  "sample-papers-of-science-for-class-9-sa1",
+  "ncert-solutions-for-class-10-science",
+  "electrostatics-potential-and-capacitance-class-12-notes",
+  "maths-worksheet-for-class-3",
+  "chemistry-notes-for-class-12",
+  "cbse-moderation-policy-2017",
+  "science-experiments-app",
+  "cbse-class-7-maths",
+  "cbse-class-6-science",
+  "class-7th-science-sample-question-paper",
+  "ncert-solutions-for-class-6-social-science-civics-chapter-1",
+  // Curated topics from backend cbseRelatedData.json / cbse-related API
+  "cbse-books-for-class-11",
+  "extra-question-for-class-9-science",
+  "parabola",
+  "coordination-compounds-class-12-notes",
+  "combustion-and-flame-class-8-important-questions",
+  "cbse-class-9-exam-prep-tips"
+]);
+
+export function isCurriculumPattern(slug) {
+  if (!slug || typeof slug !== "string") return false;
+  const s = slug.toLowerCase().trim();
+  const subjPattern = "(maths|math|science|chemistry|physics|biology|english|hindi|social-science|economics|accountancy|business-studies)";
+  const clsPattern = "(1[0-2]|[1-9])";
+
+  if (new RegExp(`^${subjPattern}-notes-class-${clsPattern}$`).test(s)) return true;
+  if (new RegExp(`^ncert-solutions-class-${clsPattern}-${subjPattern}$`).test(s)) return true;
+  if (new RegExp(`^important-questions-${subjPattern}$`).test(s)) return true;
+  if (new RegExp(`^cbse-class-${clsPattern}-${subjPattern}-.*$`).test(s)) return true;
+  return false;
+}
+
+// In-memory cache for live database list3 slugs
+let cachedDbSlugs = null;
+let lastFetchTime = 0;
+const CACHE_TTL = 60 * 1000; // 1 minute
+
+async function getDynamicDatabaseSlugs() {
+  const now = Date.now();
+  if (cachedDbSlugs && now - lastFetchTime < CACHE_TTL) {
+    return cachedDbSlugs;
+  }
+
+  const slugs = new Set(STATIC_DB_RESOURCE_SLUGS);
+
+  try {
+    const backendUrl = process.env.WEB_BACKEND_URL || "http://localhost:4000";
+    const endpoints = [
+      "/api/route/CbsePreviousyearQuestions/CBSE-Class-12-Maths-Previous-Year-Papers",
+      "/api/route/CbsePreviousyearQuestions/CBSE-Class-10-Maths-Previous-Year-Papers"
+    ];
+
+    for (const ep of endpoints) {
+      const res = await fetch(`${backendUrl}${ep}`, {
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        const rows = json?.data || [];
+        for (const row of rows) {
+          if (row.list3 && Array.isArray(row.list3)) {
+            for (const item of row.list3) {
+              if (typeof item === "string") {
+                const s = item
+                  .toLowerCase()
+                  .trim()
+                  .replace(/\s+/g, "-")
+                  .replace(/[^a-z0-9-]/g, "");
+                if (s) slugs.add(s);
+              }
+            }
+          }
+        }
+      }
+    }
+    cachedDbSlugs = slugs;
+    lastFetchTime = now;
+  } catch (err) {
+    // Graceful fallback to static set on error
+    return slugs;
+  }
+
+  return slugs;
+}
+
+/**
+ * Validates whether the slug exists in actual CBSE database or API data.
+ */
+export async function validateCbseResourceSlug(slug) {
+  if (!slug || typeof slug !== "string") return false;
+  const cleanSlug = slug.toLowerCase().trim();
+
+  // Basic sanity check: prevent invalid characters or extreme length
+  if (!/^[a-z0-9-]+$/.test(cleanSlug) || cleanSlug.length > 150) {
+    return false;
+  }
+
+  // 1. Check known static database slugs & curriculum patterns
+  if (STATIC_DB_RESOURCE_SLUGS.has(cleanSlug)) return true;
+  if (isCurriculumPattern(cleanSlug)) return true;
+
+  // 2. Query backend cbse-related API for dynamic database/API entries
+  try {
+    const backendUrl = process.env.WEB_BACKEND_URL || "http://localhost:4000";
+    const res = await fetch(`${backendUrl}/api/route/cbse-related/${cleanSlug}`, {
+      cache: "no-store",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (res.ok) {
+      const json = await res.json();
+      if (json?.success && json?.data) {
+        return true;
+      }
+    }
+  } catch (e) {
+    // Ignore and proceed
+  }
+
+  // 3. Check dynamic database items from cbsepreviousquestion table
+  try {
+    const dbSlugs = await getDynamicDatabaseSlugs();
+    if (dbSlugs.has(cleanSlug)) return true;
+  } catch (e) {
+    // Ignore
+  }
+
+  return false;
+}
+
 export function getResourceContent(slug) {
   if (!slug) return null;
+  const cleanSlug = slug.toLowerCase().trim();
 
   // 1. Convert the slug back to a readable title
   const title = slug
@@ -30,9 +172,17 @@ export function getResourceContent(slug) {
     }
   }
 
+  const isKnownDb = STATIC_DB_RESOURCE_SLUGS.has(cleanSlug);
+  const isCurriculum = isCurriculumPattern(cleanSlug);
+
+  // If slug has no class and no subject, and is not a known database/curriculum resource, return null (invalid)
+  if (!isKnownDb && !isCurriculum && (!classLevel || !subject)) {
+    return null;
+  }
+
   // Set default fallbacks for content generation
-  const subjStr = subject || "this subject";
-  const clsStr = classLevel ? `Class ${classLevel}` : "your class";
+  const subjStr = subject || (cleanSlug.includes('math') ? 'Maths' : cleanSlug.includes('science') ? 'Science' : 'this subject');
+  const clsStr = classLevel ? `Class ${classLevel}` : 'Class 10';
 
   // 4. Return the structured object
   return {

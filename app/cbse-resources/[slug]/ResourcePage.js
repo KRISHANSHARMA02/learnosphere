@@ -17,11 +17,11 @@ import { useSession } from "next-auth/react";
 import { getResourceContent } from "./resourceData";
 import { useRouter } from "next/navigation";
 
-export default function ResourcePage({ slug }) {
+export default function ResourcePage({ slug, initialContent = null }) {
   const { data: session } = useSession();
   const router = useRouter();
   
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState(initialContent || null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activePdfId, setActivePdfId] = useState(null);
   const [pdfUrls, setPdfUrls] = useState({});
@@ -29,7 +29,7 @@ export default function ResourcePage({ slug }) {
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
-    setContent(getResourceContent(slug));
+    if (!content) setContent(getResourceContent(slug));
   }, [slug]);
 
   const handleSearch = (e) => {

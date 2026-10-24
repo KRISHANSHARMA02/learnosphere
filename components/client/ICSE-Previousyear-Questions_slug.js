@@ -55,6 +55,8 @@ const DataTable = (props) => {
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
   const [selectedPdf, setSelectedPdf] = useState(null);
+  const [activePdfKey, setActivePdfKey] = useState(null);
+  const [activePdfUrl, setActivePdfUrl] = useState(null);
   const [Class, setClass] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   
@@ -160,7 +162,7 @@ const DataTable = (props) => {
         const response = await axios.get(
           `${WEB_BACKEND_URL}/api/route/IcsePreviousyearQuestions/${slug}`
         );
-        console.log("API Response:", response.data);
+
 
         if (response.data && response.data.data) {
           setData(response.data.data); 
@@ -180,33 +182,117 @@ const DataTable = (props) => {
   }, [slug]);
 
 
-  const renderLink = (dataItem) => {
+  const renderLink = (dataItem, index = 0, groupKey = "slug-table") => {
     if (!dataItem) return <span>No title available</span>;
     const title = typeof dataItem === 'object' ? dataItem.title : dataItem;
-    // IGNORING hardcoded pdfUrl here
-    const finalPdfUrl = uploadedUrls[normalizeTitle(title)];
+    const finalPdfUrl = (typeof dataItem === 'object' && dataItem.pdfUrl)
+      ? dataItem.pdfUrl
+      : uploadedUrls[normalizeTitle(title)];
     
     if (!title) return <span>No title available</span>;
+    const rowKey = `${groupKey}-${index}-${normalizeTitle(title)}`;
+    const isOpen = activePdfKey === rowKey;
     
-    return finalPdfUrl ? (
-      <button 
-        className="w-full block text-center cursor-pointer"
-        onClick={() => {
-          setSelectedPdf(finalPdfUrl);
-          setTimeout(() => {
-            document.getElementById('pdf-viewer')?.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        }}
-      >
-        {title}
-      </button>
-    ) : (
-      <button
-        className="w-full block text-center cursor-pointer"
-        onClick={() => alert("PDF not uploaded yet for this paper.")}
-      >
-        {title}
-      </button>
+    return (
+      <div className="w-full">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+          <button 
+            type="button"
+            className="font-bold text-blue-600 hover:text-blue-800 text-center sm:text-left cursor-pointer"
+            onClick={() => {
+              if (finalPdfUrl) {
+                setActivePdfKey(isOpen ? null : rowKey);
+                setActivePdfUrl(isOpen ? null : finalPdfUrl);
+              } else {
+                alert("PDF not uploaded yet for this paper.");
+              }
+            }}
+          >
+            {title}
+          </button>
+          {finalPdfUrl ? (
+            <button
+              type="button"
+              onClick={() => {
+                setActivePdfKey(isOpen ? null : rowKey);
+                setActivePdfUrl(isOpen ? null : finalPdfUrl);
+              }}
+              className="px-4 py-1.5 text-xs font-semibold rounded bg-orange-600 text-white hover:bg-orange-700 transition cursor-pointer whitespace-nowrap"
+            >
+              {isOpen ? "Close PDF" : "Open PDF"}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => alert("PDF not uploaded yet for this paper.")}
+              className="px-4 py-1.5 text-xs font-semibold rounded bg-gray-400 text-white cursor-pointer whitespace-nowrap"
+            >
+              Not Available
+            </button>
+          )}
+        </div>
+
+        {isOpen && activePdfUrl && (
+          <div className="mt-4 p-4 border rounded-xl shadow-md bg-white text-center flex flex-col items-center">
+            <ToastContainer />
+            <h3 className="text-xl font-semibold text-orange-700 mb-3">View PDF</h3>
+            <button
+              type="button"
+              onClick={() => {
+                if (isLoggedIn) {
+                  window.open(activePdfUrl, "_blank");
+                } else {
+                  toast.info("Please log in as a student to continue", { position: "top-center", autoClose: 2000 });
+                  setTimeout(() => router.push("/Student"), 2000);
+                }
+              }}
+              className="inline-block px-5 py-2.5 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition relative z-10 text-sm"
+            >
+              View / Download PDF
+            </button>
+
+            <div className="relative w-full h-[500px] border rounded-xl my-4 shadow-sm bg-white overflow-hidden flex flex-col">
+              {isLoggedIn ? (
+                <iframe
+                  src={`${activePdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: "none" }}
+                  title="PDF Viewer"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 relative">
+                  <div className="w-3/4 space-y-4 blur-sm opacity-50 absolute top-10 left-10 right-10 bottom-10 pointer-events-none select-none">
+                    <div className="h-4 bg-gray-400 rounded w-full"></div>
+                    <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-400 rounded w-4/6"></div>
+                    <div className="h-8 bg-gray-400 rounded w-1/3 my-8"></div>
+                    <div className="h-4 bg-gray-400 rounded w-full"></div>
+                    <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                    <div className="h-4 bg-gray-400 rounded w-full"></div>
+                    <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md z-20">
+                    <p className="text-lg font-semibold text-gray-800 mb-2">
+                      Please log in to view the full PDF
+                    </p>
+                    <p className="text-gray-600 mb-4 text-center max-w-md text-sm">
+                      You are seeing a limited preview. Log in to access the complete document.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/Student")}
+                      className="px-5 py-2 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition"
+                    >
+                      Login to View PDF
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     );
   };
 
@@ -278,7 +364,7 @@ const DataTable = (props) => {
                                         : "border-b border-slate-800"
                                         }`}
                                     >
-                                      {renderLink(dataItem)}
+                                      {renderLink(dataItem, index, "tableData")}
                                     </div>
                                   ))}
                                 </td>
@@ -303,7 +389,7 @@ const DataTable = (props) => {
                                             : "border-b"
                                             }`}
                                         >
-                                          {renderLink(dataItem)}
+                                          {renderLink(dataItem, index, "tableData")}
                                         </div>
                                       )
                                     )}
@@ -316,66 +402,6 @@ const DataTable = (props) => {
                     </div>
                   </div>
 
-                  {selectedPdf && (
-                    <div id="pdf-viewer" className="mt-8 mb-8 text-center flex flex-col items-center">
-                      <ToastContainer />
-                      <h2 className="text-2xl font-semibold text-orange-700 mb-4">
-                        View PDF
-                      </h2>
-                      <button
-                        onClick={() => {
-                          if (isLoggedIn) {
-                            window.open(selectedPdf, "_blank");
-                          } else {
-                            toast.info("Please log in as a student to continue", { position: "top-center", autoClose: 2000 });
-                            setTimeout(() => router.push("/Student"), 2000);
-                          }
-                        }}
-                        className="inline-block px-6 py-3 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition relative z-10"
-                      >
-                        View / Download PDF
-                      </button>
-                      
-                      <div className="relative w-full h-[600px] border rounded-xl my-4 shadow-md bg-white overflow-hidden flex flex-col mt-4">
-                        {isLoggedIn ? (
-                          <iframe
-                            src={`${selectedPdf}#toolbar=0&navpanes=0&scrollbar=0`}
-                            width="100%"
-                            height="100%"
-                            style={{ border: "none" }}
-                            title="PDF Viewer"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 relative">
-                            <div className="w-3/4 space-y-4 blur-sm opacity-50 absolute top-10 left-10 right-10 bottom-10 pointer-events-none select-none">
-                               <div className="h-4 bg-gray-400 rounded w-full"></div>
-                               <div className="h-4 bg-gray-400 rounded w-5/6"></div>
-                               <div className="h-4 bg-gray-400 rounded w-4/6"></div>
-                               <div className="h-8 bg-gray-400 rounded w-1/3 my-8"></div>
-                               <div className="h-4 bg-gray-400 rounded w-full"></div>
-                               <div className="h-4 bg-gray-400 rounded w-11/12"></div>
-                               <div className="h-4 bg-gray-400 rounded w-full"></div>
-                               <div className="h-4 bg-gray-400 rounded w-4/5"></div>
-                            </div>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md z-20">
-                              <p className="text-lg font-semibold text-gray-800 mb-2">
-                                Please log in to view the full PDF
-                              </p>
-                              <p className="text-gray-600 mb-4 text-center max-w-md">
-                                You are seeing a limited preview. Log in to access the complete document.
-                              </p>
-                              <button
-                                onClick={() => router.push("/Student")}
-                                className="px-5 py-2 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition"
-                              >
-                                Login to View PDF
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
                   <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                       {item.heading5}
                   </h1>
@@ -416,7 +442,7 @@ const DataTable = (props) => {
                                       : "border-b"
                                       }`}
                                   >
-                                    {renderLink(dataItem)}
+                                    {renderLink(dataItem, index, "tableData")}
                                   </div>
                                 ))}
                               </td>

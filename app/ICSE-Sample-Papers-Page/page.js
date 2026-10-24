@@ -42,6 +42,7 @@ const RelatedPage = () => {
   const [showButton, setShowButton] = useState(false);
   const [uploadedUrls, setUploadedUrls] = useState({});
   const [selectedPdf, setSelectedPdf] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
