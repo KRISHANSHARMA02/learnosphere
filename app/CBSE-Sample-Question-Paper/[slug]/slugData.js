@@ -4,8 +4,7 @@ import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import FAQAccordion from "@/components/FAQAccordion";
-import { faqData } from "./faqData";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import React, { useEffect, useState, use } from "react";
 import Banner2 from "@/public/Banner2.jpeg";
 import Link from "next/link";
@@ -27,7 +26,6 @@ import FormSection from '@/components/FormGeneral';
 const DataTable = ({ data, slug: propSlug }) => {
   const params = useParams();
   const currentSlug = propSlug || params?.slug;
-  const faqs = (currentSlug && faqData[currentSlug]) || [];
   //const params = use(props.params);
   // const { slug } = params;
   //const [data, setData] = useState([]);
@@ -421,7 +419,7 @@ const DataTable = ({ data, slug: propSlug }) => {
         </div>
 
       </div>
-      <FAQAccordion faqs={faqs} />
+      <DynamicFAQSection slug={currentSlug} />
       <Sociallinks2 />
       <Footer1 />
       <Footer />
