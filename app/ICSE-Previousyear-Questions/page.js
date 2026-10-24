@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState, use, useRef } from "react";
 import Banner2 from "@/public/Banner2.jpeg";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Footer1 from "@/components/Footer1";
 import Footer from "@/components/Footer";
@@ -17,10 +20,30 @@ import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
 
 const DataTable = (props) => {
-  const params = use(props.params);
-  const { slug } = params;
-  const [Class, setClass] = useState(null);
+  const slug = props?.params?.slug || null;
+
+
+  const [Class, setClass] = useState("10");
+  const effectiveSlug = slug || (Class === "12" ? "ISC-Class-12-Maths-Previous-Year-Question-Papers" : "ICSE-Class-10-Maths-Previous-Year-Paper");
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === "authenticated";
+  const [activePdfKey, setActivePdfKey] = useState(null);
+  const [activePdfUrl, setActivePdfUrl] = useState(null);
+
+  const handleTogglePdf = (pdfUrl, rowKey) => {
+    if (!pdfUrl) {
+      alert("PDF not uploaded yet for this paper.");
+      return;
+    }
+    if (activePdfKey === rowKey) {
+      setActivePdfKey(null);
+      setActivePdfUrl(null);
+    } else {
+      setActivePdfKey(rowKey);
+      setActivePdfUrl(pdfUrl);
+    }
+  };
   
 
   const handleInputChange = (e) => {
@@ -40,7 +63,8 @@ const DataTable = (props) => {
     // Check if we are in the browser before accessing window
     if (typeof window !== "undefined") {
       const searchParams = new URLSearchParams(window.location.search);
-      setClass(searchParams.get("Class"));
+      const queryClass = searchParams.get("Class");
+      if (queryClass) setClass(queryClass);
     }
   }, []);
 
@@ -111,7 +135,7 @@ const DataTable = (props) => {
         const response = await axios.get(
           `${WEB_BACKEND_URL}/api/route/IcsePreviousyearQuestions/${slug}`
         );
-        console.log("API Response:", response.data);
+
 
         if (response.data && response.data.data) {
           setData(response.data.data); 
@@ -127,8 +151,118 @@ const DataTable = (props) => {
       }
     };
 
-    if (slug) fetchData();
-  }, [slug]);
+    fetchData();
+  }, [effectiveSlug]);
+
+  const renderPdfItem = (dataItem, index, isLast, groupKey) => {
+    if (!dataItem) return <span>No title available</span>;
+    const title = typeof dataItem === "object" ? dataItem.title : dataItem;
+    const pdfUrl = (typeof dataItem === "object" && dataItem.pdfUrl)
+      ? dataItem.pdfUrl
+      : uploadedUrls[normalizeTitle(title)];
+    const rowKey = `${groupKey}-${index}-${normalizeTitle(title)}`;
+    const isOpen = activePdfKey === rowKey;
+
+    return (
+      <div
+        key={dataItem.id || index}
+        className={`py-3 px-4 border-slate-800 hover:bg-gray-50 w-full transition ${
+          isLast ? "" : "border-b border-slate-800"
+        }`}
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={() => handleTogglePdf(pdfUrl, rowKey)}
+            className="font-bold text-blue-600 hover:text-blue-800 text-center sm:text-left cursor-pointer"
+          >
+            {title}
+          </button>
+          {pdfUrl ? (
+            <button
+              type="button"
+              onClick={() => handleTogglePdf(pdfUrl, rowKey)}
+              className="px-4 py-1.5 text-xs font-semibold rounded bg-orange-600 text-white hover:bg-orange-700 transition cursor-pointer whitespace-nowrap"
+            >
+              {isOpen ? "Close PDF" : "Open PDF"}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => alert("PDF not uploaded yet for this paper.")}
+              className="px-4 py-1.5 text-xs font-semibold rounded bg-gray-400 text-white cursor-pointer whitespace-nowrap"
+            >
+              Not Available
+            </button>
+          )}
+        </div>
+
+        {isOpen && activePdfUrl && (
+          <div className="mt-4 p-4 border rounded-xl shadow-md bg-white text-center flex flex-col items-center">
+            <ToastContainer />
+            <h3 className="text-xl font-semibold text-orange-700 mb-3">View PDF</h3>
+            <button
+              type="button"
+              onClick={() => {
+                if (isLoggedIn) {
+                  window.open(activePdfUrl, "_blank");
+                } else {
+                  toast.info("Please log in as a student to continue", {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
+                  setTimeout(() => router.push("/Student"), 2000);
+                }
+              }}
+              className="inline-block px-5 py-2.5 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition relative z-10 text-sm"
+            >
+              View / Download PDF
+            </button>
+
+            <div className="relative w-full h-[500px] border rounded-xl my-4 shadow-sm bg-white overflow-hidden flex flex-col">
+              {isLoggedIn ? (
+                <iframe
+                  src={`${activePdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: "none" }}
+                  title="PDF Viewer"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 relative">
+                  <div className="w-3/4 space-y-4 blur-sm opacity-50 absolute top-10 left-10 right-10 bottom-10 pointer-events-none select-none">
+                    <div className="h-4 bg-gray-400 rounded w-full"></div>
+                    <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-400 rounded w-4/6"></div>
+                    <div className="h-8 bg-gray-400 rounded w-1/3 my-8"></div>
+                    <div className="h-4 bg-gray-400 rounded w-full"></div>
+                    <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                    <div className="h-4 bg-gray-400 rounded w-full"></div>
+                    <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md z-20">
+                    <p className="text-lg font-semibold text-gray-800 mb-2">
+                      Please log in to view the full PDF
+                    </p>
+                    <p className="text-gray-600 mb-4 text-center max-w-md text-sm">
+                      You are seeing a limited preview. Log in to access the complete document.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/Student")}
+                      className="px-5 py-2 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition"
+                    >
+                      Login to View PDF
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   if (loading) {
     return <div className="text-gray-600">Loading...</div>;
@@ -145,6 +279,31 @@ const DataTable = (props) => {
         <div className="px-4 md:px-28 flex flex-col lg:flex-row gap-6 bg-gray-100 container mx-auto pt-24">
           <div className="flex flex-col gap-5 w-full lg:w-[65%]">
             <div className="fixed right-8 top-[650px] md:top-[550px] flex flex-col items-center space-y-4"></div>
+            <div className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+              <span className="font-semibold text-gray-700">Select Class:</span>
+              <button
+                type="button"
+                onClick={() => setClass("10")}
+                className={`px-4 py-2 text-sm font-bold rounded-md transition ${
+                  Class !== "12"
+                    ? "bg-orange-600 text-white shadow"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                ICSE Class 10
+              </button>
+              <button
+                type="button"
+                onClick={() => setClass("12")}
+                className={`px-4 py-2 text-sm font-bold rounded-md transition ${
+                  Class === "12"
+                    ? "bg-orange-600 text-white shadow"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                ISC Class 12
+              </button>
+            </div>
             {data.length > 0 ? (
               data.map((item) => (
                 <div key={item.id} className="mb-4">
@@ -189,36 +348,7 @@ const DataTable = (props) => {
                             <tr>
                               {item.tableData && item.tableData.length > 0 ? (
                                 <td className="border border-slate-800">
-                                  {item.tableData.map((dataItem, index) => (
-                                    <div
-                                      key={dataItem.id || index} // Ensure you have a unique key
-                                      className={`py-2 px-4 border-slate-800 hover:bg-gray-100 w-full ${index === item.tableData.length - 1
-                                        ? ""
-                                        : "border-b border-slate-800"
-                                        }`}
-                                    >
-                                      {dataItem && dataItem.title ? (
-                                          (dataItem.pdfUrl || uploadedUrls[normalizeTitle(dataItem.title)]) ? (
-                                            <a 
-                                              className="w-full block text-center font-bold text-blue-600"
-                                              href={dataItem.pdfUrl || uploadedUrls[normalizeTitle(dataItem.title)]}
-                                              download
-                                            >
-                                              {dataItem.title}
-                                            </a>
-                                          ) : (
-                                          <button
-                                            className="w-full block text-center cursor-pointer"
-                                            onClick={() => alert("PDF not uploaded yet for this paper.")}
-                                          >
-                                            {dataItem.title}
-                                          </button>
-                                        )
-                                      ) : (
-                                        <span>No title available</span>
-                                      )}
-                                    </div>
-                                  ))}
+                                  {item.tableData.map((dataItem, index) => renderPdfItem(dataItem, index, index === item.tableData.length - 1, "tableData"))}
                                 </td>
                               ) : (
                                 <td className="border border-slate-800">
@@ -231,39 +361,7 @@ const DataTable = (props) => {
                               {item.anotherField &&
                                 item.anotherField.length > 0 && (
                                   <td className="border border-slate-800">
-                                    {item.anotherField.map(
-                                      (dataItem, index) => (
-                                        <div
-                                          key={dataItem.id || index} // Ensure you have a unique key
-                                          className={`py-2 px-4 border-slate-800 hover:bg-gray-100 w-full ${index ===
-                                            item.anotherField.length - 1
-                                            ? ""
-                                            : "border-b"
-                                            }`}
-                                        >
-                                          {dataItem && dataItem.title ? (
-                                            (dataItem.pdfUrl || uploadedUrls[normalizeTitle(dataItem.title)]) ? (
-                                              <a 
-                                                className="w-full block text-center font-bold text-blue-600"
-                                                href={dataItem.pdfUrl || uploadedUrls[normalizeTitle(dataItem.title)]}
-                                                download
-                                              >
-                                                {dataItem.title}
-                                              </a>
-                                            ) : (
-                                              <button
-                                                className="w-full block text-center cursor-pointer"
-                                                onClick={() => alert("PDF not uploaded yet for this paper.")}
-                                              >
-                                                {dataItem.title}
-                                              </button>
-                                            )
-                                          ) : (
-                                            <span>No title available</span>
-                                          )}
-                                        </div>
-                                      )
-                                    )}
+                                    {item.anotherField.map((dataItem, index) => renderPdfItem(dataItem, index, index === item.anotherField.length - 1, "anotherField"))}
                                   </td>
                                 )}
                             </tr>
@@ -271,75 +369,6 @@ const DataTable = (props) => {
                         </table>
                       ) : null}
                     </div>
-                  </div>
-                  <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                    {item.heading5}
-                  </h1>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
-                  {item.list2 && item.list2.length > 0 && (
-                    <ol className="list-disc text-orange-600 pl-5 mb-2">
-                      {item.list2.map((listItem, index) => (
-                        <li key={index} className="mb-1">
-                          {listItem}
-                        </li>
-                      ))}
-                    </ol>
-                  )}
-
-                  <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                    {item.heading11}
-                  </h1>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
-                  <div className="border mt-3 mb-5 border-slate-800">
-                    {item.heading12 ? ( // Check if item.heading24 has a value
-                      <h1 className="text-white bg-orange-600 p-4 font-bold text-center border border-slate-800 text-[1.2em]">
-                        {item.heading12}
-                      </h1>
-                    ) : null}
-                    <p className=" ">{item.para12}</p>
-
-                    {item.anotherField1 && item.anotherField1.length > 0 && (
-                      <div className="flex flex-col items-center justify-center gap-4">
-                        <table className="min-w-full bg-white border border-gray-300">
-                          <tbody className="text-center">
-                            <tr>
-                              <td className="border border-slate-800">
-                                {item.anotherField1.map((dataItem, index) => (
-                                  <div
-                                    key={dataItem.id || index} // Ensure you have a unique key
-                                    className={`py-2 px-4 border-slate-800 hover:bg-gray-100 w-full ${index === item.anotherField1.length - 1
-                                      ? ""
-                                      : "border-b"
-                                      }`}
-                                  >
-                                    {dataItem && dataItem.title ? (
-                                      (dataItem.pdfUrl || uploadedUrls[normalizeTitle(dataItem.title)]) ? (
-                                        <a 
-                                          className="w-full block text-center font-bold text-blue-600"
-                                          href={dataItem.pdfUrl || uploadedUrls[normalizeTitle(dataItem.title)]}
-                                          download
-                                        >
-                                          {dataItem.title}
-                                        </a>
-                                      ) : (
-                                        <button
-                                          className="w-full block text-center cursor-pointer"
-                                          onClick={() => alert("PDF not uploaded yet for this paper.")}
-                                        >
-                                          {dataItem.title}
-                                        </button>
-                                      )
-                                    ) : (
-                                      <span>No title available</span>
-                                    )}
-                                  </div>
-                                ))}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
                   </div>
                   <h1 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
                     {item.heading6}
