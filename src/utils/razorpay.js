@@ -1,4 +1,5 @@
 import axios from "axios";
+import { trackEvent } from "../lib/eventTracker";
 
 export const loadRazorpayScript = () => {
   return new Promise((resolve) => {
@@ -17,10 +18,11 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
     return;
   }
 
+  const amountPaid = finalAmount;
+  const courseId = course?.id || course?._id;
+  const studentId = user?.userId || user?.id || user?._id;
 
   try {
-
-
     // STEP 1: Create Razorpay Order from backend
     const orderRes = await axios.post(
       "https://mobileapp.backend.learnosphere.in/api/route/createOrder",
@@ -43,12 +45,8 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
       order_id: orderId,
       handler: async function (response) {
         try {
-          // You can also fetch course price dynamically here if not present
           const transactionId = response.razorpay_payment_id;
-          const courseId = course.id || course._id;
-          const userId = user.userId; // coming from getStudentDetailsById response
-
-          const amountPaid = finalAmount; // assuming price is available in course object
+          const userId = user.userId;
 
           const verifyRes = await axios.post(
             "https://mobileapp.backend.learnosphere.in/api/route/enrollStudentInCourse",
@@ -58,7 +56,7 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
               amountPaid,
               transactionId,
               paymentGateway: "razorpay",
-              status: "success", // since it reached here, treat as success
+              status: "success",
             }
           );
 
@@ -68,28 +66,48 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
               enrollment: verifyRes.data.enrollment,
             });
 
-        trackEvent("PAYMENT_SUCCESS", { amount: amountPaid, course_id: course?._id || course?.id });
+            trackEvent("PAYMENT_SUCCESS", {
+              amount: amountPaid,
+              course_id: courseId,
+              course_title: course?.name,
+              transaction_id: transactionId,
+            }, studentId);
           } else {
-             trackEvent("PAYMENT_FAILED", { reason: verifyRes.data.message || "Payment verification failed", amount: amountPaid,  course_id: course?._id || course?.id });
+            trackEvent("PAYMENT_FAILED", {
+              reason: verifyRes.data?.message || "Payment verification failed",
+              amount: amountPaid,
+              course_id: courseId,
+              course_title: course?.name,
+              transaction_id: transactionId,
+            }, studentId);
             onFailure("Enrollment failed after payment.");
           }
         } catch (err) {
           console.error("Verification error:", err);
-           trackEvent("PAYMENT_FAILED", { reason: err.response?.data?.message || "Server verification error", amount: amountPaid, course_id: course?._id || course?.id });
+          trackEvent("PAYMENT_FAILED", {
+            reason: err.response?.data?.message || "Server verification error",
+            amount: amountPaid,
+            course_id: courseId,
+            course_title: course?.name,
+          }, studentId);
           onFailure("Payment verification failed. Please contact support.");
         }
       }, 
       prefill: {
-        name: `${user.studentName} ${user.lastName}`,
-        email: user.gmail,
-        contact: user.mobileNumber,
+        name: `${user.studentName || ""} ${user.lastName || ""}`.trim(),
+        email: user.gmail || user.email,
+        contact: user.mobileNumber || user.phone,
       },
       theme: { color: "#ea580c" },
-      // ✅ Add this block
       modal: {
         ondismiss: function () {
           console.warn("User closed Razorpay popup.");
-           trackEvent("PAYMENT_FAILED", { reason: "Payment cancelled by user", amount: amountPaid, course_id: course?._id || course?.id });
+          trackEvent("PAYMENT_FAILED", {
+            reason: "Payment cancelled by user",
+            amount: amountPaid,
+            course_id: courseId,
+            course_title: course?.name,
+          }, studentId);
           onFailure("Payment was cancelled by the user.");
         },
       },
@@ -97,25 +115,40 @@ export const openRazorpay = async ({ finalAmount, course, user, onSuccess, onFai
 
     const paymentObject = new window.Razorpay(options);
 
-    // Handle payment failure
+    // Handle payment failure (e.g. bank decline, wrong OTP)
     paymentObject.on("payment.failed", function (response) {
       console.error("Razorpay Payment Failed:", response);
-        trackEvent("PAYMENT_FAILED", { reason: "Razorpay payment.failed event", error: response.error, amount: amountPaid, course_id: course?._id || course?.id });
+      trackEvent("PAYMENT_FAILED", {
+        reason: response?.error?.description || "Razorpay payment.failed event",
+        error: response?.error || null,
+        amount: amountPaid,
+        course_id: courseId,
+        course_title: course?.name,
+      }, studentId);
       onFailure("Payment failed. Please try again.");
     });
 
-    // Handle modal close (cancelled payment)
+    // Handle modal close
     paymentObject.on("modal.closed", function () {
       console.warn("Payment popup closed by user.");
-        trackEvent("PAYMENT_DISMISSED", { reason: "Razorpay modal closed by user", error: response.error, amount: amountPaid, course_id: course?._id || course?.id });
+      trackEvent("PAYMENT_DISMISSED", {
+        reason: "Razorpay modal closed by user",
+        amount: amountPaid,
+        course_id: courseId,
+        course_title: course?.name,
+      }, studentId);
       onFailure("Payment was cancelled by the user.");
     });
 
     paymentObject.open();
   } catch (error) {
     console.error("Order creation error:", error);
-          console.error("Razorpay Payment Failed:", response);
-        trackEvent("PAYMENT_FAILED", { reason: "Razorpay payment.failed event", error: response.error, amount: amountPaid, course_id: course?._id || course?.id });
+    trackEvent("PAYMENT_FAILED", {
+      reason: error?.response?.data?.message || error?.message || "Order creation error",
+      amount: amountPaid,
+      course_id: courseId,
+      course_title: course?.name,
+    }, studentId);
     onFailure("Failed to initiate payment");
   }
 };

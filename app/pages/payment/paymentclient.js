@@ -74,9 +74,10 @@ const PaymentPage = () => {
     const typeParam = searchParams.get("type");
     if (typeParam) setType(typeParam);
 
+    let parsedCourse = null;
     if (courseParam) {
       try {
-        const parsedCourse = JSON.parse(decodeURIComponent(courseParam));
+        parsedCourse = JSON.parse(decodeURIComponent(courseParam));
         setCourse(parsedCourse);
       } catch (err) {
         console.error("Failed to parse course data", err);
@@ -91,11 +92,14 @@ const PaymentPage = () => {
         })
         .then((res) => {
           setUser(res.data);
-               trackEvent("PAYMENT_PAGE_VISITED", { 
+          trackEvent("PAYMENT_PAGE_VISITED", { 
             course_id: parsedCourse?.id || parsedCourse?._id, 
             course_title: parsedCourse?.name, 
-            type: typeParam 
-          });
+            type: typeParam,
+            amount: parsedCourse?.price || 0,
+            user_id: userId,
+            email: res.data?.gmail || res.data?.email || "",
+          }, userId);
         })
         .catch((err) => {
           console.error("Failed to fetch user:", err);
