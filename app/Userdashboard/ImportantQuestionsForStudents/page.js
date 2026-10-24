@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -86,7 +87,7 @@ const TopicsList = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -104,7 +105,7 @@ const TopicsList = () => {
       const fetchTopics = async () => {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getTopicsForStudents",
+            `${WEB_BACKEND_URL}/api/route/getTopicsForStudents`,
             { grade, subject }
           );
           setTopics(response.data.topics || []);
@@ -130,7 +131,7 @@ const TopicsList = () => {
       let previousQuestionsIds = JSON.parse(localStorage.getItem('previousQuestions')) || [];
 
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/getImportantQuestion",
+        `${WEB_BACKEND_URL}/api/route/getImportantQuestion`,
         { grade, subject, topic }
       );
 
@@ -176,7 +177,7 @@ const TopicsList = () => {
       };
 
   
-      const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/submitResult", payload);
+      const response = await axios.post(`${WEB_BACKEND_URL}/api/route/submitResult`, payload);
       setResult(response.data);
       setShowSummary(true)
     } catch (error) {

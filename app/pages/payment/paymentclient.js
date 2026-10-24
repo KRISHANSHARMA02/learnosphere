@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { useState, useEffect } from "react";
 import {
   FaGooglePay,
@@ -40,7 +41,7 @@ const PaymentPage = () => {
       try {
         setLoadingCoupons(true);
         const res = await axios.get(
-          "https://mobileapp.backend.learnosphere.in/api/route/fetchAvailableCoupons"
+          `${APP_BACKEND_URL}/api/route/fetchAvailableCoupons`
         );
         setAvailableCoupons(res.data || []);
       } catch (error) {
@@ -87,7 +88,7 @@ const PaymentPage = () => {
     // Fetch user details
     if (userId) {
       axios
-        .post("https://mobileapp.backend.learnosphere.in/api/route/getStudentDetailsById", {
+        .post(`${APP_BACKEND_URL}/api/route/getStudentDetailsById`, {
           userId,
         })
         .then((res) => {
@@ -117,7 +118,7 @@ const PaymentPage = () => {
 
     try {
       const res = await axios.post(
-        "https://mobileapp.backend.learnosphere.in/api/route/verifyCouponCode",
+        `${APP_BACKEND_URL}/api/route/verifyCouponCode`,
         {
           code: codeToApply,
           //courseId: course._id,

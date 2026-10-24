@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { useState, useEffect } from "react";
 import { FaClock, FaGraduationCap, FaChalkboardTeacher, FaGooglePlay, FaAppStore } from "react-icons/fa";
 import Image from "next/image";
@@ -61,7 +62,7 @@ const Classes = () => {
           return;
         }
 
-        const response = await axios.get("https://mobileapp.backend.learnosphere.in/api/session/v1/get_bookings_students", {
+        const response = await axios.get(`${APP_BACKEND_URL}/api/session/v1/get_bookings_students`, {
           params: { 
             student_id: fetchedStudentId 
           }

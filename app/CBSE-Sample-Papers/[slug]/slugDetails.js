@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -40,7 +41,7 @@ const DataTable = ({ data }) => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const baseUrl = ((typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : 'https://learnospherebackend.learnosphere.in');
+        const baseUrl = WEB_BACKEND_URL;
 
         // Class 10 papers — existing endpoint (DO NOT change)
         const res10 = await fetch(`${baseUrl}/api/route/cbse-sample-papers/class-10`).then(r => r.json());
@@ -225,7 +226,7 @@ const DataTable = ({ data }) => {
 //         setError("");
 
 //         const response = await axios.get(
-//           `https://learnospherebackend.learnosphere.in/api/route/SamplePapers/${slug}`
+//           `${WEB_BACKEND_URL}/api/route/SamplePapers/${slug}`
 //         );
 //         console.log("API Response:", response.data);
 

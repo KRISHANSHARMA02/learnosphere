@@ -1,4 +1,5 @@
 import React from "react";
+import { getTutorImageSrc } from "@/src/utils/tutorImageHelper";
 import { getSecureTeacherList } from "@/src/lib/actions/AvailableTeacherAction"; 
 import { FiMapPin, FiStar, FiClock, FiBook, FiGlobe, FiDollarSign } from "react-icons/fi";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export default async function TeacherProfilePage({ params }) {
         <div className="relative h-48 bg-gradient-to-r from-orange-400 to-orange-600">
            <div className="absolute -bottom-16 left-8 md:left-12">
               <img 
-                src={teacher.image} 
+                src={getTutorImageSrc(teacher)} 
                 alt={teacher.name} 
                 className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white object-cover shadow-lg bg-white"
               />

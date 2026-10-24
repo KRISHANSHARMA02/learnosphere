@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -30,7 +31,7 @@ const SubjectwiseDPQs = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -48,7 +49,7 @@ const SubjectwiseDPQs = () => {
       if (!grade || !selectedSubject) return; // Ensure all dependencies are available
       try {
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/getDPQsChaptername?subject=${selectedSubject}&grade=${grade}&stream=${stream}`
+          `${WEB_BACKEND_URL}/api/route/getDPQsChaptername?subject=${selectedSubject}&grade=${grade}&stream=${stream}`
         ); // Replace with your actual API URL
         if (response.data.length === 0) {
           setError(

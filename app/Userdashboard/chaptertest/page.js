@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { FaBookOpen } from "react-icons/fa";
@@ -174,7 +175,7 @@ const ChaptertestContent = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -201,7 +202,7 @@ const ChaptertestContent = () => {
             params.stream = stream;
           }
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/getstudymaterialbysubjects`,
+            `${WEB_BACKEND_URL}/api/route/getstudymaterialbysubjects`,
             { params }
           );
           setSelectedSubjects1(response.data.selectedSubjects1 || []); // Default to an empty array if undefined
@@ -224,7 +225,7 @@ const ChaptertestContent = () => {
         setLoading(true);
         try {
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/getstudentdata?grade=${grade}&selectedSubject=${selectedSubjectFromQuery}`
+            `${WEB_BACKEND_URL}/api/route/getstudentdata?grade=${grade}&selectedSubject=${selectedSubjectFromQuery}`
           );
           setSelectedSubjectData(response.data); // Update the subject data immediately
         } catch (error) {
@@ -247,7 +248,7 @@ const ChaptertestContent = () => {
             params.stream = stream;
           }
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/getSeletedSubject`,
+            `${WEB_BACKEND_URL}/api/route/getSeletedSubject`,
             { params }
           );
           setSelectedSubjects(response.data.selectedSubjects);
@@ -266,7 +267,7 @@ const ChaptertestContent = () => {
 
   const handleNavigation = async (subject) => {
     try {
-      const response = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/fetchBooks`, {
+      const response = await axios.get(`${WEB_BACKEND_URL}/api/route/fetchBooks`, {
         params: { grade, selectedSubject: subject.selectedSubject },
       });
   
@@ -489,7 +490,7 @@ const ChaptertestContent = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/start-learning-activity",
+        `${WEB_BACKEND_URL}/api/route/start-learning-activity`,
         {
           userId,
           grade: grade,
@@ -519,7 +520,7 @@ const ChaptertestContent = () => {
     // Send data to update the learning activity
     axios
       .post(
-        "https://learnospherebackend.learnosphere.in/api/route/update-learning-activity",
+        `${WEB_BACKEND_URL}/api/route/update-learning-activity`,
         dataToSend
       )
       .then((response) => {
@@ -539,7 +540,7 @@ const ChaptertestContent = () => {
   useEffect(() => {
     const fetchBookmarkedFiles = async () => {
       try {
-        const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/getBookmark", {
+        const response = await axios.post(`${WEB_BACKEND_URL}/api/route/getBookmark`, {
           userId,
           grade:grade
         });
@@ -570,7 +571,7 @@ const ChaptertestContent = () => {
       if (isBookmarked) {
         // If already bookmarked, send a request to remove it
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/removeBookmark",
+          `${WEB_BACKEND_URL}/api/route/removeBookmark`,
           {
             userId,
             fileId: file.id,
@@ -587,7 +588,7 @@ const ChaptertestContent = () => {
       } else {
         // If not bookmarked, send a request to add it
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/bookmark",
+          `${WEB_BACKEND_URL}/api/route/bookmark`,
           {
             grade,
             fileId: file.id,

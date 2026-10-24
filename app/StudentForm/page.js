@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import background from "@/public/stbg.png"; // Ensure this path is correct in your project
@@ -20,7 +21,7 @@ export default function StudentForm() {
   const router = useRouter();
 
   // API Base URL (Using the production URL based on your code)
-  const BASE_URL = "https://learnospherebackend.learnosphere.in"; //https://learnospherebackend.learnosphere.in
+  const BASE_URL = WEB_BACKEND_URL; //${WEB_BACKEND_URL}
 
   const [formData, setFormData] = useState({
     studentName: "",

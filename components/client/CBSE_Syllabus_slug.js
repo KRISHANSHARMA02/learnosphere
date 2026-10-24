@@ -1,5 +1,6 @@
 // pages/syllabus.js
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import React from "react";
@@ -181,7 +182,7 @@ export default function Syllabus() {
       }
       try {
         const response = await axios.get(
-          "https://mobileapp.backend.learnosphere.in/api/route/getSyllabusByClass",
+          `${APP_BACKEND_URL}/api/route/getSyllabusByClass`,
           { params: { className } }
         );
         if (response.data && response.data.length > 0) {

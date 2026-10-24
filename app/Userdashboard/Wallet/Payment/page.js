@@ -1,5 +1,6 @@
 
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { Suspense, useState, useEffect } from 'react';
 import { ArrowLeft, Tag, Receipt, Lock, Loader2 } from 'lucide-react';
@@ -49,7 +50,7 @@ const PaymentConfirmationContent = () => {
             if (fetchedUserId) {
                 setUserId(fetchedUserId); 
 
-                const offersRes = await fetch(`https://mobileapp.backend.learnosphere.in/api/route/get_student_wallet_summary/${fetchedUserId}?isoCode=${studentIso}`);
+                const offersRes = await fetch(`${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${fetchedUserId}?isoCode=${studentIso}`);
                 const summary = await offersRes.json();
                 
                 if (summary.currencySymbol) setCurrencySymbol(summary.currencySymbol);

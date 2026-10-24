@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
 import { LiaComments } from "react-icons/lia";
@@ -58,7 +59,7 @@ const Notification = () => {
 
       try {
         const response = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getTeacherNotifications",
+          `${WEB_BACKEND_URL}/api/route/getTeacherNotifications`,
           {
             params: { filter: activeTab.toLowerCase(), teacherEmail },
           }
@@ -80,7 +81,7 @@ const Notification = () => {
 
       try {
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/getTeacherQueryData",
+          `${WEB_BACKEND_URL}/api/route/getTeacherQueryData`,
           { gmail: teacherEmail }
         );
 
@@ -103,7 +104,7 @@ const Notification = () => {
   const handleNotificationClick = async (notificationId) => {
     try {
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/markasReadTeacherNotifications",
+        `${WEB_BACKEND_URL}/api/route/markasReadTeacherNotifications`,
         { notificationId }
       );
       setNotifications((prev) =>
@@ -122,7 +123,7 @@ const Notification = () => {
 
       // Proceed to delete
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/moveToTrashTeacherNotifications",
+        `${WEB_BACKEND_URL}/api/route/moveToTrashTeacherNotifications`,
         { notificationId }
       );
 
@@ -147,7 +148,7 @@ const Notification = () => {
 
       // Proceed to delete
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/deleteSelectedTeacherNotifications",
+        `${WEB_BACKEND_URL}/api/route/deleteSelectedTeacherNotifications`,
         { notificationIds: selectedNotifications }
       );
 
@@ -168,7 +169,7 @@ const Notification = () => {
         try {
           const teacherEmail = session?.user?.email;
           const response = await axios.get(
-            "https://learnospherebackend.learnosphere.in/api/route/getTrashTeacherNotifications",
+            `${WEB_BACKEND_URL}/api/route/getTrashTeacherNotifications`,
             {
               params: { teacherEmail },
             }

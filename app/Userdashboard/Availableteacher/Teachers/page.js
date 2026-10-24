@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import React, { useState, useEffect, Suspense } from "react";
 import {
@@ -12,6 +13,7 @@ import {
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import VerifiedBadge from "@/components/VerifiedBadge";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 
 // 👇 1. Import the new Package Popup
 import PackageSelectPopup from "./PackageSelectPopup";
@@ -31,7 +33,8 @@ const BookingFormContent = () => {
     name: rawTeacher?.name || "Teacher",
     price: rawTeacher?.baseRate || "2500", // Make sure this is a number in your logic
     currency: rawTeacher?.currency?.symbol || "₹",
-    imageUrl: rawTeacher?.profileImage || "/DefaultAvtar.jpg",
+    imageUrl: getTutorImageSrc(rawTeacher),
+    gender: rawTeacher?.gender,
     rating: rawTeacher?.rating || 5,
     reviewCount: rawTeacher?.reviewCount || 0,
     responseTime: rawTeacher?.responseTime || "2 hours",
@@ -84,7 +87,7 @@ const BookingFormContent = () => {
 
       try {
         const response = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+          `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
           {
             method: "POST",
             headers: {
@@ -195,9 +198,7 @@ const BookingFormContent = () => {
                   src={teacher.imageUrl}
                   alt={teacher.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = "/DefaultAvtar.jpg";
-                  }}
+                  onError={(e) => handleTutorImageError(e, teacher)}
                 />
               </div>
               <div className="absolute -bottom-2 -right-4 bg-orange-500 text-white font-bold py-1 px-3 rounded-full shadow-md text-sm flex items-center">

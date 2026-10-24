@@ -1,8 +1,11 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import FAQAccordion from "@/components/FAQAccordion";
+import { faqData } from "./faqData";
 import React, { useEffect, useState, use } from "react";
 import Banner2 from "@/public/Banner2.jpeg";
 import Link from "next/link";
@@ -21,7 +24,10 @@ import "react-toastify/dist/ReactToastify.css"; // Also add this if not already
 import FormSection from '@/components/FormGeneral';
 
 
-const DataTable = ({ data }) => {
+const DataTable = ({ data, slug: propSlug }) => {
+  const params = useParams();
+  const currentSlug = propSlug || params?.slug;
+  const faqs = (currentSlug && faqData[currentSlug]) || [];
   //const params = use(props.params);
   // const { slug } = params;
   //const [data, setData] = useState([]);
@@ -72,8 +78,8 @@ const DataTable = ({ data }) => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const res10 = await fetch(((typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : 'https://learnospherebackend.learnosphere.in') + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
-        const res12 = await fetch(((typeof window !== 'undefined' && window.location.hostname === 'localhost') ? 'http://localhost:5000' : 'https://learnospherebackend.learnosphere.in') + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
+        const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
+        const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
         const list = [...(res10.data || []), ...(res12.data || [])];
         setCbsePapersList(list);
       } catch (err) {
@@ -138,7 +144,7 @@ const DataTable = ({ data }) => {
   //             setLoading(true);
   //             setError('');
 
-  //             const response = await axios.get(`https://learnospherebackend.learnosphere.in/api/route/samplepaperspdf/${slug}`);
+  //             const response = await axios.get(`${WEB_BACKEND_URL}/api/route/samplepaperspdf/${slug}`);
   //             console.log('API Response:', response.data);
   //             console.log('Slug from use:', slug);
 
@@ -415,6 +421,7 @@ const DataTable = ({ data }) => {
         </div>
 
       </div>
+      <FAQAccordion faqs={faqs} />
       <Sociallinks2 />
       <Footer1 />
       <Footer />

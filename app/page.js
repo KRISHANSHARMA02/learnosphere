@@ -1,3 +1,4 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import HomePageClient from "@/components/HomePageClient";
 
 export const metadata = {
@@ -37,7 +38,7 @@ export const metadata = {
 
 async function getSlides() {
   try {
-    const response = await fetch("https://learnospherebackend.learnosphere.in/api/route/public", { next: { revalidate: 60 } });
+    const response = await fetch(`${WEB_BACKEND_URL}/api/route/public`, { next: { revalidate: 60 } });
     if (!response.ok) return null;
     const data = await response.json();
     if (data.success && data.slides) {

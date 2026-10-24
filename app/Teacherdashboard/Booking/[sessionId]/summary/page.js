@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { use, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft, FaUser } from 'react-icons/fa';
@@ -27,7 +28,7 @@ const BookingSummary = ({ params }) => {
     const fetchSummaryDetails = async () => {
       try {
         const response = await axios.get(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_session_details_for_teacher_app/${sessionId}`
+          `${APP_BACKEND_URL}/api/session/v1/get_session_details_for_teacher_app/${sessionId}`
         );
         
         if (response.data.success) {

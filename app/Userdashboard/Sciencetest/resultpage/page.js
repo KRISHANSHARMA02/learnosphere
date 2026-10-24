@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ const ResultPage = () => {
     clearResults();
 
     try {
-      const response = await axios.get("https://learnospherebackend.learnosphere.in/api/route/fetchResult");
+      const response = await axios.get(`${WEB_BACKEND_URL}/api/route/fetchResult`);
 
       if (response.data.success && Array.isArray(response.data.data)) {
         setResultData(response.data.data);

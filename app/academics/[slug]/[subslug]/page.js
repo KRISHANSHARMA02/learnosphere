@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -41,8 +42,8 @@ export default function SubExamPage({ params }) {
     // ✅ SAHI (Naya code)
     // 👇 YEH LINE CHANGE KARNI HAI (get-academics-details lagaya hai)
     const fetchUrl = isSpecialTab
-      ? `https://learnospherebackend.learnosphere.in/api/route/get-academics-details/${slug}`
-      : `https://learnospherebackend.learnosphere.in/api/route/get-sub-details/${slug}/${subslug}`;
+      ? `${WEB_BACKEND_URL}/api/route/get-academics-details/${slug}`
+      : `${WEB_BACKEND_URL}/api/route/get-sub-details/${slug}/${subslug}`;
 
     fetch(fetchUrl)
       .then((res) => res.json())

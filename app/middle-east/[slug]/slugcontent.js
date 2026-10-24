@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
@@ -18,7 +19,7 @@ export default function MiddleEastCountryPage({ slug }) {
     setLoading(true);
     // Replace with your actual API URL
     fetch(
-      `https://learnospherebackend.learnosphere.in/api/route/content/v1/get-middle-east-content/${slug}`
+      `${WEB_BACKEND_URL}/api/route/content/v1/get-middle-east-content/${slug}`
     )
       .then((res) => {
         if (!res.ok) throw new Error("Not Found");

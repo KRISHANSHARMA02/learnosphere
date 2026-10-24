@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { IoShareSocialOutline, IoCloseOutline, IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { FaFacebook, FaInstagram, FaWhatsapp, FaGooglePlay, FaAppStore, FaPlayCircle, FaDownload, FaRocket } from "react-icons/fa";
@@ -44,7 +45,7 @@ const Conceptvideo = () => {
 
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           const { grade } = response.data; // Extract grade directly from response
@@ -72,7 +73,7 @@ const Conceptvideo = () => {
 
       try {
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/getVideosForStudent`,
+          `${WEB_BACKEND_URL}/api/route/getVideosForStudent`,
           { params: { grade: gradeToFetch } }
         );
         setVideos(response.data.videos || []); // Assuming backend returns { videos: [...] }
@@ -93,9 +94,10 @@ const Conceptvideo = () => {
   }, [grade, status]); // Fetch videos only when grade is available
 
   useEffect(() => {
+    if (!userId || !grade) return;
     const fetchBookmarkedVideos = async () => {
       try {
-        const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/getVideoBookmark", {
+        const response = await axios.post(`${WEB_BACKEND_URL}/api/route/getVideoBookmark`, {
           userId,
           grade:grade
         });
@@ -111,7 +113,11 @@ const Conceptvideo = () => {
           setBookmarkedVideos(bookmarkedMap); // Set bookmarks in state
         }
       } catch (error) {
-        console.error("Error fetching bookmarked files:", error);
+        if (error.response?.status === 404) {
+          setBookmarkedVideos({});
+        } else {
+          console.error("Error fetching bookmarked files:", error);
+        }
       }
     };
   
@@ -153,7 +159,7 @@ const Conceptvideo = () => {
         if (isBookmarked) {
           // If already bookmarked, send a request to remove it
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/removevideoBookmark",
+            `${WEB_BACKEND_URL}/api/route/removevideoBookmark`,
             {
               userId,
               videoId: video.id,
@@ -170,7 +176,7 @@ const Conceptvideo = () => {
         } else {
           // If not bookmarked, send a request to add it
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/videobookMark",
+            `${WEB_BACKEND_URL}/api/route/videobookMark`,
             {
               grade,
               videoId: video.id,

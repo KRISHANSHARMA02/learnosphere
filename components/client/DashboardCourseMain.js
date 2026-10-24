@@ -117,11 +117,12 @@ const EnrolledCourseCard = ({ course, user }) => {
 };
 
 // 2. Recommended Card
-const RecommendedCourseCard = ({ course }) => {
+const RecommendedCourseCard = ({ course, user }) => {
   const router = useRouter();
 
   const handleNavigate = () => {
-    router.push(`/Userdashboard/MyCourses/course?id=${course.id}`);
+    const tokenParam = user?.registrationNumber ? `&token=${user.registrationNumber}` : "";
+    router.push(`/Userdashboard/MyCourses/course?id=${course.id}${tokenParam}`);
   };
 
   return (
@@ -353,7 +354,7 @@ export default function EnrollmentCheckPage({ serverData }) {
               <HorizontalSlider>
                 {studentData.recommendedCourses.map((course) => (
                   <div key={course.id} className="min-w-[280px] max-w-[280px]">
-                    <RecommendedCourseCard course={course} />
+                    <RecommendedCourseCard course={course} user={user} />
                   </div>
                 ))}
               </HorizontalSlider>
@@ -361,7 +362,7 @@ export default function EnrollmentCheckPage({ serverData }) {
               // ➤ Normal grid mode
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {studentData.recommendedCourses.map((course) => (
-                  <RecommendedCourseCard key={course.id} course={course} />
+                  <RecommendedCourseCard key={course.id} course={course} user={user} />
                 ))}
               </div>
             )

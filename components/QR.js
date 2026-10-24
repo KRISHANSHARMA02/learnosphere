@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import Picture1 from "@/public/BHIM_SVG_Logo.svg.svg";
 import Picture2 from "@/public/upi-ar21.svg";
@@ -30,14 +31,14 @@ const QR = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setProfileData(response.data);
 
           // Fetch payment status message
           const paymentStatusResponse = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getPaymentStatusMessage",
+            `${WEB_BACKEND_URL}/api/route/getPaymentStatusMessage`,
             { gmail: session.user.email }
           );
           setPaymentMessage(paymentStatusResponse.data.message);
@@ -122,7 +123,7 @@ const QR = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/submitPaymentfromStudent",
+        `${WEB_BACKEND_URL}/api/route/submitPaymentfromStudent`,
         {
           amount,
           reference_number: referenceNumber,

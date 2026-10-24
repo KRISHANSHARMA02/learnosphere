@@ -1,6 +1,17 @@
+export const WEB_BACKEND_URL =
+  process.env.WEB_BACKEND_URL ||
+"https://learnospherebackend.learnosphere.in";
+
+export const getWebBackendUrl = (endpoint = "") => {
+  const base = (WEB_BACKEND_URL || "").replace(/\/+$/, "");
+  if (!endpoint) return base;
+  return `${base}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+};
+
 export async function webBackendFetch(endpoint, options = {}) {
   try {
-    const res = await fetch(`${process.env.WEB_BACKEND_URL}${endpoint}`, {
+    const url = getWebBackendUrl(endpoint);
+    const res = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -43,3 +54,5 @@ export async function webBackendFetch(endpoint, options = {}) {
     throw err;
   }
 }
+
+export default WEB_BACKEND_URL;

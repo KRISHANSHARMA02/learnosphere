@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Profile from "@/public/profile.png";
@@ -18,7 +19,7 @@ export default function Profileuser() {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setProfileData(response.data);

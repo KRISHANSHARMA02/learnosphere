@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -29,7 +30,7 @@ const Pdfdata4 = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           const { grade } = response.data;
@@ -61,7 +62,7 @@ const Pdfdata4 = () => {
           setLoading(true);
           try {
             const response = await axios.get(
-              `https://learnospherebackend.learnosphere.in/api/route/getstudentdataTopicwise?grade=${grade}&topic=${topic}&selectedSubject=${selectedSubject}`
+              `${WEB_BACKEND_URL}/api/route/getstudentdataTopicwise?grade=${grade}&topic=${topic}&selectedSubject=${selectedSubject}`
             );
             setFiles(response.data);
           } catch (error) {

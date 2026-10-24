@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
@@ -40,7 +41,7 @@ export default function GovernmentExamPremiumPage({ params }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    fetch(`https://learnospherebackend.learnosphere.in/api/route/get-exam-details/${slug}`)
+    fetch(`${WEB_BACKEND_URL}/api/route/get-exam-details/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data && !data.message && !data.error) {

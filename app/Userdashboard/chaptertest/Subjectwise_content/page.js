@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -27,7 +28,7 @@ const ContentPage = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade);
@@ -47,7 +48,7 @@ const ContentPage = () => {
       if (!selectedSubject || !grade) return;
   
       try {
-        const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/getStudentContentCardsData", {
+        const response = await axios.post(`${WEB_BACKEND_URL}/api/route/getStudentContentCardsData`, {
           subject: selectedSubject,
           grade: grade,
           stream: stream,
@@ -102,7 +103,7 @@ const ContentPage = () => {
         try {
           // ✅ API Call to fetch books
           const response = await axios.get(
-            "https://learnospherebackend.learnosphere.in/api/route/getBooks",
+            `${WEB_BACKEND_URL}/api/route/getBooks`,
             {
               params: { grade, selectedSubject },
             }

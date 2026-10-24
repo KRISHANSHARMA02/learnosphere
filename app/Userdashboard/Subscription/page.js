@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { Suspense, useState, useEffect } from "react";
 import {
@@ -15,6 +16,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast"; 
 import VerifiedBadge from "@/components/VerifiedBadge";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 import SlotBookPopup from "@/components/SlotBookPopup";
 
 const StudentPassContent = () => {
@@ -54,7 +56,8 @@ const StudentPassContent = () => {
     price: finalPrice, // ✅ This seamlessly replaces the "Session Fee" across the whole page!
     originalPrice: safeParsePrice(rawTeacher?.originalPrice || 599),
     currency: rawTeacher?.currency?.symbol || "₹",
-    imageUrl: rawTeacher?.profileImage || "/DefaultAvtar.jpg",
+    imageUrl: getTutorImageSrc(rawTeacher),
+    gender: rawTeacher?.gender,
     rating: rawTeacher?.rating || 5,
     reviewCount: rawTeacher?.reviewCount || 0,
     isApproved: rawTeacher?.isApproved ?? false,
@@ -101,7 +104,7 @@ const StudentPassContent = () => {
         if (userId) {
           setStudentId(userId); 
           
-          const summaryRes = await fetch(`https://mobileapp.backend.learnosphere.in/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
+          const summaryRes = await fetch(`${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
           const summary = await summaryRes.json();
           
           setWalletData({
@@ -195,7 +198,7 @@ const StudentPassContent = () => {
     const toastId = toast.loading("Processing Booking & Creating session Link...");
 
     try {
-      const response = await fetch("https://mobileapp.backend.learnosphere.in/api/route/bookSessionWithWallet", {
+      const response = await fetch(`${APP_BACKEND_URL}/api/route/bookSessionWithWallet`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -249,9 +252,7 @@ const StudentPassContent = () => {
                   src={teacher.imageUrl}
                   alt={teacher.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = "/DefaultAvtar.jpg";
-                  }}
+                  onError={(e) => handleTutorImageError(e, teacher)}
                 />
               </div>
               <div className="flex items-center justify-center gap-1 mt-2">

@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -61,7 +62,7 @@ const DataTable = (props) => {
     AOS.init({ duration: 800, easing: "ease-in-out" }); // Initialize AOS with smooth settings
     
     // Fetch available PDFs from local backend
-    axios.get("https://learnospherebackend.learnosphere.in/api/ics-papers")
+    axios.get(`${WEB_BACKEND_URL}/api/ics-papers`)
       .then(res => {
         let urlMap = {};
         if (res.data && res.data.data) {
@@ -70,7 +71,7 @@ const DataTable = (props) => {
           });
         }
         
-        axios.get("https://learnospherebackend.learnosphere.in/api/icse-papers")
+        axios.get(`${WEB_BACKEND_URL}/api/icse-papers`)
           .then(res2 => {
             if (res2.data && res2.data.data) {
               res2.data.data.forEach(paper => {
@@ -116,7 +117,7 @@ const DataTable = (props) => {
         setError("");
 
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/icsepreviouspaperspdf/${slug}`
+          `${WEB_BACKEND_URL}/api/route/icsepreviouspaperspdf/${slug}`
         );
         console.log("API Response:", response.data);
 

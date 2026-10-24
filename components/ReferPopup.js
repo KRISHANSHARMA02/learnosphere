@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useState, useEffect, useRef } from "react";
 import {
   FaTimes,
@@ -122,7 +123,7 @@ const handleContinue = async (e) => {
 
     try {
       const res = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/sendOtpTeacher",
+        `${WEB_BACKEND_URL}/api/route/sendOtpTeacher`,
         { email },
       );
 
@@ -164,7 +165,7 @@ const handleContinue = async (e) => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries",
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`,
         );
         setCountries(res.data);
       } catch (err) {
@@ -240,7 +241,7 @@ const handleContinue = async (e) => {
         setOtpError("");
 
         const res = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/verifyOtpTeacher",
+          `${WEB_BACKEND_URL}/api/route/verifyOtpTeacher`,
           {
             email,
             otp: otp.join(""),
@@ -329,7 +330,7 @@ const handleContinue = async (e) => {
 
       try {
         const response = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/sendOtpTeacher",
+          `${WEB_BACKEND_URL}/api/route/sendOtpTeacher`,
           {
             method: "POST",
             headers: {

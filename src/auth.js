@@ -1,3 +1,4 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -33,8 +34,8 @@ export const {
         try {
           const endpoint =
             role === "teacher"
-              ? "https://learnospherebackend.learnosphere.in/api/route/login"
-              : "https://learnospherebackend.learnosphere.in/api/route/studentlogin";
+              ? `${WEB_BACKEND_URL}/api/route/login`
+              : `${WEB_BACKEND_URL}/api/route/studentlogin`;
         
 
           const response = await axios.post(endpoint, {

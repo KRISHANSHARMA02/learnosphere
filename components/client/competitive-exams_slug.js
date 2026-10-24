@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 // 1. Added useRouter here
 import { useParams, useRouter } from "next/navigation";
@@ -129,7 +130,7 @@ export default function CompetitiveExamPage() {
       setLoading(true);
       try {
         const apiSlug = slug || "default"; 
-        const response = await axios.get(`https://learnospherebackend.learnosphere.in/api/courses/${apiSlug}`);
+        const response = await axios.get(`${WEB_BACKEND_URL}/api/courses/${apiSlug}`);
         if (response.data && response.data.length > 0) {
           setCourses(response.data);
         } else {

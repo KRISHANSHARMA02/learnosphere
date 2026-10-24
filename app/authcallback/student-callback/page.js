@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ export default function StudentCallback() {
           "/Userdashboard";
 
         const res = await fetch(
-          "https://learnospherebackend.learnosphere.in/api/route/checkStudent",
+          `${WEB_BACKEND_URL}/api/route/checkStudent`,
           {
             method: "POST",
             headers: {

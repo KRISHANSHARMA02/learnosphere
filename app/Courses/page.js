@@ -141,5 +141,6 @@ export default async function Page() {
 
 
 export const metadata = {
-  title: "Online Courses for Classes 1–12 | Learnosphere",
+  title: "Online Learning Courses for Students",
+  description: "Discover learning courses for students to strengthen subject knowledge, develop skills and support academic growth.",
 };

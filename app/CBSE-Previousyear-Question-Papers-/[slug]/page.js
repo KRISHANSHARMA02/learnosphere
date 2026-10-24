@@ -9,6 +9,6 @@ export default async function CbsePYQ({ params }) {
 
   if (!data || data.length === 0) return <p>No Previous year papers found</p>;
    
-  return <DataTable data={data} />;
+  return <DataTable data={data} slug={slug} />;
 
 }

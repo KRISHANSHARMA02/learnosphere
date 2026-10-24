@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { trackEvent } from "@/src/lib/eventTracker";
@@ -42,7 +43,7 @@ const DownloadFormModal = ({ isOpen, onClose, onSubmit }) => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries",
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`,
         );
         setCountries(res.data);
       } catch (err) {
@@ -76,7 +77,7 @@ const DownloadFormModal = ({ isOpen, onClose, onSubmit }) => {
     try {
       // Submit form data — the API returns JSON {token, msg}, NOT a PDF blob.
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/downloadform",
+        `${WEB_BACKEND_URL}/api/route/downloadform`,
         formData,
       );
 

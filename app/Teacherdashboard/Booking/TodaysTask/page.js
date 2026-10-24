@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -18,7 +19,7 @@ const TaskTable = () => {
         try {
           const teacherEmail = session.user.email;
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/gettaskforteacher/${teacherEmail}`
+            `${WEB_BACKEND_URL}/api/route/gettaskforteacher/${teacherEmail}`
           );
           if (Array.isArray(response.data)) {
             setTasks(response.data);
@@ -45,7 +46,7 @@ const TaskTable = () => {
 
     try {
       const response = await axios.put(
-        `https://learnospherebackend.learnosphere.in/api/route/updateTaskStatus/${taskId}`,
+        `${WEB_BACKEND_URL}/api/route/updateTaskStatus/${taskId}`,
         {
           task_status: newStatus,
         }

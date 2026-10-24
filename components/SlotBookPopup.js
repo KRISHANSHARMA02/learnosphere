@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -53,7 +54,7 @@ const SlotBookPopup = ({ onClose, onSelect, tutorId }) => {
 
       try {
         const response = await fetch(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_tutor_available_slots?tutorId=${tutorId}`,
+          `${APP_BACKEND_URL}/api/session/v1/get_tutor_available_slots?tutorId=${tutorId}`,
         );
 
         const data = await response.json();

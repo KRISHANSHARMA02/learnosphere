@@ -17,10 +17,9 @@ import {
   FaCheckCircle,
   FaQuestionCircle,
 } from "react-icons/fa";
-// import { encryptData } from "@/src/utils/crypto";
 
 // ==========================================
-// 2. SUB-COMPONENT: FAQ ACCORDION
+// SUB-COMPONENT: FAQ ACCORDION
 // ==========================================
 
 const FAQSection = ({ faqs }) => {
@@ -165,8 +164,11 @@ export default function CourseDetails({ initialCourse, initialSubjects }) {
                 </div>
               ) : (
                 <div className="flex items-center gap-4">
-                  <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-orange-600/20 transition-all">
-                    Buy Now {course.currency}
+                  <button
+                    onClick={() => router.push(`/Courses/${course.id}`)}
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-orange-600/20 transition-all flex items-center gap-2"
+                  >
+                    <FaLock size={14} /> Buy Now {course.currency}
                     {course.price}
                   </button>
                 </div>
@@ -176,9 +178,17 @@ export default function CourseDetails({ initialCourse, initialSubjects }) {
 
           {/* 2. Subjects List (Clickable Cards) */}
           <div className="mb-10">
-            <h3 className="text-xl font-bold text-slate-900 mb-6">
-              Course Curriculum & Syllabus
-            </h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-slate-900">
+                Course Curriculum & Syllabus
+              </h3>
+              {!course.isPurchased && (
+                <span className="text-xs bg-orange-100 text-orange-700 font-semibold px-3 py-1 rounded-full flex items-center gap-1.5">
+                  <FaLock size={11} /> Recommended Course Preview
+                </span>
+              )}
+            </div>
+
             {subjects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
                 {subjects.map((subject) => (
@@ -199,9 +209,16 @@ export default function CourseDetails({ initialCourse, initialSubjects }) {
                     <div className="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-500"></div>
 
                     <div className="relative z-10">
-                      <h4 className="font-bold text-lg text-slate-800 group-hover:text-orange-700 transition-colors">
-                        {subject.title}
-                      </h4>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-bold text-lg text-slate-800 group-hover:text-orange-700 transition-colors">
+                          {subject.title}
+                        </h4>
+                        {!course.isPurchased && (
+                          <span className="text-[10px] bg-orange-50 text-orange-600 border border-orange-200 px-2 py-0.5 rounded font-semibold flex items-center gap-1">
+                            <FaLock size={8} /> Preview
+                          </span>
+                        )}
+                      </div>
                       <div className="flex gap-4 mt-3 text-sm text-slate-500 font-medium">
                         <span className="flex items-center gap-1.5">
                           <FaPlayCircle className="text-orange-500" />{" "}

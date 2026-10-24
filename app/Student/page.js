@@ -8,20 +8,9 @@ import Uparrow2 from "@/components/Uparrow";
 import StudentLogin from "@/components/StudentLogin";
 import StudentSignup from "@/components/StudentSignup";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 const Student = () => {
   const [isSignup, setIsSignup] = useState(false);
-   const router = useRouter();
-  const { data: session, status } = useSession();
-
-  React.useEffect(() => {
-    const token = typeof window !== 'undefined' ? (sessionStorage.getItem('token') || localStorage.getItem('token')) : null;
-    if (status === "authenticated" || token) {
-      router.push("/Userdashboard/Availableteacher");
-    }
-  }, [router, status]);
 
   const features = [
     "Sign up with your email or Google account as student.",

@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -25,7 +26,7 @@ export default function TestSeriesDashboard() {
 
   useEffect(() => {
     axios
-      .get("https://learnospherebackend.learnosphere.in/api/route/exams-list")
+      .get(`${WEB_BACKEND_URL}/api/route/exams-list`)
       .then((res) => {
         setExams(res.data.exams);
         setLoading(false);

@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Image from 'next/image';
@@ -72,7 +73,7 @@ const QuizComponent = ({
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           const profile = response.data;
@@ -100,7 +101,7 @@ const QuizComponent = ({
         const previousQuestionsIds = previousQuestions ? JSON.parse(previousQuestions) : []
 
         const response = await fetch(
-          `https://learnospherebackend.learnosphere.in/api/route/questions/${numericGrade}/${queryDifficulty || 'easy'}/${subject}`
+          `${WEB_BACKEND_URL}/api/route/questions/${numericGrade}/${queryDifficulty || 'easy'}/${subject}`
         );
 
         if (!response.ok) throw new Error('Failed to fetch questions');
@@ -145,7 +146,7 @@ const handleSubmit = async () => {
     });
 
     // ✅ Fir backend ko request bhejo totalScore ke saath
-    const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/submitAnswer", {
+    const response = await axios.post(`${WEB_BACKEND_URL}/api/route/submitAnswer`, {
       email: profileData?.gmail, 
       grade,
       subject,

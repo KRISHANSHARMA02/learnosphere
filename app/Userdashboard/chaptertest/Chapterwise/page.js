@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -75,7 +76,7 @@ const Pdfdata = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           const { grade } = response.data;
@@ -123,7 +124,7 @@ const Pdfdata = () => {
 
         try {
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/getchapterwise?grade=${grade}&selectedSubject=${selectedSubject}&level=${level}&books=${books}`
+            `${WEB_BACKEND_URL}/api/route/getchapterwise?grade=${grade}&selectedSubject=${selectedSubject}&level=${level}&books=${books}`
           );
           setFiles(response.data);
         } catch (error) {
@@ -158,7 +159,7 @@ const Pdfdata = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/start-learning-activity",
+        `${WEB_BACKEND_URL}/api/route/start-learning-activity`,
         {
           userId: userId,
           grade: grade,
@@ -180,7 +181,7 @@ const Pdfdata = () => {
    useEffect(() => {
       const fetchBookmarkedFiles = async () => {
         try {
-          const response = await axios.post("https://learnospherebackend.learnosphere.in/api/route/getBookmark", {
+          const response = await axios.post(`${WEB_BACKEND_URL}/api/route/getBookmark`, {
             userId,
             grade:grade
           });
@@ -211,7 +212,7 @@ const Pdfdata = () => {
         if (isBookmarked) {
           // If already bookmarked, send a request to remove it
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/removeBookmark",
+            `${WEB_BACKEND_URL}/api/route/removeBookmark`,
             {
               userId,
               fileId: file.id,
@@ -228,7 +229,7 @@ const Pdfdata = () => {
         } else {
           // If not bookmarked, send a request to add it
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/bookmark",
+            `${WEB_BACKEND_URL}/api/route/bookmark`,
             {
               grade,
               fileId: file.id,
@@ -267,7 +268,7 @@ const Pdfdata = () => {
 
     // Send data to update the learning activity
     axios
-      .post("https://learnospherebackend.learnosphere.in/api/route/update-learning-activity", dataToSend)
+      .post(`${WEB_BACKEND_URL}/api/route/update-learning-activity`, dataToSend)
       .then((response) => {
         setIsModalOpen(false);
         setSelectedPdfUrl(null);

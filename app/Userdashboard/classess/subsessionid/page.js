@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { use, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -34,7 +35,7 @@ const SubSessionPage = ({ params }) => {
     const fetchDetails = async () => {
       try {
         const response = await fetch(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_booking_details_by_bookingId/${sessionId}`,
+          `${APP_BACKEND_URL}/api/session/v1/get_booking_details_by_bookingId/${sessionId}`,
         );
         const data = await response.json();
         if (data.success) {
@@ -77,7 +78,7 @@ const SubSessionPage = ({ params }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://mobileapp.backend.learnosphere.in/api/session/v1/schedule_session_from_package`,
+        `${APP_BACKEND_URL}/api/session/v1/schedule_session_from_package`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

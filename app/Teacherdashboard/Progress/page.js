@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect } from "react";
 import { MdCurrencyRupee, MdTrendingUp, MdOutlinePeopleAlt, MdOutlineCalendarToday } from "react-icons/md";
 import { TbWallet, TbClockHour4 } from "react-icons/tb";
@@ -19,7 +20,7 @@ const Progress = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getWalletData",
+            `${WEB_BACKEND_URL}/api/route/getWalletData`,
             { gmail: session.user.email }
           );
           setWalletData(response.data?.walletData || null);

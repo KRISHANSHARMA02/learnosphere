@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -24,6 +25,7 @@ import VerifiedBadge from "./VerifiedBadge";
 import { trackEvent } from "@/src/lib/eventTracker";
 // Import the Bridge Action
 import { getSecureTeacherList } from "@/src/lib/actions/AvailableTeacherAction";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 
 const isSubjectMatch = (teacher, reqSub) => {
   if (!reqSub || reqSub === "All") return true;
@@ -99,7 +101,7 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/bookclass",
+        `${WEB_BACKEND_URL}/api/route/bookclass`,
         formData,
         { headers: { "Content-Type": "application/json" } },
       );
@@ -181,7 +183,7 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email },
           );
           setProfileData(response.data);
@@ -293,10 +295,10 @@ const AvailableTeacherClient = ({ initialTeachers }) => {
                     <div className="flex items-start gap-4">
                       <div className="relative">
                         <img
-                          src={teacher.image || "/DefaultAvtar.jpg"}
+                          src={getTutorImageSrc(teacher)}
                           alt={teacher.name}
                           className="h-20 w-20 rounded-2xl object-cover shadow-sm"
-                          onError={(e) => (e.target.src = "/DefaultAvtar.jpg")}
+                          onError={(e) => handleTutorImageError(e, teacher)}
                         />
                         <div className="absolute -bottom-2 -right-2 bg-white px-2 py-0.5 rounded-full shadow-sm text-xs font-bold text-orange-600 flex items-center gap-1 border border-orange-50">
                           <FiStar className="fill-orange-500 text-orange-500" />{" "}

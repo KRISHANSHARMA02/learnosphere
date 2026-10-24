@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
 import Navbar from "@/components/Navbar";
@@ -64,7 +65,7 @@ const ContentFound = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/query",
+        `${WEB_BACKEND_URL}/api/route/query`,
         formData,
         {
           headers: {

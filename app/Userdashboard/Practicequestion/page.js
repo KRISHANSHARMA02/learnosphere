@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react"; // Added missing import for useSession
 import axios from "axios"; // Added axios import
@@ -29,7 +30,7 @@ const PracticeQuestion = () => {
        if (status === "authenticated" && session?.user?.email) {
          try {
            const response = await axios.post(
-             "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+             `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
              { gmail: session.user.email }
            );
            setGrade(response.data.grade);
@@ -59,7 +60,7 @@ const PracticeQuestion = () => {
            params.stream = stream;
          }
           const response = await axios.get(
-            `https://learnospherebackend.learnosphere.in/api/route/getpracticeQuiz`,
+            `${WEB_BACKEND_URL}/api/route/getpracticeQuiz`,
             { params }
           );
           setSelectedSubjects2(response.data.selectedSubjects2 || []); // Default to an empty array if undefined

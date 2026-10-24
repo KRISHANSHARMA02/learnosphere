@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useEffect, useState, useRef } from "react";
 import Videodata from "./videodata/page";
 import Loader from "@/components/Loader";
@@ -50,7 +51,7 @@ const Video = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
+            `${WEB_BACKEND_URL}/api/route/getTeacherByEmail`,
             { gmail: session.user.email }
           );
           setTeacherData(response.data?.data || null);
@@ -205,7 +206,7 @@ const Video = () => {
       form.append("teacherName", teacherData.name || session?.user?.name || "Teacher");
 
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/teachervideoupload",
+        `${WEB_BACKEND_URL}/api/route/teachervideoupload`,
         form,
         {
           headers: {

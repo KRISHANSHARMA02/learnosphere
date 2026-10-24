@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
@@ -29,7 +30,7 @@ const StudentData = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           setGrade(response.data.grade); // ✅ Set grade correctly
@@ -55,7 +56,7 @@ const StudentData = () => {
           }
 
           const response = await axios.get(
-            "https://learnospherebackend.learnosphere.in/api/route/getstudentdata",
+            `${WEB_BACKEND_URL}/api/route/getstudentdata`,
             { params } // ✅ Pass only required params
           );
 

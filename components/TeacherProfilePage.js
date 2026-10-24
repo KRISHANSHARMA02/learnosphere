@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { getTutorImageSrc, handleTutorImageError } from "@/src/utils/tutorImageHelper";
 import Link from "next/link"; // 🚀 Added Link import
 
 import {
@@ -182,17 +183,13 @@ export default function TeacherProfilePage({ teacher, similarTeachers = [], subj
         <div className="lg:col-span-1">
           <div className="lg:sticky lg:top-28 bg-white rounded-[40px] shadow-2xl border border-gray-100 p-8 text-center space-y-6">
             {/* --- START: PROFILE IMAGE WITH ICON-ONLY HOVER --- */}
-            {teacher.profileImage && (
-              <div className="relative inline-block">
+            <div className="relative inline-block">
                 {/* 1. Main Profile Image */}
                 <img
-                  src={teacher.profileImage || "DefaultAvtar.jpg"}
+                  src={getTutorImageSrc(teacher)}
                   className="w-40 h-40 rounded-[40px] object-cover mx-auto shadow-md"
                   alt={teacher.name}
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "/DefaultAvtar.jpg";
-                  }}
+                  onError={(e) => handleTutorImageError(e, teacher)}
                 />
 
                 {/* 2. The Sparkle Icon (The Trigger) */}
@@ -235,7 +232,6 @@ export default function TeacherProfilePage({ teacher, similarTeachers = [], subj
                   </div>
                 </div>
               </div>
-            )}
             {/* --- END: PROFILE IMAGE WITH ICON-ONLY HOVER --- */}
 
             {teacher.name && (
@@ -304,13 +300,6 @@ export default function TeacherProfilePage({ teacher, similarTeachers = [], subj
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {visibleTeachers.map((t) => {
-              // Safely get image URL with fallback to default avatar
-              const getImageSrc = (imageUrl) => {
-                if (!imageUrl || imageUrl.trim() === "") {
-                  return "/DefaultAvtar.jpg";
-                }
-                return imageUrl;
-              };
 
               // 🚀 DYNAMIC URL LOGIC 
               const targetId = t.id || t.tutorId || t.registrationNumber;
@@ -330,12 +319,9 @@ export default function TeacherProfilePage({ teacher, similarTeachers = [], subj
                   className="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-sm hover:shadow-xl transition-all cursor-pointer block"
                 >
                   <img
-                    src={getImageSrc(t.image)}
+                    src={getTutorImageSrc(t)}
                     alt={t.name}
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = "/DefaultAvtar.jpg";
-                    }}
+                    onError={(e) => handleTutorImageError(e, t)}
                     className="w-full h-72 object-cover"
                   />
                   <div className="p-4">

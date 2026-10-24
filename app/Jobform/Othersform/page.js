@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useRef, useState, useEffect } from "react";
 
 import axios from "axios";
@@ -64,7 +65,7 @@ const Othersform = () => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries"
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`
         );
         setCountries(res.data);
       } catch (err) {
@@ -95,7 +96,7 @@ const Othersform = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/othersform",
+        `${WEB_BACKEND_URL}/api/route/othersform`,
         formData,
         {
           headers: {

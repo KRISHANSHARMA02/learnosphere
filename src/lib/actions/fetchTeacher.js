@@ -1,8 +1,10 @@
+import { verifyTeachersImages } from "@/src/utils/tutorImageHelper";
 import { webBackendFetch } from "@/src/helper/webbackend_api";
 
 const mapTeacherFromApi = (tutor) => ({
   id: tutor.id,
   name: tutor.name,
+  gender: tutor.gender || null,
   image: tutor.image,
   allSubjects: tutor.subjects || [tutor.subject],
   subject: tutor.subject,
@@ -97,7 +99,7 @@ export async function fetchTeachersForLessonPage({ subject, city, limit = 15 , s
       }
     }
 
-    return finalTeachers.slice(0, limit);
+    return await verifyTeachersImages(finalTeachers.slice(0, limit));
   } catch (err) {
     console.error("❌ Failed to fetch teachers for lesson page:", err);
     return [];
@@ -181,7 +183,7 @@ export async function fetchTeachersForHomeTuition({ city, subject, limit = 6, st
       }
     }
 
-    return finalTeachers.slice(0, limit);
+    return await verifyTeachersImages(finalTeachers.slice(0, limit));
   } catch (err) {
     console.error("❌ Failed to fetch teachers for home tuition:", err);
     return [];

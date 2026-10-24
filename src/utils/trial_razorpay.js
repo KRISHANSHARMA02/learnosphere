@@ -1,3 +1,4 @@
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { trackEvent } from "../lib/eventTracker";
@@ -24,7 +25,7 @@ export const loadRazorpayScript = () => {
 //     }
 
 //     // STEP A: Create order for ₹11
-//     const orderRes = await axios.post("https://mobileapp.backend.learnosphere.in/api/route/createOrder", {
+//     const orderRes = await axios.post(`${APP_BACKEND_URL}/api/route/createOrder`, {
 //       amount: course.price,
 //       userId: user.userId,
 //       courseId: course.id,
@@ -53,7 +54,7 @@ export const loadRazorpayScript = () => {
 
 //         try {
 //           // STEP B: Create subscription on server
-//           const subRes = await axios.post("https://mobileapp.backend.learnosphere.in/api/route/createTrialSubscription", {
+//           const subRes = await axios.post(`${APP_BACKEND_URL}/api/route/createTrialSubscription`, {
 //             userId: user.userId,
 //             courseId: course.id,
 //           });
@@ -80,7 +81,7 @@ export const loadRazorpayScript = () => {
 //                 },
 //               });
 
-//               const confirmRes = await axios.post("https://mobileapp.backend.learnosphere.in/api/route/confirmTrial", {
+//               const confirmRes = await axios.post(`${APP_BACKEND_URL}/api/route/confirmTrial`, {
 //                 razorpay_subscription_id: subResp.razorpay_subscription_id,
 //                 razorpay_payment_id: subResp.razorpay_payment_id,
 //                 userId: user.userId,
@@ -156,7 +157,7 @@ export const startTrialFlow = async ({ course, user, onSuccess, onFailure }) => 
 
     // Step A: Create ₹11 order + subscription server-side
     const subRes = await axios.post(
-      "https://mobileapp.backend.learnosphere.in/api/route/create_trial_subscription",
+      `${APP_BACKEND_URL}/api/route/create_trial_subscription`,
       {
         userId: user.userId,
         courseId: course.id,
@@ -181,7 +182,7 @@ export const startTrialFlow = async ({ course, user, onSuccess, onFailure }) => 
           });
 
           const confirmRes = await axios.post(
-            "https://mobileapp.backend.learnosphere.in/api/route/confirm_trial_payment",
+            `${APP_BACKEND_URL}/api/route/confirm_trial_payment`,
             {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_subscription_id: response.razorpay_subscription_id,

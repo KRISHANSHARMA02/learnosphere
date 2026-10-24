@@ -96,7 +96,7 @@ const navigateToCourse = useCourseNavigation();
   //   const fetchCourses = async () => {
   //     try {
   //       const response = await axios.post(
-  //         "/api/courses" //https://mobileapp.backend.learnosphere.in/api/route/getAllcourses
+  //         "/api/courses" //${APP_BACKEND_URL}/api/route/getAllcourses
   //       );
   //       setCourses(response.data);
   //     } catch (err) {

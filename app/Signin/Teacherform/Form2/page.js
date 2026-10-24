@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useState, useContext } from "react";
 import { FormContext } from "@/src/context/FormContext";
 import Image from "next/image";
@@ -40,7 +41,7 @@ const Form2 = ({ onContinue, onBack }) => {
       try {
         // Send the formDataToSend to the backend using axios
         const response = await axios.post(
-          "https://learnospherebackend.learnosphere.in/api/route/uploadProfileImage",
+          `${WEB_BACKEND_URL}/api/route/uploadProfileImage`,
           formDataToSend,
           {
             headers: {

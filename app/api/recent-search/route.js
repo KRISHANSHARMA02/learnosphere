@@ -1,3 +1,4 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -13,7 +14,7 @@ export async function GET(request) {
     }
 
     const backendResponse = await fetch(
-      `https://learnospherebackend.learnosphere.in/api/route/recent-search/get?session_id=${session_id}`,
+      `${WEB_BACKEND_URL}/api/route/recent-search/get?session_id=${session_id}`,
       {
         method: "GET",
         headers: {

@@ -1,5 +1,6 @@
 
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Atom, BookOpen, Calculator, ChevronRight, ChevronLeft, Dumbbell,
@@ -257,7 +258,7 @@ export default function SearchBar({
   const saveSearchToBackend = async (query, category, locationType, locationData = null) => {
     if (!query.trim() || !sessionId) return;
     try {
-      await fetch("https://learnospherebackend.learnosphere.in/api/route/recent-search/save", {
+      await fetch(`${WEB_BACKEND_URL}/api/route/recent-search/save`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -276,7 +277,7 @@ export default function SearchBar({
 
   const deleteSearch = async (searchId) => {
     try {
-      await fetch("https://learnospherebackend.learnosphere.in/api/route/recent-search/delete", {
+      await fetch(`${WEB_BACKEND_URL}/api/route/recent-search/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -310,7 +311,7 @@ export default function SearchBar({
       setLocationLoading(true);
       try {
         const response = await fetch(
-          `https://learnospherebackend.learnosphere.in/api/route/search?q=${encodeURIComponent(query)}`,
+          `${WEB_BACKEND_URL}/api/route/search?q=${encodeURIComponent(query)}`,
         );
         if (!response.ok) throw new Error("Location search failed");
         const results = await response.json();

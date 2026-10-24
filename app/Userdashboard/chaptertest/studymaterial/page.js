@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -32,7 +33,7 @@ const Pdfdata3 = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getStudentByEmail",
+            `${WEB_BACKEND_URL}/api/route/getStudentByEmail`,
             { gmail: session.user.email }
           );
           const { grade } = response.data;
@@ -60,7 +61,7 @@ const Pdfdata3 = () => {
           setLoading(true);
           try {
             const response = await axios.get(
-              `https://learnospherebackend.learnosphere.in/api/route/getstudentdata?grade=${grade}&selectedSubject=${selectedSubject}`
+              `${WEB_BACKEND_URL}/api/route/getstudentdata?grade=${grade}&selectedSubject=${selectedSubject}`
             );
             // Exclude files with sample papers (assuming there's a field like 'isSamplePaper')
             const filteredFiles = response.data.filter(

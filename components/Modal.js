@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState, Suspense, useRef } from "react";
@@ -86,7 +87,7 @@ const ModalContent = ({ isOpen, onClose, onSubmitSuccess }) => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries",
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`,
         );
         setCountries(res.data);
       } catch (err) {
@@ -203,7 +204,7 @@ const ModalContent = ({ isOpen, onClose, onSubmitSuccess }) => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/modal",
+        `${WEB_BACKEND_URL}/api/route/modal`,
         formData,
         {
           headers: {
@@ -275,7 +276,7 @@ const ModalContent = ({ isOpen, onClose, onSubmitSuccess }) => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/verifyOtp",
+        `${WEB_BACKEND_URL}/api/route/verifyOtp`,
         otpData,
         {
           headers: {

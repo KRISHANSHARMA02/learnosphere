@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { RxCrossCircled } from "react-icons/rx";
@@ -57,7 +58,7 @@ const DownloadFormPage = () => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries"
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`
         );
         setCountries(res.data);
       } catch (err) {
@@ -81,7 +82,7 @@ const DownloadFormPage = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/downloadform",
+        `${WEB_BACKEND_URL}/api/route/downloadform`,
         formData,
         {
           headers: {

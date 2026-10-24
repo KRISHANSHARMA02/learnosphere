@@ -1,6 +1,16 @@
+export const APP_BACKEND_URL =
+  process.env.APP_BACKEND_URL;
+
+export const getAppBackendUrl = (endpoint = "") => {
+  const base = (APP_BACKEND_URL || "").replace(/\/+$/, "");
+  if (!endpoint) return base;
+  return `${base}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+};
+
 export async function backendFetch(endpoint, options = {}) {
   try {
-    const res = await fetch(`${process.env.APP_BACKEND_URL}${endpoint}`, {
+    const url = getAppBackendUrl(endpoint);
+    const res = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -32,3 +42,5 @@ export async function backendFetch(endpoint, options = {}) {
     throw err; // still throw for truly unexpected failures
   }
 }
+
+export default APP_BACKEND_URL;

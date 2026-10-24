@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import React, { useEffect, useState, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeft, FaUser, FaVideo } from "react-icons/fa";
@@ -53,7 +54,7 @@ const SubSessionContent = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://mobileapp.backend.learnosphere.in/api/session/v1/get_session_details_for_teacher_app/${sessionId}`
+          `${APP_BACKEND_URL}/api/session/v1/get_session_details_for_teacher_app/${sessionId}`
         );
 
         if (response.data.success) {
@@ -145,7 +146,7 @@ const SubSessionContent = () => {
 
     setIsUploading(true);
     try {
-      const response = await axios.post("https://mobileapp.backend.learnosphere.in/api/session/v1/upload_session_notes_to_aws", formData, {
+      const response = await axios.post(`${APP_BACKEND_URL}/api/session/v1/upload_session_notes_to_aws`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

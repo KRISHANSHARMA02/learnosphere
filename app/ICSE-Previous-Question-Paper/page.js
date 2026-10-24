@@ -1,4 +1,5 @@
 "use client"
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Footer from '@/components/Footer'
 import Footer1 from '@/components/Footer1'
 import Navbar from '@/components/Navbar'
@@ -51,7 +52,7 @@ const ICSEPreviousQuestionPapers = () => {
   };
 
   useEffect(() => {
-    axios.get("https://learnospherebackend.learnosphere.in/api/ics-papers")
+    axios.get(`${WEB_BACKEND_URL}/api/ics-papers`)
       .then(res => {
         let urlMap = {};
         if (res.data && res.data.data) {
@@ -60,7 +61,7 @@ const ICSEPreviousQuestionPapers = () => {
           });
         }
         
-        axios.get("https://learnospherebackend.learnosphere.in/api/icse-papers")
+        axios.get(`${WEB_BACKEND_URL}/api/icse-papers`)
           .then(res2 => {
             if (res2.data && res2.data.data) {
               res2.data.data.forEach(paper => {

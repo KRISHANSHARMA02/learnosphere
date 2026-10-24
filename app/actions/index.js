@@ -1,3 +1,4 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { signIn , signOut} from "next-auth/react";
 
 
@@ -82,7 +83,7 @@ export async function doCredentialLogin(credentials) {
 //   if (!session?.user?.email) return;
 
 //   // Call backend to check if student form is completed
-//   const res = await fetch("https://learnospherebackend.learnosphere.in/api/route/checkStudent", {
+//   const res = await fetch(`${WEB_BACKEND_URL}/api/route/checkStudent`, {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({ identifier: session.user.email }), // ✅ match backend param

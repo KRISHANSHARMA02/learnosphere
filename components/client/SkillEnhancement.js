@@ -1,4 +1,5 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import Footer from "@/components/Footer";
@@ -105,7 +106,7 @@ const SkillEnhancement = () => {
     const fetchCountries = async () => {
       try {
         const res = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getAllCountries"
+          `${WEB_BACKEND_URL}/api/route/getAllCountries`
         );
         setCountries(res.data);
       } catch (err) {
@@ -185,7 +186,7 @@ const SkillEnhancement = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/TeacherModal",
+        `${WEB_BACKEND_URL}/api/route/TeacherModal`,
         formData
       );
 
@@ -233,7 +234,7 @@ const SkillEnhancement = () => {
 
     try {
       const response = await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/verifyTeacherOtp",
+        `${WEB_BACKEND_URL}/api/route/verifyTeacherOtp`,
         {
           email: submittedEmail,
           otp,
@@ -265,7 +266,7 @@ const SkillEnhancement = () => {
     setOtpError({});
     try {
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/TeacherModal",
+        `${WEB_BACKEND_URL}/api/route/TeacherModal`,
         {
           email: submittedEmail,
           name: submittedName,
@@ -290,7 +291,7 @@ const SkillEnhancement = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/SkillTest"
+          `${WEB_BACKEND_URL}/api/route/SkillTest`
         );
         setQuestions(response.data);
       } catch (err) {
@@ -321,7 +322,7 @@ const SkillEnhancement = () => {
       };
 
       await axios.post(
-        "https://learnospherebackend.learnosphere.in/api/route/submitTeacherbasicResult",
+        `${WEB_BACKEND_URL}/api/route/submitTeacherbasicResult`,
         payload
       );
 

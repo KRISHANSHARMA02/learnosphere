@@ -1,4 +1,5 @@
 "use client"
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import React, { useState , useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -40,7 +41,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await fetch('https://learnospherebackend.learnosphere.in/api/route/reset-password-students', {
+      const response = await fetch(`${WEB_BACKEND_URL}/api/route/reset-password-students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, newPassword }),

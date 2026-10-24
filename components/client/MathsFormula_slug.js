@@ -1,4 +1,5 @@
   "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
@@ -72,7 +73,7 @@ const DataTable = props => {
         setError("");
 
         const response = await axios.get(
-          `https://learnospherebackend.learnosphere.in/api/route/subjectcontent/${slug}`
+          `${WEB_BACKEND_URL}/api/route/subjectcontent/${slug}`
         );
       
         if (response.data && response.data.data) {

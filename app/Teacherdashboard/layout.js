@@ -1,4 +1,6 @@
 "use client";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import { trackEvent } from "@/src/lib/eventTracker";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -212,7 +214,7 @@ export default function Layout({ children }) {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const response = await axios.post(
-            "https://learnospherebackend.learnosphere.in/api/route/getTeacherByEmail",
+            `${WEB_BACKEND_URL}/api/route/getTeacherByEmail`,
             { gmail: session.user.email },
           );
           if (response.data.data) {
@@ -265,7 +267,7 @@ export default function Layout({ children }) {
 
       try {
         const res = await axios.get(
-          "https://mobileapp.backend.learnosphere.in/api/v1/kyc/check_tutor_kyc_status",
+          `${APP_BACKEND_URL}/api/v1/kyc/check_tutor_kyc_status`,
           {
             params: {
               tutorId: profileData.RegistrationNumber,
@@ -304,7 +306,7 @@ export default function Layout({ children }) {
         if (!teacherEmail) return;
 
         const response = await axios.get(
-          "https://learnospherebackend.learnosphere.in/api/route/getUnreadTeacherNotifications",
+          `${WEB_BACKEND_URL}/api/route/getUnreadTeacherNotifications`,
           { params: { teacherEmail } },
         );
 

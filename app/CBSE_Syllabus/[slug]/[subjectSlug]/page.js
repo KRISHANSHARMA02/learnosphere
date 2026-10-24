@@ -1,4 +1,5 @@
 "use client";
+import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -48,7 +49,7 @@ export default function SubjectPage() {
       // 🔹 Normalize "class-12" → "12"
       const normalizedClass = slug.replace("class-", "");
       axios
-        .get("https://mobileapp.backend.learnosphere.in/api/route/getSubjectByClass", {
+        .get(`${APP_BACKEND_URL}/api/route/getSubjectByClass`, {
           params: { className: normalizedClass, subject: subjectSlug },
         })
         .then((res) => setSubjectData(res.data))

@@ -1,3 +1,4 @@
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import MiddleEastCountryPage from "./slugcontent";
 
 export async function generateMetadata(props) {
@@ -8,7 +9,7 @@ export async function generateMetadata(props) {
 
   try {
     const res = await fetch(
-      `https://learnospherebackend.learnosphere.in/api/route/content/v1/get-middle-east-content/${slug}`,
+      `${WEB_BACKEND_URL}/api/route/content/v1/get-middle-east-content/${slug}`,
       { cache: "no-store" }
     );
 
