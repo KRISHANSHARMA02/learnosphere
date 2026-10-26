@@ -62,13 +62,16 @@ const RelatedPage = (props) => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        const backendBase = (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"))
+          ? "http://localhost:4000"
+          : (WEB_BACKEND_URL || "http://localhost:4000");
         const response = await axios.get(
-          `${WEB_BACKEND_URL}/api/route/cbse-related/${slug}`
+          `${backendBase}/api/route/cbse-related/${slug}`
         );
         if (response.data && response.data.data) {
           setData(response.data.data);
         } else {
-          const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/cbse-related/${slug}`);
+          const localRes = await axios.get(`http://localhost:4000/api/route/cbse-related/${slug}`);
           if (localRes.data && localRes.data.data) {
               setData(localRes.data.data);
           } else {
@@ -77,7 +80,7 @@ const RelatedPage = (props) => {
         }
       } catch (err) {
         try {
-            const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/cbse-related/${slug}`);
+            const localRes = await axios.get(`http://localhost:4000/api/route/cbse-related/${slug}`);
             if (localRes.data && localRes.data.data) {
                 setData(localRes.data.data);
                 setError(null);
