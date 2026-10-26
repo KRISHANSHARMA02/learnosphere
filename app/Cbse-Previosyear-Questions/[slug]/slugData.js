@@ -14,8 +14,7 @@ import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
-import FAQAccordion from "@/components/FAQAccordion";
-import { faqData } from "./faqData";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import { useSession } from "next-auth/react";
 
 import axios from "axios";
@@ -28,7 +27,6 @@ const DataTable = ({ data: serverData, slug: propSlug }) => {
   const params = useParams();
   const slug = params?.slug;
   const currentSlug = propSlug || slug;
-  const faqs = (currentSlug && faqData[currentSlug]) || [];
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -633,7 +631,7 @@ const DataTable = ({ data: serverData, slug: propSlug }) => {
             </div>
           </div>
         </div>
-        <FAQAccordion faqs={faqs} />
+        <DynamicFAQSection slug={currentSlug} />
         <Footer1 />
         <Footer />
       </div>
