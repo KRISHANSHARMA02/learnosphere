@@ -1,4 +1,5 @@
 "use client";
+import PageNotFound from "@/app/not-found";
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -49,7 +50,6 @@ const Certification = ({ slug }) => {
     const closePopup = () => setShowPopup(false);
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p className="text-red-500">{error}</p>;
 
     const { grade, d1, p1, p2,
         p3,

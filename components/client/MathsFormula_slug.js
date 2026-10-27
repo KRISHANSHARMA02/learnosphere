@@ -16,7 +16,7 @@ import WhatsappModal from "@/components/whatsappModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
-import MathFallback from "@/components/MathFallback";
+import PageNotFound from "@/app/not-found";
 // 
 
 const DataTable = props => {
@@ -72,17 +72,34 @@ const DataTable = props => {
         setLoading(true);
         setError("");
 
-        const response = await axios.get(
-          `${WEB_BACKEND_URL}/api/route/subjectcontent/${slug}`
-        );
-      
-        if (response.data && response.data.data) {
-          setData(response.data.data);
+        let formulaData = null;
+        try {
+          const response = await axios.get(
+            `${WEB_BACKEND_URL}/api/route/subjectcontent/${slug}`
+          );
+          if (response.data && response.data.data && response.data.data.length > 0) {
+            formulaData = response.data.data;
+          }
+        } catch (fetchErr) {
+          if (WEB_BACKEND_URL.includes("localhost") || (typeof window !== "undefined" && window.location.hostname === "localhost")) {
+            try {
+              const liveResponse = await axios.get(
+                `https://learnospherebackend.learnosphere.in/api/route/subjectcontent/${slug}`
+              );
+              if (liveResponse.data && liveResponse.data.data && liveResponse.data.data.length > 0) {
+                formulaData = liveResponse.data.data;
+              }
+            } catch (liveErr) {}
+          }
+        }
+
+        if (formulaData) {
+          setData(formulaData);
         } else {
-          setData([]); // No data found
+          setData([]);
+          setError("Subject content not found");
         }
       } catch (err) {
-        console.error("Error fetching data:", err);
         setError(err.response?.data?.message || "Error fetching data.");
         setData([]);
       } finally {
@@ -95,6 +112,10 @@ const DataTable = props => {
 
   if (loading) {
     return <div className="text-gray-600">Loading...</div>;
+  }
+
+  if (!loading && (!data || data.length === 0 || error)) {
+    return <PageNotFound />;
   }
 
   
@@ -746,7 +767,7 @@ const DataTable = props => {
                 </div>
               ))
             ) : (
-              <MathFallback slug={slug} />
+              <PageNotFound />
             )}
             
             

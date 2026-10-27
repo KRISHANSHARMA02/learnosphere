@@ -1,259 +1,1287 @@
 [
-  {"name": "CBSE Class 1 Online Quiz","description": "We bring to you a Best online quiz platform for class 1 students. These quizzes for standard 1 cover all the concepts and make your learning enjoyable, scorable and effective.","path": "/Online-Quiz/Certification-Quiz-For-Class-1"},
-  {"name": "CBSE Class 2 Online Quiz","description": "We present a top-notch online quiz for Class 2 students, designed to make learning fun, interactive, and educational.","path": "/Online-Quiz/Certification-Quiz-For-Class-2"},
-  {"name": "CBSE Class 3 Online Quiz","description": "Take advantage of online quizzes for Class 3 to make learning fun and interactive! ","path": "/Online-Quiz/Certification-Quiz-For-Class-3"},
-  {"name": "CBSE Class 4 Online Quiz","description": "Online quizzes for Class 4 are a great way to enhance learning for 4th-grade students!","path": "/Online-Quiz/Certification-Quiz-For-Class-4"},
-  {"name": "CBSE Class 5 Online Quiz","description": "Discover the exciting world of online quizzes for Class 5 designed especially for 5th graders!","path": "/Online-Quiz/Certification-Quiz-For-Class-5"},
-  {"name": "CBSE Class 6 Online Quiz","description": "Take advantage of our online quiz for Class 6 students and make learning fun!","path": "/Online-Quiz/Certification-Quiz-For-Class-6"},
-  {"name": "CBSE Class 7 Online Quiz","description": "For Class 7 students, online quizzes for Class 7 provide an exciting and effective way to reinforce learning across various subjects.","path": "/Online-Quiz/Certification-Quiz-For-Class-7"},
-  {"name": "CBSE Class 8 Online Quiz","description": "In Class 8, students face more advanced topics across subjects, and online quizzes for Class 8 offer a great way to enhance their learning experience.","path": "/Online-Quiz/Certification-Quiz-For-Class-8"},
-  {"name": "CBSE Class 9 Online Quiz","description": "Online quiz for Class 9 are a great way to enhance learning across subjects like math, science, English, and social studies.","path": "/Online-Quiz/Certification-Quiz-For-Class-9"},
-  {"name": "CBSE Class 10 Online Quiz","description": "Online quizzes for Class 10 offer an excellent opportunity for students to enhance their learning experience.","path": "/Online-Quiz/Certification-Quiz-For-Class-10"},
-  {"name": "CBSE Class 11 Online Quiz","description": "Taking advantage of online quizzes for Class 11 provides students with an interactive and engaging way to enhance their learning.","path": "/Online-Quiz/Certification-Quiz-For-Class-11"},
-  {"name": "CBSE Class 12 Online Quiz","description": "Online quiz for Class 12 offers students an engaging way to reinforce their learning and prepare for exams.","path": "/Online-Quiz/Certification-Quiz-For-Class-12"},
-  {"name": "CBSE Class 1 Syllabus","description": "Class 1, being the first stage to the beginning of official school life, plays a vital role in a student’s life. ","path": "/CBSE/Class-1"},
-  {"name": "CBSE Class 2 Syllabus","description": "The Central Board of Secondary Education holds the title of India’s most prominent national educational board and has successfully generated syllabi that guarantee a bright future.","path": "/CBSE/Class-2"},
-  {"name": "CBSE Class 3 Syllabus","description": "The Central Board of Secondary Education (CBSE) provides a well-rounded and comprehensive curriculum for third-grade students.","path": "/CBSE/Class-3"},
-  {"name": "CBSE Class 4 Syllabus","description": "CBSE (Central Board of Secondary Education) Class 4 is an essential stage in a student's academic journey, focusing on building foundational knowledge and skills.","path": "/CBSE/Class-4"},
-  {"name": "CBSE Class 5 Syllabus","description": "CBSE (Central Board of Secondary Education) Class 5 is an essential stage in a student's academic journey, focusing on building foundational knowledge and skills.","path": "/CBSE/Class-5"},
-  {"name": "CBSE Class 6 Syllabus","description": "The Central Board of Secondary Education (CBSE) offers a well-rounded and comprehensive curriculum for sixth-grade students","path": "/CBSE/Class-6"},
-  {"name": "CBSE Class 7 Syllabus","description": "The Central Board of Secondary Education (CBSE) provides a comprehensive curriculum for seventh-grade students, designed to foster holistic development.","path": "/CBSE/Class-7"},
-  {"name": "CBSE Class 8 Syllabus","description": "The CBSE Class 8 curriculum is designed to ensure a well-rounded educational experience for students","path": "/CBSE/Class-8"},
-  {"name": "CBSE Class 9 Syllabus","description": "The CBSE Class 9 curriculum offers a foundational understanding of core subjects, including Mathematics, Science, Social Science, English, and Hindi.","path": "/CBSE/Class-9"},
-  {"name": "CBSE Class 10 Syllabus","description": "CBSE Syllabus for Class 10 for the 2023-24 academic year has been released by the board. The CBSE Class 10 Syllabus is a valuable resource for students preparing for board exams. It","path": "/CBSE-10thsyllabus"},
-  {"name": "CBSE Class 11 Syllabus","description": "For all students, the syllabus for Class 11 is an essential guide for understanding what to learn and which topics are important.","path": "/CBSE-11thsyllabus"},
-  {"name": "CBSE Class 12 Syllabus","description": "For all students, the syllabus for Class 12 will serve as a guide to help them determine what to learn and which topics are relevant.","path": "/CBSE-12thsyllabus"},
-  {"name": "CBSE Class 10 Hindi Syllabus","description": "The Class 10 Hindi syllabus has been meticulously designed to cater to the diverse linguistic skills of students, ensuring a comprehensive understanding of literature, grammar, and writing skills.","path": "/CBSE/Class-10-Hindi"},
-  {"name": "CBSE Class 10 Math Syllabus","description": "With the CBSE  Class 10 Maths syllabus, students can delve into various areas such as algebra, geometry, trigonometry, statistics, and more ","path": "/CBSE/Class-10-Math"},
-  {"name": "CBSE Class 10 English Syllabus","description": "English is one of the most scoring subjects to overall increase your percentage in Class 10th Boards.","path": "/CBSE/Class-10-English"},
-  {"name": "CBSE Class 10 Science Syllabus","description": "The CBSE Class 10 Science syllabus for the 2024-25 academic year is a vital tool for students gearing up for their board exams.","path": "/CBSE/Science"},
-  {"name": "CBSE Class 10 Social Science Syllabus","description": "The CBSE Class 10 Social Science syllabus is divided into four main units: History, Geography, Political Science (Civics), and Economics.","path": "/CBSE/SocialScience"},
-  {"name": "CBSE Class 11 Math Syllabus","description": "The CBSE Class 11 Mathematics syllabus provides a comprehensive introduction to advanced mathematical concepts, laying a strong foundation for higher studies in the field.","path": "/CBSE/Class-11-Math"},
-  {"name": "CBSE Class 11 Physics Syllabus","description": "The Class 11 Physics curriculum provides a comprehensive introduction to the fundamental principles of physics, exploring the nature and properties of matter, energy, and the forces governing the universe.","path": "/CBSE/Class-11-Physics"},
-  {"name": "CBSE Class 11 Chemistry Syllabus","description": "The CBSE Class 11 Chemistry curriculum provides an in-depth exploration of fundamental concepts that form the basis of chemical science.","path": "/CBSE/Class-11-Chemistry"},
-  {"name": "CBSE Class 11 Biology Syllabus","description": "The CBSE Class 11 Biology curriculum introduces students to the foundational concepts of biological sciences, focusing on cellular and molecular biology, plant and animal physiology, and ecological principles.","path": "/CBSE/Class-11-Biology"},
-  {"name": "CBSE Class 11 English Syllabus","description": "The CBSE Class 11 English syllabus focuses on developing students' language skills and literary appreciation.","path": "/CBSE/Class-11-English"},
-  {"name": "CBSE Class 11 Hindi Syllabus","description": "The CBSE Class 11 Hindi syllabus aims to enhance students' understanding and appreciation of Hindi language and literature.","path": "/CBSE/Class-11-Hindi"},
-  {"name": "CBSE Class 11 Accountancy Syllabus","description": "The CBSE Class 11 Accounting syllabus introduces students to the fundamentals of financial accounting, focusing on the principles and practices essential for effective business management. ","path": "/CBSE/Class-11-Accountancy"},
-  {"name": "CBSE Class 11 Business Studies Syllabus","description": "The CBSE Class 11 Business Studies syllabus provides a comprehensive exploration of core business principles","path": "/CBSE/Class-11-BussinessStudies"},
-  {"name": "CBSE Class 11 Economics Syllabus","description": "The CBSE Class 11 Economics syllabus offers a detailed exploration of India’s economic development and the application of economic principles.","path": "/CBSE/Class-11-Economics"},
-  {"name": "CBSE Class 11 Political Science Syllabus","description": "The CBSE Class 11 Political Science syllabus provides students with a foundational understanding of political structures and concepts.","path": "/CBSE/Class-11-PoliticalScience"},
-  {"name": "CBSE Class 12 Math Syllabus","description": "The Class 12 Maths CBSE syllabus has been revised for the academic year 2024-25, as per the guidelines set by the Central Board of Secondary Education (CBSE).","path": "/CBSE/Class-12-Math"},
-  {"name": "CBSE Class 12 Physics Syllabus","description": "The Class 12 Physics syllabus NCERT covers a wide range of essential areas, including electrostatics, electromagnetism, optics, modern physics, and more","path": "/CBSE/Class-12-Physics"},
-  {"name": "CBSE Class 12 Chemistry Syllabus","description": "The CBSE Chemistry Class 12 Syllabus is an essential resource for students aiming to excel in their academic pursuits.","path": "/CBSE/Class-12-Chemistry"},
-  {"name": "CBSE Class 12 Biology Syllabus","description": "The CBSE Class 12 Biology syllabus covers a wide range of essential areas, including cell structure and function, genetics, ecology, biotechnology, and human physiology","path": "/CBSE/Class-12-Biology"},
-  {"name": "CBSE Class 12 English Syllabus","description": "When it comes to tde language subject, there is no doubt that students often tend to ignore these and always have more focus on the core subjects when they are doing their preparation for the examinations that they are going to give.","path": "/CBSE/Class-12-English"},
-  {"name": "CBSE Class 12 Hindi Syllabus","description": "The NCERT Class 12 Hindi core syllabus has been revised for the academic year 2024-25, as per the guidelines set by the Central Board of Secondary Education (CBSE).","path": "/CBSE/Class-12-Hindi"},
-  {"name": "CBSE Class 12 Accountancy Syllabus","description": "The NCERT Accountancy syllabus for Class 12 focuses on developing a strong understanding of the nature and significance of accounting information in business operations.","path": "/CBSE/Class-12-Accountancy"},
-  {"name": "CBSE Class 12 Business Studies Syllabus","description": "The Business Studies in Class 12 NCERT syllabus provides a comprehensive framework for students to understand various business concepts and principles.","path": "/CBSE/Class-12-BussinessStudies"},
-  {"name": "CBSE Class 12 Economics Syllabus","description": "The latest syllabus for Class 12 Economics in accordance with the CBSE has been unveiled for the academic year 2024-2025.","path": "/CBSE/Class-12-Economics"},
-  {"name": "CBSE Class 12 Political Science Syllabus","description": "This CBSE Class 12 Political Science Syllabus is applicable for the academic year 2024-25 and can be used by the students of Class 12 while preparing for their board examination.","path": "/CBSE/Class-12-PoliticalScience"},
-  {"name": "CBSE Math Formula For Class 6","description": "Most of the trouble arises for the students when the examination fears kick in. To avoid this, students need to understand the concepts and learn to apply the necessary maths formulas to solve the difficult problems.","path": "/MathsFormula/Maths-Formulas-For-Class-6"},
-  {"name": "CBSE Math Formula For Class 7","description": "Mathematics is so important in our life. Because we use the mathematical equation in our daily life activities.","path": "/MathsFormula/Maths-Formulas-For-Class-7"},
-  {"name": "CBSE Math Formula For Class 8","description": "Maths formulas for class 8 list provided here consolidates all the important formulas that are required in class 8. ","path": "/MathsFormula/Maths-Formulas-For-Class-8"},
-  {"name": "CBSE Math Formula For Class 9","description": "Maths formulas for Class 9 are provided here for the students who consider Mathematics subject as a nightmare and difficult to understand. ","path": "/MathsFormula/Maths-Formulas-For-Class-9"},
-  {"name": "CBSE Math Formula For Class 10","description": "Maths formulas for Class 10 are the general formulas that are not only crucial for Class 10 but also form the base for higher-level maths concepts.","path": "/MathsFormula/Maths-Formulas-For-Class-10"},
-  {"name": "CBSE Math Formula For Class 11","description": "It’s quite common amongst students to find Maths as a difficult subject and find it hard to master.","path": "/MathsFormula/Maths-Formulas-For-Class-11"},
-  {"name": "CBSE Math Formula For Class 12","description": "Many students of CBSE class 12 are phobic about math formulas, because of their negativity towards the subject and cannot focus or concentrate on math problems.","path": "/MathsFormula/Maths-Formulas-For-Class-12"},
-  {"name": "CBSE Sample Papers For Class 8","description": "CBSE Sample Papers for Class 8 Maths are a perfect trial run for the students through which they can check their exam preparation. ","path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-8-Maths"},
-  {"name": "CBSE Sample Papers For Class 9","description": "Mathematics is a subject that requires a lot of practice; even if you are well aware of concepts, you need good practice to engrave those concepts in your mind. ","path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-9-Maths"},
-  {"name": "CBSE Sample Papers For Class 10","description": "CBSE Class 10 Maths Sample Paper is the best resource to prepare for your board exam. Our Maths experts have created these papers for students to prepare well for their exams and score more marks.","path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard"},
-  {"name": "CBSE Sample Papers For Class 11","description": "CBSE Sample Papers for Class 11 Maths are the best resource for students to prepare for the annual exam. Solving the sample papers gives students an idea of the type of questions expected in the exam.","path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-11-Maths"},
-  {"name": "CBSE Sample Papers For Class 12","description": "CBSE Class 12 board exam indicates the end of school life, but it also opens doors to new domains where students can just step in to pursue higher education as per their career desire. ","path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Class-12-Maths-Sample-Papers"},
-  {"name": "CBSE Sample Papers For Class 8 Maths Set 1 ","description": "Here, we are providing the CBSE Class 8 Maths Sample Paper Set 1, which will help students in their exam preparation.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-1"},
-  {"name": "CBSE Sample Papers For Class 8 Maths Set 2 ","description": "We hope this information on “CBSE Sample Paper Class 8 Maths Set 2” helped students in their exam preparation.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-2"},
-  {"name": "CBSE Sample Papers For Class 8 Maths Set 3 ","description": "We hope this information on ‘CBSE Sample Paper Class 8 Maths Set 3’ helped students in their exam preparation.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-3"},
-  {"name": "CBSE Sample Papers For Class 8 Maths Set 4 ","description": "We hope this information on “CBSE Sample Paper Class 8 Maths Set 4” helped students in their exam preparation.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-4"},
-  {"name": "CBSE Sample Papers For Class 8 Maths Set 5 ","description": "We hope this information on ‘CBSE Sample Paper Class 8 Maths Set 5’ helped students in their exam preparation.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-5"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 1 ","description": "Maths is a subject that is purely based on numbers. For some students, it is an interesting subject, but others may find it difficult.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-1"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 2 ","description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 2, which includes different types of Maths problems","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-2"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 3 ","description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 3, which includes different types of Maths problems. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-3"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 4 ","description": "Maths is a subject that is purely based on numbers. For some students, it is an interesting subject, but some of them find it difficult. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-4"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 5 ","description": "One of the best ways to overcome this Maths fear is to strengthen the basic concepts and practice questions based on them.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-5"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 6 ","description": " Here we have provided the CBSE Sample Paper Class 9 Maths Set 6, which includes different types of Maths problems. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-6"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 7 ","description": " Here we have provided the CBSE Sample Paper Class 9 Maths Set 7, which includes different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-7"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 8 ","description": " Once students are done with solving the textbook problems, then they must solve the questions of varying difficulty level.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-8"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 9 ","description": "Maths is a subject that is purely based on numbers. For some students, it is an interesting subject, but some of them find it difficult.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-9"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 10 ","description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 10 which includes different types of Maths problems. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-10"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 11 ","description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 11, which includes different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-11"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 12 ","description": " Once students are done with solving the textbook problems, then they must solve the questions of varying difficulty levels.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-12"},
-  {"name": "CBSE Sample Papers For Class 9 Maths Set 13 ","description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 13, which includes different types of Maths problems. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-13"},
-  {"name": "CBSE Sample Papers For Class 10 Maths Set 1 ","description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-1"},
-  {"name": "CBSE Sample Papers For Class 10 Maths Set 2 ","description": " we have provided the CBSE Class 10 Maths Sample Paper Set 2. Solving the CBSE sample paper will enhance the speed, accuracy and time management skills of students.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-2"},
-  {"name": "CBSE Sample Papers For Class 10 Maths Set 3 ","description": " we have provided the CBSE Class 10 Maths Sample Paper Set 3. Solving the CBSE sample paper will enhance the speed, accuracy and time management skills of students.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-3"},
-  {"name": "CBSE Sample Papers For Class 10 Maths Set 4 ","description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-4"},
-  {"name": "CBSE Sample Papers For Class 10 Maths Set 5 ","description": " we have provided the CBSE Class 10 Maths Sample Paper Set 5. Solving the CBSE sample paper will enhance the speed, accuracy and time management skills of students.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-5"},
-  {"name": "CBSE Sample Papers For Class 10 Maths Set 6 ","description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-6"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 1 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-1"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 2 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-2"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 3 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-3"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 4 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-4"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 5 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-5"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 6 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-6"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 7 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-7"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 8 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-8"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 9 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-9"},
-  {"name": "CBSE Sample Papers For Class 11 Maths Set 10 ","description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-10"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 1 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.s3.ap-south-1.amazonaws.com/sample-papers/1784788166904_Applied-Maths-SQP.pdf"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 2 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-2"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 3 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-3"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 4 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-4"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 5 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-5"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 6 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-6"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 7 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-7"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 8 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-8"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 9 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-9"},
-  {"name": "CBSE Sample Papers For Class 12 Maths Set 10 ","description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-10"},
-  {"name": "ICSE Sample Papers For Class 8 Maths ","description": "Solving ICSE class 8 maths sample papers can sometimes seem boring and tiresome, but it is worth every effort. It gives the students a feeling of self-assurance and self-confidence.","path": "https://learnosphere.in/icse-sample-papers/ICSE-Sample-Papers-for-Class-8-Maths"},
-  {"name": "ICSE Sample Papers For Class 9 Maths ","description": "ICSE Sample Paper for Class 9 Maths is provided here to help students in their exam preparation. ","path": "https://learnosphere.in/icse-sample-papers/ICSE-Sample-Papers-for-Class-9-Maths"},
-  {"name": "ICSE Sample Papers For Class 10 Maths ","description": "Sample Papers for ICSE Class 10 Maths are available here for students. They can download these sets of solved and unsolved ICSE Class 10 Maths Sample Papers in PDF format for revision purposes","path": "https://learnosphere.in/icse-sample-papers/ICSE-Sample-Papers-for-Class-10-Maths"},
-  {"name": "ISC Sample Papers For Class 11 Maths ","description": "Class 11th is a turning point in student life. It is crucial that they prepare for the ISC Class 11 exam in the best way. To help them with their preparation, we have made available the ISC Sample Paper for Class 11 Maths.","path": "https://learnosphere.in/icse-sample-papers/ISC-Sample-Papers-for-Class-11-Maths"},
-  {"name": "ISC Sample Papers For Class 12 Maths ","description": "ISC Class 12 Sample Paper for Maths is a crucial process of board exam preparation. Without solving the sample papers, the exam preparation, especially for the Maths subject, is incomplete. ","path": "https://learnosphere.in/icse-sample-papers/ISC-Sample-Papers-for-Class-12-Maths"},
-  {"name": "CBSE Class 10 Maths Previous Year Papers ","description": "CBSE Question Papers for Class 10 Maths are provided here for students to help in their exam preparation. Mathematics is all about practice. The more students practise, the more command they will get over the subject. ","path": "https://learnosphere.in/Cbse-Previosyear-Questions/CBSE-Class-10-Maths-Previous-Year-Papers"},
-  {"name": "CBSE Class 12 Maths Previous Year Papers ","description": "Students aiming to excel in their board examination must solve the CBSE previous years Class 12 Maths papers. These papers are as per the CBSE Class 12 Syllabus and contain different numerical problems for students’ practice.","path": "https://learnosphere.in/Cbse-Previosyear-Questions/CBSE-Previous-Year-Question-Paper-for-Class-12-Maths"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2024","description": "The question paper was framed in a way to test the student’s understanding of mathematical concepts and their applications. The length of the question paper was appropriate.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2024"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2023","description": "The CBSE Question Paper 2023 for Class 10 Maths is provided here to help students prepare for their board exams efficiently. Maths can be tricky, and the best way to do well in Maths is to practise daily","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2023"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2022","description": "Students will obtain good revision by solving the CBSE Class 10 Maths Question Paper for the year 2022. They will get an idea of the types of questions asked in the board exam and can plan a strategy to prepare well for the Maths paper.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2022"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2020","description": "Students can download the CBSE Class 10 Question Paper 2020 for Maths for all the sets on this page. CBSE Class 10 Maths exam was conducted on 12th March 2020. ","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2020"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2019","description": "Mathematics is a subject that requires a lot of practice. Students who aim to score high marks in the Class 10 Maths exam must solve the previous year’s papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2019"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2018","description": "CBSE Class 10 Maths previous year question paper are the crucial study resource for students exam preparation. It helps them understand the exam pattern, difficulty level of paper and various types of questions asked in the exam","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2018"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2017","description": "Maths is a subject which demands a lot of practice. As soon as students are done with the Maths syllabus, they start solving the previous year question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2017"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2016","description": "Mathematics is a subject in which students can score full marks. But, it requires a lot of practice and hard work. The best way to practice different variety of questions is to solve the previous year papers. ","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2016"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2015","description": "CBSE class 10 Maths previous year question paper is the crucial study resource for students exam preparation. It helps them in understanding the question paper pattern, the difficulty level of exam.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2015"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2014","description": "Maths is a subject which demands a lot of practice. As soon as students are done with the Maths syllabus, they start solving the previous year question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2014"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2013","description": "CBSE class 10 Maths previous year question paper is the crucial study resource for students exam preparation. It helps them in understanding the exam pattern, difficulty level of paper and various types of questions asked in the exam.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2013"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2012","description": "Mathematics subject demands practice. One of the best resource to practice different types of mathematical problems is by solving the CBSE Class 10 previous year question paper.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2012"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2011","description": "Mathematics is a subject that requires a lot of practice. Students aiming to score high marks in class 10 Maths exam must solve the previous year papers","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2011"},
-  {"name": "CBSE Class 10 Mathematics Question Papers 2010","description": " Practising the CBSE Class 10 previous year question paper will help students understand the different types of questions asked in the exam and their difficulty level. ","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2010"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2023","description": "Students preparing for their forthcoming Class 12 board exam can use the provided CBSE Class 12 Question Paper 2023 of Maths with solutions to maximise their exam preparation.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2023"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2022","description": "The CBSE Class 12 Previous Year Papers help students increase their knowledge of fundamental Maths concepts, which are crucial from the exam perspective.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2022"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2020","description": "CBSE Class 12 Maths exam was conducted on 17th March 2020. The Maths paper was of 80 marks, and students were allocated 3 hours of time duration to complete the paper.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2020"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2019","description": "One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2019"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2018","description": " One of the crucial study resources where students can easily find different types of mathematical problems is the previous year class 12 question papers","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2018"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2017","description": " One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2017"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2016","description": "By solving the previous year CBSE class 12 Maths question papers, students will get an idea of important topics which are more likely to be asked in the exam.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2016"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2015","description": " One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2015"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2014","description": "By solving the previous year CBSE class 12 Maths question papers, students will get good revision before the board exam. They get to know the types of questions asked in the exam, and accordingly, they can prepare the exam strategy.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2014"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2013","description": "By solving the previous year’s CBSE class 12 Maths question papers, students will get a depth understanding of exam pattern, types of questions asked in the exam and their difficulty level. ","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2013"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2012","description": " One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2012"},
-  {"name": "CBSE Class 12 Mathematics Question Papers 2011","description": "One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.","path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2011"},
-  {"name": "ICSE Class 10 Maths Previous Year Paper","description": "To score maximum marks in Class 10 Maths subjects, students can practice several numbers of these previous year papers before ICSE examinations. By doing these, it relieves the student’s exam pressure.","path": "https://learnosphere.in/ICSE-Previousyear-Questions/ICSE-Class-10-Maths-Previous-Year-Paper"},
-  {"name": "ISC Class 12 Maths Previous Year Paper","description": "ISC 12 Board exams are not less than the first turning point in any student’s career. It is not hidden from anyone that class 12 aggregate decides your route for the future and shapes your career. ","path": "https://learnosphere.in/ICSE-Previousyear-Questions/ISC-Class-12-Maths-Previous-Year-Question-Papers"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2023","description": "By solving ICSE Question Paper 2023 Class 10 Maths, students can identify their weak areas and work on improving them. It also helps them with time management and boosts their confidence level.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2023"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2022","description": "Along with practising Maths problems from your ICSE textbook exercises, you should also focus on solving questions given in ICSE previous years’ question papers for Maths. ","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2022"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2020","description": "Students who are looking for ICSE Class 10 Maths Question Paper Solution have landed on the right page. Here, they can find the solved Class 10 Maths ICSE Question Paper 2020 along with the step marking for each question.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2020"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2019","description": "We hope this information on “ICSE Class 10 Maths Question Papers Solutions 2019” helped students in their exam preparation.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2019"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2018","description": "Students who are aiming to score high marks in the Maths subject must solve the previous year question paper. Here we have provided the ICSE Class 10 Maths Question Paper 2018 along with the Solutions.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2018"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2017","description": "Solving ICSE Class 10 Maths Question Paper 2017 will give a good practice to students before the board exam. By practising the questions asked in previous year papers, students will get to know the types of questions asked in the exam","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2017"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2016","description": "The key to score high marks in maths subjects is by practising more number of Mathematical problems. So, those students who are aiming to take Maths as a main subject after class 10 board exam must secure good marks in the paper. ","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2016"},
-  {"name": "ICSE Previous Year Question Paper for Class 10 Maths 2015","description": "To help students in evaluating their current level of exam preparation, we have provided the ICSE Class 10 Maths Question Paper 2015 Solutions. The solution pdf contains the answers to each question along with the step marking. ","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2015"},
-  {"name": "ISC Class 12 Maths Previous Year Question Paper 2023","description": "Use this Class 12 ISC Maths previous year question paper to improve your preparation for the upcoming board exam. Reviewing previous year’s Class 12 ISC Maths question paper 2023 helps students develop an idea about the difficulty level of the paper, exam pattern and the question type. ","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2023"},
-  {"name": "ISC Class 12 Maths Previous Year Question Paper 2019","description": " Here, we have provided the ISC Class 12 Maths Question Paper Solution 2019 to help students with their exam preparation. ","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2019"},
-  {"name": "ISC Class 12 Maths Previous Year Question Paper 2018","description": "we have provided the ISC Class 12 Maths Question Paper Solution 2018 so that students can easily get the answers to all questions. ","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2018"},
-  {"name": "ISC Class 12 Maths Previous Year Question Paper 2017","description": "Students can also access the Solved ISC Class 12 Previous Year Question Papers for Maths, Maths, Maths and Biology subjects compiled at one place.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2017"},
-  {"name": "ISC Class 12 Maths Previous Year Question Paper 2016","description": "For students convenience, we have also compiled the solved ISC Class 12 Previous Year Question Papers of Maths, Physics, Chemistry and Biology subjects at one place.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2016"},
-  {"name": "ISC Class 12 Maths Previous Year Question Paper 2015","description": "Science Stream students can also access the Solved ISC Class 12 Previous Year Question Papers with Solutions for all subjects compiled at one place.","path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2015"},
-  {"name": "CBSE Class 8 Sample Papers SA 1 Maths","description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Sample-Papers-Sa-1-Maths"},
-  {"name": "CBSE Class 8 Sample Papers SA 2 Maths","description": "Maths is a subject which requires practice. Once students are done with the syllabus, then they should devote their time to practice different types of Maths problems","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Sample-Papers-Sa-2-Maths"},
-  {"name": "CBSE Class 9 Sample Papers SA 1 Maths","description": "Math is an essential subject that is used in all fields. Students should practice more math questions on a regular basis to get familiar with each topic of the syllabus","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-9-Maths-Sample-Papers-Sa1"},
-  {"name": "CBSE Class 9 Sample Papers SA 2 Maths","description": "CBSE Class 9 Maths SA 2 Sample Papers is designed by experts. Solving different types of questions will give good practice to the students before the exam.","path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-9-Maths-Sample-Papers-Sa2"},
-  {"name": "Roman Numerals","description":"Roman Numerals is a special kind of numerical notation that was earlier used by the Romans. The Roman numeral system is both additive and subtractive, in which letters are used to represent specific base numbers.","path": "/roman-numerals"},
-  {"name": "Careers","description":"Step into the Learning Trib,Where Educator Growth Fuels Your Drive!","path": "/Careers"},
-  {"name": "App Development","description":"We are seeking talented and innovative app developers to join our dynamic team. This role offers an exciting opportunity to work on cutting-edge mobile applications, creating user-friendly, highly functional apps across various platforms.","path": "/Jobs/Appdevelopment"},
-  {"name": "Others","description":"At Lernosphere, we are excited to offer diverse opportunities across several key areas. Our Tech Team is dedicated to pushing technological boundaries and working on groundbreaking projects.","path": "/Jobs/Others"},
-  {"name": "Table Of 24","description":"The table of 24 is a multiplication table where the number 24 is multiplied by different integers. It's a useful tool for quickly recalling the multiples of 24","path": "/Mathematicstopic/table-of-24"},
-  {"name": "Square Root of 7","description":"n Mathematics, the square root of 7 is a number, which is multiplied by itself for two times results in the original number 7.","path": "/Mathematicstopic/square-root-of-7"},
-  {"name": "Limits","description":"In Mathematics, a limit is defined as a value that a function approaches the output for the given input values. ","path": "/Mathematicstopic/limits"},
-  {"name": "Limit","description":"In Mathematics, a limit is defined as a value that a function approaches the output for the given input values. ","path": "/Mathematicstopic/limits"},
-  {"name": "Prime Factorization","description":"Prime factorization is a process of factoring a number in terms of prime numbers i.e. the factors will be prime numbers.","path": "/Mathematicstopic/prime-factorization"},
-  {"name": "Missing Numbers","description":"Missing numbers are the numbers that got missed in the given series of numbers with similar differences among them.","path": "/Mathematicstopic/missing-number"},
-  {"name": "Concept Of Ratio","description":"The concept of ratio and proportion explains how to solve ratios, types of ratios, ratio formula, etc. A ratio is a mathematical expression of comparing two similar or different quantities by division.","path": "/Mathematicstopic/concept-of-ratio"},
-  {"name": "HCF and LCM","description":"The full form of LCM in Maths is the Least Common Multiple, whereas the full form of HCF is the Highest Common Factor. The H.C.F. defines the greatest factor present in between given two or more numbers","path": "/Mathematicstopic/hcf-and-lcm-calculator"},
-  {"name": "Important Questions Class 12 Maths Chapter 11-Three Dimensional Geometry","description":"Important Questions For Class 12 Maths Chapter 11 Three Dimensional Geometry are available here to help the students who are appearing for the CBSE board exams. ","path": "/Mathematicstopic/important-questions-for-class-12-chapter-11-three-dimensional-geometry"},
-  {"name": "Disjoint Set","description":"A pair of sets which does not have any common element are called disjoint sets. For example, set A={2,3} and set B={4,5} are disjoint sets.","path": "/Mathematicstopic/what-is-disjoint-set"},
-  {"name": "Roman Numerals","description":"Roman Numerals is a special kind of numerical notation that was earlier used by the Romans. The Roman numeral is an additive and subtractive system in which letters are used to denote certain base numbers and arbitrary numbers in the number system.","path": "/Mathematicstopic/1000-in-roman-numerals"},
-  {"name": "Boolean Algebra","description":"Boolean algebra is the category of algebra in which the variable’s values are the truth values, true and false, ordinarily denoted 1 and 0 respectively","path": "/Mathematicstopic/boolean-algebra"},
-  {"name": "Distributive Property","description":"Distributive property explains that the operation performed on numbers, available in brackets that can be distributed for each number outside the bracket.","path": "/Mathematicstopic/distributive-property"},
-  {"name": "Symmetric Matrix & Skew Symmetric Matrix","description":"A symmetric matrix and skew-symmetric matrix both are square matrices. But the difference between them is, the symmetric matrix is equal to its transpose whereas skew-symmetric matrix is a matrix whose transpose is equal to its negative.","path": "/Mathematicstopic/define-symmetrical"},
-  {"name": "Prime, Composite And Even, Odd Numbers","description":"A life without numbers is difficult. Numbers influence our daily routine in such a way that almost everything we handle depends on numbers. The mobile numbers, time, money, dates, years and so on.","path": "/Mathematicstopic/composite-numbers-from-1-to-1000"},
-  {"name": "Angle Bisector Theorem","description":"As per the Angle Bisector theorem, the angle bisector of a triangle bisects the opposite side in such a way that the ratio of the two line segments is proportional to the ratio of the other two sides.","path": "/Mathematicstopic/exterior-angle-bisector-theorem"},
-  {"name": "Types Of Triangles","description":"There are basically six different types of triangles with respect to the length and measure of the lines and angles of a triangle, respectively.","path": "/Mathematicstopic/types-of-triangles"},
-  {"name": "Principle of Mathematical Induction","description":"Mathematical Induction is a technique of proving a statement, theorem or formula which is thought to be true, for each and every natural number n.","path": "/Mathematicstopic/principles-of-mathematical-induction"},
-  {"name": "Chord Of A Circle, Its Length and Theorems","description":"The chord of a circle can be defined as the line segment joining any two points on the circumference of the circle. It should be noted that the diameter is the longest chord of a circle which passes through the center of the circle.","path": "/Mathematicstopic/circle-class-9-theorems"},
-  {"name": "Direction Cosines","description":"In analytical geometry, the directional cosines also known as direction cosine of a vector is defined as the cosines of the angles between the three coordinate axes and the vector. ","path": "/Mathematicstopic/direction-cosins"},
-  {"name": "Simple Equations and Its Applications","description":"A mathematical equation which represents the relationship of two expressions on either side of the sign. It mostly has one variable and equal to symbol. Example: 2x – 4 = 2. In the given example, x is a variable.","path": "/Mathematicstopic/simple-equations"},
-  {"name": "Area Of Hemisphere","description":"A hemisphere is obtained when we cut the sphere into two equal halves. The total surface area of hemisphere will be equal to the sum of its curved surface area and the base area of hemisphere.","path": "/Mathematicstopic/area-of-hemisphere"},
-  {"name": "Trigonometry Table","description":"Trigonometry Table 0 to 360: Trigonometry is a branch in Mathematics, which involves the study of the relationship involving the length and angles of a triangle.","path": "/Mathematicstopic/trigonometry-table"},
-  {"name": "Inches to cm converter","description":"Inches to cm converter is a free online tool that displays the conversion of inches to the centimeter value. LearnOsphere online inches to converter tool performs the calculation faster, and it displays the conversion value in a fraction of seconds","path": "/Mathematicstopic/inches-to-cm-converter"},
-  {"name": "Partial Fractions","description":"Partial fractions are the fractions used for the decomposition of a rational expression. When an algebraic expression is split into a sum of two or more rational expressions, then each part is called a partial fraction.","path": "/Mathematicstopic/partial-fractions"},
-  {"name": "Types Of Quadrilaterals","description":"A quadrilateral, in general, has sides of different lengths and angles of different measures. However, squares, rectangles, etc. are special types of quadrilaterals with some of their sides and angles being equal.","path": "/Mathematicstopic/types-of-quadrilaterals"},
-  {"name": "Right Angled Triangle","description":"A right-angled triangle is a triangle, that has one of its interior angles equal to 90 degrees or any one angle is a right angle. Therefore, this triangle is also called the right triangle or 90-degree triangle.","path": "/Mathematicstopic/right-angled-triangle"},
-  {"name": "Area of Rectangle","description":"In geometry, area of rectangle is the region covered by the rectangle in a two-dimensional plane. A rectangle is a type of quadrilateral, a 2d shape that has four sides and four vertices.","path": "/Mathematicstopic/area-of-rectangle"},
-  {"name": "Divisibility Rules","description":"Divisibility rules or Divisibility tests have been mentioned to make the division procedure easier and quicker. If students learn the division rules in Maths or the divisibility tests for 1 to 20, they can solve the problems in a better way","path": "/Mathematicstopic/divisibility-rules"},
-  {"name": "Prime Numbers","description":"Prime numbers are natural numbers that are divisible by only 1 and the number itself. In other words, prime numbers are positive integers greater than 1 with exactly two factors, 1 and the number itself.","path": "/Mathematicstopic/prime-numbers"},
-  {"name": "Surface Area of a Sphere","description":"The surface area of a sphere is defined as the region covered by its outer surface in three-dimensional space. A Sphere is a three-dimensional solid having a round shape, just like a circle.","path": "/Mathematicstopic/surface-area-of-a-sphere"},
-  {"name": "What is Mathematics?","description":"Mathematics is one of the most important subjects. Mathematics is a subject of numbers, shapes, data, measurements and also logical activities.","path": "/Mathematicstopic/learn-mathematics"},
-  {"name": "Vector Algebra","description":"Vector Algebra for class 12 is all about the study of vectors and scalars. There are various quantities, which involves magnitude as well as direction. ","path": "/Mathematicstopic/vector-algebra-for-class-12"},
-  {"name": "Important 3 Marks Questions for CBSE Class 9 Maths","description":"Important 3 Marks Questions for CBSE Class 9 Maths are provided here. Students should learn the fundamental concepts in Class 9 and it is a crucial stage of student development.","path": "/Mathematicstopic/cbse-class-9-important-questions"},
-  {"name": "Area & Volume Of Sphere","description":"Area of sphere or total surface area of sphere is the region covered by a surface of a spherical object in a three-dimensional space.","path": "/Mathematicstopic/area-of-sphere"},
-  {"name": "Algebra As Patterns","description":"If you think of Mathematics as a language, then Algebra would be that part of the language which describes various patterns around us.","path": "/Mathematicstopic/algebra-patterns"},
-  {"name": "Arithmetic Progression","description":"Arithmetic Progression (AP) is a sequence of numbers in order, in which the difference between any two consecutive numbers is a constant value. It is also called Arithmetic Sequence","path": "/Mathematicstopic/arithmetic-progression-examples"},
-  {"name": "Area Of Hexagon Formula","description":"A polygon with six sides and six angles is termed as a hexagon. Similarly, we have Pentagon where the polygon has 5 sides; Octagon has 8 sides. Each internal angle of the hexagon has been calculated to be 120°.","path": "/Mathematicstopic/hexagon-area-calculator"},
-  {"name": "Quadratics or Quadratic Equations","description":"Quadratics can be defined as a polynomial equation of a second degree, which implies that it comprises a minimum of one term that is squared.","path": "/Mathematicstopic/quadratic"},
-  {"name": "Differentiation Formulas","description":"A Differentiation formulas list has been provided here for students so that they can refer to these to solve problems based on differential equations.","path": "/Mathematicstopic/differentiation-formula-table"},
-  {"name": "Linear Equations","description":"Linear equations in one variable worksheet will help the students of classes 6, 7 and 8 study and think of the questions instead of just acknowledging a pattern to the solutions.","path": "/Mathematicstopic/linear-equations-in-one-variable-class-8-worksheet"},
-  {"name": "Algebra Formulas","description":"Algebra is a branch of mathematics that substitutes letters for numbers. An algebraic equation depicts a scale, what is done on one side of the scale with a number is also done to either side of the scale.","path": "/Mathematicstopic/algebra-formula"},
-  {"name": "Heron's Formula","description":"Heron’s formula is used to find the area of a triangle when we know the length of all its sides. It is also termed as Hero’s Formula. ","path": "/Mathematicstopic/heron's-formula"},
-  {"name": "Semi Circle","description":"In geometry, a semicircle is a plane figure that is formed by dividing a circle into exactly two parts. So, we can write the formulas of area and perimeter for a semicircle using the area and perimeter of a circle.","path": "/Mathematicstopic/area-of-semicircle-formula"},
-  {"name": "Differentiation","description":"In calculus, differentiation is one of the two important concepts apart from integration. Differentiation is a method of finding the derivative of a function. ","path": "/Mathematicstopic/basic-differentiation-formulas"},
-  {"name": "Properties Of HCF And LCM","description":"Properties of HCF and LCM: For a better understanding of the concepts of LCM (Lowest Common Multiple) and HCF (Highest Common Factor), we need to recollect the terms multiples and factors.","path": "/Mathematicstopic/hcf-lcm-formula"},
-  {"name": "Geometry Formulas For Class 11","description":"Geometry formulas for class 11 cover all the important formulas that are included in class 11 syllabus. These class 11 formulas for geometry will help students to quickly get acquainted with the concepts and solve the questions more effectively and efficiently.","path": "/Mathematicstopic/coordinate-geometry-formulas"},
-  {"name": "Cube and Cuboid","description":"Cube and cuboid are three-dimensional shapes that consist of six faces, eight vertices and twelve edges. The primary difference between them is a cube has all its sides equal whereas the length, width and height of a cuboid are different.","path": "/Mathematicstopic/formula-of-cube-and-cuboid"},
-  {"name": "Intersecting Lines And Non-intersecting Lines","description":"Before talking about what intersecting lines and non-intersecting lines are, let us recall the basic definition of a line. In geometry, a line is something that is made up of infinite points extending indefinitely in both directions. It is straight and has negligible depth or width.","path": "/Mathematicstopic/intersecting-lines-and-non-intersecting-lines"},
-  {"name": "Three Dimensional Shapes","description":"In geometry, three-dimensional shapes or 3D shapes are solids that have three dimensions such as length, width and height. Whereas 2d shapes have only two dimensions, i.e. length and width.","path": "/Mathematicstopic/three-dimensional-shapes"},
-  {"name": "Triangular Numbers Sequence","description":"The triangular number sequence is the representation of the numbers in the form of equilateral triangle arranged in a series or sequence. These numbers are in a sequence of 1, 3, 6, 10, 15, 21, 28, 36, 45, and so on.","path": "/Mathematicstopic/triangular-numbers-sequence"},
-  {"name": "Properties of Rectangle","description":"A rectangle is a two-dimensional plane figure with four sides. A rectangle is a four-sided polygon in which the opposite sides are parallel and equal to each other. ","path": "/Mathematicstopic/properties-of-rectangle"},
-  {"name": "Tan 60 Degrees","description":"The value of tan 60 degrees is √3. The word “Trigonometry” means measuring the sides of a triangle. An angle is a measure which is the amount of rotation of a revolving line with respect to the fixed-line.","path": "/Mathematicstopic/tan-60-degrees"},
-  {"name": "Natural Numbers","description":"Natural numbers are a part of the number system which includes all the positive integers from 1 till infinity and are also used for counting purpose. It does not include zero (0).","path": "/Mathematicstopic/natural-numbers"},
-  {"name": "Line Segment","description":"In geometry, a line segment is bounded by two distinct points on a line. Or we can say a line segment is part of the line that connects two points.","path": "/Mathematicstopic/line-segment"},
-  {"name": "Parabola","description":"A parabola is a U-shaped plane curve where any point is at an equal distance from a fixed point (known as the focus) and from a fixed straight line, which is known as the directrix. Parabola is an integral part of the conic section topic, and all its concepts are covered here.","path": "/Mathematicstopic/parabola"},
-  {"name": "Continuous Integration","description":"In Maths, continuous integration is actually the designating of actual numbers to some functions that have some potential for negligible data or value for it.","path": "/Mathematicstopic/continuous-integration"},
-  {"name": "Tables 11 to 30","description":"Tables from 11 to 30 are crucial as they are used in various mathematical calculations. It should be noted that tables are the most important part of everyday calculations. ","path": "/Mathematicstopic/tables-11-to-30"},
-  {"name": "Finding Square Root of A Number By Prime Factorization","description":"Square root of a number is the value that returns the original number on multiplied by itself. Finding square root by prime factorisation is an easy method.","path": "/Mathematicstopic/finding-square-root-of-a-number-by-prime-factorization"},
-  {"name": "Fibonacci Numbers","description":"In Maths, the Fibonacci numbers are the numbers ordered in a distinct Fibonacci sequence. These numbers were introduced to represent the positive numbers in a sequence, which follows a defined pattern.","path": "/Mathematicstopic/fibonacci-numbers"},
-  {"name": "Sin 45 Degrees","description":"In trigonometry, there are three primary ratios, Sine, Cosine and Tangent, which are used to find the angles and length of the right-angled triangle. Before discussing Sin 45 degrees, let us know the importance of Sine function in trigonometry.","path": "/Mathematicstopic/sin-45-degrees"},
-  {"name": "Tan 30 Degrees","description":"The value of tan 30 degrees is 1/√3. The value of tan π/6 can be evaluated with the help of a unit circle, graphically. In trigonometry, the tangent of an angle in a right-angled triangle is equal to the ratio of opposite side and the adjacent side of the angle.","path": "/Mathematicstopic/tan-30-degrees"},
-  {"name": "Number System Conversion","description":"As we know, the number system is a form of expressing the numbers. In number system conversion, we will study to convert a number of one base, to a number of another base.","path": "/Mathematicstopic/number-system-conversion"},
-  {"name": "Construction Of Quadrilaterals","description":"Before talking about the construction of quadrilaterals, let us recall what a quadrilateral is. A quadrilateral is a polygon that has 4 vertices and 4 sides enclosing 4 angles. The sum of its interior angles is 360 degrees. ","path": "/Mathematicstopic/construction-of-quadrilaterals"},
-  {"name": "Probability Density Function","description":"In probability theory, a probability density function (PDF) is used to define the random variable’s probability coming within a distinct range of values, as opposed to taking on any one value.","path": "/Mathematicstopic/probability-density-function"},
-  {"name": "Different Forms Of The Equation Of Line","description":"We know that there are infinite points in the coordinate plane. Consider an arbitrary point P(x,y) on the XY plane and a line L. How will we confirm whether the point is lying on line L? This is where the importance of the equation of a straight line comes into the picture in two-dimensional geometry.","path": "/Mathematicstopic/different-forms-of-the-equation-of-line"},
-  {"name": "State Board", "description": "Each Indian state and union territory operates its own State Board of Education, which designs the curriculum, conducts examinations, and regulates school education within the state.","path": "/State_Board"},
-  {"name": "Board of Secondary Education, Andhra Pradesh (BSEAP)", "description": "Advantages of the AP State Board include affordable education, wide reach across the state, and inclusion of local culture. However, like many state boards, it faces challenges such as variability in quality, infrastructure gaps, and the need for greater alignment with national educational standards.","path": "/State_Board/APBSE"},
-  {"name": "Directorate of School Education, Arunachal Pradesh (DSEAP)", "description": "Arunachal Pradesh is a relatively young state in terms of educational development, it often aligns its curriculum and guidelines with national frameworks such as the National Council of Educational Research and Training (NCERT) to ensure quality and consistency.","path": "/State_Board/DSEAP"},
-  {"name": "Board of Secondary Education, Assam (SEBA)", "description": "SEBA designs its own curriculum, syllabus, and textbooks, with a focus on providing education that reflects Assamese language, culture, and heritage, alongside national academic standards. The board offers instruction in Assamese, English, Bengali, Bodo, and other regional languages to cater to the state’s diverse population.","path": "/State_Board/SEBA"},
-  {"name": "Bihar School Examination Board (BSEB)", "description": "The Bihar School Examination Board (BSEB) is the state education board of Bihar, responsible for conducting school examinations at the secondary (Class 10) and senior secondary (Class 12) levels. Established under the Bihar School Examination Board Act, 1952, the BSEB operates under the Government of Bihar.","path": "/State_Board/BSEB"},
-  {"name": "Chhattisgarh Board of Secondary Education (CGBSE)", "description": "The board designs the curriculum, textbooks, and conducts important public examinations like the High School (10th) and Higher Secondary (12th) board exams. CGBSE aims to provide quality education in line with the cultural, linguistic, and educational needs of Chhattisgarh. The medium of instruction is primarily Hindi, though English-medium options are also available.","path": "/State_Board/CGBSE"},
-  {"name": "Goa Board of Secondary and Higher Secondary Education (GBSHSE)", "description": "The Goa Board of Secondary and Higher Secondary Education (GBSHSE) is the educational board responsible for managing secondary and higher secondary education in the state of Goa, India. Established in 1975, GBSHSE operates under the supervision of the Goa state government.","path": "/State_Board/GBSHSE"},
-  {"name": "Gujarat Secondary and Higher Secondary Education Board (GSEB)", "description": "The Gujarat Secondary and Higher Secondary Education Board (GSEB) is the education board responsible for managing school education in the state of Gujarat, India. Established in 1960, GSEB operates under the jurisdiction of the Government of Gujarat.","path": "/State_Board/GSEB"},
-  {"name": "Board of School Education Haryana (BSEH)", "description": "The Board of School Education Haryana (BSEH), established in 1969, is the state education board responsible for regulating and supervising school education in Haryana.The board also prescribes the curriculum, textbooks, and teaching standards for schools affiliated with it, covering subjects in English, Hindi, and other streams","path": "/State_Board/BSEH"},
-  {"name": "Himachal Pradesh Board of School Education (HPBOSE)", "description": "The Himachal Pradesh Board of School Education (HPBOSE) is the state education board of Himachal Pradesh, established in 1969, with its headquarters in Dharamshala. HPBOSE is responsible for conducting school examinations, developing curriculum, and regulating education for both government and private schools affiliated with the board across the state.","path": "/State_Board/HPBOSE"},
-  {"name": "Jharkhand Academic Council (JAC)", "description": "The Jharkhand Academic Council (JAC) is the official state education board of Jharkhand, established in 2003 after the formation of the state. Headquartered in Ranchi, JAC is responsible for overseeing school education and conducting examinations for secondary (Class 10) and higher secondary (Class 12) levels in Jharkhand.","path": "/State_Board/JAC"},
-  {"name": "Karnataka School Examination and Assessment Board (KSEAB)", "description": "The Karnataka Secondary Education Examination Board (KSEEB) is the state education board of Karnataka, established in 1966. It is responsible for regulating and supervising secondary education in the state, primarily conducting the SSLC (Secondary School Leaving Certificate) examination for Class 10 students","path": "/State_Board/KSEEB"},
-  {"name": "Kerala Board of Public Examinations (KBPE)", "description": "The Kerala Board of Public Examinations (KBPE) is the state education authority responsible for conducting public examinations in the state of Kerala. It operates under the Department of General Education, Government of Kerala. KBPE oversees the conduct of major exams such as the SSLC (Secondary School Leaving Certificate) for Class 10 and other public examinations in the state.","path": "/State_Board/KBPE"},
-  {"name": "Madhya Pradesh Board of Secondary Education (MPBSE)", "description": "The Madhya Pradesh Board of Secondary Education (MPBSE) is the state education board of Madhya Pradesh, established in 1965 and headquartered in Bhopal. MPBSE is responsible for prescribing the curriculum, conducting examinations, and regulating the functioning of schools affiliated to it across the state.","path": "/State_Board/MPBSE"},
-  {"name": "Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)", "description": "The Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE) is the official education board of the state of Maharashtra, established in 1966. Headquartered in Pune, the board is responsible for regulating and supervising secondary (Class 10) and higher secondary (Class 12) education in Maharashtra.","path": "/State_Board/MSBSHSE"},
-  {"name": "Board of Secondary Education, Manipur (BSEM)", "description": "BSEM conducts the High School Leaving Certificate (HSLC) examination at the end of Class X. This examination is crucial for students as it determines their eligibility for higher secondary education.","path": "/State_Board/MANIPUR"},
-  {"name": "Meghalaya Board of School Education (MBOSE)", "description": "The Meghalaya Board of School Education (MBOSE) is the official education board of the state of Meghalaya, established in 1973. It is responsible for regulating, supervising, and developing school education in the state. MBOSE conducts key examinations such as the Secondary School Leaving Certificate (SSLC) for Class 10 and the Higher Secondary School Leaving Certificate (HSSLC) for Class 12.","path": "/State_Board/MBOSE"},
-  {"name": "Mizoram Board of School Education (MBSE)", "description": "The Mizoram Board of School Education (MBSE) is the official education board of the state of Mizoram, established in 1975. It is responsible for regulating and supervising school education in Mizoram, including the development of curriculum, textbooks, and conducting examinations for secondary (Class 10) and higher secondary (Class 12) levels.","path": "/State_Board/MBSE"},
-  {"name": "Nagaland Board of School Education (NBSE)", "description": "The Nagaland Board of School Education (NBSE) is the state education board of Nagaland, established in 1973. It is responsible for regulating, supervising, and developing school education in the state from secondary (Class 9 and 10) to higher secondary levels (Class 11 and 12). NBSE conducts key examinations such as the Secondary School Leaving Certificate (SSLC) and the Higher Secondary School Leaving Certificate (HSSLC).","path": "/State_Board/NBSE"},
-  {"name": "Punjab School Education Board (PSEB)", "description": "The Punjab School Education Board (PSEB) is the state education board of Punjab, established in 1969 and headquartered in Mohali. PSEB is responsible for regulating school education in Punjab, including designing curriculum, prescribing textbooks, and conducting examinations for secondary (Class 10) and higher secondary (Class 12) levels","path": "/State_Board/PSEB"},
-  {"name": "Board of Secondary Education Rajasthan (RBSE)", "description": "The Rajasthan Board of Secondary Education (RBSE), also known as the Board of Secondary Education, Rajasthan, was established in 1957. It is the main education board in the state of Rajasthan responsible for regulating, supervising, and developing secondary and higher secondary education.","path": "/State_Board/RBSE"},
-  {"name": "Tamil Nadu State Board of School Examination (TNBS)", "description": "The Tamil Nadu State Board of School Examination is the official education board for school-level education in the state of Tamil Nadu. It is responsible for designing the curriculum, prescribing textbooks, conducting examinations, and regulating schools affiliated with it across the state.","path": "/State_Board/TNSB"},
-  {"name": "Telangana State Board of Secondary Education (BSE Telangana)", "description": "The Board of Secondary Education, Telangana (BSET) is the state education board responsible for regulating and supervising secondary education in the state of Telangana. Established after the formation of Telangana state in 2014, BSE Telangana conducts the important Class 10 (SSC) public examinations and oversees the curriculum, syllabus, and academic standards for schools affiliated with it.","path": "/State_Board/BSE_Telangana"},
-  {"name": "Tripura Board of Secondary Education (TBSE)", "description": "The Tripura Board of Secondary Education (TBSE) is the state education board of Tripura, established in 1973. TBSE is responsible for regulating and developing secondary and higher secondary education in the state. It conducts major examinations such as the Class 10 (Secondary) and Class 12 (Higher Secondary) board exams for schools affiliated with it.","path": "/State_Board/TBSE"},
-  {"name": "Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP)", "description": "The Uttar Pradesh Board of High School and Intermediate Education (UP Board), established in 1921, is one of the largest and oldest education boards in India. It is responsible for conducting secondary (Class 10) and higher secondary (Class 12) examinations in the state of Uttar Pradesh.","path": "/State_Board/UPMSP"},
-  {"name": "Uttarakhand Board of School Education (UBSE)", "description": "The Uttarakhand Board of School Education (UBSE) was established in 2001 after the formation of the state of Uttarakhand. It is responsible for regulating and supervising school education in Uttarakhand from the secondary (Class 10) to higher secondary (Class 12) level. UBSE designs the curriculum, prescribes textbooks, and conducts board examinations such as the Class 10 (High School) and Class 12 (Intermediate) exams.","path": "/State_Board/UBSE"},
-  {"name": "West Bengal Board of Secondary Education (WBBSE)", "description": "The West Bengal Board of Secondary Education (WBBSE) was established in 1951 and is responsible for overseeing secondary education (up to Class 10) in the state of West Bengal. The board regulates and supervises schools affiliated with it, designs the curriculum, prescribes textbooks, and conducts the Madhyamik Pariksha (Class 10 board examination), which is a major academic milestone for students in the state.","path": "/State_Board/WBBSE"},
-  {"name": "Board of Secondary Education, Odisha (BSE Odisha)", "description": "The Board of Secondary Education, Odisha (BSE Odisha) is the state education board responsible for secondary education in Odisha. Established in 1953, the board conducts the High School Certificate (HSC) examination for Class 10 students. BSE Odisha designs the curriculum, prescribes textbooks, and regulates schools affiliated with it across the state.","path": "/State_Board/BSE_Odi"}
- 
+  {
+    "name": "CBSE Class 1 Online Quiz",
+    "description": "We bring to you a Best online quiz platform for class 1 students. These quizzes for standard 1 cover all the concepts and make your learning enjoyable, scorable and effective.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-1"
+  },
+  {
+    "name": "CBSE Class 2 Online Quiz",
+    "description": "We present a top-notch online quiz for Class 2 students, designed to make learning fun, interactive, and educational.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-2"
+  },
+  {
+    "name": "CBSE Class 3 Online Quiz",
+    "description": "Take advantage of online quizzes for Class 3 to make learning fun and interactive! ",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-3"
+  },
+  {
+    "name": "CBSE Class 4 Online Quiz",
+    "description": "Online quizzes for Class 4 are a great way to enhance learning for 4th-grade students!",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-4"
+  },
+  {
+    "name": "CBSE Class 5 Online Quiz",
+    "description": "Discover the exciting world of online quizzes for Class 5 designed especially for 5th graders!",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-5"
+  },
+  {
+    "name": "CBSE Class 6 Online Quiz",
+    "description": "Take advantage of our online quiz for Class 6 students and make learning fun!",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-6"
+  },
+  {
+    "name": "CBSE Class 7 Online Quiz",
+    "description": "For Class 7 students, online quizzes for Class 7 provide an exciting and effective way to reinforce learning across various subjects.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-7"
+  },
+  {
+    "name": "CBSE Class 8 Online Quiz",
+    "description": "In Class 8, students face more advanced topics across subjects, and online quizzes for Class 8 offer a great way to enhance their learning experience.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-8"
+  },
+  {
+    "name": "CBSE Class 9 Online Quiz",
+    "description": "Online quiz for Class 9 are a great way to enhance learning across subjects like math, science, English, and social studies.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-9"
+  },
+  {
+    "name": "CBSE Class 10 Online Quiz",
+    "description": "Online quizzes for Class 10 offer an excellent opportunity for students to enhance their learning experience.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-10"
+  },
+  {
+    "name": "CBSE Class 11 Online Quiz",
+    "description": "Taking advantage of online quizzes for Class 11 provides students with an interactive and engaging way to enhance their learning.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-11"
+  },
+  {
+    "name": "CBSE Class 12 Online Quiz",
+    "description": "Online quiz for Class 12 offers students an engaging way to reinforce their learning and prepare for exams.",
+    "path": "/Online-Quiz/Certification-Quiz-For-Class-12"
+  },
+  {
+    "name": "CBSE Class 1 Syllabus",
+    "description": "Class 1, being the first stage to the beginning of official school life, plays a vital role in a student’s life. ",
+    "path": "/CBSE/Class-1"
+  },
+  {
+    "name": "CBSE Class 2 Syllabus",
+    "description": "The Central Board of Secondary Education holds the title of India’s most prominent national educational board and has successfully generated syllabi that guarantee a bright future.",
+    "path": "/CBSE/Class-2"
+  },
+  {
+    "name": "CBSE Class 3 Syllabus",
+    "description": "The Central Board of Secondary Education (CBSE) provides a well-rounded and comprehensive curriculum for third-grade students.",
+    "path": "/CBSE/Class-3"
+  },
+  {
+    "name": "CBSE Class 4 Syllabus",
+    "description": "CBSE (Central Board of Secondary Education) Class 4 is an essential stage in a student's academic journey, focusing on building foundational knowledge and skills.",
+    "path": "/CBSE/Class-4"
+  },
+  {
+    "name": "CBSE Class 5 Syllabus",
+    "description": "CBSE (Central Board of Secondary Education) Class 5 is an essential stage in a student's academic journey, focusing on building foundational knowledge and skills.",
+    "path": "/CBSE/Class-5"
+  },
+  {
+    "name": "CBSE Class 6 Syllabus",
+    "description": "The Central Board of Secondary Education (CBSE) offers a well-rounded and comprehensive curriculum for sixth-grade students",
+    "path": "/CBSE/Class-6"
+  },
+  {
+    "name": "CBSE Class 7 Syllabus",
+    "description": "The Central Board of Secondary Education (CBSE) provides a comprehensive curriculum for seventh-grade students, designed to foster holistic development.",
+    "path": "/CBSE/Class-7"
+  },
+  {
+    "name": "CBSE Class 8 Syllabus",
+    "description": "The CBSE Class 8 curriculum is designed to ensure a well-rounded educational experience for students",
+    "path": "/CBSE/Class-8"
+  },
+  {
+    "name": "CBSE Class 9 Syllabus",
+    "description": "The CBSE Class 9 curriculum offers a foundational understanding of core subjects, including Mathematics, Science, Social Science, English, and Hindi.",
+    "path": "/CBSE/Class-9"
+  },
+  {
+    "name": "CBSE Class 10 Syllabus",
+    "description": "CBSE Syllabus for Class 10 for the 2023-24 academic year has been released by the board. The CBSE Class 10 Syllabus is a valuable resource for students preparing for board exams. It",
+    "path": "/CBSE-10thsyllabus"
+  },
+  {
+    "name": "CBSE Class 11 Syllabus",
+    "description": "For all students, the syllabus for Class 11 is an essential guide for understanding what to learn and which topics are important.",
+    "path": "/CBSE-11thsyllabus"
+  },
+  {
+    "name": "CBSE Class 12 Syllabus",
+    "description": "For all students, the syllabus for Class 12 will serve as a guide to help them determine what to learn and which topics are relevant.",
+    "path": "/CBSE-12thsyllabus"
+  },
+  {
+    "name": "CBSE Class 10 Hindi Syllabus",
+    "description": "The Class 10 Hindi syllabus has been meticulously designed to cater to the diverse linguistic skills of students, ensuring a comprehensive understanding of literature, grammar, and writing skills.",
+    "path": "/CBSE/Class-10-Hindi"
+  },
+  {
+    "name": "CBSE Class 10 Math Syllabus",
+    "description": "With the CBSE  Class 10 Maths syllabus, students can delve into various areas such as algebra, geometry, trigonometry, statistics, and more ",
+    "path": "/CBSE/Class-10-Math"
+  },
+  {
+    "name": "CBSE Class 10 English Syllabus",
+    "description": "English is one of the most scoring subjects to overall increase your percentage in Class 10th Boards.",
+    "path": "/CBSE/Class-10-English"
+  },
+  {
+    "name": "CBSE Class 10 Science Syllabus",
+    "description": "The CBSE Class 10 Science syllabus for the 2024-25 academic year is a vital tool for students gearing up for their board exams.",
+    "path": "/CBSE/Science"
+  },
+  {
+    "name": "CBSE Class 10 Social Science Syllabus",
+    "description": "The CBSE Class 10 Social Science syllabus is divided into four main units: History, Geography, Political Science (Civics), and Economics.",
+    "path": "/CBSE/SocialScience"
+  },
+  {
+    "name": "CBSE Class 11 Math Syllabus",
+    "description": "The CBSE Class 11 Mathematics syllabus provides a comprehensive introduction to advanced mathematical concepts, laying a strong foundation for higher studies in the field.",
+    "path": "/CBSE/Class-11-Math"
+  },
+  {
+    "name": "CBSE Class 11 Physics Syllabus",
+    "description": "The Class 11 Physics curriculum provides a comprehensive introduction to the fundamental principles of physics, exploring the nature and properties of matter, energy, and the forces governing the universe.",
+    "path": "/CBSE/Class-11-Physics"
+  },
+  {
+    "name": "CBSE Class 11 Chemistry Syllabus",
+    "description": "The CBSE Class 11 Chemistry curriculum provides an in-depth exploration of fundamental concepts that form the basis of chemical science.",
+    "path": "/CBSE/Class-11-Chemistry"
+  },
+  {
+    "name": "CBSE Class 11 Biology Syllabus",
+    "description": "The CBSE Class 11 Biology curriculum introduces students to the foundational concepts of biological sciences, focusing on cellular and molecular biology, plant and animal physiology, and ecological principles.",
+    "path": "/CBSE/Class-11-Biology"
+  },
+  {
+    "name": "CBSE Class 11 English Syllabus",
+    "description": "The CBSE Class 11 English syllabus focuses on developing students' language skills and literary appreciation.",
+    "path": "/CBSE/Class-11-English"
+  },
+  {
+    "name": "CBSE Class 11 Hindi Syllabus",
+    "description": "The CBSE Class 11 Hindi syllabus aims to enhance students' understanding and appreciation of Hindi language and literature.",
+    "path": "/CBSE/Class-11-Hindi"
+  },
+  {
+    "name": "CBSE Class 11 Accountancy Syllabus",
+    "description": "The CBSE Class 11 Accounting syllabus introduces students to the fundamentals of financial accounting, focusing on the principles and practices essential for effective business management. ",
+    "path": "/CBSE/Class-11-Accountancy"
+  },
+  {
+    "name": "CBSE Class 11 Business Studies Syllabus",
+    "description": "The CBSE Class 11 Business Studies syllabus provides a comprehensive exploration of core business principles",
+    "path": "/CBSE/Class-11-BussinessStudies"
+  },
+  {
+    "name": "CBSE Class 11 Economics Syllabus",
+    "description": "The CBSE Class 11 Economics syllabus offers a detailed exploration of India’s economic development and the application of economic principles.",
+    "path": "/CBSE/Class-11-Economics"
+  },
+  {
+    "name": "CBSE Class 11 Political Science Syllabus",
+    "description": "The CBSE Class 11 Political Science syllabus provides students with a foundational understanding of political structures and concepts.",
+    "path": "/CBSE/Class-11-PoliticalScience"
+  },
+  {
+    "name": "CBSE Class 12 Math Syllabus",
+    "description": "The Class 12 Maths CBSE syllabus has been revised for the academic year 2024-25, as per the guidelines set by the Central Board of Secondary Education (CBSE).",
+    "path": "/CBSE/Class-12-Math"
+  },
+  {
+    "name": "CBSE Class 12 Physics Syllabus",
+    "description": "The Class 12 Physics syllabus NCERT covers a wide range of essential areas, including electrostatics, electromagnetism, optics, modern physics, and more",
+    "path": "/CBSE/Class-12-Physics"
+  },
+  {
+    "name": "CBSE Class 12 Chemistry Syllabus",
+    "description": "The CBSE Chemistry Class 12 Syllabus is an essential resource for students aiming to excel in their academic pursuits.",
+    "path": "/CBSE/Class-12-Chemistry"
+  },
+  {
+    "name": "CBSE Class 12 Biology Syllabus",
+    "description": "The CBSE Class 12 Biology syllabus covers a wide range of essential areas, including cell structure and function, genetics, ecology, biotechnology, and human physiology",
+    "path": "/CBSE/Class-12-Biology"
+  },
+  {
+    "name": "CBSE Class 12 English Syllabus",
+    "description": "When it comes to tde language subject, there is no doubt that students often tend to ignore these and always have more focus on the core subjects when they are doing their preparation for the examinations that they are going to give.",
+    "path": "/CBSE/Class-12-English"
+  },
+  {
+    "name": "CBSE Class 12 Hindi Syllabus",
+    "description": "The NCERT Class 12 Hindi core syllabus has been revised for the academic year 2024-25, as per the guidelines set by the Central Board of Secondary Education (CBSE).",
+    "path": "/CBSE/Class-12-Hindi"
+  },
+  {
+    "name": "CBSE Class 12 Accountancy Syllabus",
+    "description": "The NCERT Accountancy syllabus for Class 12 focuses on developing a strong understanding of the nature and significance of accounting information in business operations.",
+    "path": "/CBSE/Class-12-Accountancy"
+  },
+  {
+    "name": "CBSE Class 12 Business Studies Syllabus",
+    "description": "The Business Studies in Class 12 NCERT syllabus provides a comprehensive framework for students to understand various business concepts and principles.",
+    "path": "/CBSE/Class-12-BussinessStudies"
+  },
+  {
+    "name": "CBSE Class 12 Economics Syllabus",
+    "description": "The latest syllabus for Class 12 Economics in accordance with the CBSE has been unveiled for the academic year 2024-2025.",
+    "path": "/CBSE/Class-12-Economics"
+  },
+  {
+    "name": "CBSE Class 12 Political Science Syllabus",
+    "description": "This CBSE Class 12 Political Science Syllabus is applicable for the academic year 2024-25 and can be used by the students of Class 12 while preparing for their board examination.",
+    "path": "/CBSE/Class-12-PoliticalScience"
+  },
+  {
+    "name": "CBSE Math Formula For Class 6",
+    "description": "Most of the trouble arises for the students when the examination fears kick in. To avoid this, students need to understand the concepts and learn to apply the necessary maths formulas to solve the difficult problems.",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-6"
+  },
+  {
+    "name": "CBSE Math Formula For Class 7",
+    "description": "Mathematics is so important in our life. Because we use the mathematical equation in our daily life activities.",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-7"
+  },
+  {
+    "name": "CBSE Math Formula For Class 8",
+    "description": "Maths formulas for class 8 list provided here consolidates all the important formulas that are required in class 8. ",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-8"
+  },
+  {
+    "name": "CBSE Math Formula For Class 9",
+    "description": "Maths formulas for Class 9 are provided here for the students who consider Mathematics subject as a nightmare and difficult to understand. ",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-9"
+  },
+  {
+    "name": "CBSE Math Formula For Class 10",
+    "description": "Maths formulas for Class 10 are the general formulas that are not only crucial for Class 10 but also form the base for higher-level maths concepts.",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-10"
+  },
+  {
+    "name": "CBSE Math Formula For Class 11",
+    "description": "It’s quite common amongst students to find Maths as a difficult subject and find it hard to master.",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-11"
+  },
+  {
+    "name": "CBSE Math Formula For Class 12",
+    "description": "Many students of CBSE class 12 are phobic about math formulas, because of their negativity towards the subject and cannot focus or concentrate on math problems.",
+    "path": "/MathsFormula/Maths-Formulas-For-Class-12"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 8",
+    "description": "CBSE Sample Papers for Class 8 Maths are a perfect trial run for the students through which they can check their exam preparation. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-8-Maths"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9",
+    "description": "Mathematics is a subject that requires a lot of practice; even if you are well aware of concepts, you need good practice to engrave those concepts in your mind. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-9-Maths"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10",
+    "description": "CBSE Class 10 Maths Sample Paper is the best resource to prepare for your board exam. Our Maths experts have created these papers for students to prepare well for their exams and score more marks.",
+    "path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11",
+    "description": "CBSE Sample Papers for Class 11 Maths are the best resource for students to prepare for the annual exam. Solving the sample papers gives students an idea of the type of questions expected in the exam.",
+    "path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-11-Maths"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12",
+    "description": "CBSE Class 12 board exam indicates the end of school life, but it also opens doors to new domains where students can just step in to pursue higher education as per their career desire. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Papers/CBSE-Class-12-Maths-Sample-Papers"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 8 Maths Set 1 ",
+    "description": "Here, we are providing the CBSE Class 8 Maths Sample Paper Set 1, which will help students in their exam preparation.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-1"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 8 Maths Set 2 ",
+    "description": "We hope this information on “CBSE Sample Paper Class 8 Maths Set 2” helped students in their exam preparation.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-2"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 8 Maths Set 3 ",
+    "description": "We hope this information on ‘CBSE Sample Paper Class 8 Maths Set 3’ helped students in their exam preparation.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-3"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 8 Maths Set 4 ",
+    "description": "We hope this information on “CBSE Sample Paper Class 8 Maths Set 4” helped students in their exam preparation.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-4"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 8 Maths Set 5 ",
+    "description": "We hope this information on ‘CBSE Sample Paper Class 8 Maths Set 5’ helped students in their exam preparation.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Maths-Sample-Papers-Set-5"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 1 ",
+    "description": "Maths is a subject that is purely based on numbers. For some students, it is an interesting subject, but others may find it difficult.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-1"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 2 ",
+    "description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 2, which includes different types of Maths problems",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-2"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 3 ",
+    "description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 3, which includes different types of Maths problems. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-3"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 4 ",
+    "description": "Maths is a subject that is purely based on numbers. For some students, it is an interesting subject, but some of them find it difficult. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-4"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 5 ",
+    "description": "One of the best ways to overcome this Maths fear is to strengthen the basic concepts and practice questions based on them.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-5"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 6 ",
+    "description": " Here we have provided the CBSE Sample Paper Class 9 Maths Set 6, which includes different types of Maths problems. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-6"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 7 ",
+    "description": " Here we have provided the CBSE Sample Paper Class 9 Maths Set 7, which includes different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-7"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 8 ",
+    "description": " Once students are done with solving the textbook problems, then they must solve the questions of varying difficulty level.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-8"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 9 ",
+    "description": "Maths is a subject that is purely based on numbers. For some students, it is an interesting subject, but some of them find it difficult.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-9"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 10 ",
+    "description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 10 which includes different types of Maths problems. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-10"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 11 ",
+    "description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 11, which includes different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-11"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 12 ",
+    "description": " Once students are done with solving the textbook problems, then they must solve the questions of varying difficulty levels.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-12"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 9 Maths Set 13 ",
+    "description": "Here we have provided the CBSE Sample Paper Class 9 Maths Set 13, which includes different types of Maths problems. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Sample-Paper-For-Class-9-Maths-Set-13"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10 Maths Set 1 ",
+    "description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-1"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10 Maths Set 2 ",
+    "description": " we have provided the CBSE Class 10 Maths Sample Paper Set 2. Solving the CBSE sample paper will enhance the speed, accuracy and time management skills of students.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-2"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10 Maths Set 3 ",
+    "description": " we have provided the CBSE Class 10 Maths Sample Paper Set 3. Solving the CBSE sample paper will enhance the speed, accuracy and time management skills of students.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-3"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10 Maths Set 4 ",
+    "description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-4"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10 Maths Set 5 ",
+    "description": " we have provided the CBSE Class 10 Maths Sample Paper Set 5. Solving the CBSE sample paper will enhance the speed, accuracy and time management skills of students.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-5"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 10 Maths Set 6 ",
+    "description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-10-Maths-Sample-Papers-Set-6"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 1 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-1"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 2 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-2"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 3 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-3"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 4 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-4"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 5 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-5"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 6 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-6"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 7 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-7"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 8 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-8"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 9 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-9"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 11 Maths Set 10 ",
+    "description": "Maths is a subject which can’t be prepared in a day. It requires daily practice and a strong hold on concepts. So, once students have completed the entire syllabus, they must start practising the different types of Maths problems.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-11-Maths-Sample-Paper-Set-10"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 1 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.s3.ap-south-1.amazonaws.com/sample-papers/1784788166904_Applied-Maths-SQP.pdf"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 2 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-2"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 3 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-3"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 4 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-4"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 5 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-5"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 6 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-6"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 7 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-7"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 8 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-8"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 9 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-9"
+  },
+  {
+    "name": "CBSE Sample Papers For Class 12 Maths Set 10 ",
+    "description": "Students who are aiming to score high marks in Class 12 Maths paper must solve different sets of sample papers. It will help them understand the exam pattern, marks weightage and types of questions asked in the exam. ",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-12-Maths-Sample-Paper-Set-10"
+  },
+  {
+    "name": "ICSE Sample Papers For Class 8 Maths ",
+    "description": "Solving ICSE class 8 maths sample papers can sometimes seem boring and tiresome, but it is worth every effort. It gives the students a feeling of self-assurance and self-confidence.",
+    "path": "https://learnosphere.in/icse-sample-papers/ICSE-Sample-Papers-for-Class-8-Maths"
+  },
+  {
+    "name": "ICSE Sample Papers For Class 9 Maths ",
+    "description": "ICSE Sample Paper for Class 9 Maths is provided here to help students in their exam preparation. ",
+    "path": "https://learnosphere.in/icse-sample-papers/ICSE-Sample-Papers-for-Class-9-Maths"
+  },
+  {
+    "name": "ICSE Sample Papers For Class 10 Maths ",
+    "description": "Sample Papers for ICSE Class 10 Maths are available here for students. They can download these sets of solved and unsolved ICSE Class 10 Maths Sample Papers in PDF format for revision purposes",
+    "path": "https://learnosphere.in/icse-sample-papers/ICSE-Sample-Papers-for-Class-10-Maths"
+  },
+  {
+    "name": "ISC Sample Papers For Class 11 Maths ",
+    "description": "Class 11th is a turning point in student life. It is crucial that they prepare for the ISC Class 11 exam in the best way. To help them with their preparation, we have made available the ISC Sample Paper for Class 11 Maths.",
+    "path": "https://learnosphere.in/icse-sample-papers/ISC-Sample-Papers-for-Class-11-Maths"
+  },
+  {
+    "name": "ISC Sample Papers For Class 12 Maths ",
+    "description": "ISC Class 12 Sample Paper for Maths is a crucial process of board exam preparation. Without solving the sample papers, the exam preparation, especially for the Maths subject, is incomplete. ",
+    "path": "https://learnosphere.in/icse-sample-papers/ISC-Sample-Papers-for-Class-12-Maths"
+  },
+  {
+    "name": "CBSE Class 10 Maths Previous Year Papers ",
+    "description": "CBSE Question Papers for Class 10 Maths are provided here for students to help in their exam preparation. Mathematics is all about practice. The more students practise, the more command they will get over the subject. ",
+    "path": "https://learnosphere.in/Cbse-Previosyear-Questions/CBSE-Class-10-Maths-Previous-Year-Papers"
+  },
+  {
+    "name": "CBSE Class 12 Maths Previous Year Papers ",
+    "description": "Students aiming to excel in their board examination must solve the CBSE previous years Class 12 Maths papers. These papers are as per the CBSE Class 12 Syllabus and contain different numerical problems for students’ practice.",
+    "path": "https://learnosphere.in/Cbse-Previosyear-Questions/CBSE-Previous-Year-Question-Paper-for-Class-12-Maths"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2024",
+    "description": "The question paper was framed in a way to test the student’s understanding of mathematical concepts and their applications. The length of the question paper was appropriate.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2024"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2023",
+    "description": "The CBSE Question Paper 2023 for Class 10 Maths is provided here to help students prepare for their board exams efficiently. Maths can be tricky, and the best way to do well in Maths is to practise daily",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2023"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2022",
+    "description": "Students will obtain good revision by solving the CBSE Class 10 Maths Question Paper for the year 2022. They will get an idea of the types of questions asked in the board exam and can plan a strategy to prepare well for the Maths paper.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2022"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2020",
+    "description": "Students can download the CBSE Class 10 Question Paper 2020 for Maths for all the sets on this page. CBSE Class 10 Maths exam was conducted on 12th March 2020. ",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2020"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2019",
+    "description": "Mathematics is a subject that requires a lot of practice. Students who aim to score high marks in the Class 10 Maths exam must solve the previous year’s papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2019"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2018",
+    "description": "CBSE Class 10 Maths previous year question paper are the crucial study resource for students exam preparation. It helps them understand the exam pattern, difficulty level of paper and various types of questions asked in the exam",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2018"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2017",
+    "description": "Maths is a subject which demands a lot of practice. As soon as students are done with the Maths syllabus, they start solving the previous year question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2017"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2016",
+    "description": "Mathematics is a subject in which students can score full marks. But, it requires a lot of practice and hard work. The best way to practice different variety of questions is to solve the previous year papers. ",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2016"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2015",
+    "description": "CBSE class 10 Maths previous year question paper is the crucial study resource for students exam preparation. It helps them in understanding the question paper pattern, the difficulty level of exam.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2015"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2014",
+    "description": "Maths is a subject which demands a lot of practice. As soon as students are done with the Maths syllabus, they start solving the previous year question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2014"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2013",
+    "description": "CBSE class 10 Maths previous year question paper is the crucial study resource for students exam preparation. It helps them in understanding the exam pattern, difficulty level of paper and various types of questions asked in the exam.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2013"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2012",
+    "description": "Mathematics subject demands practice. One of the best resource to practice different types of mathematical problems is by solving the CBSE Class 10 previous year question paper.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2012"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2011",
+    "description": "Mathematics is a subject that requires a lot of practice. Students aiming to score high marks in class 10 Maths exam must solve the previous year papers",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2011"
+  },
+  {
+    "name": "CBSE Class 10 Mathematics Question Papers 2010",
+    "description": " Practising the CBSE Class 10 previous year question paper will help students understand the different types of questions asked in the exam and their difficulty level. ",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-10-Maths-Question-Paper-2010"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2023",
+    "description": "Students preparing for their forthcoming Class 12 board exam can use the provided CBSE Class 12 Question Paper 2023 of Maths with solutions to maximise their exam preparation.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2023"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2022",
+    "description": "The CBSE Class 12 Previous Year Papers help students increase their knowledge of fundamental Maths concepts, which are crucial from the exam perspective.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2022"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2020",
+    "description": "CBSE Class 12 Maths exam was conducted on 17th March 2020. The Maths paper was of 80 marks, and students were allocated 3 hours of time duration to complete the paper.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2020"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2019",
+    "description": "One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2019"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2018",
+    "description": " One of the crucial study resources where students can easily find different types of mathematical problems is the previous year class 12 question papers",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2018"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2017",
+    "description": " One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2017"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2016",
+    "description": "By solving the previous year CBSE class 12 Maths question papers, students will get an idea of important topics which are more likely to be asked in the exam.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2016"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2015",
+    "description": " One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2015"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2014",
+    "description": "By solving the previous year CBSE class 12 Maths question papers, students will get good revision before the board exam. They get to know the types of questions asked in the exam, and accordingly, they can prepare the exam strategy.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2014"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2013",
+    "description": "By solving the previous year’s CBSE class 12 Maths question papers, students will get a depth understanding of exam pattern, types of questions asked in the exam and their difficulty level. ",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2013"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2012",
+    "description": " One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2012"
+  },
+  {
+    "name": "CBSE Class 12 Mathematics Question Papers 2011",
+    "description": "One of the crucial study resources where students can easily find the variation of mathematical problems is the previous year class 12 question papers.",
+    "path": "https://learnosphere.in/CBSE-Previousyear-Question-Papers-/Cbse-Class-12-Maths-Question-Paper-2011"
+  },
+  {
+    "name": "ICSE Class 10 Maths Previous Year Paper",
+    "description": "To score maximum marks in Class 10 Maths subjects, students can practice several numbers of these previous year papers before ICSE examinations. By doing these, it relieves the student’s exam pressure.",
+    "path": "https://learnosphere.in/ICSE-Previousyear-Questions/ICSE-Class-10-Maths-Previous-Year-Paper"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Paper",
+    "description": "ISC 12 Board exams are not less than the first turning point in any student’s career. It is not hidden from anyone that class 12 aggregate decides your route for the future and shapes your career. ",
+    "path": "https://learnosphere.in/ICSE-Previousyear-Questions/ISC-Class-12-Maths-Previous-Year-Question-Papers"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2023",
+    "description": "By solving ICSE Question Paper 2023 Class 10 Maths, students can identify their weak areas and work on improving them. It also helps them with time management and boosts their confidence level.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2023"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2022",
+    "description": "Along with practising Maths problems from your ICSE textbook exercises, you should also focus on solving questions given in ICSE previous years’ question papers for Maths. ",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2022"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2020",
+    "description": "Students who are looking for ICSE Class 10 Maths Question Paper Solution have landed on the right page. Here, they can find the solved Class 10 Maths ICSE Question Paper 2020 along with the step marking for each question.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2020"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2019",
+    "description": "We hope this information on “ICSE Class 10 Maths Question Papers Solutions 2019” helped students in their exam preparation.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2019"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2018",
+    "description": "Students who are aiming to score high marks in the Maths subject must solve the previous year question paper. Here we have provided the ICSE Class 10 Maths Question Paper 2018 along with the Solutions.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2018"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2017",
+    "description": "Solving ICSE Class 10 Maths Question Paper 2017 will give a good practice to students before the board exam. By practising the questions asked in previous year papers, students will get to know the types of questions asked in the exam",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2017"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2016",
+    "description": "The key to score high marks in maths subjects is by practising more number of Mathematical problems. So, those students who are aiming to take Maths as a main subject after class 10 board exam must secure good marks in the paper. ",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2016"
+  },
+  {
+    "name": "ICSE Previous Year Question Paper for Class 10 Maths 2015",
+    "description": "To help students in evaluating their current level of exam preparation, we have provided the ICSE Class 10 Maths Question Paper 2015 Solutions. The solution pdf contains the answers to each question along with the step marking. ",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Icse-Previous-Year-Question-Paper-For-Class-10-Maths-2015"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Question Paper 2023",
+    "description": "Use this Class 12 ISC Maths previous year question paper to improve your preparation for the upcoming board exam. Reviewing previous year’s Class 12 ISC Maths question paper 2023 helps students develop an idea about the difficulty level of the paper, exam pattern and the question type. ",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2023"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Question Paper 2019",
+    "description": " Here, we have provided the ISC Class 12 Maths Question Paper Solution 2019 to help students with their exam preparation. ",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2019"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Question Paper 2018",
+    "description": "we have provided the ISC Class 12 Maths Question Paper Solution 2018 so that students can easily get the answers to all questions. ",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2018"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Question Paper 2017",
+    "description": "Students can also access the Solved ISC Class 12 Previous Year Question Papers for Maths, Maths, Maths and Biology subjects compiled at one place.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2017"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Question Paper 2016",
+    "description": "For students convenience, we have also compiled the solved ISC Class 12 Previous Year Question Papers of Maths, Physics, Chemistry and Biology subjects at one place.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2016"
+  },
+  {
+    "name": "ISC Class 12 Maths Previous Year Question Paper 2015",
+    "description": "Science Stream students can also access the Solved ISC Class 12 Previous Year Question Papers with Solutions for all subjects compiled at one place.",
+    "path": "https://learnosphere.in/ICSE-Previous-Question-Paper/Isc-Class-12-Maths-Previous-Year-Question-Papers-Solutions-2015"
+  },
+  {
+    "name": "CBSE Class 8 Sample Papers SA 1 Maths",
+    "description": "One of the best ways to prepare for the Maths exam is to solve sample papers. It helps in understanding the important topics and frequently asked questions from the exam perspective.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Sample-Papers-Sa-1-Maths"
+  },
+  {
+    "name": "CBSE Class 8 Sample Papers SA 2 Maths",
+    "description": "Maths is a subject which requires practice. Once students are done with the syllabus, then they should devote their time to practice different types of Maths problems",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-8-Sample-Papers-Sa-2-Maths"
+  },
+  {
+    "name": "CBSE Class 9 Sample Papers SA 1 Maths",
+    "description": "Math is an essential subject that is used in all fields. Students should practice more math questions on a regular basis to get familiar with each topic of the syllabus",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-9-Maths-Sample-Papers-Sa1"
+  },
+  {
+    "name": "CBSE Class 9 Sample Papers SA 2 Maths",
+    "description": "CBSE Class 9 Maths SA 2 Sample Papers is designed by experts. Solving different types of questions will give good practice to the students before the exam.",
+    "path": "https://learnosphere.in/CBSE-Sample-Question-Paper/Cbse-Class-9-Maths-Sample-Papers-Sa2"
+  },
+  {
+    "name": "Roman Numerals",
+    "description": "Roman Numerals is a special kind of numerical notation that was earlier used by the Romans. The Roman numeral system is both additive and subtractive, in which letters are used to represent specific base numbers.",
+    "path": "/roman-numerals"
+  },
+  {
+    "name": "Careers",
+    "description": "Step into the Learning Trib,Where Educator Growth Fuels Your Drive!",
+    "path": "/Careers"
+  },
+  {
+    "name": "Academics",
+    "description": "At Learnosphere, we believe in nurturing talent and providing opportunities for academic professionals to excel in their careers. Our platform is designed for those passionate about education, research, and the development of future leaders.",
+    "path": "/Jobs/Academics"
+  },
+  {
+    "name": "App Development",
+    "description": "We are seeking talented and innovative app developers to join our dynamic team. This role offers an exciting opportunity to work on cutting-edge mobile applications, creating user-friendly, highly functional apps across various platforms.",
+    "path": "/Jobs/Appdevelopment"
+  },
+  {
+    "name": "Others",
+    "description": "At Lernosphere, we are excited to offer diverse opportunities across several key areas. Our Tech Team is dedicated to pushing technological boundaries and working on groundbreaking projects.",
+    "path": "/Jobs/Others"
+  },
+  {
+    "name": "Table Of 24",
+    "description": "The table of 24 is a multiplication table where the number 24 is multiplied by different integers. It's a useful tool for quickly recalling the multiples of 24",
+    "path": "/Mathematicstopic/table-of-24"
+  },
+  {
+    "name": "Square Root of 7",
+    "description": "n Mathematics, the square root of 7 is a number, which is multiplied by itself for two times results in the original number 7.",
+    "path": "/Mathematicstopic/square-root-of-7"
+  },
+  {
+    "name": "Limits",
+    "description": "In Mathematics, a limit is defined as a value that a function approaches the output for the given input values. ",
+    "path": "/Mathematicstopic/limits"
+  },
+  {
+    "name": "Limit",
+    "description": "In Mathematics, a limit is defined as a value that a function approaches the output for the given input values. ",
+    "path": "/Mathematicstopic/limits"
+  },
+  {
+    "name": "Prime Factorization",
+    "description": "Prime factorization is a process of factoring a number in terms of prime numbers i.e. the factors will be prime numbers.",
+    "path": "/Mathematicstopic/prime-factorization"
+  },
+  {
+    "name": "Missing Numbers",
+    "description": "Missing numbers are the numbers that got missed in the given series of numbers with similar differences among them.",
+    "path": "/Mathematicstopic/missing-number"
+  },
+  {
+    "name": "Concept Of Ratio",
+    "description": "The concept of ratio and proportion explains how to solve ratios, types of ratios, ratio formula, etc. A ratio is a mathematical expression of comparing two similar or different quantities by division.",
+    "path": "/Mathematicstopic/concept-of-ratio"
+  },
+  {
+    "name": "HCF and LCM",
+    "description": "The full form of LCM in Maths is the Least Common Multiple, whereas the full form of HCF is the Highest Common Factor. The H.C.F. defines the greatest factor present in between given two or more numbers",
+    "path": "/Mathematicstopic/hcf-and-lcm-calculator"
+  },
+  {
+    "name": "Important Questions Class 12 Maths Chapter 11-Three Dimensional Geometry",
+    "description": "Important Questions For Class 12 Maths Chapter 11 Three Dimensional Geometry are available here to help the students who are appearing for the CBSE board exams. ",
+    "path": "/Mathematicstopic/important-questions-for-class-12-chapter-11-three-dimensional-geometry"
+  },
+  {
+    "name": "Disjoint Set",
+    "description": "A pair of sets which does not have any common element are called disjoint sets. For example, set A={2,3} and set B={4,5} are disjoint sets.",
+    "path": "/Mathematicstopic/what-is-disjoint-set"
+  },
+  {
+    "name": "Roman Numerals",
+    "description": "Roman Numerals is a special kind of numerical notation that was earlier used by the Romans. The Roman numeral is an additive and subtractive system in which letters are used to denote certain base numbers and arbitrary numbers in the number system.",
+    "path": "/Mathematicstopic/1000-in-roman-numerals"
+  },
+  {
+    "name": "Boolean Algebra",
+    "description": "Boolean algebra is the category of algebra in which the variable’s values are the truth values, true and false, ordinarily denoted 1 and 0 respectively",
+    "path": "/Mathematicstopic/boolean-algebra"
+  },
+  {
+    "name": "Distributive Property",
+    "description": "Distributive property explains that the operation performed on numbers, available in brackets that can be distributed for each number outside the bracket.",
+    "path": "/Mathematicstopic/distributive-property"
+  },
+  {
+    "name": "Symmetric Matrix & Skew Symmetric Matrix",
+    "description": "A symmetric matrix and skew-symmetric matrix both are square matrices. But the difference between them is, the symmetric matrix is equal to its transpose whereas skew-symmetric matrix is a matrix whose transpose is equal to its negative.",
+    "path": "/Mathematicstopic/define-symmetrical"
+  },
+  {
+    "name": "Prime, Composite And Even, Odd Numbers",
+    "description": "A life without numbers is difficult. Numbers influence our daily routine in such a way that almost everything we handle depends on numbers. The mobile numbers, time, money, dates, years and so on.",
+    "path": "/Mathematicstopic/composite-numbers-from-1-to-1000"
+  },
+  {
+    "name": "Angle Bisector Theorem",
+    "description": "As per the Angle Bisector theorem, the angle bisector of a triangle bisects the opposite side in such a way that the ratio of the two line segments is proportional to the ratio of the other two sides.",
+    "path": "/Mathematicstopic/exterior-angle-bisector-theorem"
+  },
+  {
+    "name": "Types Of Triangles",
+    "description": "There are basically six different types of triangles with respect to the length and measure of the lines and angles of a triangle, respectively.",
+    "path": "/Mathematicstopic/types-of-triangles"
+  },
+  {
+    "name": "Principle of Mathematical Induction",
+    "description": "Mathematical Induction is a technique of proving a statement, theorem or formula which is thought to be true, for each and every natural number n.",
+    "path": "/Mathematicstopic/principles-of-mathematical-induction"
+  },
+  {
+    "name": "Chord Of A Circle, Its Length and Theorems",
+    "description": "The chord of a circle can be defined as the line segment joining any two points on the circumference of the circle. It should be noted that the diameter is the longest chord of a circle which passes through the center of the circle.",
+    "path": "/Mathematicstopic/circle-class-9-theorems"
+  },
+  {
+    "name": "Direction Cosines",
+    "description": "In analytical geometry, the directional cosines also known as direction cosine of a vector is defined as the cosines of the angles between the three coordinate axes and the vector. ",
+    "path": "/Mathematicstopic/direction-cosins"
+  },
+  {
+    "name": "Simple Equations and Its Applications",
+    "description": "A mathematical equation which represents the relationship of two expressions on either side of the sign. It mostly has one variable and equal to symbol. Example: 2x – 4 = 2. In the given example, x is a variable.",
+    "path": "/Mathematicstopic/simple-equations"
+  },
+  {
+    "name": "Area Of Hemisphere",
+    "description": "A hemisphere is obtained when we cut the sphere into two equal halves. The total surface area of hemisphere will be equal to the sum of its curved surface area and the base area of hemisphere.",
+    "path": "/Mathematicstopic/area-of-hemisphere"
+  },
+  {
+    "name": "Trigonometry Table",
+    "description": "Trigonometry Table 0 to 360: Trigonometry is a branch in Mathematics, which involves the study of the relationship involving the length and angles of a triangle.",
+    "path": "/Mathematicstopic/trigonometry-table"
+  },
+  {
+    "name": "Inches to cm converter",
+    "description": "Inches to cm converter is a free online tool that displays the conversion of inches to the centimeter value. LearnOsphere online inches to converter tool performs the calculation faster, and it displays the conversion value in a fraction of seconds",
+    "path": "/Mathematicstopic/inches-to-cm-converter"
+  },
+  {
+    "name": "Partial Fractions",
+    "description": "Partial fractions are the fractions used for the decomposition of a rational expression. When an algebraic expression is split into a sum of two or more rational expressions, then each part is called a partial fraction.",
+    "path": "/Mathematicstopic/partial-fractions"
+  },
+  {
+    "name": "Types Of Quadrilaterals",
+    "description": "A quadrilateral, in general, has sides of different lengths and angles of different measures. However, squares, rectangles, etc. are special types of quadrilaterals with some of their sides and angles being equal.",
+    "path": "/Mathematicstopic/types-of-quadrilaterals"
+  },
+  {
+    "name": "Right Angled Triangle",
+    "description": "A right-angled triangle is a triangle, that has one of its interior angles equal to 90 degrees or any one angle is a right angle. Therefore, this triangle is also called the right triangle or 90-degree triangle.",
+    "path": "/Mathematicstopic/right-angled-triangle"
+  },
+  {
+    "name": "Area of Rectangle",
+    "description": "In geometry, area of rectangle is the region covered by the rectangle in a two-dimensional plane. A rectangle is a type of quadrilateral, a 2d shape that has four sides and four vertices.",
+    "path": "/Mathematicstopic/area-of-rectangle"
+  },
+  {
+    "name": "Divisibility Rules",
+    "description": "Divisibility rules or Divisibility tests have been mentioned to make the division procedure easier and quicker. If students learn the division rules in Maths or the divisibility tests for 1 to 20, they can solve the problems in a better way",
+    "path": "/Mathematicstopic/divisibility-rules"
+  },
+  {
+    "name": "Prime Numbers",
+    "description": "Prime numbers are natural numbers that are divisible by only 1 and the number itself. In other words, prime numbers are positive integers greater than 1 with exactly two factors, 1 and the number itself.",
+    "path": "/Mathematicstopic/prime-numbers"
+  },
+  {
+    "name": "Surface Area of a Sphere",
+    "description": "The surface area of a sphere is defined as the region covered by its outer surface in three-dimensional space. A Sphere is a three-dimensional solid having a round shape, just like a circle.",
+    "path": "/Mathematicstopic/surface-area-of-a-sphere"
+  },
+  {
+    "name": "What is Mathematics?",
+    "description": "Mathematics is one of the most important subjects. Mathematics is a subject of numbers, shapes, data, measurements and also logical activities.",
+    "path": "/Mathematicstopic/learn-mathematics"
+  },
+  {
+    "name": "Vector Algebra",
+    "description": "Vector Algebra for class 12 is all about the study of vectors and scalars. There are various quantities, which involves magnitude as well as direction. ",
+    "path": "/Mathematicstopic/vector-algebra-for-class-12"
+  },
+  {
+    "name": "Important 3 Marks Questions for CBSE Class 9 Maths",
+    "description": "Important 3 Marks Questions for CBSE Class 9 Maths are provided here. Students should learn the fundamental concepts in Class 9 and it is a crucial stage of student development.",
+    "path": "/Mathematicstopic/cbse-class-9-important-questions"
+  },
+  {
+    "name": "Area & Volume Of Sphere",
+    "description": "Area of sphere or total surface area of sphere is the region covered by a surface of a spherical object in a three-dimensional space.",
+    "path": "/Mathematicstopic/area-of-sphere"
+  },
+  {
+    "name": "Algebra As Patterns",
+    "description": "If you think of Mathematics as a language, then Algebra would be that part of the language which describes various patterns around us.",
+    "path": "/Mathematicstopic/algebra-patterns"
+  },
+  {
+    "name": "Arithmetic Progression",
+    "description": "Arithmetic Progression (AP) is a sequence of numbers in order, in which the difference between any two consecutive numbers is a constant value. It is also called Arithmetic Sequence",
+    "path": "/Mathematicstopic/arithmetic-progression-examples"
+  },
+  {
+    "name": "Area Of Hexagon Formula",
+    "description": "A polygon with six sides and six angles is termed as a hexagon. Similarly, we have Pentagon where the polygon has 5 sides; Octagon has 8 sides. Each internal angle of the hexagon has been calculated to be 120°.",
+    "path": "/Mathematicstopic/hexagon-area-calculator"
+  },
+  {
+    "name": "Quadratics or Quadratic Equations",
+    "description": "Quadratics can be defined as a polynomial equation of a second degree, which implies that it comprises a minimum of one term that is squared.",
+    "path": "/Mathematicstopic/quadratic"
+  },
+  {
+    "name": "Differentiation Formulas",
+    "description": "A Differentiation formulas list has been provided here for students so that they can refer to these to solve problems based on differential equations.",
+    "path": "/Mathematicstopic/differentiation-formula-table"
+  },
+  {
+    "name": "Linear Equations",
+    "description": "Linear equations in one variable worksheet will help the students of classes 6, 7 and 8 study and think of the questions instead of just acknowledging a pattern to the solutions.",
+    "path": "/Mathematicstopic/linear-equations-in-one-variable-class-8-worksheet"
+  },
+  {
+    "name": "Algebra Formulas",
+    "description": "Algebra is a branch of mathematics that substitutes letters for numbers. An algebraic equation depicts a scale, what is done on one side of the scale with a number is also done to either side of the scale.",
+    "path": "/Mathematicstopic/algebra-formula"
+  },
+  {
+    "name": "Heron's Formula",
+    "description": "Heron’s formula is used to find the area of a triangle when we know the length of all its sides. It is also termed as Hero’s Formula. ",
+    "path": "/Mathematicstopic/heron's-formula"
+  },
+  {
+    "name": "Semi Circle",
+    "description": "In geometry, a semicircle is a plane figure that is formed by dividing a circle into exactly two parts. So, we can write the formulas of area and perimeter for a semicircle using the area and perimeter of a circle.",
+    "path": "/Mathematicstopic/area-of-semicircle-formula"
+  },
+  {
+    "name": "Differentiation",
+    "description": "In calculus, differentiation is one of the two important concepts apart from integration. Differentiation is a method of finding the derivative of a function. ",
+    "path": "/Mathematicstopic/basic-differentiation-formulas"
+  },
+  {
+    "name": "Properties Of HCF And LCM",
+    "description": "Properties of HCF and LCM: For a better understanding of the concepts of LCM (Lowest Common Multiple) and HCF (Highest Common Factor), we need to recollect the terms multiples and factors.",
+    "path": "/Mathematicstopic/hcf-lcm-formula"
+  },
+  {
+    "name": "Geometry Formulas For Class 11",
+    "description": "Geometry formulas for class 11 cover all the important formulas that are included in class 11 syllabus. These class 11 formulas for geometry will help students to quickly get acquainted with the concepts and solve the questions more effectively and efficiently.",
+    "path": "/Mathematicstopic/coordinate-geometry-formulas"
+  },
+  {
+    "name": "Cube and Cuboid",
+    "description": "Cube and cuboid are three-dimensional shapes that consist of six faces, eight vertices and twelve edges. The primary difference between them is a cube has all its sides equal whereas the length, width and height of a cuboid are different.",
+    "path": "/Mathematicstopic/formula-of-cube-and-cuboid"
+  },
+  {
+    "name": "Intersecting Lines And Non-intersecting Lines",
+    "description": "Before talking about what intersecting lines and non-intersecting lines are, let us recall the basic definition of a line. In geometry, a line is something that is made up of infinite points extending indefinitely in both directions. It is straight and has negligible depth or width.",
+    "path": "/Mathematicstopic/intersecting-lines-and-non-intersecting-lines"
+  },
+  {
+    "name": "Three Dimensional Shapes",
+    "description": "In geometry, three-dimensional shapes or 3D shapes are solids that have three dimensions such as length, width and height. Whereas 2d shapes have only two dimensions, i.e. length and width.",
+    "path": "/Mathematicstopic/three-dimensional-shapes"
+  },
+  {
+    "name": "Triangular Numbers Sequence",
+    "description": "The triangular number sequence is the representation of the numbers in the form of equilateral triangle arranged in a series or sequence. These numbers are in a sequence of 1, 3, 6, 10, 15, 21, 28, 36, 45, and so on.",
+    "path": "/Mathematicstopic/triangular-numbers-sequence"
+  },
+  {
+    "name": "Properties of Rectangle",
+    "description": "A rectangle is a two-dimensional plane figure with four sides. A rectangle is a four-sided polygon in which the opposite sides are parallel and equal to each other. ",
+    "path": "/Mathematicstopic/properties-of-rectangle"
+  },
+  {
+    "name": "Tan 60 Degrees",
+    "description": "The value of tan 60 degrees is √3. The word “Trigonometry” means measuring the sides of a triangle. An angle is a measure which is the amount of rotation of a revolving line with respect to the fixed-line.",
+    "path": "/Mathematicstopic/tan-60-degrees"
+  },
+  {
+    "name": "Natural Numbers",
+    "description": "Natural numbers are a part of the number system which includes all the positive integers from 1 till infinity and are also used for counting purpose. It does not include zero (0).",
+    "path": "/Mathematicstopic/natural-numbers"
+  },
+  {
+    "name": "Line Segment",
+    "description": "In geometry, a line segment is bounded by two distinct points on a line. Or we can say a line segment is part of the line that connects two points.",
+    "path": "/Mathematicstopic/line-segment"
+  },
+  {
+    "name": "Parabola",
+    "description": "A parabola is a U-shaped plane curve where any point is at an equal distance from a fixed point (known as the focus) and from a fixed straight line, which is known as the directrix. Parabola is an integral part of the conic section topic, and all its concepts are covered here.",
+    "path": "/Mathematicstopic/parabola"
+  },
+  {
+    "name": "Continuous Integration",
+    "description": "In Maths, continuous integration is actually the designating of actual numbers to some functions that have some potential for negligible data or value for it.",
+    "path": "/Mathematicstopic/continuous-integration"
+  },
+  {
+    "name": "Tables 11 to 30",
+    "description": "Tables from 11 to 30 are crucial as they are used in various mathematical calculations. It should be noted that tables are the most important part of everyday calculations. ",
+    "path": "/Mathematicstopic/tables-11-to-30"
+  },
+  {
+    "name": "Finding Square Root of A Number By Prime Factorization",
+    "description": "Square root of a number is the value that returns the original number on multiplied by itself. Finding square root by prime factorisation is an easy method.",
+    "path": "/Mathematicstopic/finding-square-root-of-a-number-by-prime-factorization"
+  },
+  {
+    "name": "Fibonacci Numbers",
+    "description": "In Maths, the Fibonacci numbers are the numbers ordered in a distinct Fibonacci sequence. These numbers were introduced to represent the positive numbers in a sequence, which follows a defined pattern.",
+    "path": "/Mathematicstopic/fibonacci-numbers"
+  },
+  {
+    "name": "Sin 45 Degrees",
+    "description": "In trigonometry, there are three primary ratios, Sine, Cosine and Tangent, which are used to find the angles and length of the right-angled triangle. Before discussing Sin 45 degrees, let us know the importance of Sine function in trigonometry.",
+    "path": "/Mathematicstopic/sin-45-degrees"
+  },
+  {
+    "name": "Tan 30 Degrees",
+    "description": "The value of tan 30 degrees is 1/√3. The value of tan π/6 can be evaluated with the help of a unit circle, graphically. In trigonometry, the tangent of an angle in a right-angled triangle is equal to the ratio of opposite side and the adjacent side of the angle.",
+    "path": "/Mathematicstopic/tan-30-degrees"
+  },
+  {
+    "name": "Number System Conversion",
+    "description": "As we know, the number system is a form of expressing the numbers. In number system conversion, we will study to convert a number of one base, to a number of another base.",
+    "path": "/Mathematicstopic/number-system-conversion"
+  },
+  {
+    "name": "Construction Of Quadrilaterals",
+    "description": "Before talking about the construction of quadrilaterals, let us recall what a quadrilateral is. A quadrilateral is a polygon that has 4 vertices and 4 sides enclosing 4 angles. The sum of its interior angles is 360 degrees. ",
+    "path": "/Mathematicstopic/construction-of-quadrilaterals"
+  },
+  {
+    "name": "Probability Density Function",
+    "description": "In probability theory, a probability density function (PDF) is used to define the random variable’s probability coming within a distinct range of values, as opposed to taking on any one value.",
+    "path": "/Mathematicstopic/probability-density-function"
+  },
+  {
+    "name": "Different Forms Of The Equation Of Line",
+    "description": "We know that there are infinite points in the coordinate plane. Consider an arbitrary point P(x,y) on the XY plane and a line L. How will we confirm whether the point is lying on line L? This is where the importance of the equation of a straight line comes into the picture in two-dimensional geometry.",
+    "path": "/Mathematicstopic/different-forms-of-the-equation-of-line"
+  },
+  {
+    "name": "State Board",
+    "description": "Each Indian state and union territory operates its own State Board of Education, which designs the curriculum, conducts examinations, and regulates school education within the state.",
+    "path": "/State_Board"
+  },
+  {
+    "name": "Board of Secondary Education, Andhra Pradesh (BSEAP)",
+    "description": "Advantages of the AP State Board include affordable education, wide reach across the state, and inclusion of local culture. However, like many state boards, it faces challenges such as variability in quality, infrastructure gaps, and the need for greater alignment with national educational standards.",
+    "path": "/State_Board/APBSE"
+  },
+  {
+    "name": "Directorate of School Education, Arunachal Pradesh (DSEAP)",
+    "description": "Arunachal Pradesh is a relatively young state in terms of educational development, it often aligns its curriculum and guidelines with national frameworks such as the National Council of Educational Research and Training (NCERT) to ensure quality and consistency.",
+    "path": "/State_Board/DSEAP"
+  },
+  {
+    "name": "Board of Secondary Education, Assam (SEBA)",
+    "description": "SEBA designs its own curriculum, syllabus, and textbooks, with a focus on providing education that reflects Assamese language, culture, and heritage, alongside national academic standards. The board offers instruction in Assamese, English, Bengali, Bodo, and other regional languages to cater to the state’s diverse population.",
+    "path": "/State_Board/SEBA"
+  },
+  {
+    "name": "Bihar School Examination Board (BSEB)",
+    "description": "The Bihar School Examination Board (BSEB) is the state education board of Bihar, responsible for conducting school examinations at the secondary (Class 10) and senior secondary (Class 12) levels. Established under the Bihar School Examination Board Act, 1952, the BSEB operates under the Government of Bihar.",
+    "path": "/State_Board/BSEB"
+  },
+  {
+    "name": "Chhattisgarh Board of Secondary Education (CGBSE)",
+    "description": "The board designs the curriculum, textbooks, and conducts important public examinations like the High School (10th) and Higher Secondary (12th) board exams. CGBSE aims to provide quality education in line with the cultural, linguistic, and educational needs of Chhattisgarh. The medium of instruction is primarily Hindi, though English-medium options are also available.",
+    "path": "/State_Board/CGBSE"
+  },
+  {
+    "name": "Goa Board of Secondary and Higher Secondary Education (GBSHSE)",
+    "description": "The Goa Board of Secondary and Higher Secondary Education (GBSHSE) is the educational board responsible for managing secondary and higher secondary education in the state of Goa, India. Established in 1975, GBSHSE operates under the supervision of the Goa state government.",
+    "path": "/State_Board/GBSHSE"
+  },
+  {
+    "name": "Gujarat Secondary and Higher Secondary Education Board (GSEB)",
+    "description": "The Gujarat Secondary and Higher Secondary Education Board (GSEB) is the education board responsible for managing school education in the state of Gujarat, India. Established in 1960, GSEB operates under the jurisdiction of the Government of Gujarat.",
+    "path": "/State_Board/GSEB"
+  },
+  {
+    "name": "Board of School Education Haryana (BSEH)",
+    "description": "The Board of School Education Haryana (BSEH), established in 1969, is the state education board responsible for regulating and supervising school education in Haryana.The board also prescribes the curriculum, textbooks, and teaching standards for schools affiliated with it, covering subjects in English, Hindi, and other streams",
+    "path": "/State_Board/BSEH"
+  },
+  {
+    "name": "Himachal Pradesh Board of School Education (HPBOSE)",
+    "description": "The Himachal Pradesh Board of School Education (HPBOSE) is the state education board of Himachal Pradesh, established in 1969, with its headquarters in Dharamshala. HPBOSE is responsible for conducting school examinations, developing curriculum, and regulating education for both government and private schools affiliated with the board across the state.",
+    "path": "/State_Board/HPBOSE"
+  },
+  {
+    "name": "Jharkhand Academic Council (JAC)",
+    "description": "The Jharkhand Academic Council (JAC) is the official state education board of Jharkhand, established in 2003 after the formation of the state. Headquartered in Ranchi, JAC is responsible for overseeing school education and conducting examinations for secondary (Class 10) and higher secondary (Class 12) levels in Jharkhand.",
+    "path": "/State_Board/JAC"
+  },
+  {
+    "name": "Karnataka School Examination and Assessment Board (KSEAB)",
+    "description": "The Karnataka Secondary Education Examination Board (KSEEB) is the state education board of Karnataka, established in 1966. It is responsible for regulating and supervising secondary education in the state, primarily conducting the SSLC (Secondary School Leaving Certificate) examination for Class 10 students",
+    "path": "/State_Board/KSEEB"
+  },
+  {
+    "name": "Kerala Board of Public Examinations (KBPE)",
+    "description": "The Kerala Board of Public Examinations (KBPE) is the state education authority responsible for conducting public examinations in the state of Kerala. It operates under the Department of General Education, Government of Kerala. KBPE oversees the conduct of major exams such as the SSLC (Secondary School Leaving Certificate) for Class 10 and other public examinations in the state.",
+    "path": "/State_Board/KBPE"
+  },
+  {
+    "name": "Madhya Pradesh Board of Secondary Education (MPBSE)",
+    "description": "The Madhya Pradesh Board of Secondary Education (MPBSE) is the state education board of Madhya Pradesh, established in 1965 and headquartered in Bhopal. MPBSE is responsible for prescribing the curriculum, conducting examinations, and regulating the functioning of schools affiliated to it across the state.",
+    "path": "/State_Board/MPBSE"
+  },
+  {
+    "name": "Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)",
+    "description": "The Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE) is the official education board of the state of Maharashtra, established in 1966. Headquartered in Pune, the board is responsible for regulating and supervising secondary (Class 10) and higher secondary (Class 12) education in Maharashtra.",
+    "path": "/State_Board/MSBSHSE"
+  },
+  {
+    "name": "Board of Secondary Education, Manipur (BSEM)",
+    "description": "BSEM conducts the High School Leaving Certificate (HSLC) examination at the end of Class X. This examination is crucial for students as it determines their eligibility for higher secondary education.",
+    "path": "/State_Board/MANIPUR"
+  },
+  {
+    "name": "Meghalaya Board of School Education (MBOSE)",
+    "description": "The Meghalaya Board of School Education (MBOSE) is the official education board of the state of Meghalaya, established in 1973. It is responsible for regulating, supervising, and developing school education in the state. MBOSE conducts key examinations such as the Secondary School Leaving Certificate (SSLC) for Class 10 and the Higher Secondary School Leaving Certificate (HSSLC) for Class 12.",
+    "path": "/State_Board/MBOSE"
+  },
+  {
+    "name": "Mizoram Board of School Education (MBSE)",
+    "description": "The Mizoram Board of School Education (MBSE) is the official education board of the state of Mizoram, established in 1975. It is responsible for regulating and supervising school education in Mizoram, including the development of curriculum, textbooks, and conducting examinations for secondary (Class 10) and higher secondary (Class 12) levels.",
+    "path": "/State_Board/MBSE"
+  },
+  {
+    "name": "Nagaland Board of School Education (NBSE)",
+    "description": "The Nagaland Board of School Education (NBSE) is the state education board of Nagaland, established in 1973. It is responsible for regulating, supervising, and developing school education in the state from secondary (Class 9 and 10) to higher secondary levels (Class 11 and 12). NBSE conducts key examinations such as the Secondary School Leaving Certificate (SSLC) and the Higher Secondary School Leaving Certificate (HSSLC).",
+    "path": "/State_Board/NBSE"
+  },
+  {
+    "name": "Punjab School Education Board (PSEB)",
+    "description": "The Punjab School Education Board (PSEB) is the state education board of Punjab, established in 1969 and headquartered in Mohali. PSEB is responsible for regulating school education in Punjab, including designing curriculum, prescribing textbooks, and conducting examinations for secondary (Class 10) and higher secondary (Class 12) levels",
+    "path": "/State_Board/PSEB"
+  },
+  {
+    "name": "Board of Secondary Education Rajasthan (RBSE)",
+    "description": "The Rajasthan Board of Secondary Education (RBSE), also known as the Board of Secondary Education, Rajasthan, was established in 1957. It is the main education board in the state of Rajasthan responsible for regulating, supervising, and developing secondary and higher secondary education.",
+    "path": "/State_Board/RBSE"
+  },
+  {
+    "name": "Tamil Nadu State Board of School Examination (TNBS)",
+    "description": "The Tamil Nadu State Board of School Examination is the official education board for school-level education in the state of Tamil Nadu. It is responsible for designing the curriculum, prescribing textbooks, conducting examinations, and regulating schools affiliated with it across the state.",
+    "path": "/State_Board/TNSB"
+  },
+  {
+    "name": "Telangana State Board of Secondary Education (BSE Telangana)",
+    "description": "The Board of Secondary Education, Telangana (BSET) is the state education board responsible for regulating and supervising secondary education in the state of Telangana. Established after the formation of Telangana state in 2014, BSE Telangana conducts the important Class 10 (SSC) public examinations and oversees the curriculum, syllabus, and academic standards for schools affiliated with it.",
+    "path": "/State_Board/BSE_Telangana"
+  },
+  {
+    "name": "Tripura Board of Secondary Education (TBSE)",
+    "description": "The Tripura Board of Secondary Education (TBSE) is the state education board of Tripura, established in 1973. TBSE is responsible for regulating and developing secondary and higher secondary education in the state. It conducts major examinations such as the Class 10 (Secondary) and Class 12 (Higher Secondary) board exams for schools affiliated with it.",
+    "path": "/State_Board/TBSE"
+  },
+  {
+    "name": "Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP)",
+    "description": "The Uttar Pradesh Board of High School and Intermediate Education (UP Board), established in 1921, is one of the largest and oldest education boards in India. It is responsible for conducting secondary (Class 10) and higher secondary (Class 12) examinations in the state of Uttar Pradesh.",
+    "path": "/State_Board/UPMSP"
+  },
+  {
+    "name": "Uttarakhand Board of School Education (UBSE)",
+    "description": "The Uttarakhand Board of School Education (UBSE) was established in 2001 after the formation of the state of Uttarakhand. It is responsible for regulating and supervising school education in Uttarakhand from the secondary (Class 10) to higher secondary (Class 12) level. UBSE designs the curriculum, prescribes textbooks, and conducts board examinations such as the Class 10 (High School) and Class 12 (Intermediate) exams.",
+    "path": "/State_Board/UBSE"
+  },
+  {
+    "name": "West Bengal Board of Secondary Education (WBBSE)",
+    "description": "The West Bengal Board of Secondary Education (WBBSE) was established in 1951 and is responsible for overseeing secondary education (up to Class 10) in the state of West Bengal. The board regulates and supervises schools affiliated with it, designs the curriculum, prescribes textbooks, and conducts the Madhyamik Pariksha (Class 10 board examination), which is a major academic milestone for students in the state.",
+    "path": "/State_Board/WBBSE"
+  },
+  {
+    "name": "Board of Secondary Education, Odisha (BSE Odisha)",
+    "description": "The Board of Secondary Education, Odisha (BSE Odisha) is the state education board responsible for secondary education in Odisha. Established in 1953, the board conducts the High School Certificate (HSC) examination for Class 10 students. BSE Odisha designs the curriculum, prescribes textbooks, and regulates schools affiliated with it across the state.",
+    "path": "/State_Board/BSE_Odi"
+  }
 ]

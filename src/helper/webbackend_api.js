@@ -47,7 +47,7 @@ export async function webBackendFetch(endpoint, options = {}) {
 
     const contentType = res.headers.get("content-type");
 
-    // CASE 1: User NOT found (404) → try local fallback if fetched from live, else return json
+    // CASE 1: User NOT found (404) → try fallback
     if (res.status === 404) {
       if (!url.includes("localhost")) {
         try {
@@ -66,6 +66,23 @@ export async function webBackendFetch(endpoint, options = {}) {
             }
           }
         } catch (e) {}
+      } else {
+        try {
+          const liveUrl = `https://learnospherebackend.learnosphere.in${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+          const liveRes = await fetch(liveUrl, {
+            ...options,
+            headers: {
+              "Content-Type": "application/json",
+              ...(options.headers || {}),
+            },
+          });
+          if (liveRes.ok) {
+            const liveContentType = liveRes.headers.get("content-type");
+            if (liveContentType?.includes("application/json")) {
+              return await liveRes.json();
+            }
+          }
+        } catch (e) {}
       }
 
       if (contentType?.includes("application/json")) {
@@ -76,8 +93,34 @@ export async function webBackendFetch(endpoint, options = {}) {
       }
     }
 
-    // CASE 2: Other errors → throw
+    // CASE 2: Other errors → try live fallback if on localhost, else throw
     if (!res.ok) {
+      if (url.includes("localhost")) {
+        try {
+          const liveUrl = `https://learnospherebackend.learnosphere.in${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+          const liveRes = await fetch(liveUrl, {
+            ...options,
+            headers: {
+              "Content-Type": "application/json",
+              ...(options.headers || {}),
+            },
+          });
+          if (liveRes.ok) {
+            const liveContentType = liveRes.headers.get("content-type");
+            if (liveContentType?.includes("application/json")) {
+              return await liveRes.json();
+            }
+          } else if (liveRes.status === 404) {
+            const liveContentType = liveRes.headers.get("content-type");
+            if (liveContentType?.includes("application/json")) {
+              const errorJson = await liveRes.json();
+              return { success: false, ...errorJson };
+            } else {
+              return { success: false, message: "Resource not found" };
+            }
+          }
+        } catch (e) {}
+      }
       let errorText;
       if (contentType?.includes("application/json")) {
         const errJson = await res.json();
