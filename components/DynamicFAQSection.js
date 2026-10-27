@@ -26,11 +26,18 @@ export default function DynamicFAQSection({ slug }) {
     setLoading(true);
     setError(false);
 
-    const base = (WEB_BACKEND_URL || "http://localhost:4000").replace(/\/+$/, "");
+    const base = (WEB_BACKEND_URL || "").replace(/\/+$/, "");
+    const primaryUrl = `${base}/api/route/faqs?slug=${encodeURIComponent(slug)}`;
+    const fallbackUrl = `${base}/faqs?slug=${encodeURIComponent(slug)}`;
 
-    fetch(`${base}/faqs?slug=${encodeURIComponent(slug)}`)
+    fetch(primaryUrl)
       .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          return fetch(fallbackUrl).then((fbRes) => {
+            if (!fbRes.ok) throw new Error(`HTTP ${fbRes.status}`);
+            return fbRes.json();
+          });
+        }
         return res.json();
       })
       .then((json) => {

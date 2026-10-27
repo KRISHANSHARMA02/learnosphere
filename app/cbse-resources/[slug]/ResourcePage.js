@@ -16,6 +16,7 @@ import FormSection from "@/components/FormGeneral";
 import { useSession } from "next-auth/react";
 import { getResourceContent } from "./resourceData";
 import { useRouter } from "next/navigation";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 export default function ResourcePage({ slug, initialContent = null }) {
   const { data: session } = useSession();
@@ -200,6 +201,8 @@ export default function ResourcePage({ slug, initialContent = null }) {
         </div>
 
       </main>
+
+      <DynamicFAQSection slug={slug} />
 
       {/* WhatsApp Modal & Icon */}
       <div className="fixed right-8 top-[650px] md:top-[550px] flex flex-col items-center space-y-4 z-50">

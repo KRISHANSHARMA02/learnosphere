@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import DownloadFormPage from "@/components/downloadForm";
 import AppPromoBanner from "./BrandappNew";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 const BoardPage = () => {
   const params = useParams();
@@ -494,6 +495,7 @@ const BoardPage = () => {
           </div>
         </div>
       </div>
+      <DynamicFAQSection slug={slug} />
       <Footer1 />
       <Footer />
     </>

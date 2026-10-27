@@ -10,6 +10,7 @@ import creativeQuiz from '@/public/creativeQuiz.png'
 import axios from "axios";
 import AppPopup from '@/components/AppPopup';
 import { motion } from "framer-motion";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 
 const Certification = ({ slug }) => {
@@ -416,6 +417,7 @@ const Certification = ({ slug }) => {
                         Certificates of achievement are a great way to celebrate and honor your child’s achievement, inspiring them with self-confidence and promoting lifelong learning. They serve as a proud reminder of their hard work and accomplishments
                     </p>
                 </section>
+                <DynamicFAQSection slug={slug} />
             </div>
         </>
     )
