@@ -35,9 +35,29 @@ export async function getSamplePapersSlug() {
 export async function getSamplePapersPDF(slug) {
     if (!slug) return [];
     try {
-        const data = await webBackendFetch(`/api/route/samplepaperspdf/${slug}`, {
+        let data = await webBackendFetch(`/api/route/samplepaperspdf/${slug}`, {
             method: "GET",
         });
+
+        const firstItem = data?.data?.[0];
+        if (!firstItem || (!firstItem.heading1 && (!firstItem.tableData || firstItem.tableData.length === 0))) {
+            let altSlug = slug
+                .replace(/Sample-Papers-Sa(\d+)/i, 'Sa$1-Sample-Papers')
+                .replace(/Sample-Paper-Sa(\d+)/i, 'Sa-$1-Sample-Paper');
+            if (altSlug === slug) {
+                altSlug = slug
+                    .replace(/Sa(\d+)-Sample-Papers/i, 'Sample-Papers-Sa$1')
+                    .replace(/Sa-(\d+)-Sample-Paper/i, 'Sample-Paper-Sa$1');
+            }
+            if (altSlug !== slug) {
+                const altData = await webBackendFetch(`/api/route/samplepaperspdf/${altSlug}`, {
+                    method: "GET",
+                });
+                if (altData?.data && altData.data.length > 0) {
+                    return altData.data;
+                }
+            }
+        }
 
         return data?.data || [];
     } catch (err) {
@@ -45,7 +65,6 @@ export async function getSamplePapersPDF(slug) {
         return [];
     }
 }
-
 
 // get slug for sample papers pdf 
 export async function getSamplePapersPDFSlug() {

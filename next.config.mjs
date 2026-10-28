@@ -82,10 +82,10 @@ const nextConfig = {
 
   reactStrictMode: true,
   env: {
-    WEB_BACKEND_URL: process.env.WEB_BACKEND_URL || "http://localhost:4000",
-    NEXT_PUBLIC_WEB_BACKEND_URL: process.env.NEXT_PUBLIC_WEB_BACKEND_URL || process.env.WEB_BACKEND_URL || "http://localhost:4000",
-    APP_BACKEND_URL: process.env.APP_BACKEND_URL || "http://localhost:5000",
-    NEXT_PUBLIC_APP_BACKEND_URL: process.env.NEXT_PUBLIC_APP_BACKEND_URL || process.env.APP_BACKEND_URL || "http://localhost:5000",
+    WEB_BACKEND_URL: process.env.WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
+    NEXT_PUBLIC_WEB_BACKEND_URL: process.env.NEXT_PUBLIC_WEB_BACKEND_URL || process.env.WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
+    APP_BACKEND_URL: process.env.APP_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
+    NEXT_PUBLIC_APP_BACKEND_URL: process.env.NEXT_PUBLIC_APP_BACKEND_URL || process.env.APP_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
   },
 };
 

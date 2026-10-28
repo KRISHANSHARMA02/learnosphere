@@ -1,4 +1,5 @@
 "use client";
+import PageNotFound from "@/app/not-found";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -178,7 +179,7 @@ const BoardPage = () => {
     }
   };
   if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-700">{error}</p>;
+  if (error || !boardData) return <PageNotFound />;
 
   const {
     heading,

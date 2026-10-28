@@ -2,8 +2,11 @@ export const WEB_BACKEND_URL =
   process.env.WEB_BACKEND_URL ||
 "https://learnospherebackend.learnosphere.in";
 
+
 export const getWebBackendUrl = (endpoint = "") => {
-  const base = (WEB_BACKEND_URL || "").replace(/\/+$/, "");
+  let base = WEB_BACKEND_URL;
+  
+  base = (base || "").trim().replace(/\/+$/, "");
   if (!endpoint) return base;
   return `${base}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
 };
@@ -11,18 +14,69 @@ export const getWebBackendUrl = (endpoint = "") => {
 export async function webBackendFetch(endpoint, options = {}) {
   try {
     const url = getWebBackendUrl(endpoint);
-    const res = await fetch(url, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-    });
+    let res;
+    try {
+      res = await fetch(url, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {}),
+        },
+      });
+    } catch (fetchErr) {
+      const fallbackBase = url.includes("localhost")
+        ? "https://learnospherebackend.learnosphere.in"
+        : "https://learnospherebackend.learnosphere.in";
+      const fallbackUrl = `${fallbackBase}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+      res = await fetch(fallbackUrl, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {}),
+        },
+      });
+    }
 
     const contentType = res.headers.get("content-type");
 
-    // CASE 1: User NOT found (404) → try json, else return message
+    // CASE 1: User NOT found (404) → try fallback
     if (res.status === 404) {
+      if (!url.includes("localhost")) {
+        try {
+          const localUrl = `https://learnospherebackend.learnosphere.in${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+          const localRes = await fetch(localUrl, {
+            ...options,
+            headers: {
+              "Content-Type": "application/json",
+              ...(options.headers || {}),
+            },
+          });
+          if (localRes.ok) {
+            const localContentType = localRes.headers.get("content-type");
+            if (localContentType?.includes("application/json")) {
+              return await localRes.json();
+            }
+          }
+        } catch (e) {}
+      } else {
+        try {
+          const liveUrl = `https://learnospherebackend.learnosphere.in${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+          const liveRes = await fetch(liveUrl, {
+            ...options,
+            headers: {
+              "Content-Type": "application/json",
+              ...(options.headers || {}),
+            },
+          });
+          if (liveRes.ok) {
+            const liveContentType = liveRes.headers.get("content-type");
+            if (liveContentType?.includes("application/json")) {
+              return await liveRes.json();
+            }
+          }
+        } catch (e) {}
+      }
+
       if (contentType?.includes("application/json")) {
         const errorJson = await res.json();
         return { success: false, ...errorJson };
@@ -31,8 +85,34 @@ export async function webBackendFetch(endpoint, options = {}) {
       }
     }
 
-    // CASE 2: Other errors → throw
+    // CASE 2: Other errors → try live fallback if on localhost, else throw
     if (!res.ok) {
+      if (url.includes("localhost")) {
+        try {
+          const liveUrl = `https://learnospherebackend.learnosphere.in${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+          const liveRes = await fetch(liveUrl, {
+            ...options,
+            headers: {
+              "Content-Type": "application/json",
+              ...(options.headers || {}),
+            },
+          });
+          if (liveRes.ok) {
+            const liveContentType = liveRes.headers.get("content-type");
+            if (liveContentType?.includes("application/json")) {
+              return await liveRes.json();
+            }
+          } else if (liveRes.status === 404) {
+            const liveContentType = liveRes.headers.get("content-type");
+            if (liveContentType?.includes("application/json")) {
+              const errorJson = await liveRes.json();
+              return { success: false, ...errorJson };
+            } else {
+              return { success: false, message: "Resource not found" };
+            }
+          }
+        } catch (e) {}
+      }
       let errorText;
       if (contentType?.includes("application/json")) {
         const errJson = await res.json();
@@ -45,7 +125,33 @@ export async function webBackendFetch(endpoint, options = {}) {
 
     // CASE 3: Normal success
     if (contentType?.includes("application/json")) {
-      return await res.json();
+      const json = await res.json();
+      // If local database had stub/empty data (missing heading1 and tableData) for samplepaperspdf, fallback to live
+      if (url.includes("localhost") && endpoint.includes("samplepaperspdf")) {
+        const item = json?.data?.[0];
+        if (!item?.heading1 && (!item?.tableData || item.tableData.length === 0)) {
+          try {
+            let liveUrl = `https://learnospherebackend.learnosphere.in${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+            let liveRes = await fetch(liveUrl, options);
+            if (!liveRes.ok) {
+              const altEndpoint = endpoint
+                .replace(/Sample-Papers-Sa(\d+)/i, 'Sa$1-Sample-Papers')
+                .replace(/Sample-Paper-Sa(\d+)/i, 'Sa-$1-Sample-Paper');
+              if (altEndpoint !== endpoint) {
+                liveUrl = `https://learnospherebackend.learnosphere.in${altEndpoint.startsWith("/") ? "" : "/"}${altEndpoint}`;
+                liveRes = await fetch(liveUrl, options);
+              }
+            }
+            if (liveRes.ok) {
+              const liveJson = await liveRes.json();
+              if (liveJson?.data?.[0]?.heading1 || liveJson?.data?.[0]?.tableData?.length > 0) {
+                return liveJson;
+              }
+            }
+          } catch (e) {}
+        }
+      }
+      return json;
     } else {
       throw new Error("Backend did not return JSON!");
     }
@@ -54,5 +160,3 @@ export async function webBackendFetch(endpoint, options = {}) {
     throw err;
   }
 }
-
-export default WEB_BACKEND_URL;

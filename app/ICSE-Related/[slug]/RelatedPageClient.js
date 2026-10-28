@@ -37,7 +37,7 @@ export default function RelatedPageClient({ initialData, slug }) {
     const backendUrl =
       process.env.NEXT_PUBLIC_WEB_BACKEND_URL ||
       (typeof window !== "undefined" && window.location.hostname === "localhost"
-        ? "http://localhost:4000"
+        ? "https://learnospherebackend.learnosphere.in"
         : "https://learnospherebackend.learnosphere.in");
 
     axios

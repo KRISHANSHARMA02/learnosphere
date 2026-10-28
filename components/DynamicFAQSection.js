@@ -26,7 +26,7 @@ export default function DynamicFAQSection({ slug }) {
     setLoading(true);
     setError(false);
 
-    const base = (WEB_BACKEND_URL || "http://localhost:4000").replace(/\/+$/, "");
+    const base = (WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in").replace(/\/+$/, "");
 
     fetch(`${base}/faqs?slug=${encodeURIComponent(slug)}`)
       .then((res) => {

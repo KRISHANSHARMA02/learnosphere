@@ -55,7 +55,7 @@ async function getDynamicDatabaseSlugs() {
   const slugs = new Set(STATIC_DB_RESOURCE_SLUGS);
 
   try {
-    const backendUrl = process.env.WEB_BACKEND_URL || "http://localhost:4000";
+    const backendUrl = process.env.WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in";
     const endpoints = [
       "/api/route/CbsePreviousyearQuestions/CBSE-Class-12-Maths-Previous-Year-Papers",
       "/api/route/CbsePreviousyearQuestions/CBSE-Class-10-Maths-Previous-Year-Papers"
@@ -113,7 +113,7 @@ export async function validateCbseResourceSlug(slug) {
 
   // 2. Query backend cbse-related API for dynamic database/API entries
   try {
-    const backendUrl = process.env.WEB_BACKEND_URL || "http://localhost:4000";
+    const backendUrl = process.env.WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in";
     const res = await fetch(`${backendUrl}/api/route/cbse-related/${cleanSlug}`, {
       cache: "no-store",
       headers: { "Content-Type": "application/json" }

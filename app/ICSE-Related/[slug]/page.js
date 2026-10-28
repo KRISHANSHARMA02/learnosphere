@@ -44,7 +44,7 @@ async function getIcseRelatedData(slug) {
     WEB_BACKEND_URL,
     process.env.WEB_BACKEND_URL,
     "https://learnospherebackend.learnosphere.in",
-    "http://localhost:4000",
+    "https://learnospherebackend.learnosphere.in",
   ].filter(Boolean);
 
   const uniqueBackendUrls = [

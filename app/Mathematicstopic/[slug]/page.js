@@ -15,7 +15,7 @@ import WhatsappModal from "@/components/whatsappModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
-import MathFallback from "@/components/MathFallback";
+import PageNotFound from "@/app/not-found";
 
 const DataTable = ({ params }) => {
   const [Class, setClass] = useState(null);
@@ -78,18 +78,34 @@ const DataTable = ({ params }) => {
         setLoading(true);
         setError("");
 
-        const response = await axios.get(
-          // `http://localhost:5000/api/route/mathematicsTopic/${slug}`
-           `${WEB_BACKEND_URL}/api/route/mathematicsTopic/${slug}`
-        );
+        let topicData = null;
+        try {
+          const response = await axios.get(
+            `${WEB_BACKEND_URL}/api/route/mathematicsTopic/${slug}`
+          );
+          if (response.data && response.data.data && response.data.data.length > 0) {
+            topicData = response.data.data;
+          }
+        } catch (fetchErr) {
+          if (WEB_BACKEND_URL.includes("localhost") || (typeof window !== "undefined" && window.location.hostname === "localhost")) {
+            try {
+              const liveResponse = await axios.get(
+                `https://learnospherebackend.learnosphere.in/api/route/mathematicsTopic/${slug}`
+              );
+              if (liveResponse.data && liveResponse.data.data && liveResponse.data.data.length > 0) {
+                topicData = liveResponse.data.data;
+              }
+            } catch (liveErr) {}
+          }
+        }
 
-        if (response.data && response.data.data) {
-          setData(response.data.data);
+        if (topicData) {
+          setData(topicData);
         } else {
-          setData([]); // No data found
+          setData([]);
+          setError("Mathematics topic not found");
         }
       } catch (err) {
-        console.error("Error fetching data:", err);
         setError(err.response?.data?.message || "Error fetching data.");
         setData([]);
       } finally {
@@ -102,6 +118,10 @@ const DataTable = ({ params }) => {
 
   if (loading) {
     return <div className="text-gray-600">Loading...</div>;
+  }
+
+  if (!loading && (!data || data.length === 0 || error)) {
+    return <PageNotFound />;
   }
 
   // if (error) { return <div className="text-red-500">Error: {error}</div>; }
@@ -1581,7 +1601,7 @@ const DataTable = ({ params }) => {
                 </div>
               ))
             ) : (
-              <MathFallback slug={slug} />
+              <PageNotFound />
             )}
           </div>
           <div className="flex flex-col gap-5 w-full md:w-[35%] font-Poppins">

@@ -1,5 +1,14 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import StateBoardSlug from "@/components/StateBoardSlug";
+
+
+const validBoardSlugs = new Set([
+  "apbse", "dseap", "seba", "bseb", "cgbse", "gbshse", "gseb", "bseh",
+  "hpbose", "jac", "kseeb", "kbpe", "mpbse", "msbshse", "manipur", "mbose",
+  "mbse", "nbse", "pseb", "rbse", "tnsb", "bse_telangana", "tbse", "upmsp",
+  "ubse", "wbbse", "bse_odi"
+]);
 
 const titleMap = {
   "APBSE": "AP State Board Syllabus & Subjects",
@@ -44,6 +53,9 @@ const descriptionMap = {
 /* ✅ Metadata */
 export async function generateMetadata({ params }) {
   const { slug } = await params; // ✅ MUST await
+  if (!validBoardSlugs.has((slug || "").toLowerCase())) {
+    return { title: "Page Not Found | Learnosphere" };
+  }
 
   if (titleMap[slug]) {
     return {
@@ -77,5 +89,8 @@ export async function generateMetadata({ params }) {
 export default async function StateBordslug({ params }) {
   const { slug } = await params; // ✅ MUST await
 
+  if (!validBoardSlugs.has((slug || "").toLowerCase())) {
+    notFound();
+  }
   return <StateBoardSlug slug={slug} />;
 }

@@ -54,17 +54,17 @@ export default function LoginPopup() {
         </button>
 
         {/* Logo */}
-        <h1 className="text-4xl font-bold text-center text-black my-10  ">
+        <div className="text-4xl font-bold text-center text-black my-10">
           Learn<b className="text-orange-600 font-Poppins text-4xl">O</b>sphere
-        </h1>
+        </div>
 
         {/* Headline */}
-        <h2 className="text-xl font-bold text-center my-4 text-gray-900">
+        <p className="text-xl font-bold text-center my-4 text-gray-900">
           Free Access After Login
-        </h2>
-        <h2 className="text-xl font-bold text-center text-orange-600 mb-6">
+        </p>
+        <p className="text-xl font-bold text-center text-orange-600 mb-6">
           Get PDFs, Study Materials and Many More
-        </h2>
+        </p>
 
         {/* Email Login */}
         <button

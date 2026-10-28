@@ -182,11 +182,17 @@ const DataTable = ({ data, slug: propSlug }) => {
 
           </div>
           {data.length > 0 ? (
-            data.map((item) => (
+            data.map((item, index) => (
               <div key={item.id} className="mb-4">
-                <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                  {item.heading1}
-                </h1>
+                {index === 0 ? (
+                  <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                    {item.heading1}
+                  </h1>
+                ) : (
+                  <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                    {item.heading1}
+                  </h2>
+                )}
                 <Link href="https://sarvgyat.learnosphere.in/">
                   <Image className="mt-3" src={Banner} alt="" />
                 </Link>

@@ -35,10 +35,45 @@ const ContentFound = () => {
         const data = await response.json();
 
         if (query) {
+          const trimmedQuery = query.trim().toLowerCase();
+          const cleanQuery = trimmedQuery.replace(/[-_/]/g, " ");
+          const queryWords = cleanQuery.split(/\s+/).filter(w => w.length > 0);
+
+          const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\        if (query) {
           const regex = new RegExp(`\\b${query.toLowerCase()}\\b`, "i");
           const found = data.filter((item) =>
             regex.test(item.name.toLowerCase())
           );
+          setFoundItems(found);
+          setCurrentPage(1); // ✅ Reset to first page on new search
+        }");
+          let regex = null;
+          try {
+            regex = new RegExp(`\\b${escapeRegex(trimmedQuery)}\\b`, "i");
+          } catch (e) {}
+
+          const found = data.filter((item) => {
+            const itemName = (item.name || "").toLowerCase();
+            const itemPath = (item.path || "").toLowerCase();
+            const itemDesc = (item.description || "").toLowerCase();
+            const cleanPath = itemPath.replace(/[-_/]/g, " ");
+
+            // 1. Exact regex word match on name
+            if (regex && regex.test(itemName)) return true;
+
+            // 2. Direct inclusion on name or path
+            if (itemName.includes(trimmedQuery) || itemPath.includes(trimmedQuery)) return true;
+
+            // 3. Match against clean path without hyphens
+            if (cleanPath.includes(cleanQuery)) return true;
+
+            // 4. All query words match in name or description or path
+            if (queryWords.length > 0 && queryWords.every(word => itemName.includes(word) || cleanPath.includes(word) || itemDesc.includes(word))) {
+              return true;
+            }
+
+            return false;
+          });
           setFoundItems(found);
           setCurrentPage(1); // ✅ Reset to first page on new search
         }
