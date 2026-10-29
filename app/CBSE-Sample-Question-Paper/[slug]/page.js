@@ -1,13 +1,13 @@
 import DataTable from "./slugData";
 import { getSamplePapersPDF } from "@/src/lib/actions/sample_papers_data_fetch";
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 
 export const revalidate = 60; // ✅ re-fetch every 60s
 
 export default async function SamplePapersPDF({ params }) {
   const { slug } = await params;
 
-  if (!slug) return <p>Slug missing</p>;
+  if (!slug) notFound();
 
   if (
     slug === "Cbse-Class-12-Maths-Sample-Paper-Set-1" ||
@@ -16,10 +16,11 @@ export default async function SamplePapersPDF({ params }) {
     redirect("https://learnosphere.s3.ap-south-1.amazonaws.com/sample-papers/1784788166904_Applied-Maths-SQP.pdf");
   }
 
-  const data = await getSamplePapersPDF(slug)
+  const data = await getSamplePapersPDF(slug);
 
-
-  if (!data || data.length === 0) return <p>No sample papers found</p>;
+  if (!data || data.length === 0) {
+    notFound();
+  }
 
   return <DataTable data={data} slug={slug} />;
 }

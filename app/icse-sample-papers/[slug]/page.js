@@ -1,16 +1,18 @@
 export const dynamic = 'force-dynamic';
 import DataTable from "./slugData";
 import { getIcseSamplePapers } from "@/src/lib/actions/sample_papers_data_fetch";
+import { notFound } from "next/navigation";
 
 export default async function IcseSamplePapers({ params }) {
   const { slug } = await params;
 
-  if (!slug) return <p>Slug missing</p>;
+  if (!slug) notFound();
 
   const data = await getIcseSamplePapers(slug);
 
-
-  if (!data || data.length === 0) return <p>No sample papers found</p>;
+  if (!data || data.length === 0) {
+    notFound();
+  }
 
   return <DataTable data={data} slug={slug} />;
 }

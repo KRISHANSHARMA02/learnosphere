@@ -1,22 +1,32 @@
 import DataTable from "./slugDetails";
 import { getSamplePapers } from "@/src/lib/actions/sample_papers_data_fetch";
+import { notFound } from "next/navigation";
 
 export default async function SamplePapersPage({ params }) {
   const { slug } = await params;
 
-  if (!slug) return <p>Slug missing</p>;
+  if (!slug) notFound();
 
   const data = await getSamplePapers(slug);
 
-
-  if (!data || data.length === 0) return <p>No sample papers found</p>;
+  if (!data || data.length === 0) {
+    notFound();
+  }
 
   return <DataTable data={data} />;
 }
 
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  if (!slug) return { title: "Page Not Found | Learnosphere" };
+
+  const data = await getSamplePapers(slug);
+  if (!data || data.length === 0) {
+    return {
+      title: "Page Not Found | Learnosphere",
+    };
+  }
+
   const titleMap = {
     "CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard": "CBSE Class 10 Maths Sample Paper | Basic & Standard",
     "CBSE-Sample-Papers-for-Class-9-Maths": "CBSE Class 9 Maths Practice Papers & Questions",
@@ -28,7 +38,6 @@ export async function generateMetadata({ params }) {
     "CBSE-Sample-Papers-for-Class-11-Maths": "Practice CBSE Class 11 Maths Sample Papers with useful questions and revision resources. Strengthen your concepts and prepare effectively for exams.",
   };
 
-  
   const title = titleMap[slug] || "Learnosphere";
   const description = descriptionMap[slug] || "Practice CBSE sample papers for Classes 1 to 12 and prepare effectively for exams with useful questions, revision material and study resources.";
 

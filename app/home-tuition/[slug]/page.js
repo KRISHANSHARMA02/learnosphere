@@ -1,9 +1,23 @@
+import { notFound } from "next/navigation";
 import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import HomeTuitionContent from "@/components/Hometuitioncontent";
 import Navbar from "@/components/Navbar";
 import Footer1 from "@/components/Footer1";
 import Footer from "@/components/Footer";
 import { fetchTeachersForHomeTuition } from "@/src/lib/actions/fetchTeacher";
+
+const EXCLUDED_CITIES = new Set([
+  "home-tuition-in-janjgir - champa",
+  "home-tuition-in-janjgir-champa",
+  "home-tuition-in-canning - ii",
+  "home-tuition-in-canning-ii",
+  "janjgir - champa",
+  "janjgir-champa",
+  "janjgir champa",
+  "canning - ii",
+  "canning-ii",
+  "canning ii",
+]);
 
 async function getCityData(cityName) {
   try {
@@ -20,8 +34,8 @@ async function getCityData(cityName) {
     }
 
     const json = await res.json();
-    const city = json.data.find(
-      (item) => item.city.toLowerCase() === cityName.toLowerCase(),
+    const city = json.data?.find(
+      (item) => item.city && item.city.toLowerCase().trim() === cityName.toLowerCase().trim(),
     );
 
     return city || null;
@@ -47,26 +61,68 @@ function generateHeadline(city) {
   return statements[randomIndex];
 }
 
-export default async function Page({ params }) {
+export async function generateMetadata({ params }) {
   const { slug } = await params;
-  console.log(slug);
-  const decodedSlug = decodeURIComponent(slug);
+  if (!slug) return { title: "Page Not Found | Learnosphere" };
+
+  const decodedSlug = decodeURIComponent(slug).trim().toLowerCase();
+  if (EXCLUDED_CITIES.has(decodedSlug)) {
+    return {
+      title: "Page Not Found | Learnosphere",
+      robots: { index: false, follow: false },
+    };
+  }
+
   const cityName = decodedSlug
     .replace(/^home-tuition-in-/, "")
-    .replace(/-/g, " ");
+    .replace(/-/g, " ")
+    .trim();
+
+  if (EXCLUDED_CITIES.has(cityName)) {
+    return {
+      title: "Page Not Found | Learnosphere",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const cityData = await getCityData(cityName);
+  if (!cityData) {
+    return {
+      title: "Page Not Found | Learnosphere",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return {
+    title: `Home Tuition in ${cityData.city} | Learnosphere`,
+    description: `Find top home tutors in ${cityData.city} with Learnosphere.`,
+  };
+}
+
+export default async function Page({ params }) {
+  const { slug } = await params;
+  if (!slug) {
+    notFound();
+  }
+
+  const decodedSlug = decodeURIComponent(slug).trim().toLowerCase();
+  if (EXCLUDED_CITIES.has(decodedSlug)) {
+    notFound();
+  }
+
+  const cityName = decodedSlug
+    .replace(/^home-tuition-in-/, "")
+    .replace(/-/g, " ")
+    .trim();
+
+  if (EXCLUDED_CITIES.has(cityName)) {
+    notFound();
+  }
 
   const cityData = await getCityData(cityName);
 
   if (!cityData) {
-    return (
-      <>
-        <Navbar />
-        <div className="h-20"></div>
-        <p className="text-center py-20">City not found!</p>
-        <Footer1 />
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   const headline = generateHeadline(cityData.city);
