@@ -172,7 +172,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls.map((imageUrl, index) => (
                         <Image
-                          key={dataItem.id || index}
+                          key={index}
                           src={imageUrl}
                           alt={`Image ${index + 1}`}
                           className="w-32 h-32 object-cover rounded-lg"
@@ -248,7 +248,27 @@ const DataTable = ({ data, slug: propSlug }) => {
                                         : "border-b border-black"
                                     }`}
                                   >
-                                    {dataItem}
+                                    {typeof dataItem === "string" ? (
+                                      dataItem
+                                    ) : dataItem.slug ? (
+                                      <Link
+                                        href={`/CBSE-Previousyear-Question-Papers-/${dataItem.slug}`}
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || dataItem.slug}
+                                      </Link>
+                                    ) : dataItem.pdfUrl ? (
+                                      <a
+                                        href={dataItem.pdfUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || "Download PDF"}
+                                      </a>
+                                    ) : (
+                                      <span>{dataItem.title || ""}</span>
+                                    )}
                                   </div>
                                 ))}
                               </td>
@@ -267,7 +287,27 @@ const DataTable = ({ data, slug: propSlug }) => {
                                         : "border-b"
                                     }`}
                                   >
-                                    {dataItem}
+                                    {typeof dataItem === "string" ? (
+                                      dataItem
+                                    ) : dataItem.pdfUrl ? (
+                                      <a
+                                        href={dataItem.pdfUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || "Access Solutions"}
+                                      </a>
+                                    ) : dataItem.slug ? (
+                                      <Link
+                                        href={`/CBSE-Previousyear-Question-Papers-/${dataItem.slug}`}
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || "Access Solutions"}
+                                      </Link>
+                                    ) : (
+                                      <span>{dataItem.title || ""}</span>
+                                    )}
                                   </div>
                                 ))}
                               </td>
