@@ -39,14 +39,7 @@ const ContentFound = () => {
           const cleanQuery = trimmedQuery.replace(/[-_/]/g, " ");
           const queryWords = cleanQuery.split(/\s+/).filter(w => w.length > 0);
 
-          const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\        if (query) {
-          const regex = new RegExp(`\\b${query.toLowerCase()}\\b`, "i");
-          const found = data.filter((item) =>
-            regex.test(item.name.toLowerCase())
-          );
-          setFoundItems(found);
-          setCurrentPage(1); // ✅ Reset to first page on new search
-        }");
+          const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
           let regex = null;
           try {
             regex = new RegExp(`\\b${escapeRegex(trimmedQuery)}\\b`, "i");
