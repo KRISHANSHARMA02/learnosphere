@@ -61,8 +61,12 @@ export default function CityPageClient({ initialLocations }) {
     AOS.init({ duration: 1000 });
   }, []);
 
+  const EXCLUDED_CITIES = new Set(["janjgir - champa", "canning - ii"]);
+
   // Grouping logic (Client-side search ke liye)
   const groupedLocations = initialLocations.reduce((acc, loc) => {
+    if (!loc || !loc.city) return acc;
+    if (EXCLUDED_CITIES.has(loc.city.toLowerCase().trim())) return acc;
     if (!acc[loc.state]) acc[loc.state] = [];
     acc[loc.state].push(loc.city);
     return acc;

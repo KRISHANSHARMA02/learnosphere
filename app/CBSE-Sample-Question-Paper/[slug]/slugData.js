@@ -76,12 +76,20 @@ const DataTable = ({ data, slug: propSlug }) => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
-        const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
-        const list = [...(res10.data || []), ...(res12.data || [])];
-        setCbsePapersList(list);
+        const res = await fetch(WEB_BACKEND_URL + '/api/cbse-papers').then(r => r.json());
+        if (res?.data && res.data.length > 0) {
+          setCbsePapersList(res.data);
+        } else {
+          const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
+          const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
+          setCbsePapersList([...(res10.data || []), ...(res12.data || [])]);
+        }
       } catch (err) {
-        console.error("Error fetching cbse papers", err);
+        try {
+          const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
+          const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
+          setCbsePapersList([...(res10.data || []), ...(res12.data || [])]);
+        } catch (_) {}
       }
     };
     fetchPapers();
@@ -94,24 +102,47 @@ const DataTable = ({ data, slug: propSlug }) => {
     // 1. Try exact match
     let match = cbsePapersList.find(p => p.title && p.title.toLowerCase() === lowerTitle);
     
-    // 2. If no exact match, fallback to logic:
+    // 2. If no exact match, fallback to class and set / year extraction
     if (!match) {
-      const isClass12 = lowerTitle.includes('class 12') || lowerTitle.includes('class 12th');
-      const targetClass = isClass12 ? '12' : '10';
+      let targetClass = null;
+      if (lowerTitle.includes('class 12') || lowerTitle.includes('12th')) targetClass = '12';
+      else if (lowerTitle.includes('class 11') || lowerTitle.includes('11th')) targetClass = '11';
+      else if (lowerTitle.includes('class 10') || lowerTitle.includes('10th')) targetClass = '10';
+      else if (lowerTitle.includes('class 9') || lowerTitle.includes('9th')) targetClass = '9';
+      else if (lowerTitle.includes('class 8') || lowerTitle.includes('8th')) targetClass = '8';
       
-      let targetSubject = null;
-      if (lowerTitle.includes('math')) targetSubject = 'math';
-      else if (lowerTitle.includes('science')) targetSubject = 'science';
-      else if (lowerTitle.includes('physics')) targetSubject = 'physics';
-      else if (lowerTitle.includes('chemistry')) targetSubject = 'chemistry';
-      
-      let filtered = cbsePapersList.filter(p => String(p.class_level) === targetClass);
-      if (targetSubject) {
-        let subjectFiltered = filtered.filter(p => p.subject && p.subject.toLowerCase().includes(targetSubject));
-        if (subjectFiltered.length > 0) filtered = subjectFiltered;
+      const setMatch = lowerTitle.match(/set\s*(\d+)/i);
+      const targetSet = setMatch ? setMatch[1] : null;
+
+      const yearMatch = lowerTitle.match(/(20\d\d)/);
+      const targetYear = yearMatch ? yearMatch[1] : null;
+
+      let candidates = cbsePapersList;
+      if (targetClass) {
+        candidates = candidates.filter(p => String(p.class_level) === targetClass);
       }
-      
-      if (filtered.length > 0) match = filtered[0];
+
+      if (targetSet) {
+        let setCandidate = candidates.find(p => {
+          const t = (p.title || '').toLowerCase();
+          const s = (p.s3_url || '').toLowerCase();
+          return t.includes(`set ${targetSet}`) || t.includes(`set_${targetSet}`) || s.includes(`set_${targetSet}`) || s.includes(`set ${targetSet}`);
+        });
+        if (setCandidate) match = setCandidate;
+      }
+
+      if (!match && targetYear) {
+        let yearCandidate = candidates.find(p => {
+          const t = (p.title || '').toLowerCase();
+          const s = (p.s3_url || '').toLowerCase();
+          return t.includes(targetYear) || s.includes(targetYear) || String(p.year) === targetYear;
+        });
+        if (yearCandidate) match = yearCandidate;
+      }
+
+      if (!match && candidates.length > 0) {
+        match = candidates[0];
+      }
     }
     
     if (match && match.s3_url) {

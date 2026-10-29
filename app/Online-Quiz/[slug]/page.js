@@ -17,18 +17,28 @@ const validQuizSlugs = new Set([
   "Certification-Quiz-For-Class-12",
 ]);
 
+function getMatchedSlug(slug) {
+  if (!slug) return null;
+  const target = slug.toLowerCase();
+  for (const s of validQuizSlugs) {
+    if (s.toLowerCase() === target) return s;
+  }
+  return null;
+}
+
 export async function generateMetadata({ params }) {
     const { slug } = await params;
+    const matchedSlug = getMatchedSlug(slug);
 
-    if (!validQuizSlugs.has(slug)) {
+    if (!matchedSlug) {
         return {
             title: "Page Not Found | Learnosphere",
         };
     }
 
     const baseUrl = "https://learnosphere.in";
-    const canonicalUrl = `${baseUrl}/Online-Quiz/${slug}`;
-    const res = await fetch(`${baseUrl}/api/onlineQuiz/${slug}`, {
+    const canonicalUrl = `${baseUrl}/Online-Quiz/${matchedSlug}`;
+    const res = await fetch(`${baseUrl}/api/onlineQuiz/${matchedSlug}`, {
         cache: "no-store",
     });
 
@@ -56,10 +66,11 @@ export async function generateMetadata({ params }) {
 
 export default async function OnlineQuizSlg({ params }) {
     const { slug } = await params;
+    const matchedSlug = getMatchedSlug(slug);
 
-    if (!validQuizSlugs.has(slug)) {
+    if (!matchedSlug) {
         notFound();
     }
 
-    return <Certification slug={slug} />;
+    return <Certification slug={matchedSlug} />;
 }

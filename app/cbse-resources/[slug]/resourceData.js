@@ -1,8 +1,8 @@
 /**
- * Known CBSE Resource slugs from database (cbsepreviousquestion.list3) and API (cbseRelatedData.json).
+ * Known CBSE Resource slugs from database (cbsepreviousquestions.list3) and API (cbseRelatedData.json).
  */
 export const STATIC_DB_RESOURCE_SLUGS = new Set([
-  // list3 items from MySQL cbsepreviousquestion table
+  // list3 items from MySQL cbsepreviousquestions table
   "chemistry-2015-board-paper",
   "ncert-solutions-for-class-9-maths",
   "cbse-class-10-maths-objective-questions",
@@ -13,7 +13,6 @@ export const STATIC_DB_RESOURCE_SLUGS = new Set([
   "electrostatics-potential-and-capacitance-class-12-notes",
   "maths-worksheet-for-class-3",
   "chemistry-notes-for-class-12",
-  "cbse-moderation-policy-2017",
   "science-experiments-app",
   "cbse-class-7-maths",
   "cbse-class-6-science",
@@ -128,7 +127,7 @@ export async function validateCbseResourceSlug(slug) {
     // Ignore and proceed
   }
 
-  // 3. Check dynamic database items from cbsepreviousquestion table
+  // 3. Check dynamic database items from cbsepreviousquestions table
   try {
     const dbSlugs = await getDynamicDatabaseSlugs();
     if (dbSlugs.has(cleanSlug)) return true;

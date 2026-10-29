@@ -51,6 +51,7 @@ const Certification = ({ slug }) => {
     const closePopup = () => setShowPopup(false);
 
     if (loading) return <p>Loading...</p>;
+    if (error || !onlineQuizData) return <PageNotFound />;
 
     const { grade, d1, p1, p2,
         p3,

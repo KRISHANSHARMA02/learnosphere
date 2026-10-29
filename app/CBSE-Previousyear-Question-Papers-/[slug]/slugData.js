@@ -18,10 +18,33 @@ import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
+import { useSession } from "next-auth/react";
 
-const DataTable = ({ data, slug: propSlug }) => {
+const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
   const params = useParams();
   const currentSlug = propSlug || params?.slug;
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === "authenticated" || Boolean(initialLoggedIn);
+  const [activePdfUrl, setActivePdfUrl] = useState(data?.[0]?.pdfUrl || null);
+
+  useEffect(() => {
+    if (data?.[0]?.pdfUrl) {
+      setActivePdfUrl(data[0].pdfUrl);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (isLoggedIn && !activePdfUrl && currentSlug) {
+      fetch(`/api/cbse-pdf/${currentSlug}`)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((json) => {
+          if (json?.data?.[0]?.pdfUrl) {
+            setActivePdfUrl(json.data[0].pdfUrl);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [isLoggedIn, activePdfUrl, currentSlug]);
   // const params = use(props.params);
   // const { slug } = params;
   //  const [data, setData] = useState([]);
@@ -185,26 +208,26 @@ const DataTable = ({ data, slug: propSlug }) => {
                     <h2 className="mb-2  2 mt-4 font-bold">{item.heading4}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para4}</p>
-                  {/* Display PDF if available */}
-                  {item.pdfUrl && (
+                  {/* Display PDF with access control */}
+                  {isLoggedIn && activePdfUrl ? (
                     <div className="mt-4">
                       <iframe
-                        src={`${item.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`} // Removed scrollbar parameter and adjusted the URL
+                        src={`${activePdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                         width="100%"
                         height="500px"
                         style={{
-                          border: "none", // Ensure no border is shown
-                          overflow: "hidden", // Prevent any overflow
+                          border: "none",
+                          overflow: "hidden",
                         }}
                         title="PDF Viewer"
                       >
                         This browser does not support PDFs. Please download the
                         PDF to view it:
-                        <a href={item.pdfUrl}>Download PDF</a>
+                        <a href={activePdfUrl}>Download PDF</a>
                       </iframe>
                       <div className="mt-4 flex justify-center">
                         <a
-                          href={item.pdfUrl}
+                          href={activePdfUrl}
                           download
                           target="_blank"
                           rel="noopener noreferrer"
@@ -212,6 +235,58 @@ const DataTable = ({ data, slug: propSlug }) => {
                         >
                           Download PDF
                         </a>
+                      </div>
+                    </div>
+                  ) : (
+                    /* 🚫 Logged-out user sees blurred preview + login overlay */
+                    <div className="mt-4">
+                      <div className="relative w-full h-[500px] border border-gray-300 rounded-xl overflow-hidden shadow-md bg-white">
+                        {/* Blurred preview document representation */}
+                        <div className="w-full h-full flex flex-col justify-start p-8 bg-gray-50 blur-[3px] opacity-40 select-none pointer-events-none space-y-4">
+                          <div className="h-7 bg-gray-500 rounded w-3/4 mx-auto mb-6"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                          <div className="h-10 bg-gray-300 rounded w-full my-4"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-3/4"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-2/3"></div>
+                        </div>
+
+                        {/* Login Prompt Overlay */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm p-6 z-10 text-center">
+                          <div className="bg-white/95 p-8 rounded-2xl shadow-xl max-w-md mx-auto border border-gray-100 flex flex-col items-center">
+                            <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                              🔒
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 text-gray-900">
+                              Please log in to view the full PDF
+                            </h3>
+                            <p className="mb-6 text-gray-600 font-medium text-sm leading-relaxed">
+                              You're seeing a limited preview. Log in to access the complete document with solutions.
+                            </p>
+                            <Link
+                              href="/Student"
+                              className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-2.5 rounded-full shadow-md transition-all duration-200 hover:scale-105"
+                            >
+                              Log In
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Locked Download Button */}
+                      <div className="mt-4 flex justify-center">
+                        <button
+                          onClick={() => router.push("/Student")}
+                          className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2"
+                        >
+                          <span>🔒</span> Download PDF (Login Required)
+                        </button>
                       </div>
                     </div>
                   )}

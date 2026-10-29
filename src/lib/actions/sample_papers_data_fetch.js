@@ -156,11 +156,16 @@ export async function getCbsePreviousSlug(slug) {
 
 // get  CBSE Previous Year Questions Slug
 
-export async function getCbsePrevQuePpr(slug) {
+export async function getCbsePrevQuePpr(slug, token = null) {
   try {
+    const headers = {};
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
     const data = await webBackendFetch(`/api/route/cbsepreviouspaperspdf/${slug}`,
       {
         method: "GET",
+        headers,
       }
     );
     return data?.data || [];
