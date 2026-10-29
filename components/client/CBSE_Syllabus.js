@@ -18,6 +18,7 @@ import Sociallinks2 from "@/components/Sociallinks2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FloatingMenu from "@/components/StickySyllabusButton";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import { trackEvent, EVENT_NAMES } from "../../src/lib/eventTracker";
 
 const CbseSyllabus2025 = () => {
@@ -301,6 +302,7 @@ const CbseSyllabus2025 = () => {
           </section>
         </div>
       </div>
+      <DynamicFAQSection slug="CBSE_Syllabus" />
       <Footer1 />
       <Footer />
     </div>
