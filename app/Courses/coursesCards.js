@@ -185,9 +185,9 @@ const navigateToCourse = useCourseNavigation();
                     >
                       {/* Title Row with WhatsApp */}
                       <div className="flex items-center justify-between px-4 py-3">
-                        <h2 className="text-md font-semibold text-gray-800 truncate">
+                        <h3 className="text-md font-semibold text-gray-800 truncate">
                           {course.title}
-                        </h2>
+                        </h3>
                         <a
                           href={`https://wa.me/?text=Check out this course: ${course.title}`}
                           target="_blank"

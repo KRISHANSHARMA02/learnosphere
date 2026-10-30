@@ -83,9 +83,9 @@ const About = () => {
               priority
               sizes="(max-width: 768px) 60px, 80px"
             />
-            <h3 className="text-lg md:text-xl text-left font-bold pt-3 px-3 text-orange-600">
+            <h2 className="text-lg md:text-xl text-left font-bold pt-3 px-3 text-orange-600">
               {heading}
-            </h3>
+            </h2>
             <p className="font-semibold text-left text-slate-600 px-3">
               {paragraph}
             </p>

@@ -231,11 +231,11 @@ const DataTable = ({ data, slug: propSlug }) => {
               <div key={item.id} className="mb-4">
                 {index === 0 ? (
                   <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                    {item.heading1}
+                    {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
                   </h1>
                 ) : (
                   <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                    {item.heading1}
+                    {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
                   </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
@@ -350,9 +350,9 @@ const DataTable = ({ data, slug: propSlug }) => {
                 <p className="mb-2 mt-4 text-gray-800">{item.para13}</p>
 
                 {item.heading4 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading4}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para4}</p>
 
@@ -402,16 +402,16 @@ const DataTable = ({ data, slug: propSlug }) => {
 
 
                 {item.heading5 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading5}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
 
                 {item.heading7 && (
-                  <h3 className="mb-2  text-[1.2em] mt-4  font-bold">
+                  <h2 className="mb-2  text-[1.2em] mt-4  font-bold">
                     {item.heading7}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para7}</p>
 
@@ -424,21 +424,21 @@ const DataTable = ({ data, slug: propSlug }) => {
                 )}
 
                 {item.heading9 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading9}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para10}</p>
                 {item.heading10 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading10}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
                 {item.heading11 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading11}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para12}</p>
 
@@ -446,9 +446,12 @@ const DataTable = ({ data, slug: propSlug }) => {
 
                 <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
 
-                <div className='flex flex-col mt-5 border border-slate-800  rounded-lg p-1'>
-                  <h3 className=' font-semibold text-[.9em] '>{item.heading6}</h3>
-                  <p className=" ">{item.para6}</p>
+                {(item.heading6 || item.para6 || (item.list3 && item.list3.length > 0)) && (
+                  <div className='flex flex-col mt-5 border border-slate-800  rounded-lg p-1'>
+                    {item.heading6 && (
+                      <h2 className=' font-semibold text-[.9em] '>{item.heading6}</h2>
+                    )}
+                    {item.para6 && <p className=" ">{item.para6}</p>}
                   {item.list3 && item.list3.length > 0 && (
                     <ol className="  flex flex-wrap gap-2 w-full p-4 text-orange-600  mb-2">
                       {item.list3.map((listItem, index) => (
@@ -457,6 +460,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                     </ol>
                   )}
                 </div>
+                )}
 
               </div>
             ))

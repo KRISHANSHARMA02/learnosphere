@@ -80,23 +80,23 @@ const Trends = () => {
           </h2>
           <div className="m-4">
             <div>
-              <h4 className="text-l font-bold"> Expert Tutor Selection </h4>
+              <h3 className="text-l font-bold"> Expert Tutor Selection </h3>
               <p className="text-gray-600 mb-5 ">
                 We match you with 2–3 vetted tutors for trial sessions.
               </p>
             </div>
-            <h4 className="font-bold">Personalized Teaching Plan</h4>
+            <h3 className="font-bold">Personalized Teaching Plan</h3>
             <p className="text-gray-600 mb-5">
               Includes structured modules, performance tracking dashboards, and
               “smart suggestions”.
             </p>
 
-            <h4 className="font-bold">Continuous Improvement</h4>
+            <h3 className="font-bold">Continuous Improvement</h3>
             <p className="text-gray-600 mb-5">
               Weekly progress reports, parent–tutor feedback reviews, and live
               chat support.
             </p>
-            <h4 className="font-bold"> Celebrate Milestones </h4>
+            <h3 className="font-bold"> Celebrate Milestones </h3>
             <p className="text-gray-600 mb-5">
               Report cards, confidence check-ins, and customized awards help
               maintain high motivation.
