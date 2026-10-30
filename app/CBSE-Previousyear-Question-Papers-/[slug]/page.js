@@ -31,8 +31,7 @@ export default async function CbsePYQ({ params }) {
       if (tokenVal) {
         const secret =
           process.env.NEXTAUTH_SECRET ||
-          process.env.JWT_SECRET_KEY ||
-          "19471a5ac3de5bc242478e0943632d74";
+          process.env.JWT_SECRET_KEY ;
 
         for (const salt of [
           "authjs.session-token",
@@ -59,10 +58,9 @@ export default async function CbsePYQ({ params }) {
   if (user) {
     const secret =
       process.env.JWT_SECRET_KEY ||
-      process.env.NEXTAUTH_SECRET ||
-      "19471a5ac3de5bc242478e0943632d74";
+      process.env.NEXTAUTH_SECRET ;
     token = jwt.sign(
-      { email: user.email || "student@learnosphere.in", role: user.role || "student" },
+      { email: user.email , role: user.role },
       secret,
       { expiresIn: "1h" }
     );
