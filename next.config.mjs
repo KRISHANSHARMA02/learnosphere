@@ -84,8 +84,8 @@ const nextConfig = {
   env: {
     WEB_BACKEND_URL: process.env.WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
     NEXT_PUBLIC_WEB_BACKEND_URL: process.env.NEXT_PUBLIC_WEB_BACKEND_URL || process.env.WEB_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
-    APP_BACKEND_URL: process.env.APP_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
-    NEXT_PUBLIC_APP_BACKEND_URL: process.env.NEXT_PUBLIC_APP_BACKEND_URL || process.env.APP_BACKEND_URL || "https://learnospherebackend.learnosphere.in",
+    APP_BACKEND_URL: process.env.APP_BACKEND_URL || "https://mobileapp.backend.learnosphere.in",
+    NEXT_PUBLIC_APP_BACKEND_URL: process.env.NEXT_PUBLIC_APP_BACKEND_URL || process.env.APP_BACKEND_URL || "https://mobileapp.backend.learnosphere.in",
   },
 };
 
