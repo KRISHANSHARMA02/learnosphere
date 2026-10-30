@@ -2,18 +2,67 @@ import DataTable from "./slugData";
 import { getCbsePrevQuePpr } from "@/src/lib/actions/sample_papers_data_fetch";
 import { auth } from "@/src/auth";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { decode } from "@auth/core/jwt";
+
+export const dynamic = "force-dynamic";
 
 export default async function CbsePYQ({ params }) {
   const { slug } = await params;
   if (!slug) return <p>Slug missing</p>;
 
-  const session = await auth();
-  let token = null;
+  let user = null;
+  try {
+    const session = await auth();
+    if (session?.user) {
+      user = session.user;
+    }
+  } catch {}
 
-  if (session?.user) {
-    const secret = process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET_KEY;
+  if (!user) {
+    try {
+      const cookieStore = await cookies();
+      const tokenVal =
+        cookieStore.get("authjs.session-token")?.value ||
+        cookieStore.get("__Secure-authjs.session-token")?.value ||
+        cookieStore.get("next-auth.session-token")?.value ||
+        cookieStore.get("__Secure-next-auth.session-token")?.value;
+
+      if (tokenVal) {
+        const secret =
+          process.env.NEXTAUTH_SECRET ||
+          process.env.JWT_SECRET_KEY ||
+          "19471a5ac3de5bc242478e0943632d74";
+
+        for (const salt of [
+          "authjs.session-token",
+          "__Secure-authjs.session-token",
+          "next-auth.session-token",
+          "__Secure-next-auth.session-token",
+        ]) {
+          try {
+            const decoded = await decode({ token: tokenVal, secret, salt });
+            if (decoded && (decoded.email || decoded.sub)) {
+              user = {
+                email: decoded.email || decoded.sub,
+                role: decoded.role || "student",
+              };
+              break;
+            }
+          } catch {}
+        }
+      }
+    } catch {}
+  }
+
+  let token = null;
+  if (user) {
+    const secret =
+      process.env.JWT_SECRET_KEY ||
+      process.env.NEXTAUTH_SECRET ||
+      "19471a5ac3de5bc242478e0943632d74";
     token = jwt.sign(
-      { email: session.user.email, role: session.user.role || "student" },
+      { email: user.email || "student@learnosphere.in", role: user.role || "student" },
       secret,
       { expiresIn: "1h" }
     );
@@ -27,7 +76,7 @@ export default async function CbsePYQ({ params }) {
     <DataTable
       data={data}
       slug={slug}
-      initialLoggedIn={Boolean(session?.user)}
+      initialLoggedIn={Boolean(user)}
     />
   );
 }

@@ -166,6 +166,7 @@ export async function getCbsePrevQuePpr(slug, token = null) {
       {
         method: "GET",
         headers,
+        cache: "no-store",
       }
     );
     return data?.data || [];

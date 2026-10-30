@@ -95,14 +95,14 @@ const DataTable = ({ data, slug: propSlug }) => {
     fetchPapers();
   }, []);
 
-  const handlePaperClick = (title) => {
-    if(!title) return;
+  const findPaperMatch = (title, list) => {
+    if (!title || !list || list.length === 0) return null;
     const lowerTitle = title.toLowerCase();
     
     // 1. Try exact match
-    let match = cbsePapersList.find(p => p.title && p.title.toLowerCase() === lowerTitle);
+    let match = list.find(p => p.title && p.title.toLowerCase() === lowerTitle);
     
-    // 2. If no exact match, fallback to class and set / year extraction
+    // 2. Fallback to class and set / year extraction
     if (!match) {
       let targetClass = null;
       if (lowerTitle.includes('class 12') || lowerTitle.includes('12th')) targetClass = '12';
@@ -111,13 +111,13 @@ const DataTable = ({ data, slug: propSlug }) => {
       else if (lowerTitle.includes('class 9') || lowerTitle.includes('9th')) targetClass = '9';
       else if (lowerTitle.includes('class 8') || lowerTitle.includes('8th')) targetClass = '8';
       
-      const setMatch = lowerTitle.match(/set\s*(\d+)/i);
+      const setMatch = lowerTitle.match(/set\s*(\d+)/i) || lowerTitle.match(/sa\s*(\d+)/i);
       const targetSet = setMatch ? setMatch[1] : null;
 
       const yearMatch = lowerTitle.match(/(20\d\d)/);
       const targetYear = yearMatch ? yearMatch[1] : null;
 
-      let candidates = cbsePapersList;
+      let candidates = list;
       if (targetClass) {
         candidates = candidates.filter(p => String(p.class_level) === targetClass);
       }
@@ -126,7 +126,7 @@ const DataTable = ({ data, slug: propSlug }) => {
         let setCandidate = candidates.find(p => {
           const t = (p.title || '').toLowerCase();
           const s = (p.s3_url || '').toLowerCase();
-          return t.includes(`set ${targetSet}`) || t.includes(`set_${targetSet}`) || s.includes(`set_${targetSet}`) || s.includes(`set ${targetSet}`);
+          return t.includes(`set ${targetSet}`) || t.includes(`set_${targetSet}`) || s.includes(`set_${targetSet}`) || s.includes(`set ${targetSet}`) || t.includes(`sa ${targetSet}`) || t.includes(`sa_${targetSet}`) || s.includes(`sa_${targetSet}`) || s.includes(`sa-${targetSet}`);
         });
         if (setCandidate) match = setCandidate;
       }
@@ -144,7 +144,22 @@ const DataTable = ({ data, slug: propSlug }) => {
         match = candidates[0];
       }
     }
-    
+    return match;
+  };
+
+  useEffect(() => {
+    if (cbsePapersList.length > 0 && !selectedPdfUrl && !data?.[0]?.pdfUrl) {
+      const initialTitle = data?.[0]?.heading1 || currentSlug || '';
+      const matched = findPaperMatch(initialTitle, cbsePapersList);
+      if (matched && matched.s3_url) {
+        setSelectedPdfUrl(matched.s3_url);
+      }
+    }
+  }, [cbsePapersList, data, currentSlug, selectedPdfUrl]);
+
+  const handlePaperClick = (title) => {
+    if(!title) return;
+    const match = findPaperMatch(title, cbsePapersList);
     if (match && match.s3_url) {
       setSelectedPdfUrl(match.s3_url);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -290,33 +305,42 @@ const DataTable = ({ data, slug: propSlug }) => {
                         </iframe>
                       ) : (
                         // 🚫 Logged-out user sees only preview + login overlay
-                        <div className="relative w-full h-[500px] border rounded-xl overflow-hidden">
-                          {/* Preview (blurred 1st page) */}
-                          <iframe
-                            src={`${selectedPdfUrl || item.pdfUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0`}
-                            width="100%"
-                            height="100%"
-                            style={{
-                              border: "none",
-                              pointerEvents: "none",
-                            }}
-                            title="PDF Preview"
-                          />
+                        <div className="relative w-full h-[500px] border border-gray-300 rounded-xl overflow-hidden shadow-md bg-white">
+                          {/* Blurred preview document representation */}
+                          <div className="w-full h-full flex flex-col justify-start p-8 bg-gray-50 blur-[3px] opacity-40 select-none pointer-events-none space-y-4">
+                            <div className="h-7 bg-gray-500 rounded w-3/4 mx-auto mb-6"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                            <div className="h-10 bg-gray-300 rounded w-full my-4"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-3/4"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-2/3"></div>
+                          </div>
 
                           {/* Overlay message */}
-                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-70 backdrop-blur-sm p-6 rounded-xl">
-                            <p className="text-lg font-semibold text-gray-800 mb-2">
-                              🔒 Please log in to view the full PDF
-                            </p>
-                            <p className="text-gray-600 mb-4 text-center max-w-md">
-                              You’re seeing a limited preview. Log in to access the complete document.
-                            </p>
-                            <button
-                              onClick={() => router.push("/Student")}
-                              className="px-5 py-2 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition"
-                            >
-                              Log In
-                            </button>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm p-6 z-10 text-center">
+                            <div className="bg-white/95 p-8 rounded-2xl shadow-xl max-w-md mx-auto border border-gray-100 flex flex-col items-center">
+                              <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                                🔒
+                              </div>
+                              <p className="text-xl font-bold mb-2 text-gray-900">
+                                Please log in to view the full PDF
+                              </p>
+                              <p className="mb-6 text-gray-600 font-medium text-sm leading-relaxed max-w-md">
+                                You’re seeing a limited preview. Log in to access the complete document.
+                              </p>
+                              <button
+                                onClick={() => router.push("/Student")}
+                                className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-2.5 rounded-full shadow-md transition-all duration-200 hover:scale-105"
+                              >
+                                Log In
+                              </button>
+                            </div>
                           </div>
                         </div>
                       )}

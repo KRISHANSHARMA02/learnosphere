@@ -24,7 +24,12 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
   const params = useParams();
   const currentSlug = propSlug || params?.slug;
   const { data: session, status } = useSession();
-  const isLoggedIn = status === "authenticated" || Boolean(initialLoggedIn);
+
+  const isLoggedIn =
+    Boolean(initialLoggedIn) ||
+    status === "authenticated" ||
+    Boolean(session?.user);
+
   const [activePdfUrl, setActivePdfUrl] = useState(data?.[0]?.pdfUrl || null);
 
   useEffect(() => {
@@ -33,18 +38,6 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (isLoggedIn && !activePdfUrl && currentSlug) {
-      fetch(`/api/cbse-pdf/${currentSlug}`)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((json) => {
-          if (json?.data?.[0]?.pdfUrl) {
-            setActivePdfUrl(json.data[0].pdfUrl);
-          }
-        })
-        .catch(() => {});
-    }
-  }, [isLoggedIn, activePdfUrl, currentSlug]);
   // const params = use(props.params);
   // const { slug } = params;
   //  const [data, setData] = useState([]);
@@ -158,7 +151,7 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                 onClick={() => setShowButton(!showButton)} // Toggle modal visibility
               />
             </div>
-            {data.length > 0 ? (
+            {data && data.length > 0 ? (
               data.map((item, index) => (
                 <div key={item.id} className="mb-4">
                   {index === 0 ? (
@@ -209,10 +202,10 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para4}</p>
                   {/* Display PDF with access control */}
-                  {isLoggedIn && activePdfUrl ? (
+                  {isLoggedIn && (activePdfUrl || item.pdfUrl) ? (
                     <div className="mt-4">
                       <iframe
-                        src={`${activePdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                        src={`${activePdfUrl || item.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                         width="100%"
                         height="500px"
                         style={{
@@ -223,11 +216,11 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                       >
                         This browser does not support PDFs. Please download the
                         PDF to view it:
-                        <a href={activePdfUrl}>Download PDF</a>
+                        <a href={activePdfUrl || item.pdfUrl}>Download PDF</a>
                       </iframe>
                       <div className="mt-4 flex justify-center">
                         <a
-                          href={activePdfUrl}
+                          href={activePdfUrl || item.pdfUrl}
                           download
                           target="_blank"
                           rel="noopener noreferrer"
