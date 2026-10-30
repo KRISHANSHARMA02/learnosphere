@@ -156,11 +156,11 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                 <div key={item.id} className="mb-4">
                   {index === 0 ? (
                     <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                      {item.heading1}
+                      {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
                     </h1>
                   ) : (
                     <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                      {item.heading1}
+                      {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
                     </h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
@@ -256,9 +256,9 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                             <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
                               🔒
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-gray-900">
+                            <p className="text-xl font-bold mb-2 text-gray-900">
                               Please log in to view the full PDF
-                            </h3>
+                            </p>
                             <p className="mb-6 text-gray-600 font-medium text-sm leading-relaxed">
                               You're seeing a limited preview. Log in to access the complete document with solutions.
                             </p>
@@ -295,9 +295,9 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                   (item.anotherField && item.anotherField.length > 0) ? (
                     <div className="rounded-xl bg-orange-100 grid border border-slate-800 mt-4">
                       {item.heading7 ? ( // Check if item.heading8 has a value
-                        <h3 className="p-4 font-bold text-center border-black border-b text-[1.2em]">
+                        <h2 className="p-4 font-bold text-center border-black border-b text-[1.2em]">
                           {item.heading7}
-                        </h3>
+                        </h2>
                       ) : null}
 
                       <p>{item.para7}</p>
@@ -388,14 +388,14 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                   ) : null}
 
                   {item.heading8 && (
-                    <h3 className="mb-2 p-4 text-white 2 mt-4 bg-orange-600 font-bold">
+                    <h2 className="mb-2 p-4 text-white 2 mt-4 bg-orange-600 font-bold">
                       {item.heading8}
-                    </h3>
+                    </h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
 
                   {item.heading9 && (
-                    <h3 className="mb-2  2 mt-4  font-bold">{item.heading9}</h3>
+                    <h2 className="mb-2  2 mt-4  font-bold">{item.heading9}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para9}</p>
 
@@ -410,25 +410,28 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                   )}
 
                   {item.heading10 && (
-                    <h3 className="mb-2  2 mt-4 font-bold">{item.heading10}</h3>
+                    <h2 className="mb-2  2 mt-4 font-bold">{item.heading10}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para10}</p>
                   {item.heading11 && (
-                    <h3 className="mb-2  2 ">{item.heading11}</h3>
+                    <h2 className="mb-2  2 ">{item.heading11}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
                   {item.heading12 && (
-                    <h3 className="mb-2  2 ">{item.heading12}</h3>
+                    <h2 className="mb-2  2 ">{item.heading12}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para12}</p>
                   {item.heading13 && (
-                    <h3 className="mb-2  2 ">{item.heading13}</h3>
+                    <h2 className="mb-2  2 ">{item.heading13}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para13}</p>
 
-                  <div className="flex flex-col text-[.8em] mt-5 border border-slate-800  rounded-lg p-1">
-                    <h3 className=" font-semibold">{item.heading6}</h3>
-                    <p className=" ">{item.para6}</p>
+                  {(item.heading6 || item.para6 || (item.list3 && item.list3.length > 0)) && (
+                    <div className="flex flex-col text-[.8em] mt-5 border border-slate-800  rounded-lg p-1">
+                      {item.heading6 && (
+                        <h2 className=" font-semibold">{item.heading6}</h2>
+                      )}
+                      {item.para6 && <p className=" ">{item.para6}</p>}
                     {item.list3 && item.list3.length > 0 && (
                       <ol className="flex flex-wrap gap-2 w-full p-4 text-orange-600 mb-2">
                         {item.list3.map((listItem, index) => (
@@ -450,6 +453,7 @@ const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
                       </ol>
                     )}
                   </div>
+                  )}
                 </div>
               ))
             ) : (

@@ -150,9 +150,9 @@ const Syllabus = () => {
 
             {/* What the syllabus covers */}
             <div className="mt-16 bg-white shadow-md rounded-2xl p-8 border-r-4 border-orange-500">
-              <h3 className="text-2xl font-semibold text-orange-700 mb-4">
+              <h2 className="text-2xl font-semibold text-orange-700 mb-4">
                 What the 2024-25 syllabus covers
-              </h3>
+              </h2>
               <p className="text-gray-700 mb-4">
                 The CBSE Class 10 curriculum includes all major subjects —
                 languages, mathematics, science, social science, and skill-based
@@ -176,9 +176,9 @@ const Syllabus = () => {
 
             {/* Importance */}
             <div className="mt-10 bg-orange-50 border-l-4 border-orange-500 rounded-2xl p-8 shadow-sm">
-              <h3 className="text-2xl font-semibold text-orange-700 mb-4">
+              <h2 className="text-2xl font-semibold text-orange-700 mb-4">
                 Why studying the syllabus is important
-              </h3>
+              </h2>
               <ul className="list-disc ml-6 text-gray-700 space-y-2">
                 <li>
                   Know which topics to prioritize and plan your study schedule.
@@ -199,9 +199,9 @@ const Syllabus = () => {
 
             {/* How Learnosphere helps */}
             <div className="mt-10 bg-white shadow-md rounded-2xl p-8 border-r-4 border-orange-500">
-              <h3 className="text-2xl font-semibold text-orange-700 mb-4">
+              <h2 className="text-2xl font-semibold text-orange-700 mb-4">
                 How Learnosphere helps you follow the syllabus
-              </h3>
+              </h2>
               <ul className="list-disc ml-6 text-gray-700 space-y-2">
                 <li>
                   Chapter-wise solutions mapped to each syllabus unit for
@@ -220,9 +220,9 @@ const Syllabus = () => {
 
             {/* Core structure */}
             <div className="mt-10 bg-orange-50 border-l-4 border-orange-500 rounded-2xl p-8 shadow-sm">
-              <h3 className="text-2xl font-semibold text-orange-700 mb-4">
+              <h2 className="text-2xl font-semibold text-orange-700 mb-4">
                 Core structure and continuity
-              </h3>
+              </h2>
               <p className="text-gray-700">
                 While minor updates occur each year, the CBSE Class 10 syllabus
                 structure remains consistent. It includes subject-wise modules,
@@ -235,9 +235,9 @@ const Syllabus = () => {
 
             {/* Study Planning Tips */}
             <div className="mt-10 bg-white shadow-md rounded-2xl p-8">
-              <h3 className="text-2xl font-semibold text-orange-700 mb-4">
+              <h2 className="text-2xl font-semibold text-orange-700 mb-4">
                 How to use the syllabus for study planning
-              </h3>
+              </h2>
               <ul className="list-disc ml-6 text-gray-700 space-y-2">
                 <li>
                   Break down the syllabus into chapters and units for each
@@ -263,7 +263,7 @@ const Syllabus = () => {
 
             {/* Summary */}
             <div className="mt-12 text-center bg-gradient-to-r from-orange-500 to-orange-600 text-white py-10 px-6 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold mb-2">In Summary</h3>
+              <h2 className="text-2xl font-bold mb-2">In Summary</h2>
               <p className="max-w-3xl mx-auto leading-relaxed">
                 Following the CBSE Class 10 Syllabus 2024-25 helps students stay
                 organized and confident. With <b>Learnosphere’s</b> structured
