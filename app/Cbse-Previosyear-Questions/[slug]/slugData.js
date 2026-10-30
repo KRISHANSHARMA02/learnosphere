@@ -527,33 +527,31 @@ const DataTable = ({ data: serverData, slug: propSlug }) => {
                                       pdfUrls[dataItem.id] && (
                                         <div className="mt-4 mb-2 w-full bg-white border border-gray-200 rounded-xl overflow-hidden relative shadow-lg">
                                           <div className="relative bg-gray-50 p-2">
-                                            <iframe
-                                              src={`${pdfUrls[dataItem.id]}#toolbar=0`}
-                                              className="w-full h-[600px] rounded-xl"
-                                              title="PDF Viewer"
-                                              style={
-                                                !session
-                                                  ? {
-                                                      filter: "blur(5px)",
-                                                      opacity: 0.7,
-                                                      pointerEvents: "none",
-                                                      userSelect: "none",
-                                                    }
-                                                  : {}
-                                              }
-                                            ></iframe>
-
-                                            {!session && (
-                                              <div className="absolute inset-0 flex flex-col items-center justify-center bg-transparent z-10">
-                                                <div className="bg-white/95 p-8 rounded-2xl shadow-2xl text-center flex flex-col items-center max-w-md mx-auto border border-gray-100">
+                                            {session ? (
+                                              <iframe
+                                                src={`${pdfUrls[dataItem.id]}#toolbar=0`}
+                                                className="w-full h-[600px] rounded-xl"
+                                                title="PDF Viewer"
+                                              />
+                                            ) : (
+                                              <div className="relative w-full h-[600px] rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
+                                                <div className="w-full h-full flex flex-col justify-start p-8 blur-[3px] opacity-40 select-none pointer-events-none space-y-4 absolute inset-0">
+                                                  <div className="h-7 bg-gray-500 rounded w-3/4 mx-auto mb-6"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-full"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-full"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                                                  <div className="h-10 bg-gray-300 rounded w-full my-4"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-full"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                                                  <div className="h-4 bg-gray-400 rounded w-full"></div>
+                                                </div>
+                                                <div className="relative bg-white/95 p-8 rounded-2xl shadow-2xl text-center flex flex-col items-center max-w-md mx-auto border border-gray-100 z-10">
                                                   <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-gray-900">
-                                                    <span>🔒</span> Please log
-                                                    in to view the full PDF
+                                                    <span>🔒</span> Please log in to view the full PDF
                                                   </h3>
                                                   <p className="mb-6 text-gray-600 font-medium">
-                                                    You're seeing a limited
-                                                    preview. Log in to access
-                                                    the complete document.
+                                                    You're seeing a limited preview. Log in to access the complete document.
                                                   </p>
                                                   <Link
                                                     href="/Signin"

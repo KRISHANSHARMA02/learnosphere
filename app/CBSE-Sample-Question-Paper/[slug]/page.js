@@ -9,13 +9,6 @@ export default async function SamplePapersPDF({ params }) {
 
   if (!slug) notFound();
 
-  if (
-    slug === "Cbse-Class-12-Maths-Sample-Paper-Set-1" ||
-    slug === "Cbse-Maths-Sample-Paper-Class-12-Set-1"
-  ) {
-    redirect("https://learnosphere.s3.ap-south-1.amazonaws.com/sample-papers/1784788166904_Applied-Maths-SQP.pdf");
-  }
-
   const data = await getSamplePapersPDF(slug);
 
   if (!data || data.length === 0) {
