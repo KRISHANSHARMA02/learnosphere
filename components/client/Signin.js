@@ -7,7 +7,7 @@ import Uparrow2 from "@/components/Uparrow";
 import SEO from "@/components/Seo";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-import { Sociallogin, doCredentialLogin } from "../actions";
+import { Sociallogin, doCredentialLogin } from "@/app/actions";
 
 import Footer1 from "@/components/Footer1";
 import axios from "axios";
