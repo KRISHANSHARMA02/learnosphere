@@ -1,3 +1,32 @@
+const cbsePrevYearTitles = {
+  "Cbse-Class-12-Maths-Question-Paper-2011": "CBSE Class 12 Maths Question Paper 2011 | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2012": "Class 12 Maths 2012 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2013": "CBSE 2013 Class 12 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2014": "CBSE Class 12 Maths Question Paper 2014 | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2015": "Class 12 Maths 2015 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2016": "CBSE 2016 Class 12 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2017": "CBSE Class 12 Maths Question Paper 2017 | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2018": "Class 12 Maths 2018 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2019": "CBSE 2019 Class 12 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2020": "CBSE Class 12 Maths Question Paper 2020 | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2022": "Class 12 Maths 2022 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-12-Maths-Question-Paper-2023": "CBSE 2023 Class 12 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2018": "CBSE 2018 Class 10 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2019": "CBSE Class 10 Maths Question Paper 2019 | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2016": "CBSE Class 10 Maths Question Paper 2016 | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2017": "Class 10 Maths 2017 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2014": "Class 10 Maths 2014 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2015": "CBSE 2015 Class 10 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2012": "CBSE 2012 Class 10 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2013": "CBSE Class 10 Maths Question Paper 2013 | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2010": "CBSE Class 10 Maths Question Paper 2010 | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2011": "Class 10 Maths 2011 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2023": "CBSE Class 10 Maths Question Paper 2023 | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2024": "Class 10 Maths 2024 Paper: CBSE Previous Year | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2022": "CBSE 2022 Class 10 Mathematics Question Paper | Learnosphere",
+  "Cbse-Class-10-Maths-Question-Paper-2020": "Class 10 Maths 2020 Paper: CBSE Previous Year | Learnosphere"
+};
+
 import DataTable from "./slugData";
 import { getCbsePrevQuePpr } from "@/src/lib/actions/sample_papers_data_fetch";
 import { auth } from "@/src/auth";
@@ -83,7 +112,8 @@ export default async function CbsePYQ({ params }) {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  const customTitle = cbsePrevYearTitles[slug] || cbsePrevYearTitles[slug?.toLowerCase()];
   const title = (slug || "CBSE Previous Year Question Paper").replace(/-/g, " ");
   const description = `Download ${title} with solutions on Learnosphere.`;
-  return { title, description };
+  return { title: customTitle ? { absolute: customTitle } : title, description };
 }

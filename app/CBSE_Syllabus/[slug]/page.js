@@ -1,3 +1,11 @@
+const cbseSyllabusCustomTitles = {
+  "class2-cbse-syllabus-2025-26": "CBSE Class 2 Syllabus 2025-26: Subjects and Topics | Learnosphere",
+  "class7-cbse-syllabus-2025-26": "CBSE Class 7 Syllabus 2025-26: Subject-Wise Topics | Learnosphere",
+  "class10-cbse-syllabus-2025-26": "CBSE Class 10 Syllabus 2025-26: Board Exam Topics | Learnosphere",
+  "class8-cbse-syllabus-2025-26": "CBSE Class 8 Syllabus 2025-26: Chapters by Subject | Learnosphere",
+  "class5-cbse-syllabus-2025-26": "CBSE Class 5 Syllabus 2025-26 Overview | Learnosphere"
+};
+
 import ClientPage from '@/components/client/CBSE_Syllabus_slug';
 
 export async function generateMetadata({ params }) {
@@ -22,7 +30,8 @@ export async function generateMetadata({ params }) {
     "class12-cbse-syllabus-2025-26": "Explore the CBSE 12th syllabus for all subjects and review chapter-wise topics to organize your board exam studies.",
   };
 
-  const title = titleMap[slug] || "Learnosphere";
+  const customTitle = cbseSyllabusCustomTitles[slug];
+  const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description = descriptionMap[slug] || "Explore the CBSE syllabus for all classes with subject-wise topics, chapters and curriculum details for exam preparation.";
 
   return { title, description };

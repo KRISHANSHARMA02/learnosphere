@@ -17,3 +17,8 @@ export default async function Page() {
 
   return <CityPageClient initialLocations={locations} />;
 }
+
+export const metadata = {
+  title: { absolute: "Home Tuition in India: Find Verified Home Tutors | Learnosphere" },
+  description: "Book verified home tutors for CBSE, ICSE and state boards. Get one-on-one home tuition in India, choose your tutor and start with a free demo.",
+};

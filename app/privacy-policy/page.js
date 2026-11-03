@@ -471,3 +471,8 @@ const PrivacyPolicy = () => {
 };
 
 export default PrivacyPolicy;
+
+export const metadata = {
+  title: { absolute: "Privacy Policy: How Learnosphere Handles Your Data" },
+  description: "Read the Learnosphere privacy policy to learn how we collect, use and protect your personal information when you use our platform.",
+};
