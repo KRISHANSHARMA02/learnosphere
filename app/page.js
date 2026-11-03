@@ -2,7 +2,7 @@ import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import HomePageClient from "@/components/HomePageClient";
 
 export const metadata = {
-    title: "Book an Educator | Learnosphere | Home Tuition",
+    title: { absolute: "Home Tutors & Online Classes for Class 1-12 | Learnosphere" },
   description:
     "Learnosphere - Searching for personalized home tuition ? Our expert educators offer tailored solutions for students of all ages. Enroll today!",
   keywords:

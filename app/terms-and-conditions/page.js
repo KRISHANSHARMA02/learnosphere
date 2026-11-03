@@ -148,4 +148,5 @@ const terms = [
 
 export const metadata = {
   title: "Terms and Conditions | Learnosphere",
+  description: "Read the Learnosphere terms and conditions covering use of our platform, tutor and student responsibilities, bookings and policies.",
 };

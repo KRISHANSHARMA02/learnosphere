@@ -50,3 +50,8 @@ const Others = () => {
 }
 
 export default Others
+
+export const metadata = {
+  title: { absolute: "Other Job Openings at Learnosphere | Careers" },
+  description: "Explore other job openings at Learnosphere: find roles beyond teaching, check requirements and apply to join our team.",
+};

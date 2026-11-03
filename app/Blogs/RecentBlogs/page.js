@@ -10,3 +10,7 @@ export default async function CoursePage() {
 
   return <RecentBlogsCards blogs={blogs} />;
 }
+export const metadata = {
+  title: { absolute: "Latest Education News & Board Exam Updates | Learnosphere" },
+  description: "Read the latest education blogs from Learnosphere: study tips, exam updates, CBSE news and guides for students, parents and tutors.",
+};

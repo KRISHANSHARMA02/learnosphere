@@ -31,6 +31,24 @@ const titleMap = {
 };
 
 const descriptionMap = {
+  "WBBSE": "West Bengal Board (WBBSE) study support: explore learning resources and book expert tutors to prepare for school and board exams.",
+
+  "UPMSP": "UP Board (UPMSP) exam preparation: explore study resources and book expert tutors for one-on-one help at home or online.",
+
+  "TNSB": "Tamil Nadu State Board (TNSB) study support: find learning resources and book expert tutors to prepare for school and board exams.",
+
+  "RBSE": "Rajasthan Board (RBSE) exam preparation: explore study resources and book expert tutors at home or online with Learnosphere.",
+
+  "NBSE": "Nagaland Board (NBSE) exam preparation: explore learning resources and book expert tutors for one-on-one study help with Learnosphere.",
+
+  "MSBSHSE": "Maharashtra State Board (MSBSHSE) study support: find learning resources and book expert tutors for school and board exam preparation.",
+
+  "MBSE": "Mizoram Board (MBSE) exam preparation: explore learning resources and connect with expert tutors for personalised study support.",
+
+  "KBPE": "Kerala Board (KBPE) study support: find learning resources and book expert tutors to prepare for school and board exams.",
+
+  "BSEH": "Haryana Board (BSEH) exam preparation: explore study resources and book expert home tutors for your child with Learnosphere.",
+
   "APBSE": "Discover AP State Board subjects, syllabus details and key chapters to support classroom learning and exam preparation.",
   "BSEB": "Find Bihar Board syllabus details, class-wise subjects and important chapters to help students plan their studies.",
   "BSE_Odi": "Explore the Odisha Board syllabus, class-wise subjects and important topics to support students with their school studies.",
@@ -53,6 +71,8 @@ const descriptionMap = {
 /* ✅ Metadata */
 export async function generateMetadata({ params }) {
   const { slug } = await params; // ✅ MUST await
+  const boardKey = Object.keys(descriptionMap).find(k => k.toLowerCase() === (slug || "").toLowerCase());
+  const boardDesc = boardKey ? descriptionMap[boardKey] : undefined;
   if (!validBoardSlugs.has((slug || "").toLowerCase())) {
     return { title: "Page Not Found | Learnosphere" };
   }
@@ -60,7 +80,7 @@ export async function generateMetadata({ params }) {
   if (titleMap[slug]) {
     return {
       title: titleMap[slug],
-      description: descriptionMap[slug] || "",
+      description: boardDesc || descriptionMap[slug] || "",
     };
   }
 
@@ -79,9 +99,10 @@ export async function generateMetadata({ params }) {
 
     return {
       title: `Learnosphere | ${heading} Study Materials, Model Papers & Exam Updates`,
+      ...(boardDesc ? { description: boardDesc } : {}),
     };
   } catch (e) {
-    return { title: "Learnosphere | State Board" };
+    return { title: "Learnosphere | State Board", ...(boardDesc ? { description: boardDesc } : {}) };
   }
 }
 
