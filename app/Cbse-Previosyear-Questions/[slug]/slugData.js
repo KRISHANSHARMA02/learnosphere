@@ -126,7 +126,6 @@ const DataTable = ({ data: serverData, slug: propSlug }) => {
         setLoading(true);
         setError("");
 
-        const baseUrl = process.env.NEXT_PUBLIC_WEB_BACKEND_URL || (typeof window !== "undefined" && window.location.hostname === "localhost" ? "http://localhost:4000" : "https://learnospherebackend.learnosphere.in");
         const response = await axios.get(
           `${WEB_BACKEND_URL}/api/route/CbsePreviousyearQuestions/${slug}`,
         );

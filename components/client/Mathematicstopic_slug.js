@@ -78,29 +78,11 @@ const DataTable = ({ params }) => {
         setLoading(true);
         setError("");
 
-        let topicData = null;
-        try {
-          const response = await axios.get(
-            `${WEB_BACKEND_URL}/api/route/mathematicsTopic/${slug}`
-          );
-          if (response.data && response.data.data && response.data.data.length > 0) {
-            topicData = response.data.data;
-          }
-        } catch (fetchErr) {
-          if (WEB_BACKEND_URL.includes("localhost") || (typeof window !== "undefined" && window.location.hostname === "localhost")) {
-            try {
-              const liveResponse = await axios.get(
-                `https://learnospherebackend.learnosphere.in/api/route/mathematicsTopic/${slug}`
-              );
-              if (liveResponse.data && liveResponse.data.data && liveResponse.data.data.length > 0) {
-                topicData = liveResponse.data.data;
-              }
-            } catch (liveErr) {}
-          }
-        }
-
-        if (topicData) {
-          setData(topicData);
+        const response = await axios.get(
+          `${WEB_BACKEND_URL}/api/route/mathematicsTopic/${slug}`
+        );
+        if (response.data && response.data.data && response.data.data.length > 0) {
+          setData(response.data.data);
         } else {
           setData([]);
           setError("Mathematics topic not found");

@@ -278,13 +278,7 @@ const ReferAndEarn = () => {
         upi = res.data.data.upiId;
       } else if (res.data?.upiId) {
         upi = res.data.upiId;
-      } else {
-        console.log("Response keys:", Object.keys(res.data));
-        if (res.data?.data) {
-          console.log("Data keys:", Object.keys(res.data.data));
-        }
       }
-
       if (upi) {
         setUpiId(upi);
         setIsEditingUpi(false);
