@@ -12,6 +12,15 @@ import toast, { Toaster } from 'react-hot-toast';
 // Make sure this path points to where your razorpayUtils file is located!
 import { processWalletTopUp } from '@/src/utils/WalletPayment'; 
 
+const DEFAULT_TOPUP_OFFERS = [
+  { id: 17, amount: 500, bonus: 200, title: "Starter Pack" },
+  { id: 18, amount: 1000, bonus: 350, title: "Popular Choice" },
+  { id: 19, amount: 2000, bonus: 700, title: "Smart Saver" },
+  { id: 27, amount: 2500, bonus: 500, title: "Super Value" },
+  { id: 20, amount: 5000, bonus: 1500, title: "Best Value" },
+  { id: 21, amount: 10000, bonus: 3000, title: "Power Pack" },
+];
+
 const PaymentConfirmationContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,8 +59,9 @@ const PaymentConfirmationContent = () => {
             if (fetchedUserId) {
                 setUserId(fetchedUserId); 
 
-                const offersRes = await fetch(`${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${fetchedUserId}?isoCode=${studentIso}`);
-                const summary = await offersRes.json();
+                const appUrl = (APP_BACKEND_URL || "https://mobileapp.backend.learnosphere.in").replace(/\/+$/, "");
+                const offersRes = await fetch(`${appUrl}/api/route/get_student_wallet_summary/${fetchedUserId}?isoCode=${studentIso}`);
+                const summary = offersRes.ok ? await offersRes.json() : { topupOffers: DEFAULT_TOPUP_OFFERS };
                 
                 if (summary.currencySymbol) setCurrencySymbol(summary.currencySymbol);
                 if (summary.currencyCode) setCurrencyCode(summary.currencyCode); 
