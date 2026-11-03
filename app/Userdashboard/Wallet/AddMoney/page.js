@@ -6,6 +6,15 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Gift, AlertCircle } from 'lucide-
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
+const DEFAULT_TOPUP_OFFERS = [
+  { id: 17, amount: 500, bonus: 200, title: "Starter Pack" },
+  { id: 18, amount: 1000, bonus: 350, title: "Popular Choice" },
+  { id: 19, amount: 2000, bonus: 700, title: "Smart Saver" },
+  { id: 27, amount: 2500, bonus: 500, title: "Super Value" },
+  { id: 20, amount: 5000, bonus: 1500, title: "Best Value" },
+  { id: 21, amount: 10000, bonus: 3000, title: "Power Pack" },
+];
+
 const AddMoneyContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -16,7 +25,7 @@ const AddMoneyContent = () => {
   
   const [amount, setAmount] = useState(initialAmount);
   const [minAmount, setMinAmount] = useState(1);
-  const [offers, setOffers] = useState([]); 
+  const [offers, setOffers] = useState(DEFAULT_TOPUP_OFFERS); 
   const [currencySymbol, setCurrencySymbol] = useState("₹");
 
   const sliderRef = useRef(null);
@@ -43,8 +52,9 @@ const AddMoneyContent = () => {
         const studentIso = userData?.user?.countryIso || "IN";
 
         if (userId) {
-            const summaryRes = await fetch(`${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
-            const summary = await summaryRes.json();
+            const appUrl = (APP_BACKEND_URL || "https://mobileapp.backend.learnosphere.in").replace(/\/+$/, "");
+            const summaryRes = await fetch(`${appUrl}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
+            const summary = summaryRes.ok ? await summaryRes.json() : {};
 
             if (summary.minTopupAmount) setMinAmount(summary.minTopupAmount);
             if (summary.currencySymbol) setCurrencySymbol(summary.currencySymbol);

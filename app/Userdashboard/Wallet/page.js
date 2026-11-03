@@ -26,6 +26,15 @@ const PLAY_STORE_URL =
 const APP_STORE_URL =
   "https://apps.apple.com/in/app/learnosphere-learning-app/id6748979882";
 
+const DEFAULT_TOPUP_OFFERS = [
+  { id: 17, amount: 500, bonus: 200, title: "Starter Pack" },
+  { id: 18, amount: 1000, bonus: 350, title: "Popular Choice" },
+  { id: 19, amount: 2000, bonus: 700, title: "Smart Saver" },
+  { id: 27, amount: 2500, bonus: 500, title: "Super Value" },
+  { id: 20, amount: 5000, bonus: 1500, title: "Best Value" },
+  { id: 21, amount: 10000, bonus: 3000, title: "Power Pack" },
+];
+
 const WalletPageContent = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -37,7 +46,7 @@ const WalletPageContent = () => {
     topUp: 0,
     credits: 0,
     currency: "₹",
-    offers: [], // For quick add buttons
+    offers: DEFAULT_TOPUP_OFFERS, // For quick add buttons
   });
 
   const [transactions, setTransactions] = useState([]);
@@ -63,10 +72,9 @@ const WalletPageContent = () => {
 
         if (userId) {
           // 3. Get Wallet Summary dynamically using the studentIso
-          const summaryRes = await fetch(
-            `${APP_BACKEND_URL}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`
-          );
-          const summary = await summaryRes.json();
+          const appUrl = (APP_BACKEND_URL || "https://mobileapp.backend.learnosphere.in").replace(/\/+$/, "");
+          const summaryRes = await fetch(`${appUrl}/api/route/get_student_wallet_summary/${userId}?isoCode=${studentIso}`);
+          const summary = summaryRes.ok ? await summaryRes.json() : {};
 
           setWalletData({
             totalBalance: summary.totalBalance || summary.topupBalance || 0,
@@ -77,10 +85,8 @@ const WalletPageContent = () => {
           });
 
           // 4. Get Transaction History
-          const historyRes = await fetch(
-            `${APP_BACKEND_URL}/api/route/get_wallet_history/${userId}`
-          );
-          const historyData = await historyRes.json();
+          const historyRes = await fetch(`${appUrl}/api/route/get_wallet_history/${userId}`);
+          const historyData = historyRes.ok ? await historyRes.json() : { history: [] };
 
           // Map Backend History to Frontend UI
           const formattedHistory = (historyData.history || []).map((item, index) => {
