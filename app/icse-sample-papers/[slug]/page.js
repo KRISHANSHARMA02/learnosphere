@@ -1,16 +1,22 @@
+const icseSampleCustomTitles = {
+  "ICSE-Sample-Papers-for-Class-9-Maths": "ICSE Class 9 Maths Sample Papers for Practice | Learnosphere"
+};
+
 export const dynamic = 'force-dynamic';
 import DataTable from "./slugData";
 import { getIcseSamplePapers } from "@/src/lib/actions/sample_papers_data_fetch";
+import { notFound } from "next/navigation";
 
 export default async function IcseSamplePapers({ params }) {
   const { slug } = await params;
 
-  if (!slug) return <p>Slug missing</p>;
+  if (!slug) notFound();
 
   const data = await getIcseSamplePapers(slug);
 
-
-  if (!data || data.length === 0) return <p>No sample papers found</p>;
+  if (!data || data.length === 0) {
+    notFound();
+  }
 
   return <DataTable data={data} slug={slug} />;
 }
@@ -47,7 +53,8 @@ export async function generateMetadata({ params }) {
       "Revise essential Maths topics with ISC Class 12 practice papers and build confidence for your final board examinations.",
   };
 
-  const title = titleMap[slug] || "Learnosphere";
+  const customTitle = icseSampleCustomTitles[slug];
+  const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description =
     descriptionMap[slug] ||
     "Practice ICSE and ISC sample papers with solutions and revision resources.";

@@ -49,3 +49,8 @@ const Appdevelopment = () => {
 }
 
 export default Appdevelopment
+
+export const metadata = {
+  title: { absolute: "App Development Careers at Learnosphere" },
+  description: "App development jobs at Learnosphere: explore open roles, see what we look for and apply to help build our learning platform.",
+};

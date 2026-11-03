@@ -15,6 +15,7 @@ import {
 
 // 👉 TERA STUDY NOTES COMPONENT
 import StudyNotes from "@/components/StudyNotes";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 export default function SubExamPage({ params }) {
   const unwrappedParams = React.use(params);
@@ -137,6 +138,8 @@ export default function SubExamPage({ params }) {
           {/* 🚀 2. YAHAN TERA COMPONENT AB DYNAMIC HO GAYA */}
           <StudyNotes slug={slug} sessionId={data?.id || data?._id} />
         </div>
+
+        <DynamicFAQSection slug={`${slug}-${subslug}`} />
 
         <div className="mt-auto">
           <Footer1 />

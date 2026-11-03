@@ -16,7 +16,7 @@ import WhatsappModal from "@/components/whatsappModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
-import MathFallback from "@/components/MathFallback";
+import PageNotFound from "@/app/not-found";
 // 
 
 const DataTable = props => {
@@ -75,14 +75,13 @@ const DataTable = props => {
         const response = await axios.get(
           `${WEB_BACKEND_URL}/api/route/subjectcontent/${slug}`
         );
-      
-        if (response.data && response.data.data) {
+        if (response.data && response.data.data && response.data.data.length > 0) {
           setData(response.data.data);
         } else {
-          setData([]); // No data found
+          setData([]);
+          setError("Subject content not found");
         }
       } catch (err) {
-        console.error("Error fetching data:", err);
         setError(err.response?.data?.message || "Error fetching data.");
         setData([]);
       } finally {
@@ -95,6 +94,10 @@ const DataTable = props => {
 
   if (loading) {
     return <div className="text-gray-600">Loading...</div>;
+  }
+
+  if (!loading && (!data || data.length === 0 || error)) {
+    return <PageNotFound />;
   }
 
   
@@ -746,7 +749,7 @@ const DataTable = props => {
                 </div>
               ))
             ) : (
-              <MathFallback slug={slug} />
+              <PageNotFound />
             )}
             
             

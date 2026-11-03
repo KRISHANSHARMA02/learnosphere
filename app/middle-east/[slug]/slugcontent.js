@@ -9,6 +9,7 @@ import Footer1 from "@/components/Footer1"; // Assuming this is your secondary f
 import Sociallinks2 from "@/components/Sociallinks2";
 import ContactForm from "@/components/ContactFormME";
 import Link from "next/link";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 export default function MiddleEastCountryPage({ slug }) {
   const [page, setPage] = useState(null);
@@ -395,6 +396,7 @@ export default function MiddleEastCountryPage({ slug }) {
         </div>
       </div>
 
+      <DynamicFAQSection slug={slug} />
       <Sociallinks2 />
       <Footer1 />
       <Footer />

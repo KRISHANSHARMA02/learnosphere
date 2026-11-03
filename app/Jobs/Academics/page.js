@@ -143,3 +143,8 @@ const Academics = () => {
 };
 
 export default Academics;
+
+export const metadata = {
+  title: { absolute: "Academic Jobs and Teaching Roles at Learnosphere" },
+  description: "Academic tutor jobs at Learnosphere: apply to teach students online or at home, set your subjects and start earning as an educator.",
+};

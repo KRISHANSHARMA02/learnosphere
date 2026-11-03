@@ -32,3 +32,8 @@ const Instructions = () => {
 };
 
 export default Instructions;
+
+export const metadata = {
+  title: { absolute: "Tutor Instructions: Guidelines for Learnosphere Educators" },
+  description: "Tutor instructions on Learnosphere: read the guidelines for educators on profiles, classes and best practices before you start teaching.",
+};

@@ -14,9 +14,9 @@ const FaqItem = ({ question, answer }) => {
         className="flex items-center justify-between w-full px-4 py-3 bg-white rounded-lg shadow-md hover:shadow-lg focus:outline-none text-left transition-all duration-200"
         aria-expanded={isOpen}
       >
-        <span className="text-[.9em] md:text-lg font-semibold font-Poppins text-gray-800">
+        <h3 className="text-[.9em] md:text-lg font-semibold font-Poppins text-gray-800">
           {question}
-        </span>
+        </h3>
         <span className="ml-3 flex-shrink-0 text-orange-600">
           {isOpen ? (
             <FiMinus className="text-xl md:text-2xl" />

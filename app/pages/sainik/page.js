@@ -11,10 +11,10 @@ export default function Navodiya() {
 
       <div className="container mx-auto p-12  flex flex-col justify-center mt-12 font-Poppins">
         <div className="flex items-center justify-center">
-          <h1 className="text-2xl font-Poppins uppercase pl-4 text-orange-600 md:pl-0 md:text-4xl font-bold ">
+          <p className="text-2xl font-Poppins uppercase pl-4 text-orange-600 md:pl-0 md:text-4xl font-bold ">
             This Service Coming Soon at Learnosphere
             <span className="animate-ping">......</span>
-          </h1>
+          </p>
         </div>
         <div className="mt-4">
           <h1 className="p-4 text-4xl font-extrabold bg-orange-500">
@@ -64,7 +64,7 @@ export default function Navodiya() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Syllabus</h2>
+          <h2 className="text-2xl font-semibold mb-4">Exam Syllabus</h2>
           <h3 className="text-xl font-semibold mt-4">Class VI Syllabus</h3>
           <ul className="list-disc ml-6">
             <li className="mb-2">

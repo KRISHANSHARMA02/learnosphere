@@ -1,4 +1,5 @@
 "use client";
+import PageNotFound from "@/app/not-found";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,6 +9,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import DownloadFormPage from "@/components/downloadForm";
 import AppPromoBanner from "./BrandappNew";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 const BoardPage = () => {
   const params = useParams();
@@ -178,7 +180,7 @@ const BoardPage = () => {
     }
   };
   if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-700">{error}</p>;
+  if (error || !boardData) return <PageNotFound />;
 
   const {
     heading,
@@ -493,6 +495,7 @@ const BoardPage = () => {
           </div>
         </div>
       </div>
+      <DynamicFAQSection slug={slug} />
       <Footer1 />
       <Footer />
     </>

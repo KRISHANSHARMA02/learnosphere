@@ -4,36 +4,17 @@
  */
 
 export const DEFAULT_AVATAR = "/default-avatar.png";
-export const DEFAULT_MALE_AVATAR = "/default-avatar.png";
-export const DEFAULT_FEMALE_AVATAR = "/default-female.png";
+export const DEFAULT_MALE_AVATAR = DEFAULT_AVATAR;
+export const DEFAULT_FEMALE_AVATAR = DEFAULT_AVATAR;
 
 const urlValidityCache = new Map();
 
 /**
- * Checks if a given gender string represents female.
- * @param {string|null|undefined} gender
- * @returns {boolean}
- */
-export const isFemaleGender = (gender) => {
-  if (!gender || typeof gender !== "string") return false;
-  const g = gender.trim().toLowerCase();
-  return (
-    g === "female" ||
-    g === "f" ||
-    g === "woman" ||
-    g === "girl" ||
-    g.startsWith("fem")
-  );
-};
-
-/**
- * Returns the default avatar image path based on gender.
- * Defaults to the default avatar asset (/default-avatar.png).
- * @param {string|null|undefined} gender
+ * Returns the single default avatar image path for all users.
  * @returns {string}
  */
-export const getDefaultAvatar = (gender) => {
-  return isFemaleGender(gender) ? DEFAULT_FEMALE_AVATAR : DEFAULT_AVATAR;
+export const getDefaultAvatar = () => {
+  return DEFAULT_AVATAR;
 };
 
 /**
@@ -64,6 +45,8 @@ export const isPlaceholderOrInvalidUrl = (url) => {
     lower.includes("default-avatar") ||
     lower.includes("default-male") ||
     lower.includes("default-female") ||
+    lower.includes("female-avatar") ||
+    lower.includes("female avatar") ||
     lower.includes("tutor_profile.png") ||
     lower.includes("placeholder")
   ) {
@@ -204,7 +187,7 @@ export async function verifyImageUrl(url) {
     const encoded = normalizeImageUrl(trimmed);
     const res = await fetch(encoded, {
       method: "HEAD",
-      signal: AbortSignal.timeout(1500),
+      signal: AbortSignal.timeout(3500),
     });
     const isValid = res.ok;
     urlValidityCache.set(trimmed, isValid);
@@ -223,15 +206,13 @@ export async function verifyImageUrl(url) {
 export async function verifyTeacherImage(teacher) {
   if (!teacher) return teacher;
   const rawUrl = extractRawImageUrl(teacher);
-  const gender = extractGender(teacher);
-  const fallback = getDefaultAvatar(gender);
 
   if (!rawUrl || isPlaceholderOrInvalidUrl(rawUrl)) {
     return {
       ...teacher,
-      image: fallback,
-      profileImage: fallback,
-      imageUrl: fallback,
+      image: DEFAULT_AVATAR,
+      profileImage: DEFAULT_AVATAR,
+      imageUrl: DEFAULT_AVATAR,
     };
   }
 
@@ -239,9 +220,9 @@ export async function verifyTeacherImage(teacher) {
   if (!isValid) {
     return {
       ...teacher,
-      image: fallback,
-      profileImage: fallback,
-      imageUrl: fallback,
+      image: DEFAULT_AVATAR,
+      profileImage: DEFAULT_AVATAR,
+      imageUrl: DEFAULT_AVATAR,
     };
   }
 
@@ -267,24 +248,30 @@ export async function verifyTeachersImages(teachers) {
 /**
  * Synchronous resolver for tutor image source.
  * @param {object|string|null|undefined} teacherOrUrl
- * @param {string|null|undefined} [optionalGender]
  * @returns {string}
  */
-export const getTutorImageSrc = (teacherOrUrl, optionalGender) => {
-  const gender = extractGender(teacherOrUrl, optionalGender);
+export const getTutorImageSrc = (teacherOrUrl) => {
   const rawUrl = extractRawImageUrl(teacherOrUrl);
 
   if (isPlaceholderOrInvalidUrl(rawUrl)) {
-    return getDefaultAvatar(gender);
+    return DEFAULT_AVATAR;
   }
 
   // If already checked and cached as invalid, immediately return default avatar
   if (urlValidityCache.get(rawUrl) === false) {
-    return getDefaultAvatar(gender);
+    return DEFAULT_AVATAR;
   }
 
-  if (rawUrl.includes("default-male.png") || rawUrl.includes("default-female.png") || rawUrl.includes("DefaultAvtar.jpg") || rawUrl.includes("default-avatar.png")) {
-    return getDefaultAvatar(gender);
+  if (
+    rawUrl.includes("default-male.png") ||
+    rawUrl.includes("default-female.png") ||
+    rawUrl.includes("default-female.jpg") ||
+    rawUrl.includes("female-avatar.jpg") ||
+    rawUrl.includes("Female avatar.jpg") ||
+    rawUrl.includes("DefaultAvtar.jpg") ||
+    rawUrl.includes("default-avatar.png")
+  ) {
+    return DEFAULT_AVATAR;
   }
 
   return normalizeImageUrl(rawUrl);
@@ -292,29 +279,24 @@ export const getTutorImageSrc = (teacherOrUrl, optionalGender) => {
 
 /**
  * Error event handler for tutor image tags.
- * Falls back to default avatar if image fails to load in browser.
+ * Falls back to the single default avatar whenever an image fails to load.
  * @param {object} e - SyntheticEvent
- * @param {object|string|null|undefined} teacherOrGender - Teacher object or gender string
  */
-export const handleTutorImageError = (e, teacherOrGender) => {
+export const handleTutorImageError = (e) => {
   const target = e?.currentTarget || e?.target;
   if (!target) return;
 
-  const gender = extractGender(teacherOrGender);
-  const fallbackSrc = getDefaultAvatar(gender);
-
-  // Cache that this URL is broken
   const brokenSrc = target.src;
   if (brokenSrc) {
     urlValidityCache.set(brokenSrc, false);
   }
 
-  // Prevent infinite error loops if fallback already applied
-  if (target.dataset?.fallbackAttempted === "true" || target.src?.endsWith(fallbackSrc)) {
+  // Prevent infinite error loops if already showing the default avatar
+  if (target.src?.endsWith(DEFAULT_AVATAR) || target.dataset?.fallbackAttempted === "true") {
+    target.onerror = null;
     return;
   }
 
   target.dataset.fallbackAttempted = "true";
-  target.onerror = null;
-  target.src = fallbackSrc;
+  target.src = DEFAULT_AVATAR;
 };

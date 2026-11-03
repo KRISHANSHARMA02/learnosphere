@@ -1,12 +1,44 @@
 import React from "react";
 import Certification from "@/components/OnlineQuizSlg";
+import { notFound } from "next/navigation";
+
+const validQuizSlugs = new Set([
+  "Certification-Quiz-For-Class-1",
+  "Certification-Quiz-For-Class-2",
+  "Certification-Quiz-For-Class-3",
+  "Certification-Quiz-For-Class-4",
+  "Certification-Quiz-For-Class-5",
+  "Certification-Quiz-For-Class-6",
+  "Certification-Quiz-For-Class-7",
+  "Certification-Quiz-For-Class-8",
+  "Certification-Quiz-For-Class-9",
+  "Certification-Quiz-For-Class-10",
+  "Certification-Quiz-For-Class-11",
+  "Certification-Quiz-For-Class-12",
+]);
+
+function getMatchedSlug(slug) {
+  if (!slug) return null;
+  const target = slug.toLowerCase();
+  for (const s of validQuizSlugs) {
+    if (s.toLowerCase() === target) return s;
+  }
+  return null;
+}
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
+    const matchedSlug = getMatchedSlug(slug);
 
-    const baseUrl = "https://learnosphere.in"; //https://learnosphere.in
-    const canonicalUrl = `${baseUrl}/Online-Quiz/${slug}`;
-    const res = await fetch(`${baseUrl}/api/onlineQuiz/${slug}`, {
+    if (!matchedSlug) {
+        return {
+            title: "Page Not Found | Learnosphere",
+        };
+    }
+
+    const baseUrl = "https://learnosphere.in";
+    const canonicalUrl = `${baseUrl}/Online-Quiz/${matchedSlug}`;
+    const res = await fetch(`${baseUrl}/api/onlineQuiz/${matchedSlug}`, {
         cache: "no-store",
     });
 
@@ -26,7 +58,6 @@ export async function generateMetadata({ params }) {
     return {
         title: `Online Quiz - Certification Quiz For Class-${grade} | Learnosphere  `,
         description: apiDescription,
-             // ✅ CANONICAL TAG
         alternates: {
             canonical: canonicalUrl,
         },
@@ -35,6 +66,11 @@ export async function generateMetadata({ params }) {
 
 export default async function OnlineQuizSlg({ params }) {
     const { slug } = await params;
+    const matchedSlug = getMatchedSlug(slug);
 
-    return <Certification slug={slug} />;
+    if (!matchedSlug) {
+        notFound();
+    }
+
+    return <Certification slug={matchedSlug} />;
 }

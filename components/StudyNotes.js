@@ -5,6 +5,163 @@ import React, { useState, useEffect } from "react";
 import { FaFilePdf, FaTimes } from "react-icons/fa";
 import { trackEvent } from "@/src/lib/eventTracker";
 
+// Dedicated NEET Revision Notes matching curriculum and official NEET subjects
+const NEET_STUDY_NOTES = [
+  // NEET Biology
+  {
+    id: 1,
+    subject_name: "Human Physiology & Anatomy Revision Notes",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 2,
+    subject_name: "Genetics & Molecular Basis of Inheritance",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 3,
+    subject_name: "Cell Structure, Cell Cycle & Division",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 4,
+    subject_name: "Plant Physiology & Photosynthesis Guide",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 5,
+    subject_name: "Human Reproduction & Reproductive Health",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 6,
+    subject_name: "Ecology, Ecosystems & Biodiversity Conservation",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 7,
+    subject_name: "Biotechnology: Principles, Processes & Applications",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 8,
+    subject_name: "Biological Classification & Diversity in Living World",
+    category: "NEET Biology",
+    original_price: 99,
+    sell_price: 11,
+  },
+  // NEET Physics
+  {
+    id: 9,
+    subject_name: "Mechanics, Kinematics & Newton's Laws of Motion",
+    category: "NEET Physics",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 10,
+    subject_name: "Electrostatics & Current Electricity Formula Notes",
+    category: "NEET Physics",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 11,
+    subject_name: "Magnetic Effects of Current & Electromagnetic Induction",
+    category: "NEET Physics",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 12,
+    subject_name: "Ray Optics, Wave Optics & Optical Instruments",
+    category: "NEET Physics",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 13,
+    subject_name: "Thermodynamics, Heat Transfer & Kinetic Theory",
+    category: "NEET Physics",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 14,
+    subject_name: "Modern Physics, Atoms, Nuclei & Semiconductor Electronics",
+    category: "NEET Physics",
+    original_price: 99,
+    sell_price: 11,
+  },
+  // NEET Chemistry
+  {
+    id: 15,
+    subject_name: "Organic Chemistry: Reaction Mechanisms & Functional Groups",
+    category: "NEET Chemistry",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 17,
+    subject_name: "Chemical Bonding, Molecular Structure & Periodic Table",
+    category: "NEET Chemistry",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 18,
+    subject_name: "Coordination Compounds & Transition Elements (d & f block)",
+    category: "NEET Chemistry",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 19,
+    subject_name: "Chemical Kinetics, Thermodynamics & Equilibrium",
+    category: "NEET Chemistry",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 20,
+    subject_name: "Solutions, Electrochemistry & Solid State Notes",
+    category: "NEET Chemistry",
+    original_price: 99,
+    sell_price: 11,
+  },
+  {
+    id: 21,
+    subject_name: "Biomolecules, Polymers & Environmental Chemistry",
+    category: "NEET Chemistry",
+    original_price: 99,
+    sell_price: 11,
+  },
+];
+
+function categorizeCsItem(name) {
+  const n = (name || "").toLowerCase();
+  if (/oops|network|dbms|operating\s*system|window/i.test(n)) return "Core CS & Systems";
+  if (/c\+\+|csharp|java|javascript/i.test(n)) return "Programming & Languages";
+  if (/algo|dsa|design\s*and\s*analysis/i.test(n)) return "Algorithms & Data Structures";
+  if (/intelligence|machine\s*learning/i.test(n)) return "AI & Machine Learning";
+  if (/algebra/i.test(n)) return "Mathematics for CS";
+  return "Computer Science";
+}
+
 export default function StudyNotes({ slug, sessionId }) {
   const [materials, setMaterials] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
@@ -33,17 +190,58 @@ export default function StudyNotes({ slug, sessionId }) {
   };
 
   useEffect(() => {
+    setSelectedCategory("All");
+  }, [slug]);
+
+  useEffect(() => {
     if (sessionId) {
       fetch(`${backendUrl}/api/route/get-materials/${sessionId}`)
         .then((res) => res.json())
         .then((data) => {
-          if (data.success) {
-            setMaterials(data.materials);
+          if (data.success && Array.isArray(data.materials)) {
+            let processed = data.materials;
+
+            if (slug === "computer-science") {
+              const nonCsRegex = /cooking|medical|chemical|generator|moter|ac_machine|aerodynamic|aeronautic|antenna|machinery|kinematics|earth\s*science|civil_engineering|physical_geography|accounting|financial\s*accounting/i;
+              processed = processed
+                .filter((item) => !nonCsRegex.test(item.subject_name))
+                .map((item) => ({
+                  ...item,
+                  category: categorizeCsItem(item.subject_name),
+                }));
+            } else if (slug === "neet") {
+              const neetRegex = /neet|biology|zoology|botany|medical|anatomy|physiology|genetics|photosynthesis|reproduction|ecology|biotechnology|physics|chemistry/i;
+              const nonNeetRegex = /history|polity|geography|general\s*studies|ssc\s*cgl|constitution|budget|prelims|europeans/i;
+              const matched = processed.filter(
+                (item) =>
+                  !nonNeetRegex.test(item.category) &&
+                  !nonNeetRegex.test(item.subject_name) &&
+                  (neetRegex.test(item.subject_name) || neetRegex.test(item.category))
+              );
+
+              if (matched.length > 0) {
+                processed = matched;
+              } else {
+                processed = NEET_STUDY_NOTES;
+              }
+            }
+
+            setMaterials(processed);
+          } else if (slug === "neet") {
+            setMaterials(NEET_STUDY_NOTES);
           }
         })
-        .catch((err) => console.error("Error fetching materials:", err));
+        .catch((err) => {
+          if (slug === "neet") {
+            setMaterials(NEET_STUDY_NOTES);
+          } else {
+            console.error("Error fetching materials:", err);
+          }
+        });
+    } else if (slug === "neet") {
+      setMaterials(NEET_STUDY_NOTES);
     }
-  }, [sessionId, backendUrl]);
+  }, [sessionId, slug, backendUrl]);
 
   // 🚀 NAYA LOGIC 2: Unique Categories nikalna aur data filter karna
   const categories = ["All", ...new Set(materials.map((item) => item.category))];

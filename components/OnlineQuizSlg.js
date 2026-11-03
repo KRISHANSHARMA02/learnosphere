@@ -1,4 +1,5 @@
 "use client";
+import PageNotFound from "@/app/not-found";
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -9,6 +10,7 @@ import creativeQuiz from '@/public/creativeQuiz.png'
 import axios from "axios";
 import AppPopup from '@/components/AppPopup';
 import { motion } from "framer-motion";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 
 const Certification = ({ slug }) => {
@@ -49,7 +51,7 @@ const Certification = ({ slug }) => {
     const closePopup = () => setShowPopup(false);
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p className="text-red-500">{error}</p>;
+    if (error || !onlineQuizData) return <PageNotFound />;
 
     const { grade, d1, p1, p2,
         p3,
@@ -416,6 +418,7 @@ const Certification = ({ slug }) => {
                         Certificates of achievement are a great way to celebrate and honor your child’s achievement, inspiring them with self-confidence and promoting lifelong learning. They serve as a proud reminder of their hard work and accomplishments
                     </p>
                 </section>
+                <DynamicFAQSection slug={slug} />
             </div>
         </>
     )

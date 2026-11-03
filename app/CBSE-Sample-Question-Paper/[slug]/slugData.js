@@ -4,8 +4,7 @@ import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import FAQAccordion from "@/components/FAQAccordion";
-import { faqData } from "./faqData";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import React, { useEffect, useState, use } from "react";
 import Banner2 from "@/public/Banner2.jpeg";
 import Link from "next/link";
@@ -27,7 +26,6 @@ import FormSection from '@/components/FormGeneral';
 const DataTable = ({ data, slug: propSlug }) => {
   const params = useParams();
   const currentSlug = propSlug || params?.slug;
-  const faqs = (currentSlug && faqData[currentSlug]) || [];
   //const params = use(props.params);
   // const { slug } = params;
   //const [data, setData] = useState([]);
@@ -78,44 +76,90 @@ const DataTable = ({ data, slug: propSlug }) => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
-        const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
-        const list = [...(res10.data || []), ...(res12.data || [])];
-        setCbsePapersList(list);
+        const res = await fetch(WEB_BACKEND_URL + '/api/cbse-papers').then(r => r.json());
+        if (res?.data && res.data.length > 0) {
+          setCbsePapersList(res.data);
+        } else {
+          const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
+          const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
+          setCbsePapersList([...(res10.data || []), ...(res12.data || [])]);
+        }
       } catch (err) {
-        console.error("Error fetching cbse papers", err);
+        try {
+          const res10 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-10').then(r => r.json());
+          const res12 = await fetch(WEB_BACKEND_URL + '/api/route/cbse-sample-papers/class-12').then(r => r.json());
+          setCbsePapersList([...(res10.data || []), ...(res12.data || [])]);
+        } catch (_) {}
       }
     };
     fetchPapers();
   }, []);
 
-  const handlePaperClick = (title) => {
-    if(!title) return;
+  const findPaperMatch = (title, list) => {
+    if (!title || !list || list.length === 0) return null;
     const lowerTitle = title.toLowerCase();
     
     // 1. Try exact match
-    let match = cbsePapersList.find(p => p.title && p.title.toLowerCase() === lowerTitle);
+    let match = list.find(p => p.title && p.title.toLowerCase() === lowerTitle);
     
-    // 2. If no exact match, fallback to logic:
+    // 2. Fallback to class and set / year extraction
     if (!match) {
-      const isClass12 = lowerTitle.includes('class 12') || lowerTitle.includes('class 12th');
-      const targetClass = isClass12 ? '12' : '10';
+      let targetClass = null;
+      if (lowerTitle.includes('class 12') || lowerTitle.includes('12th')) targetClass = '12';
+      else if (lowerTitle.includes('class 11') || lowerTitle.includes('11th')) targetClass = '11';
+      else if (lowerTitle.includes('class 10') || lowerTitle.includes('10th')) targetClass = '10';
+      else if (lowerTitle.includes('class 9') || lowerTitle.includes('9th')) targetClass = '9';
+      else if (lowerTitle.includes('class 8') || lowerTitle.includes('8th')) targetClass = '8';
       
-      let targetSubject = null;
-      if (lowerTitle.includes('math')) targetSubject = 'math';
-      else if (lowerTitle.includes('science')) targetSubject = 'science';
-      else if (lowerTitle.includes('physics')) targetSubject = 'physics';
-      else if (lowerTitle.includes('chemistry')) targetSubject = 'chemistry';
-      
-      let filtered = cbsePapersList.filter(p => String(p.class_level) === targetClass);
-      if (targetSubject) {
-        let subjectFiltered = filtered.filter(p => p.subject && p.subject.toLowerCase().includes(targetSubject));
-        if (subjectFiltered.length > 0) filtered = subjectFiltered;
+      const setMatch = lowerTitle.match(/set\s*(\d+)/i) || lowerTitle.match(/sa\s*(\d+)/i);
+      const targetSet = setMatch ? setMatch[1] : null;
+
+      const yearMatch = lowerTitle.match(/(20\d\d)/);
+      const targetYear = yearMatch ? yearMatch[1] : null;
+
+      let candidates = list;
+      if (targetClass) {
+        candidates = candidates.filter(p => String(p.class_level) === targetClass);
       }
-      
-      if (filtered.length > 0) match = filtered[0];
+
+      if (targetSet) {
+        let setCandidate = candidates.find(p => {
+          const t = (p.title || '').toLowerCase();
+          const s = (p.s3_url || '').toLowerCase();
+          return t.includes(`set ${targetSet}`) || t.includes(`set_${targetSet}`) || s.includes(`set_${targetSet}`) || s.includes(`set ${targetSet}`) || t.includes(`sa ${targetSet}`) || t.includes(`sa_${targetSet}`) || s.includes(`sa_${targetSet}`) || s.includes(`sa-${targetSet}`);
+        });
+        if (setCandidate) match = setCandidate;
+      }
+
+      if (!match && targetYear) {
+        let yearCandidate = candidates.find(p => {
+          const t = (p.title || '').toLowerCase();
+          const s = (p.s3_url || '').toLowerCase();
+          return t.includes(targetYear) || s.includes(targetYear) || String(p.year) === targetYear;
+        });
+        if (yearCandidate) match = yearCandidate;
+      }
+
+      if (!match && candidates.length > 0) {
+        match = candidates[0];
+      }
     }
-    
+    return match;
+  };
+
+  useEffect(() => {
+    if (cbsePapersList.length > 0 && !selectedPdfUrl && !data?.[0]?.pdfUrl) {
+      const initialTitle = data?.[0]?.heading1 || currentSlug || '';
+      const matched = findPaperMatch(initialTitle, cbsePapersList);
+      if (matched && matched.s3_url) {
+        setSelectedPdfUrl(matched.s3_url);
+      }
+    }
+  }, [cbsePapersList, data, currentSlug, selectedPdfUrl]);
+
+  const handlePaperClick = (title) => {
+    if(!title) return;
+    const match = findPaperMatch(title, cbsePapersList);
     if (match && match.s3_url) {
       setSelectedPdfUrl(match.s3_url);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -183,9 +227,17 @@ const DataTable = ({ data, slug: propSlug }) => {
 
           </div>
           {data.length > 0 ? (
-            data.map((item) => (
+            data.map((item, index) => (
               <div key={item.id} className="mb-4">
-                <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">{item.heading1}</h1>
+                {index === 0 ? (
+                  <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                    {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
+                  </h1>
+                ) : (
+                  <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                    {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
+                  </h2>
+                )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
                 {item.heading2 && (
                   <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
@@ -253,33 +305,42 @@ const DataTable = ({ data, slug: propSlug }) => {
                         </iframe>
                       ) : (
                         // 🚫 Logged-out user sees only preview + login overlay
-                        <div className="relative w-full h-[500px] border rounded-xl overflow-hidden">
-                          {/* Preview (blurred 1st page) */}
-                          <iframe
-                            src={`${selectedPdfUrl || item.pdfUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0`}
-                            width="100%"
-                            height="100%"
-                            style={{
-                              border: "none",
-                              pointerEvents: "none",
-                            }}
-                            title="PDF Preview"
-                          />
+                        <div className="relative w-full h-[500px] border border-gray-300 rounded-xl overflow-hidden shadow-md bg-white">
+                          {/* Blurred preview document representation */}
+                          <div className="w-full h-full flex flex-col justify-start p-8 bg-gray-50 blur-[3px] opacity-40 select-none pointer-events-none space-y-4">
+                            <div className="h-7 bg-gray-500 rounded w-3/4 mx-auto mb-6"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                            <div className="h-10 bg-gray-300 rounded w-full my-4"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-3/4"></div>
+                            <div className="h-4 bg-gray-400 rounded w-full"></div>
+                            <div className="h-4 bg-gray-400 rounded w-2/3"></div>
+                          </div>
 
                           {/* Overlay message */}
-                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-70 backdrop-blur-sm p-6 rounded-xl">
-                            <p className="text-lg font-semibold text-gray-800 mb-2">
-                              🔒 Please log in to view the full PDF
-                            </p>
-                            <p className="text-gray-600 mb-4 text-center max-w-md">
-                              You’re seeing a limited preview. Log in to access the complete document.
-                            </p>
-                            <button
-                              onClick={() => router.push("/Student")}
-                              className="px-5 py-2 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition"
-                            >
-                              Log In
-                            </button>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm p-6 z-10 text-center">
+                            <div className="bg-white/95 p-8 rounded-2xl shadow-xl max-w-md mx-auto border border-gray-100 flex flex-col items-center">
+                              <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                                🔒
+                              </div>
+                              <p className="text-xl font-bold mb-2 text-gray-900">
+                                Please log in to view the full PDF
+                              </p>
+                              <p className="mb-6 text-gray-600 font-medium text-sm leading-relaxed max-w-md">
+                                You’re seeing a limited preview. Log in to access the complete document.
+                              </p>
+                              <button
+                                onClick={() => router.push("/Student")}
+                                className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-2.5 rounded-full shadow-md transition-all duration-200 hover:scale-105"
+                              >
+                                Log In
+                              </button>
+                            </div>
                           </div>
                         </div>
                       )}
@@ -289,9 +350,9 @@ const DataTable = ({ data, slug: propSlug }) => {
                 <p className="mb-2 mt-4 text-gray-800">{item.para13}</p>
 
                 {item.heading4 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading4}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para4}</p>
 
@@ -341,16 +402,16 @@ const DataTable = ({ data, slug: propSlug }) => {
 
 
                 {item.heading5 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading5}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
 
                 {item.heading7 && (
-                  <h3 className="mb-2  text-[1.2em] mt-4  font-bold">
+                  <h2 className="mb-2  text-[1.2em] mt-4  font-bold">
                     {item.heading7}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para7}</p>
 
@@ -363,21 +424,21 @@ const DataTable = ({ data, slug: propSlug }) => {
                 )}
 
                 {item.heading9 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading9}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para10}</p>
                 {item.heading10 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading10}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
                 {item.heading11 && (
-                  <h3 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
+                  <h2 className="mb-2 p-4 text-white text-[1.2em] mt-4 bg-orange-600 font-bold">
                     {item.heading11}
-                  </h3>
+                  </h2>
                 )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para12}</p>
 
@@ -385,9 +446,12 @@ const DataTable = ({ data, slug: propSlug }) => {
 
                 <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
 
-                <div className='flex flex-col mt-5 border border-slate-800  rounded-lg p-1'>
-                  <h3 className=' font-semibold text-[.9em] '>{item.heading6}</h3>
-                  <p className=" ">{item.para6}</p>
+                {(item.heading6 || item.para6 || (item.list3 && item.list3.length > 0)) && (
+                  <div className='flex flex-col mt-5 border border-slate-800  rounded-lg p-1'>
+                    {item.heading6 && (
+                      <h2 className=' font-semibold text-[.9em] '>{item.heading6}</h2>
+                    )}
+                    {item.para6 && <p className=" ">{item.para6}</p>}
                   {item.list3 && item.list3.length > 0 && (
                     <ol className="  flex flex-wrap gap-2 w-full p-4 text-orange-600  mb-2">
                       {item.list3.map((listItem, index) => (
@@ -396,6 +460,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                     </ol>
                   )}
                 </div>
+                )}
 
               </div>
             ))
@@ -421,7 +486,7 @@ const DataTable = ({ data, slug: propSlug }) => {
         </div>
 
       </div>
-      <FAQAccordion faqs={faqs} />
+      <DynamicFAQSection slug={currentSlug} />
       <Sociallinks2 />
       <Footer1 />
       <Footer />

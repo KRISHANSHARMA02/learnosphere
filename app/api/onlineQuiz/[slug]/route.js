@@ -301,11 +301,11 @@ const articles = [
     },
   ];
 
-  const onlineQuiz = articles.find((b) => b.slug === slug);
+  const onlineQuiz = articles.find((b) => b.slug.toLowerCase() === (slug || "").toLowerCase());
 
   if (onlineQuiz) {
     return Response.json(onlineQuiz);
   } 
-    return Response.json({ error: "class not found" }, { status: 404 });
+  return Response.json({ error: "Page not found" }, { status: 404 });
   
 }

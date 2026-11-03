@@ -3,8 +3,7 @@ import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import FAQAccordion from "@/components/FAQAccordion";
-import { faqData } from "./faqData";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import React, { useEffect, useState, use } from "react";
 import Banner from "@/public/WhatsApp Image 2024-10-14 at 11.44.36.jpeg";
 import Link from "next/link";
@@ -54,7 +53,6 @@ const getRouteForTitle = (title) => {
 const DataTable = ({ data, slug: propSlug }) => {
   const params = useParams();
   const currentSlug = propSlug || params?.slug;
-  const faqs = (currentSlug && faqData[currentSlug]) || [];
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
   const [selectedPdf, setSelectedPdf] = useState(null);
@@ -184,11 +182,17 @@ const DataTable = ({ data, slug: propSlug }) => {
 
           </div>
           {data.length > 0 ? (
-            data.map((item) => (
+            data.map((item, index) => (
               <div key={item.id} className="mb-4">
-                <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                  {item.heading1}
-                </h1>
+                {index === 0 ? (
+                  <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                    {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
+                  </h1>
+                ) : (
+                  <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                    {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
+                  </h2>
+                )}
                 <Link href="https://sarvgyat.learnosphere.in/">
                   <Image className="mt-3" src={Banner} alt="" />
                 </Link>
@@ -364,9 +368,11 @@ const DataTable = ({ data, slug: propSlug }) => {
                       </div>
                     )}
                 </div>
-                <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                  {item.heading5}
-                </h2>
+                {item.heading5 && (
+                  <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                    {item.heading5}
+                  </h2>
+                )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
                 {item.list2 && item.list2.length > 0 && (
                   <ol className="list-disc text-orange-600 pl-5 mb-2">
@@ -377,13 +383,17 @@ const DataTable = ({ data, slug: propSlug }) => {
                     ))}
                   </ol>
                 )}
-                <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                  {item.heading6}
-                </h2>
+                {item.heading6 && (
+                  <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                    {item.heading6}
+                  </h2>
+                )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para6}</p>
-                <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                  {item.heading7}
-                </h2>
+                {item.heading7 && (
+                  <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                    {item.heading7}
+                  </h2>
+                )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para7}</p>
 
                 {(item.heading11 ||
@@ -423,18 +433,24 @@ const DataTable = ({ data, slug: propSlug }) => {
                     </div>
                   )}
 
-                <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                  {item.heading8}
-                </h3>
+                {item.heading8 && (
+                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                    {item.heading8}
+                  </h3>
+                )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
-                <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                  {item.heading18}
-                </h3>
+                {item.heading18 && (
+                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                    {item.heading18}
+                  </h3>
+                )}
                 <p className="mb-2 mt-4 text-gray-800">{item.para18}</p>
 
-                <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
-                  {item.heading19}
-                </h3>
+                {item.heading19 && (
+                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em]">
+                    {item.heading19}
+                  </h3>
+                )}
                 {(item.anotherField6 && item.anotherField6.length > 0) ||
                   (item.anotherField7 && item.anotherField7.length > 0) ||
                   (item.anotherField8 && item.anotherField8.length > 0) ? (
@@ -574,7 +590,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                   (item.anotherField4 && item.anotherField4.length > 0)) && (
                     <div>
                       {item.heading13 ? (
-                        <h3 className="mt-3 text-[1.2em]">{item.heading13}</h3>
+                        <h2 className="mt-3 text-[1.2em]">{item.heading13}</h2>
                       ) : null}
 
                       <p className="mb-2 mt-4 text-gray-800">{item.para13}</p>
@@ -604,7 +620,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                   )}
 
                 {item.heading14 ? ( // Check if item.heading24 has a value
-                  (<h3 className="mt-3  text-[1.2em]">{item.heading14}</h3>)
+                  (<h2 className="mt-3  text-[1.2em]">{item.heading14}</h2>)
                 ) : null}
                 <p className="mb-2 mt-4 text-gray-800">{item.para14}</p>
 
@@ -631,7 +647,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                 )}
 
                 {item.heading15 ? ( // Check if item.heading24 has a value
-                  (<h3 className="mt-3  text-[1.2em]">{item.heading15}</h3>)
+                  (<h2 className="mt-3  text-[1.2em]">{item.heading15}</h2>)
                 ) : null}
 
                 {item.list4 && item.list4.length > 0 && (
@@ -647,11 +663,14 @@ const DataTable = ({ data, slug: propSlug }) => {
                 <p className="mb-2 mt-4 text-gray-800">{item.para15}</p>
                 <p className="mb-2 mt-4 text-gray-800">{item.para16}</p>
 
-                <div className="flex flex-col text-[.8em] mt-5 border border-slate-800 bg-white rounded-lg p-4">
-                  <h3 className="mb-2 text-slate-800 mt-3 text-[1.2em] font-bold px-4">
-                    {item.heading10}
-                  </h3>
-                  <p className="mb-5 ">{item.para10}</p>
+                {(item.heading10 || item.para10 || (item.list3 && item.list3.length > 0)) && (
+                  <div className="flex flex-col text-[.8em] mt-5 border border-slate-800 bg-white rounded-lg p-4">
+                    {item.heading10 && (
+                      <h2 className="mb-2 text-slate-800 mt-3 text-[1.2em] font-bold px-4">
+                        {item.heading10}
+                      </h2>
+                    )}
+                    {item.para10 && <p className="mb-5 ">{item.para10}</p>}
                   {item.list3 && item.list3.length > 0 && (
                     <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mb-4">
                       {item.list3.map((listItem, index) => {
@@ -669,6 +688,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                     </ol>
                   )}
                 </div>
+                )}
 
                 {item.imageUrls && item.imageUrls.length > 0 && (
                   <div className="flex gap-4 mt-4">
@@ -707,7 +727,7 @@ const DataTable = ({ data, slug: propSlug }) => {
           </div>
         </div>
       </div>
-      <FAQAccordion faqs={faqs} />
+      <DynamicFAQSection slug={currentSlug} />
       <Sociallinks2 />
       <Footer1 />
       <Footer />

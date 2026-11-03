@@ -1,3 +1,8 @@
+const compExamsCustomTitles = {
+  "neet/study-notes": "NEET Study Notes: Biology, Physics & Chemistry | Learnosphere",
+  "iitjee/study-notes": "IIT JEE Study Notes: Physics, Chemistry & Maths | Learnosphere"
+};
+
 import ClientPage from '@/components/client/competitive-exams_slug_subslug';
 
 export async function generateMetadata({ params }) {
@@ -12,7 +17,8 @@ export async function generateMetadata({ params }) {
     "study-notes": "Revise Physics, Chemistry and Biology with NEET notes designed to help you review key concepts and organise your study routine.",
   };
 
-  const title = titleMap[key] || titleMap[subslug] || "Learnosphere";
+  const customTitle = compExamsCustomTitles[key];
+  const title = customTitle ? { absolute: customTitle } : (titleMap[key] || titleMap[subslug] || "Learnosphere");
   const description = descriptionMap[key] || descriptionMap[subslug] || "Revision notes and study materials for competitive exams.";
   
   return { title, description };

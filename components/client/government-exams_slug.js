@@ -18,6 +18,7 @@ import {
 import Navbar from "../../components/Navbar";
 import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import { useRouter } from "next/navigation";
 
 // Lottie Player ko sirf Client-Side render karne ke liye (Error 1 Fix)
@@ -442,50 +443,7 @@ export default function GovernmentExamPremiumPage({ params }) {
         </div>
       </div>
 
-      {/* ================= FAQS ================= */}
-      <div className="bg-white py-20 border-b border-gray-100 relative z-10">
-        <div className="container mx-auto max-w-4xl px-6 md:px-12">
-          <div className="flex flex-col items-center justify-center gap-3 mb-10 text-center">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
-              {examName} FAQs
-            </h2>
-            <p className="text-gray-500 mt-2 font-medium">
-              Got questions? We've got answers.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {examData?.faqs?.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-xl overflow-hidden bg-slate-50 border border-slate-200 transition-all duration-300"
-                >
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex justify-between items-center p-5 text-left hover:bg-slate-100 transition-colors focus:outline-none"
-                  >
-                    <span className="font-semibold text-slate-800 text-lg pr-4">
-                      {faq.question}
-                    </span>
-                    <FaChevronDown
-                      className={`text-slate-500 transition-transform duration-300 flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}
-                  >
-                    <div className="p-5 pt-0 text-slate-600 font-medium leading-relaxed">
-                      {faq.answer}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      <DynamicFAQSection slug={slug} />
 
       <Footer1 />
       <Footer />

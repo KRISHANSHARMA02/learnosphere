@@ -796,11 +796,11 @@ const Navbar = () => {
                         >
                           {/* 🚀 YEH TEXT WAPAS AA GAYA */}
                           <div>
-                            <h4
+                            <span
                               className={`text-[15px] font-bold ${activeCourseCategory === category.id ? "text-orange-600" : "text-gray-800"}`}
                             >
                               {category.title}
-                            </h4>
+                            </span>
                             <p className="text-[11px] text-gray-500 mt-0.5 line-clamp-1 font-medium">
                               {category.subtitle}
                             </p>
@@ -828,9 +828,9 @@ const Navbar = () => {
                               : "hidden"
                           }
                         >
-                          <h3 className="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-3 inline-block">
+                          <div className="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-3 inline-block">
                             {category.title}
-                          </h3>
+                          </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {category.items.map((item, idx) => (
                               <Link
@@ -896,9 +896,9 @@ const Navbar = () => {
                 } 
                 lg:group-hover:block md:mt-[235px]`}
                 >
-                  <h3 className="block px-4 py-2  text-base md:text-xl text-black font-Poppins font-semibold rounded-xl hover:bg-gray-200">
+                  <div className="block px-4 py-2  text-base md:text-xl text-black font-Poppins font-semibold rounded-xl hover:bg-gray-200">
                     Prepare for your exam with us
-                  </h3>
+                  </div>
                   <div className="px-4 py-2 re  ">
                     <div className="group relative ">
                       <Link

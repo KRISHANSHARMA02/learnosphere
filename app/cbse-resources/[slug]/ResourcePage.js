@@ -16,12 +16,13 @@ import FormSection from "@/components/FormGeneral";
 import { useSession } from "next-auth/react";
 import { getResourceContent } from "./resourceData";
 import { useRouter } from "next/navigation";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
-export default function ResourcePage({ slug }) {
+export default function ResourcePage({ slug, initialContent = null }) {
   const { data: session } = useSession();
   const router = useRouter();
   
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState(initialContent || null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activePdfId, setActivePdfId] = useState(null);
   const [pdfUrls, setPdfUrls] = useState({});
@@ -29,7 +30,7 @@ export default function ResourcePage({ slug }) {
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
-    setContent(getResourceContent(slug));
+    if (!content) setContent(getResourceContent(slug));
   }, [slug]);
 
   const handleSearch = (e) => {
@@ -200,6 +201,8 @@ export default function ResourcePage({ slug }) {
         </div>
 
       </main>
+
+      <DynamicFAQSection slug={slug} />
 
       {/* WhatsApp Modal & Icon */}
       <div className="fixed right-8 top-[650px] md:top-[550px] flex flex-col items-center space-y-4 z-50">

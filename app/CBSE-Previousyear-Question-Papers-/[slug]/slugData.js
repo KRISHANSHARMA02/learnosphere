@@ -5,8 +5,7 @@ import axios from "axios";
 import { getResourceRoute } from "@/src/utils/resourceRouteHelper";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import FAQAccordion from "@/components/FAQAccordion";
-import { faqData } from "./faqData";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 import React, { useEffect, useState, use } from "react";
 import Banner2 from "@/public/Banner2.jpeg";
 import Link from "next/link";
@@ -19,11 +18,26 @@ import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
+import { useSession } from "next-auth/react";
 
-const DataTable = ({ data, slug: propSlug }) => {
+const DataTable = ({ data, slug: propSlug, initialLoggedIn = false }) => {
   const params = useParams();
   const currentSlug = propSlug || params?.slug;
-  const faqs = (currentSlug && faqData[currentSlug]) || [];
+  const { data: session, status } = useSession();
+
+  const isLoggedIn =
+    Boolean(initialLoggedIn) ||
+    status === "authenticated" ||
+    Boolean(session?.user);
+
+  const [activePdfUrl, setActivePdfUrl] = useState(data?.[0]?.pdfUrl || null);
+
+  useEffect(() => {
+    if (data?.[0]?.pdfUrl) {
+      setActivePdfUrl(data[0].pdfUrl);
+    }
+  }, [data]);
+
   // const params = use(props.params);
   // const { slug } = params;
   //  const [data, setData] = useState([]);
@@ -137,12 +151,18 @@ const DataTable = ({ data, slug: propSlug }) => {
                 onClick={() => setShowButton(!showButton)} // Toggle modal visibility
               />
             </div>
-            {data.length > 0 ? (
-              data.map((item) => (
+            {data && data.length > 0 ? (
+              data.map((item, index) => (
                 <div key={item.id} className="mb-4">
-                  <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-                    {item.heading1}
-                  </h1>
+                  {index === 0 ? (
+                    <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                      {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
+                    </h1>
+                  ) : (
+                    <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                      {item.heading1 || item.title || currentSlug?.replace(/-/g, ' ')}
+                    </h2>
+                  )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
                   {item.heading2 && (
                     <h2 className="mb-2 2 mt-4 font-bold">{item.heading2}</h2>
@@ -168,7 +188,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls.map((imageUrl, index) => (
                         <Image
-                          key={dataItem.id || index}
+                          key={index}
                           src={imageUrl}
                           alt={`Image ${index + 1}`}
                           className="w-32 h-32 object-cover rounded-lg"
@@ -181,26 +201,26 @@ const DataTable = ({ data, slug: propSlug }) => {
                     <h2 className="mb-2  2 mt-4 font-bold">{item.heading4}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para4}</p>
-                  {/* Display PDF if available */}
-                  {item.pdfUrl && (
+                  {/* Display PDF with access control */}
+                  {isLoggedIn && (activePdfUrl || item.pdfUrl) ? (
                     <div className="mt-4">
                       <iframe
-                        src={`${item.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`} // Removed scrollbar parameter and adjusted the URL
+                        src={`${activePdfUrl || item.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                         width="100%"
                         height="500px"
                         style={{
-                          border: "none", // Ensure no border is shown
-                          overflow: "hidden", // Prevent any overflow
+                          border: "none",
+                          overflow: "hidden",
                         }}
                         title="PDF Viewer"
                       >
                         This browser does not support PDFs. Please download the
                         PDF to view it:
-                        <a href={item.pdfUrl}>Download PDF</a>
+                        <a href={activePdfUrl || item.pdfUrl}>Download PDF</a>
                       </iframe>
                       <div className="mt-4 flex justify-center">
                         <a
-                          href={item.pdfUrl}
+                          href={activePdfUrl || item.pdfUrl}
                           download
                           target="_blank"
                           rel="noopener noreferrer"
@@ -208,6 +228,58 @@ const DataTable = ({ data, slug: propSlug }) => {
                         >
                           Download PDF
                         </a>
+                      </div>
+                    </div>
+                  ) : (
+                    /* 🚫 Logged-out user sees blurred preview + login overlay */
+                    <div className="mt-4">
+                      <div className="relative w-full h-[500px] border border-gray-300 rounded-xl overflow-hidden shadow-md bg-white">
+                        {/* Blurred preview document representation */}
+                        <div className="w-full h-full flex flex-col justify-start p-8 bg-gray-50 blur-[3px] opacity-40 select-none pointer-events-none space-y-4">
+                          <div className="h-7 bg-gray-500 rounded w-3/4 mx-auto mb-6"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-11/12"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-4/5"></div>
+                          <div className="h-10 bg-gray-300 rounded w-full my-4"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-3/4"></div>
+                          <div className="h-4 bg-gray-400 rounded w-full"></div>
+                          <div className="h-4 bg-gray-400 rounded w-2/3"></div>
+                        </div>
+
+                        {/* Login Prompt Overlay */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm p-6 z-10 text-center">
+                          <div className="bg-white/95 p-8 rounded-2xl shadow-xl max-w-md mx-auto border border-gray-100 flex flex-col items-center">
+                            <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                              🔒
+                            </div>
+                            <p className="text-xl font-bold mb-2 text-gray-900">
+                              Please log in to view the full PDF
+                            </p>
+                            <p className="mb-6 text-gray-600 font-medium text-sm leading-relaxed">
+                              You're seeing a limited preview. Log in to access the complete document with solutions.
+                            </p>
+                            <Link
+                              href="/Student"
+                              className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-2.5 rounded-full shadow-md transition-all duration-200 hover:scale-105"
+                            >
+                              Log In
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Locked Download Button */}
+                      <div className="mt-4 flex justify-center">
+                        <button
+                          onClick={() => router.push("/Student")}
+                          className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2"
+                        >
+                          <span>🔒</span> Download PDF (Login Required)
+                        </button>
                       </div>
                     </div>
                   )}
@@ -223,9 +295,9 @@ const DataTable = ({ data, slug: propSlug }) => {
                   (item.anotherField && item.anotherField.length > 0) ? (
                     <div className="rounded-xl bg-orange-100 grid border border-slate-800 mt-4">
                       {item.heading7 ? ( // Check if item.heading8 has a value
-                        <h3 className="p-4 font-bold text-center border-black border-b text-[1.2em]">
+                        <h2 className="p-4 font-bold text-center border-black border-b text-[1.2em]">
                           {item.heading7}
-                        </h3>
+                        </h2>
                       ) : null}
 
                       <p>{item.para7}</p>
@@ -244,7 +316,27 @@ const DataTable = ({ data, slug: propSlug }) => {
                                         : "border-b border-black"
                                     }`}
                                   >
-                                    {dataItem}
+                                    {typeof dataItem === "string" ? (
+                                      dataItem
+                                    ) : dataItem.slug ? (
+                                      <Link
+                                        href={`/CBSE-Previousyear-Question-Papers-/${dataItem.slug}`}
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || dataItem.slug}
+                                      </Link>
+                                    ) : dataItem.pdfUrl ? (
+                                      <a
+                                        href={dataItem.pdfUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || "Download PDF"}
+                                      </a>
+                                    ) : (
+                                      <span>{dataItem.title || ""}</span>
+                                    )}
                                   </div>
                                 ))}
                               </td>
@@ -263,7 +355,27 @@ const DataTable = ({ data, slug: propSlug }) => {
                                         : "border-b"
                                     }`}
                                   >
-                                    {dataItem}
+                                    {typeof dataItem === "string" ? (
+                                      dataItem
+                                    ) : dataItem.pdfUrl ? (
+                                      <a
+                                        href={dataItem.pdfUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || "Access Solutions"}
+                                      </a>
+                                    ) : dataItem.slug ? (
+                                      <Link
+                                        href={`/CBSE-Previousyear-Question-Papers-/${dataItem.slug}`}
+                                        className="w-full block hover:underline"
+                                      >
+                                        {dataItem.title || "Access Solutions"}
+                                      </Link>
+                                    ) : (
+                                      <span>{dataItem.title || ""}</span>
+                                    )}
                                   </div>
                                 ))}
                               </td>
@@ -276,14 +388,14 @@ const DataTable = ({ data, slug: propSlug }) => {
                   ) : null}
 
                   {item.heading8 && (
-                    <h3 className="mb-2 p-4 text-white 2 mt-4 bg-orange-600 font-bold">
+                    <h2 className="mb-2 p-4 text-white 2 mt-4 bg-orange-600 font-bold">
                       {item.heading8}
-                    </h3>
+                    </h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
 
                   {item.heading9 && (
-                    <h3 className="mb-2  2 mt-4  font-bold">{item.heading9}</h3>
+                    <h2 className="mb-2  2 mt-4  font-bold">{item.heading9}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para9}</p>
 
@@ -298,25 +410,28 @@ const DataTable = ({ data, slug: propSlug }) => {
                   )}
 
                   {item.heading10 && (
-                    <h3 className="mb-2  2 mt-4 font-bold">{item.heading10}</h3>
+                    <h2 className="mb-2  2 mt-4 font-bold">{item.heading10}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para10}</p>
                   {item.heading11 && (
-                    <h3 className="mb-2  2 ">{item.heading11}</h3>
+                    <h2 className="mb-2  2 ">{item.heading11}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
                   {item.heading12 && (
-                    <h3 className="mb-2  2 ">{item.heading12}</h3>
+                    <h2 className="mb-2  2 ">{item.heading12}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para12}</p>
                   {item.heading13 && (
-                    <h3 className="mb-2  2 ">{item.heading13}</h3>
+                    <h2 className="mb-2  2 ">{item.heading13}</h2>
                   )}
                   <p className="mb-2 mt-4 text-gray-800">{item.para13}</p>
 
-                  <div className="flex flex-col text-[.8em] mt-5 border border-slate-800  rounded-lg p-1">
-                    <h3 className=" font-semibold">{item.heading6}</h3>
-                    <p className=" ">{item.para6}</p>
+                  {(item.heading6 || item.para6 || (item.list3 && item.list3.length > 0)) && (
+                    <div className="flex flex-col text-[.8em] mt-5 border border-slate-800  rounded-lg p-1">
+                      {item.heading6 && (
+                        <h2 className=" font-semibold">{item.heading6}</h2>
+                      )}
+                      {item.para6 && <p className=" ">{item.para6}</p>}
                     {item.list3 && item.list3.length > 0 && (
                       <ol className="flex flex-wrap gap-2 w-full p-4 text-orange-600 mb-2">
                         {item.list3.map((listItem, index) => (
@@ -338,6 +453,7 @@ const DataTable = ({ data, slug: propSlug }) => {
                       </ol>
                     )}
                   </div>
+                  )}
                 </div>
               ))
             ) : (
@@ -366,7 +482,7 @@ const DataTable = ({ data, slug: propSlug }) => {
             </div>
           </div>
         </div>
-        <FAQAccordion faqs={faqs} />
+        <DynamicFAQSection slug={currentSlug} />
         <Footer1 />
         <Footer />
       </div>

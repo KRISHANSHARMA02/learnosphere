@@ -1,342 +1,195 @@
-"use client";
-import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
-import Navbar from "@/components/Navbar";
+const icseRelatedTitles = {
+  "ICSE-Biology": "ICSE Biology Study Resources and Chapter Help | Learnosphere",
+  "ICSE-Mathematics-Class-10-Solutions": "ICSE Class 10 Maths Solutions: Chapter-Wise Answers | Learnosphere",
+  "ICSE-Class-9-Maths-Selina-Solutions-Chapter-8": "ICSE Class 9 Maths Selina Solutions: Chapter 8 | Learnosphere",
+  "ICSE-School-In-Jaipur": "ICSE Schools in Jaipur: List and Details | Learnosphere",
+  "ICSE-Full-Form": "ICSE Full Form: What Does ICSE Stand For? | Learnosphere",
+  "ICSE-Syllabus": "ICSE Syllabus: Subjects and Class-Wise Overview | Learnosphere",
+  "Selina-Solutions-Concise-Biology-Class-10-Chapter-6-Photosynthesis": "Photosynthesis: ICSE Class 10 Biology Selina Ch 6 | Learnosphere",
+  "ICSE-Passing-Marks": "ICSE Passing Marks: Minimum Marks Required to Pass | Learnosphere",
+  "ICSE-School-List-With-Details": "ICSE School List with Details | Learnosphere",
+  "ICSE-Solutions-Class-10-Chapter-1-Force": "ICSE Class 10 Physics Chapter 1 Force: Solutions | Learnosphere",
+  "ICSE-Class-6-Maths": "ICSE Class 6 Maths: Study Material and Practice | Learnosphere",
+  "ICSE-Class-8-Biology-Selina-Solutions-Chapter-2": "ICSE Class 8 Biology Selina Solutions: Chapter 2 | Learnosphere",
+  "ICSE-Board-Papers-2016": "ICSE Board Papers 2016: Past Year Question Papers | Learnosphere",
+  "ICSE-Solutions-Class-10-Chapter-8-Current-Electricity": "ICSE Class 10 Physics Current Electricity: Chapter 8 | Learnosphere",
+  "ICSE-Syllabus-for-Class-10-for-the-Year-2023-24": "ICSE Class 10 Syllabus for 2023-24 Session | Learnosphere",
+  "ICSE-vs-CBSE-Which-is-Better-CBSE-or-ICSE": "ICSE vs CBSE: Which Board Is Better for Your Child? | Learnosphere",
+  "ICSE-Class-6-Maths-Syllabus": "ICSE Class 6 Maths Syllabus: Chapters and Topics | Learnosphere",
+  "ICSE-Class-9-Chemistry-Selina-Solutions-Chapter-2": "ICSE Class 9 Chemistry Selina Solutions: Chapter 2 | Learnosphere",
+  "ISC-2017-Schedule": "ISC 2017 Exam Schedule: Class 12 Date Sheet | Learnosphere",
+  "ICSE-Class-7-Questions-Papers": "ICSE Class 7 Question Papers for Practice | Learnosphere",
+  "ICSE-Class-8-Maths-Selina-Solutions-Chapter-17": "ICSE Class 8 Maths Selina Solutions: Chapter 17 | Learnosphere",
+  "ICSE-Class-8-Maths-Selina-Solutions-Chapter-13": "Selina ICSE Class 8 Maths Chapter 13 Solutions | Learnosphere",
+  "ICSE-Books-For-Class-10": "ICSE Books for Class 10: Textbooks & Reference List | Learnosphere",
+  "ICSE-Physics-Questions-Paper-2014-Solved": "ICSE Physics 2014 Question Paper with Solutions | Learnosphere",
+  "ICSE-Selina-Class-9-Maths": "Selina ICSE Class 9 Maths Chapter Solutions | Learnosphere",
+  "List-of-ICSE-Schools-in-India": "List of ICSE Schools Across India | Learnosphere",
+  "ICSE-ISC-Class-11-Maths-Book": "ISC Class 11 Maths Book for ICSE Students | Learnosphere",
+  "ICSE-Solutions-Class-10-Chapter-1-Periodic-Table-Periodic-Property-And-Variations-Of-Properties": "ICSE Class 10 Chemistry: Periodic Table & Properties | Learnosphere",
+  "ICSE-Class-9-Biology-Selina-Solutions-Chapter-1": "ICSE Class 9 Biology Selina Solutions: Chapter 1 | Learnosphere",
+  "Concise-Mathematics-Class-10-ICSE-Guide": "Concise Mathematics Class 10 ICSE Guide | Learnosphere",
+  "ICSE-Class-8-Chemistry-Selina-Solutions-Chapter-8": "ICSE Class 8 Chemistry Selina Solutions: Chapter 8 | Learnosphere",
+  "ICSE-Class-8-Chemistry-Selina-Solutions-Chapter-6": "Selina ICSE Class 8 Chemistry Chapter 6 Solutions | Learnosphere",
+  "Selina-Solutions-Class-10-Chapter-5-Refraction-Through-A-Lens": "Refraction Through a Lens: ICSE Class 10 Selina Ch 5 | Learnosphere",
+  "ICSE-Class-7": "ICSE Class 7: Subjects, Syllabus and Study Material | Learnosphere",
+  "ICSE-Selina-Solution-Concise-Biology-Class-10-Chapter-3-Genetics-Some-Basic-Fundamentals": "Genetics: ICSE Class 10 Biology Selina Ch 3 Solutions | Learnosphere"
+};
+
+
+import { notFound } from "next/navigation";
 import axios from "axios";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState, use } from "react";
-import Banner2 from "@/public/Banner2.jpeg";
-import Link from "next/link";
-import Footer1 from "@/components/Footer1";
-import Footer from "@/components/Footer";
-import Sociallinks2 from "@/components/Sociallinks2";
-import FormSection from "@/components/FormGeneral";
-import { FaqItem } from "@/components/Faqs";
-import { useSession } from "next-auth/react";
-import { ToastContainer, toast } from "react-toastify";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
+import RelatedPageClient from "./RelatedPageClient";
 
-const cbseSyllabusLinks = [
-  "CBSE Class 12 Syllabus",
-  "CBSE Class 11 Syllabus",
-  "CBSE Class 10 Syllabus",
-  "CBSE Class 9 Syllabus",
-];
+const GENUINE_ICSE_SLUGS = new Set([
+  "icse-selina-solution-concise-biology-class-10-chapter-3-genetics-some-basic-fundamentals",
+  "icse-class-7",
+  "selina-solutions-class-10-chapter-5-refraction-through-a-lens",
+  "icse-class-8-chemistry-selina-solutions-chapter-6",
+  "icse-class-8-chemistry-selina-solutions-chapter-8",
+  "concise-mathematics-class-10-icse-guide",
+  "icse-class-9-biology-selina-solutions-chapter-1",
+  "icse-solutions-class-10-chapter-1-periodic-table-periodic-property-and-variations-of-properties",
+  "icse-isc-class-11-maths-book",
+  "list-of-icse-schools-in-india",
+  "icse-selina-class-9-maths",
+  "icse-physics-questions-paper-2014-solved",
+  "icse-books-for-class-10",
+  "icse-class-8-maths-selina-solutions-chapter-13",
+  "icse-class-8-maths-selina-solutions-chapter-17",
+  "icse-class-7-questions-papers",
+  "isc-2017-schedule",
+  "icse-class-9-chemistry-selina-solutions-chapter-2",
+  "icse-class-6-maths-syllabus",
+  "icse-vs-cbse-which-is-better-cbse-or-icse",
+  "icse-syllabus-for-class-10-for-the-year-2023-24",
+  "icse-solutions-class-10-chapter-8-current-electricity",
+  "icse-board-papers-2016",
+  "icse-class-8-biology-selina-solutions-chapter-2",
+  "icse-class-6-maths",
+  "icse-solutions-class-10-chapter-1-force",
+  "icse-school-list-with-details",
+  "icse-passing-marks",
+  "selina-solutions-concise-biology-class-10-chapter-6-photosynthesis",
+  "icse-syllabus",
+  "icse-full-form",
+  "icse-school-in-jaipur",
+  "icse-class-9-maths-selina-solutions-chapter-8",
+  "icse-mathematics-class-10-solutions",
+  "icse-biology",
+  "class-8-icse-maths-worksheets",
+  "isc-physics-previous-question-papers",
+  "icse-2017-question-paper",
+  "concise-physics-class-10-icse-pdf",
+  "icse-sample-papers",
+  "concise-mathematics-class-9-icse-guide-pdf",
+  "icse-class-10-physics-syllabus",
+  "icse-class-10-maths-selina-solutions",
+  "icse-solved-question-papers-last-ten-years",
+  "icse-vs-cbse",
+  "icse-new-syllabus",
+]);
 
-const normalizeTitle = (title) => {
-  return title.replace(/\s+/g, '').toLowerCase();
-};
+function normalizeSlug(slug) {
+  if (typeof slug !== "string") return null;
 
-const RelatedPage = (props) => {
-  const params = use(props.params);
-  const { slug } = params;
-  const router = useRouter();
-  
-  const { data: session, status } = useSession();
-  const isLoggedIn = status === "authenticated";
+  const cleanSlug = slug.trim().toLowerCase();
 
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [uploadedUrls, setUploadedUrls] = useState({});
-  const [selectedPdf, setSelectedPdf] = useState(null);
+  if (
+    !cleanSlug ||
+    cleanSlug.length > 150 ||
+    !/^[a-z0-9-]+$/.test(cleanSlug) ||
+    !GENUINE_ICSE_SLUGS.has(cleanSlug)
+  ) {
+    return null;
+  }
 
-  useEffect(() => {
-    AOS.init({ duration: 800, easing: "ease-in-out" });
+  return cleanSlug;
+}
 
-    // Fetch PDF map
-    axios.get(`${WEB_BACKEND_URL}/api/ics-papers`)
-      .then(res => {
-        let urlMap = {};
-        if (res.data && res.data.data) {
-          res.data.data.forEach(paper => {
-            if (paper.title) urlMap[normalizeTitle(paper.title)] = paper.s3_url;
-          });
-        }
-        
-        axios.get(`${WEB_BACKEND_URL}/api/icse-papers`)
-          .then(res2 => {
-            if (res2.data && res2.data.data) {
-              res2.data.data.forEach(paper => {
-                if (paper.title) urlMap[normalizeTitle(paper.title)] = paper.s3_url;
-              });
-            }
-            setUploadedUrls(urlMap);
-          })
-          .catch(err => {
-            console.error("Error fetching ICSE Class 8, 9, 11 papers:", err);
-            setUploadedUrls(urlMap);
-          });
-      })
-      .catch(err => console.error("Error fetching ICS papers:", err));
+async function getIcseRelatedData(slug) {
+  const cleanSlug = normalizeSlug(slug);
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `${WEB_BACKEND_URL}/api/route/icse-related/${slug}`
-        );
-        if (response.data && response.data.data) {
-          setData(response.data.data);
-        } else {
-          const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/icse-related/${slug}`);
-          if (localRes.data && localRes.data.data) {
-              setData(localRes.data.data);
-          } else {
-              setError("Content not found");
-          }
-        }
-      } catch (err) {
-        try {
-            const localRes = await axios.get(`${WEB_BACKEND_URL}/api/route/icse-related/${slug}`);
-            if (localRes.data && localRes.data.data) {
-                setData(localRes.data.data);
-                setError(null);
-            } else {
-                setError("Error fetching content");
-            }
-        } catch(e) {
-            console.error("Error fetching data:", err);
-            setError("Error fetching content");
-        }
-      } finally {
-        setLoading(false);
+  if (!cleanSlug) return null;
+
+  const backendUrls = [
+    WEB_BACKEND_URL,
+    process.env.WEB_BACKEND_URL,
+    "https://learnospherebackend.learnosphere.in",
+    "http://localhost:4000",
+  ].filter(Boolean);
+
+  const uniqueBackendUrls = [
+    ...new Set(backendUrls.map((url) => url.replace(/\/+$/, ""))),
+  ];
+
+  for (const baseUrl of uniqueBackendUrls) {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/api/route/icse-related/${encodeURIComponent(cleanSlug)}`,
+        { timeout: 8000 }
+      );
+
+      const data = response.data?.data;
+
+      if (
+        data &&
+        typeof data === "object" &&
+        !Array.isArray(data) &&
+        data.title
+      ) {
+        return data;
       }
-    };
-    if (slug) fetchData();
-  }, [slug]);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && searchQuery) {
-      window.location.href = `/SearchResult?query=${searchQuery}`;
+    } catch {
+      // Try the next configured backend URL.
     }
+  }
+
+  return null;
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const cleanSlug = normalizeSlug(slug);
+
+  if (!cleanSlug) {
+    return {
+      title: "Page Not Found | Learnosphere",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const data = await getIcseRelatedData(cleanSlug);
+
+  if (!data) {
+    return {
+      title: "Page Not Found | Learnosphere",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return {
+    title: `${data.title} | Learnosphere`,
+    description:
+      data.introPoints?.[0] ||
+      `Comprehensive ICSE study resources and syllabus for ${data.title}.`,
   };
+}
 
-  const renderResourceLink = (title) => {
-    if (!title) return <span>No title available</span>;
-    const finalPdfUrl = uploadedUrls[normalizeTitle(title)];
-    
-    return finalPdfUrl ? (
-      <button 
-        className="w-full block text-left cursor-pointer"
-        onClick={() => {
-          setSelectedPdf(finalPdfUrl);
-          setTimeout(() => {
-            document.getElementById('pdf-viewer')?.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        }}
-      >
-        {title}
-      </button>
-    ) : (
-      <button
-        className="w-full block text-left cursor-pointer"
-        onClick={() => alert("PDF not uploaded yet for this paper.")}
-      >
-        {title}
-      </button>
-    );
-  };
+export default async function ICSERelatedPage({ params }) {
+  const { slug } = await params;
+  const cleanSlug = normalizeSlug(slug);
 
-  if (loading) return <div className="text-gray-600 p-20 text-center font-bold text-xl">Loading...</div>;
-  if (error || !data) return <div className="text-red-500 p-20 text-center font-bold text-xl">{error || "Page not found"}</div>;
+  if (!cleanSlug) {
+    notFound();
+  }
 
-  return (
-    <>
-      <Navbar />
-      <div className="bg-gray-100 font-Poppins">
-        <div className="px-4 md:px-28 flex flex-col lg:flex-row gap-6 bg-gray-100 container mx-auto pt-24 pb-20">
-          
-          {/* Left Side Content */}
-          <div className="flex flex-col w-full lg:w-[65%]">
-            
-            <h1 className="mb-6 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
-              {data.title}
-            </h1>
+  const data = await getIcseRelatedData(cleanSlug);
 
-            <div className="mb-6 rounded-lg overflow-hidden shadow-sm">
-                <Image src={Banner2} alt="Learnosphere Banner" className="w-full object-cover" />
-            </div>
+  if (!data) {
+    notFound();
+  }
 
-            {data.introPoints && data.introPoints.length > 0 && (
-              <div className="mb-8">
-                <ul className="list-disc text-gray-800 pl-6 space-y-2">
-                  {data.introPoints.map((point, index) => (
-                    <li key={index} className="text-[1.1em]">{point}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {data.syllabus && (
-              <div className="mb-8 border border-slate-800 bg-white">
-                <h2 className="text-white bg-orange-600 p-4 font-bold text-center text-[1.2em]">
-                  {data.syllabus.title}
-                </h2>
-                <div className="p-4">
-                  <ul className="list-disc pl-5 space-y-2 text-gray-800">
-                    {data.syllabus.topics.map((topic, index) => (
-                      <li key={index} className="border-b border-gray-200 pb-2 last:border-0">{topic}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {data.whyChooseUs && data.whyChooseUs.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-slate-800 text-[1.3em] font-bold mb-4">
-                  Why Choose Learnosphere?
-                </h2>
-                <ul className="list-disc pl-6 space-y-2 text-gray-800">
-                  {data.whyChooseUs.map((point, index) => (
-                    <li key={index} className="text-[1.1em]">{point}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {data.faqs && data.faqs.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-slate-800 text-[1.3em] font-bold mb-4">
-                  Frequently Asked Questions (FAQs)
-                </h2>
-                <div>
-                  {data.faqs.map((faq, index) => (
-                    <FaqItem key={index} question={faq.question} answer={faq.answer} />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {data.resources && data.resources.length > 0 && (
-              <div className="mb-10 border border-slate-800 bg-white">
-                 <table className="min-w-full">
-                    <tbody>
-                        {data.resources.map((resource, index) => (
-                            <tr key={index}>
-                                <td className={`py-3 px-5 hover:bg-gray-100 font-medium text-gray-800 cursor-pointer ${index !== data.resources.length - 1 ? "border-b border-slate-800" : ""}`}>
-                                    {renderResourceLink(resource)}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                 </table>
-              </div>
-            )}
-
-            {selectedPdf && (
-              <div id="pdf-viewer" className="mt-8 mb-8 text-center flex flex-col items-center">
-                <ToastContainer />
-                <h2 className="text-2xl font-semibold text-orange-700 mb-4">View PDF</h2>
-                <button
-                  onClick={() => {
-                    if (isLoggedIn) {
-                      window.open(selectedPdf, "_blank");
-                    } else {
-                      toast.info("Please log in as a student to continue", { position: "top-center", autoClose: 2000 });
-                      setTimeout(() => router.push("/Student"), 2000);
-                    }
-                  }}
-                  className="inline-block px-6 py-3 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition relative z-10"
-                >
-                  View / Download PDF
-                </button>
-                
-                <div className="relative w-full h-[600px] border rounded-xl my-4 shadow-md bg-white overflow-hidden flex flex-col mt-4">
-                  {isLoggedIn ? (
-                    <iframe
-                      src={`${selectedPdf}#toolbar=0&navpanes=0&scrollbar=0`}
-                      width="100%"
-                      height="100%"
-                      style={{ border: "none" }}
-                      title="PDF Viewer"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 relative">
-                      <div className="w-3/4 space-y-4 blur-sm opacity-50 absolute top-10 left-10 right-10 bottom-10 pointer-events-none select-none">
-                         <div className="h-4 bg-gray-400 rounded w-full"></div>
-                         <div className="h-4 bg-gray-400 rounded w-full"></div>
-                         <div className="h-4 bg-gray-400 rounded w-4/5"></div>
-                      </div>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md z-20">
-                        <p className="text-lg font-semibold text-gray-800 mb-2">Please log in to view the full PDF</p>
-                        <p className="text-gray-600 mb-4 text-center max-w-md">You are seeing a limited preview. Log in to access the complete document.</p>
-                        <button
-                          onClick={() => router.push("/Student")}
-                          className="px-5 py-2 bg-orange-600 text-white font-semibold rounded-full shadow-md hover:bg-orange-700 transition"
-                        >
-                          Login to View PDF
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {data.relatedLinks && data.relatedLinks.length > 0 && (
-              <div className="mt-8 border border-slate-300 rounded-xl p-6 bg-white shadow-sm">
-                <h2 className="font-bold text-[1.3em] text-slate-800 mb-6">
-                  ICSE Related Links
-                </h2>
-                <ul className="flex flex-wrap gap-4 w-full">
-                  {data.relatedLinks.map((link, index) => {
-                    const isSamplePapers = link === "ICSE Sample Papers";
-                    const hrefPath = isSamplePapers 
-                      ? "/ICSE-Sample-Papers-Page" 
-                      : `/ICSE-Related/${link.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase()}`;
-                    
-                    return (
-                    <li key={index} className="w-full md:w-[48%]">
-                      <Link 
-                        href={hrefPath} 
-                        className="block w-full p-4 bg-gray-100 border border-gray-200 rounded-lg font-semibold text-orange-600 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150 shadow-sm text-center"
-                      >
-                        {link}
-                      </Link>
-                    </li>
-                  )})}
-                </ul>
-              </div>
-            )}
-
-
-
-          </div>
-
-          {/* Right Side Sidebar */}
-          <div className="w-full lg:w-[35%] flex flex-col gap-6">
-            
-            <div className="bg-white p-6 shadow-md rounded-lg border border-gray-200">
-              <input
-                type="text"
-                placeholder="Type To Search"
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-orange-500"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-            </div>
-
-            {/* Removed sticky top-24 so it doesn't scroll/stick */}
-            {/* Removed extra heading to avoid duplicate Join Learnosphere text */}
-            <div className="bg-white p-6 shadow-md rounded-lg border border-gray-200">
-              <FormSection />
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-      
-      <Sociallinks2 />
-      <Footer1 />
-      <Footer />
-    </>
-  );
-};
-
-export default RelatedPage;
+  return <RelatedPageClient initialData={data} slug={cleanSlug} />;
+}
