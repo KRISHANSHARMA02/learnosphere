@@ -12,9 +12,12 @@ function UnsubscribeContent() {
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [resubscribing, setResubscribing] = useState(false);
   const [verification, setVerification] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [unsubscribed, setUnsubscribed] = useState(false);
+  const [justUnsubscribed, setJustUnsubscribed] = useState(false);
+  const [resubscribed, setResubscribed] = useState(false);
   const [selectedReason, setSelectedReason] = useState("Too frequent");
   const [customReason, setCustomReason] = useState("");
 
@@ -74,6 +77,8 @@ function UnsubscribeContent() {
       const data = await res.json();
       if (res.ok && data.success) {
         setUnsubscribed(true);
+        setJustUnsubscribed(true);
+        setResubscribed(false);
       } else {
         setErrorMsg(data.message || "Could not process your unsubscription request.");
       }
@@ -81,6 +86,37 @@ function UnsubscribeContent() {
       setErrorMsg("A network error occurred. Please try again.");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleResubscribe = async () => {
+    if (!token || resubscribing) return;
+
+    setResubscribing(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/unsubscribe/resubscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setUnsubscribed(false);
+        setResubscribed(true);
+        setJustUnsubscribed(false);
+        if (verification) {
+          setVerification({ ...verification, alreadyUnsubscribed: false });
+        }
+      } else {
+        setErrorMsg(data.message || "Could not process resubscription request.");
+      }
+    } catch (err) {
+      setErrorMsg("A network error occurred. Please try again.");
+    } finally {
+      setResubscribing(false);
     }
   };
 
@@ -120,12 +156,48 @@ function UnsubscribeContent() {
                   Return to Learnosphere
                 </Link>
               </div>
+            ) : resubscribed ? (
+              <div className="text-center py-6">
+                <div className="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-emerald-100 text-emerald-600 mb-4 text-2xl font-bold">
+                  ✓
+                </div>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">Welcome Back!</h2>
+                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  {verification?.maskedEmail ? (
+                    <>
+                      <strong>{verification.maskedEmail}</strong> has been successfully resubscribed.
+                      You will continue to receive newsletters, event updates, and announcements from Learnosphere.
+                    </>
+                  ) : (
+                    "You have been successfully resubscribed to Learnosphere communications."
+                  )}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+                  <Link
+                    href="/"
+                    className="inline-block px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-medium text-sm rounded-lg transition-colors shadow-sm"
+                  >
+                    Return to Homepage
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setResubscribed(false);
+                      setUnsubscribed(false);
+                    }}
+                    className="inline-block px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm rounded-lg transition-colors"
+                  >
+                    Unsubscribe Again
+                  </button>
+                </div>
+              </div>
             ) : unsubscribed ? (
               <div className="text-center py-6">
                 <div className="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-green-100 text-green-600 mb-4 text-2xl font-bold">
                   ✓
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">Unsubscribed Successfully</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  {verification?.alreadyUnsubscribed && !justUnsubscribed ? "Already Unsubscribed" : "Unsubscribed Successfully"}
+                </h2>
                 <p className="text-gray-600 text-sm mb-4 leading-relaxed">
                   {verification?.maskedEmail ? (
                     <>
@@ -140,6 +212,31 @@ function UnsubscribeContent() {
                   <strong>Please note:</strong> You will still receive essential transactional emails
                   such as login OTPs, password reset requests, and purchase receipts.
                 </div>
+
+                {/* Undo / Resubscribe Box */}
+                <div className="p-4 bg-orange-50 border border-orange-200 rounded-xl mb-6 text-left">
+                  <p className="text-xs font-semibold text-orange-900 mb-1">
+                    Unsubscribed by mistake?
+                  </p>
+                  <p className="text-xs text-orange-800 mb-3">
+                    You can undo this anytime to stay updated with new courses, tutor tasks, and offers.
+                  </p>
+                  <button
+                    onClick={handleResubscribe}
+                    disabled={resubscribing}
+                    className="w-full sm:w-auto px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-medium text-xs rounded-lg transition-colors shadow-sm flex items-center justify-center cursor-pointer disabled:opacity-50"
+                  >
+                    {resubscribing ? (
+                      <>
+                        <span className="inline-block animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent mr-2" />
+                        Resubscribing...
+                      </>
+                    ) : (
+                      "↺ Undo Unsubscribe & Resubscribe"
+                    )}
+                  </button>
+                </div>
+
                 <Link
                   href="/"
                   className="inline-block px-6 py-2.5 bg-gray-900 hover:bg-black text-white font-medium text-sm rounded-lg transition-colors"
@@ -208,7 +305,7 @@ function UnsubscribeContent() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="flex-1 py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm rounded-lg shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="flex-1 py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm rounded-lg shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
                     >
                       {submitting ? (
                         <>
