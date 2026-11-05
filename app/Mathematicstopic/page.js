@@ -13,6 +13,7 @@ import Sociallinks2 from "@/components/Sociallinks2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
+import MathsRelatedLinks from "@/components/MathsRelatedLinks";
 
 const MathematicsTopic = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,8 +47,23 @@ const MathematicsTopic = () => {
     <div>
       <Navbar />
 
-      <div className="flex flex-col md:flex-row gap-4 mt-24 px-4 md:px-8 xl:px-20 relative">
-        <div className=" font-Poppins w-full md:w-[75%]">
+      <div className="mt-24 px-4 md:px-8 xl:px-20 font-Poppins">
+        <nav className="text-gray-600 text-sm mb-4" aria-label="Breadcrumb">
+          <ul className="flex items-center space-x-2 flex-wrap">
+            <li>
+              <Link href="/" className="text-blue-600 hover:underline">
+                Home
+              </Link>
+            </li>
+            <li>/</li>
+            <li className="text-gray-800 font-semibold" aria-current="page">
+              Mathematics Topics
+            </li>
+          </ul>
+        </nav>
+
+        <div className="flex flex-col md:flex-row gap-4 relative">
+          <div className="font-Poppins w-full md:w-[75%]">
           <div className="fixed right-8 top-[650px] md:top-[550px] flex flex-col items-center space-y-4">
 
           </div>
@@ -169,6 +185,7 @@ const MathematicsTopic = () => {
               lifelong love for mathematics.
             </p>
           </div>
+          <MathsRelatedLinks />
         </div>
         <div className="flex flex-col gap-5 w-full md:w-[25%] font-Poppins">
           <div className="w-full bg-white p-8 ">
@@ -187,6 +204,7 @@ const MathematicsTopic = () => {
             <FormSection />
           </div>
         </div>
+      </div>
       </div>
       <Sociallinks2 />
       <Footer1 />

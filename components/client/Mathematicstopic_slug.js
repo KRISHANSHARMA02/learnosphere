@@ -3,7 +3,7 @@ import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Banner from "@/public/Banner.jpeg";
 import Link from "next/link";
@@ -16,22 +16,24 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import FormSection from "@/components/FormGeneral";
 import PageNotFound from "@/app/not-found";
+import DynamicFAQSection from "@/components/DynamicFAQSection";
 
 const DataTable = ({ params }) => {
+  const routeParams = useParams();
   const [Class, setClass] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [slug, setSlug] = useState("");  
+  const [slug, setSlug] = useState(routeParams?.slug || "");  
 
   useEffect(() => {
-    // Unwrap params (it's a Promise)
-    const unwrapParams = async () => {
-      const resolvedParams = await params;
-      setSlug(resolvedParams.slug);
-    };
-
-    unwrapParams();
-  }, [params]);
+    if (routeParams?.slug) {
+      setSlug(routeParams.slug);
+    } else if (params) {
+      Promise.resolve(params).then((resolved) => {
+        if (resolved?.slug) setSlug(resolved.slug);
+      });
+    }
+  }, [routeParams, params]);
 
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
@@ -108,11 +110,51 @@ const DataTable = ({ params }) => {
 
   // if (error) { return <div className="text-red-500">Error: {error}</div>; }
 
+  const formatBreadcrumbTitle = (slugStr) => {
+    if (!slugStr) return "";
+    return slugStr
+      .split("-")
+      .map((word, idx) => {
+        const lower = word.toLowerCase();
+        if (["hcf", "lcm", "gcd"].includes(lower)) return lower.toUpperCase();
+        if (idx > 0 && ["of", "in", "and", "a", "an", "the", "for", "to", "at", "by", "from"].includes(lower)) {
+          return lower;
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+  };
+
+  const breadcrumbTitle = data && data.length > 0 && data[0]?.title
+    ? data[0].title.split(/[:|]/)[0].trim()
+    : formatBreadcrumbTitle(slug);
+
   return (
     <>
       <Navbar />
       <div className="bg-gray-100 font-Poppins">
-        <div className=" px-4 md:px-28 flex flex-col md:flex-row gap-6 bg-gray-100 container mx-auto pt-24">
+        <div className="px-4 md:px-28 container mx-auto pt-24">
+          <nav className="text-gray-600 text-sm mb-4" aria-label="Breadcrumb">
+            <ul className="flex items-center space-x-2 flex-wrap">
+              <li>
+                <Link href="/" className="text-blue-600 hover:underline">
+                  Home
+                </Link>
+              </li>
+              <li>/</li>
+              <li>
+                <Link href="/Mathematicstopic" className="text-blue-600 hover:underline">
+                  Mathematics Topics
+                </Link>
+              </li>
+              <li>/</li>
+              <li className="text-gray-800 font-semibold truncate" aria-current="page">
+                {breadcrumbTitle}
+              </li>
+            </ul>
+          </nav>
+
+          <div className="flex flex-col md:flex-row gap-6">
           <div className="flex flex-col gap-5 w-full md:w-[65%]">
             <div className="fixed right-8 top-[650px] md:top-[550px] flex flex-col items-center space-y-4">
               {/* WhatsApp Modal */}
@@ -149,7 +191,30 @@ const DataTable = ({ params }) => {
                   <Link href="https://sarvgyat.learnosphere.in/">
                     <Image className="mt-3" src={Banner} alt="" />
                   </Link>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
+                  <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para1}</p>
+                  {((item.tableData && item.tableData.length > 0) ||
+                    (item.anotherField && item.anotherField.length > 0)) && !item.heading7 && (
+                    <div className="grid gap-4 mt-3">
+                      <table className="min-w-full bg-white border border-gray-300 table-fixed">
+                        <tbody>
+                          {item.tableData.map((theorem, index) => (
+                            <tr key={index}>
+                              {/* Column 1 */}
+                              <td className="border border-slate-800 py-2 px-4 align-top">
+                                {theorem}
+                              </td>
+                              {/* Column 2 */}
+                              <td className="border border-slate-800 py-2 px-4 align-top">
+                                {item.anotherField && item.anotherField[index]
+                                  ? item.anotherField[index]
+                                  : "No data found"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                   {item.para60 > 0 && (
 
                     <p className="bg-orange-50 font-semibold text-[1em] border p-3 text-center border-gray-300 rounded-lg ">{item.para60}</p>
@@ -170,7 +235,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 text-slate-800 text-[1.5em]">
                     {item.heading2}
                   </h1>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para2}</p>
+                  <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para2}</p>
 
                   {item.list2 && item.list2.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -202,7 +267,7 @@ const DataTable = ({ params }) => {
                   <h1 className=" text-slate-800 mt-4 text-[1.3em]">
                     {item.heading3}
                   </h1>
-                  <p className="">{item.para3}</p>
+                  <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para3}</p>
 
                   {item.anotherField1 && item.anotherField1.length > 0 && (
                     <div className="grid gap-4 mt-3">
@@ -281,7 +346,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 text-slate-800 mt-2 text-[1.5em]">
                     {item.heading5}
                   </h1>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para5}</p>
+                  <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para5}</p>
 
                   {item.list5 && item.list5.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -298,7 +363,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 text-slate-800 text-[1.5em]">
                     {item.heading7}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para7}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para7}</p>
 
                   {item.imageUrls3 && item.imageUrls3.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -359,7 +424,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-1 text-slate-800 mt-2  text-[1.5em]">
                     {item.heading8}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para8}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para8}</p>
                   {item.list7 && item.list7.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
                       <ol className="list-decimal text-[.9em] pl-10 text-gray-800 mb-2">
@@ -376,7 +441,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading9}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para9}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para9}</p>
                   {item.list8 && item.list8.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
                       <ol className="list-decimal text-[.9em] pl-10 text-gray-800 mb-2">
@@ -407,7 +472,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading10}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para10}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para10}</p>
                   {/*border para*/}
                   {item.para6 > 0 && (
 
@@ -427,7 +492,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading11}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para11}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para11}</p>
 
 
 
@@ -446,7 +511,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading12}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para12}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para12}</p>
                   {item.imageUrls5 && item.imageUrls5.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls5.map((imageUrl, index) => (
@@ -465,11 +530,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading13}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para13}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para13}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading14}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para14}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para14}</p>
                   {item.list11 && item.list11.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
                       <ol className="list-decimal text-[.9em] pl-10 text-gray-800 mb-2">
@@ -499,7 +564,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading15}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para15}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para15}</p>
                   {item.imageUrls7 && item.imageUrls7.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls7.map((imageUrl, index) => (
@@ -529,7 +594,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading16}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para16}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para16}</p>
                   {item.para59 > 0 && (
 
                     <p className="bg-orange-50 font-semibold text-[1em] border p-3 text-center border-gray-300 rounded-lg ">{item.para59}</p>
@@ -564,7 +629,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading17}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para17}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para17}</p>
 
                   <div className="grid gap-4">
                     {(item.anotherField17 && item.anotherField17.length > 0) ||
@@ -623,7 +688,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading18}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para18}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para18}</p>
                   {item.para57 > 0 && (
 
                     <p className="bg-orange-50 font-semibold text-[1em] border p-3 text-center border-gray-300 rounded-lg ">{item.para57}</p>
@@ -640,7 +705,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <p className="mb-2 mt-1 text-gray-800">{item.para62}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para62}</p>
                   {item.imageUrls9 && item.imageUrls9.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls9.map((imageUrl, index) => (
@@ -658,8 +723,8 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading19}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para19}</p>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para63}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para19}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para63}</p>
 
                   {item.imageUrls10 && item.imageUrls10.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -690,11 +755,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading20}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para20}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para20}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading21}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para21}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para21}</p>
 
                   {item.list16 && item.list16.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -710,7 +775,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading22}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para22}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para22}</p>
                   {item.list37 && item.list37.length > 0 && (
                     <div className=" rounded-lg">
                       <ol className="  text-gray-800 mb-2">
@@ -725,11 +790,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading23}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para23}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para23}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading24}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para24}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para24}</p>
                   {item.list17 && item.list17.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
                       <ol className="list-decimal text-[.9em] pl-10 text-gray-800 mb-2">
@@ -799,7 +864,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading25}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para25}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para25}</p>
                   {item.imageUrls11 && item.imageUrls11.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls11.map((imageUrl, index) => (
@@ -817,11 +882,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading26}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para26}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para26}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading27}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para27}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para27}</p>
 
                   {item.list18 && item.list18.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -837,7 +902,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading28}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para28}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para28}</p>
                   {item.imageUrls12 && item.imageUrls12.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls12.map((imageUrl, index) => (
@@ -908,11 +973,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading29}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para29}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para29}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading30}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para30}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para30}</p>
                   {item.imageUrls13 && item.imageUrls13.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls13.map((imageUrl, index) => (
@@ -941,7 +1006,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading31}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para31}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para31}</p>
 
                   {item.list38 && item.list38.length > 0 && (
                     <div className=" rounded-lg">
@@ -1035,7 +1100,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading32}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para32}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para32}</p>
 
                   {item.list27 && item.list27.length > 0 && (
                     <div className=" rounded-lg">
@@ -1051,7 +1116,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading33}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para33}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para33}</p>
                   {item.list39 && item.list39.length > 0 && (
                     <div className=" rounded-lg">
                       <ol className="  text-gray-800 mb-2">
@@ -1079,11 +1144,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading34}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para34}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para34}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading35}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para35}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para35}</p>
                   {item.imageUrls15 && item.imageUrls15.length > 0 && (
                     <div className="flex gap-4 mt-4">
                       {item.imageUrls15.map((imageUrl, index) => (
@@ -1153,7 +1218,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading36}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para36}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para36}</p>
 
                   <div className="grid gap-4">
                     {/* Check if there's any data in the fields */}
@@ -1233,11 +1298,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading37}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para37}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para37}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading38}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para38}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para38}</p>
                   {item.list22 && item.list22.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
                       <ol className="list-decimal text-[.9em] pl-10 text-gray-800 mb-2">
@@ -1278,11 +1343,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading39}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para39}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para39}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading40}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para40}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para40}</p>
 
                   {item.imageUrls18 && item.imageUrls18.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -1324,11 +1389,11 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading41}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para41}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para41}</p>
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading42}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para42}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para42}</p>
 
                   {item.imageUrls19 && item.imageUrls19.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -1359,7 +1424,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading43}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para43}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para43}</p>
 
                   {item.list31 && item.list31.length > 0 && (
                     <div className=" rounded-lg">
@@ -1375,7 +1440,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading44}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para44}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para44}</p>
                   {item.list32 && item.list32.length > 0 && (
                     <div className=" rounded-lg">
                       <ol className=" text-[.9em] pl-10 text-gray-800 mb-2">
@@ -1390,7 +1455,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading45}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para45}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para45}</p>
                   {item.list24 && item.list24.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
                       <ol className="list-decimal text-[.9em] pl-10 text-gray-800 mb-2">
@@ -1469,7 +1534,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading46}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para46}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para46}</p>
                   {item.list34 && item.list34.length > 0 && (
                     <div className=" rounded-lg">
                       <ol className=" list-disc text-[.9em] pl-10 text-gray-800 mb-2">
@@ -1499,7 +1564,7 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading47}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para47}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para47}</p>
                   {item.list35 && item.list35.length > 0 && (
                     <div className=" rounded-lg">
                       <ol className=" list-disc text-[.9em] pl-10 text-gray-800 mb-2">
@@ -1515,7 +1580,7 @@ const DataTable = ({ params }) => {
                     {item.heading48}
                   </h1>
 
-                  <p className="mb-2 mt-1 text-gray-800">{item.para48}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para48}</p>
                   {item.list36 && item.list36.length > 0 && (
                     <div className=" rounded-lg">
                       <ol className=" text-[.9em] pl-10 text-gray-800 mb-2">
@@ -1530,38 +1595,30 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading49}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800">{item.para49}</p>
+                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para49}</p>
 
 
 
-                  <div>
-                    <h1 className="mb-2 font-bold text-black text-[1.3em]">
-                      {item.heading50}
-                    </h1>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para50}</p>
-                    <h1 className="mb-2 font-semibold text-black text-[1em]">
-                      {item.heading51}
-                    </h1>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para51}</p>
-                    <h1 className="mb-2 font-semibold text-black text-[1em]">
-                      {item.heading52}
-                    </h1>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para52}</p>
-                    <h1 className="mb-2 font-semibold text-black text-[1em]">
-                      {item.heading53}
-                    </h1>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para53}</p>
-                    <h1 className="mb-2 font-semibold text-black text-[1em]">
-                      {item.heading54}
-                    </h1>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para54}</p>
-                    <h1 className="mb-2 font-semibold text-black text-[1em]">
-                      {item.heading55}
-                    </h1>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para55}</p>
-                    <p className="mb-2 mt-1 text-gray-800">{item.para56}</p>
-
-                  </div>
+                  {item.heading50 && (
+                    <div>
+                      <h1 className="mb-2 font-bold text-black text-[1.3em]">
+                        {item.heading50}
+                      </h1>
+                      <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para50}</p>
+                      {item.heading51 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading51}</h1>}
+                      {item.para51 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para51}</p>}
+                      {item.heading52 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading52}</h1>}
+                      {item.para52 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para52}</p>}
+                      {item.heading53 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading53}</h1>}
+                      {item.para53 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para53}</p>}
+                      {item.heading54 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading54}</h1>}
+                      {item.para54 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para54}</p>}
+                      {item.heading55 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading55}</h1>}
+                      {item.para55 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para55}</p>}
+                      {item.para56 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para56}</p>}
+                    </div>
+                  )}
+                  <DynamicFAQSection slug={slug} />
 
                   <div className='flex flex-col  mt-5 border  border-slate-800  rounded-lg p-1'>
                   <h1 className=' font-bold text-[1em]'>{item.heading6}</h1>
@@ -1641,6 +1698,7 @@ const DataTable = ({ params }) => {
               <FormSection />
             </div>
           </div>
+        </div>
         </div>
         <Footer1 />
         <Footer />
