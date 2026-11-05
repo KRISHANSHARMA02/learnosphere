@@ -1,0 +1,82 @@
+name: 🚀 Deploy Next.js Frontend to VPS
+
+on:
+  push:
+    branches:
+      - feature/new-dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: 🔐 Setup SSH Access
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEV_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.DEV_VPS_IP }} >> ~/.ssh/known_hosts
+
+      - name: 📂 Deploy Frontend via Rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='node_modules' \
+            --exclude='.git' \
+            --exclude='.env' \
+            --exclude='.next' \
+            --exclude='logs' \
+            --no-perms --no-owner --no-group \
+            ./ ${{ secrets.DEV_VPS_USER }}@${{ secrets.DEV_VPS_IP }}:/var/www/learnosphere_dev/
+
+      - name: 🔁 Install Dependencies, Build, and Restart PM2
+        run: |
+          ssh -T -i ~/.ssh/id_rsa \
+            ${{ secrets.DEV_VPS_USER }}@${{ secrets.DEV_VPS_IP }} << 'EOF'
+
+            set -e
+
+            # Load NVM
+            export NVM_DIR="$HOME/.nvm"
+
+            if [ -s "$NVM_DIR/nvm.sh" ]; then
+              source "$NVM_DIR/nvm.sh"
+            else
+              echo "ERROR: NVM not found at $NVM_DIR"
+              exit 1
+            fi
+
+            # Select Node.js version
+            nvm use default
+
+            echo "Node version: $(node -v)"
+            echo "NPM version: $(npm -v)"
+            echo "PM2 location: $(command -v pm2)"
+
+            cd /var/www/learnosphere_dev
+
+            # Install dependencies
+            npm install --legacy-peer-deps
+
+            # Build Next.js production bundle
+            npm run build
+
+            # Start or restart PM2
+            if pm2 describe learnosphere-frontend-dev > /dev/null 2>&1; then
+              pm2 restart learnosphere-frontend-dev --update-env
+            else
+              pm2 start server.js --name learnosphere-frontend-dev
+            fi
+
+            pm2 save
+
+            echo "Frontend deployment completed successfully"
+
+          EOF
