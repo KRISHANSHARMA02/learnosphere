@@ -2,73 +2,34 @@
 import Link from "next/link";
 import React from "react";
 
-export default function MathsRelatedLinks() {
-  const links = [
-    "Flow Rate Formula",
-    "Impulse Formula",
-    "Rectangular Parallelepiped Formula",
-    "Avogadros Law",
-    "Area Of Isosceles Trapezium",
-    "Shear Modulus Formula",
-    "Kinetic Energy Examples Problems",
-    "Integration Formulas For Class 12",
-    "Linear Equation Formula",
-    "Formula To Find Power",
-    "Learn Mathematics",
-    "Surface Area Of Sphere",
-    "Basic Differentiation Formulas",
-    "Statistics Basics",
-    "Circle Problems",
-    "Number System",
-    "Cofactor Matrix",
-    "Laplace Theorem",
-    "Faces Edges And Vertices",
-    "Prime Number",
-    "Complement Of A Set",
-    "Co Prime Number List",
-    "Statistics Symbols",
-    "Factor Theorem",
-    "Factors Of 215",
-    "Angle Of Elevation",
-    "Divisibility Rules For 13",
-    "How To Complete The Square",
-    "Application Of Matrices",
-    "Important Questions Class 11 Maths Chapter 14 Mathematical Reasoning",
-    "Cube Cuboid",
-    "Conversion Of Units",
-    "HCF Of Two Numbers",
-    "Trigonometry Rules",
-    "Profit And Loss Explanation",
-    "Metric System Chart",
-    "Pythagorean Theorem Questions",
-    "Types Of Symmetry",
-    "Different Mathematical Symbols",
-    "Circumference",
-    "Straight Lines Formulas",
-    "Transversal",
-    "Class 10 Maths",
-    "Law Of Sines",
-    "Addition And Subtraction",
-    "Factors Of 91",
-    "Dodecagon",
-    "Complex Number System",
-    "Solve The Linear Equation In Two Or Three Variables",
-    "Mutually Exclusive Events"
-  ];
-
+export default function MathsRelatedLinks({
+  title = "Maths Related Links",
+  links = [
+    { title: "Square Root of 7", href: "/Mathematicstopic/square-root-of-7" },
+    { title: "HCF of Two Numbers", href: "/Mathematicstopic/hcf-of-two-numbers" },
+  ],
+}) {
   return (
-    <div className="w-full bg-gray-50 border border-gray-200 rounded-xl p-6 my-8">
-      <h2 className="font-bold text-[1.4rem] text-black mb-6">Maths Related Links</h2>
+    <div className="w-full bg-white border border-slate-800 rounded-xl p-5 md:p-6 my-6 font-Poppins">
+      <h2 className="font-bold text-[1.2em] md:text-[1.4rem] text-black mb-4">
+        {title}
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {links.map((title, index) => {
-          const slug = encodeURIComponent(title.toLowerCase().replace(/\s+/g, '-'));
+        {links.map((item, index) => {
+          const itemTitle = typeof item === "string" ? item : item.title;
+          const href =
+            typeof item === "string"
+              ? `/Mathematicstopic/${encodeURIComponent(
+                  item.toLowerCase().replace(/\s+/g, "-")
+                )}`
+              : item.href;
           return (
-            <Link 
-              key={index} 
-              href={`/Mathematicstopic/${slug}`}
-              className="bg-gray-200 p-4 rounded-lg text-orange-600 font-semibold hover:bg-orange-600 hover:text-white transition-colors duration-200"
+            <Link
+              key={index}
+              href={href}
+              className="bg-gray-200 p-4 rounded-lg text-orange-600 font-semibold hover:bg-orange-600 hover:text-white transition-all duration-150 ease-in-out block text-left"
             >
-              {title}
+              {itemTitle}
             </Link>
           );
         })}
