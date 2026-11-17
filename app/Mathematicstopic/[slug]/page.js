@@ -7,7 +7,10 @@ const mathTopicTitles = {
   "define-symmetrical": "What Is Symmetry? Meaning of Symmetrical in Maths | Learnosphere",
   "intersecting-lines-and-non-intersecting-lines": "Intersecting and Non-Intersecting Lines in Geometry | Learnosphere",
   "square-root-of-7": "Square Root of 7: Value, Decimal & Method | Learnosphere",
-  "hcf-of-two-numbers": "HCF of Two Numbers: Formula, Methods & Examples | Learnosphere"
+  "hcf-of-two-numbers": "HCF of Two Numbers: Formula, Methods & Examples | Learnosphere",
+  "prime-factorization": "Prime Factorization: Methods & Solved Examples | Learnosphere",
+  "prime-factorization-": "Prime Factorization: Methods & Solved Examples | Learnosphere",
+  "Prime-Factorization": "Prime Factorization: Methods & Solved Examples | Learnosphere"
 };
 
 const mathTopicsDescriptions = {
@@ -21,7 +24,10 @@ const mathTopicsDescriptions = {
   "parabola": "Parabola in maths: learn the definition, standard equations, focus, directrix and graph, with clear explanations for Class 11 and 12 students.",
   "square-root-of-7": "The square root of 7 is approximately 2.645751. Learn its exact form, why √7 is irrational, its decimal value and how to calculate it using long division.",
   "surface-area-of-a-sphere": "Surface area of a sphere formula: learn 4πr² with worked examples and tips to solve sphere problems in Class 9 and 10 maths.",
-  "hcf-of-two-numbers": "Learn how to find the HCF of two numbers using prime factorisation and the division method. Understand the HCF formula with step-by-step examples."
+  "hcf-of-two-numbers": "Learn how to find the HCF of two numbers using prime factorisation and the division method. Understand the HCF formula with step-by-step examples.",
+  "prime-factorization": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions.",
+  "prime-factorization-": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions.",
+  "Prime-Factorization": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions."
 };
 
 import ClientPage from '@/components/client/Mathematicstopic_slug';

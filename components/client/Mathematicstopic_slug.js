@@ -183,7 +183,233 @@ const DataTable = ({ params }) => {
               />
             </div>
             {data.length > 0 ? (
-              data.map((item) => (
+              data.map((item) => {
+                const isPrimeFactorization =
+                  (slug && slug.toLowerCase().replace(/-+$/, "") === "prime-factorization") ||
+                  (item?.slug && item.slug.toLowerCase().replace(/-+$/, "") === "prime-factorization");
+
+                if (isPrimeFactorization) {
+                  return (
+                    <div key={item.id} className="mb-4">
+                      <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
+                        {item.heading1}
+                      </h1>
+                      <Link href="https://sarvgyat.learnosphere.in/">
+                        <Image className="mt-3" src={Banner} alt="Sarvgyan Learnosphere Banner" />
+                      </Link>
+                      <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para1}</p>
+
+                      {/* Section: What Is Prime Factorization? */}
+                      <h2 className="mb-2 text-slate-800 text-[1.5em] font-semibold mt-6">
+                        {item.heading2}
+                      </h2>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para2}</p>
+
+                      {/* Section: Prime Factorization Methods */}
+                      <h2 className="mb-2 text-slate-800 text-[1.4em] font-semibold mt-6">
+                        {item.heading3}
+                      </h2>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para3}</p>
+
+                      {/* Section: 1. Prime Factorization by Division Method */}
+                      <h3 className="mb-2 text-slate-800 text-[1.25em] font-semibold mt-6">
+                        {item.heading4}
+                      </h3>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para4}</p>
+
+                      {/* Example 60 */}
+                      <h4 className="mb-2 text-slate-800 text-[1.1em] font-semibold mt-4">
+                        {item.heading5}
+                      </h4>
+                      <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para5}</p>
+                      <div className="overflow-x-auto my-3">
+                        <table className="min-w-full bg-white border border-gray-300">
+                          <thead className="bg-orange-50">
+                            <tr>
+                              <th className="border border-slate-800 py-2 px-4 text-left font-semibold">Division</th>
+                              <th className="border border-slate-800 py-2 px-4 text-left font-semibold">Quotient</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr><td className="border border-slate-800 py-2 px-4">60 ÷ 2</td><td className="border border-slate-800 py-2 px-4">30</td></tr>
+                            <tr><td className="border border-slate-800 py-2 px-4">30 ÷ 2</td><td className="border border-slate-800 py-2 px-4">15</td></tr>
+                            <tr><td className="border border-slate-800 py-2 px-4">15 ÷ 3</td><td className="border border-slate-800 py-2 px-4">5</td></tr>
+                            <tr><td className="border border-slate-800 py-2 px-4">5 ÷ 5</td><td className="border border-slate-800 py-2 px-4">1</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">
+                        The prime divisors are 2, 2, 3 and 5.{"\n"}
+                        Therefore:{"\n"}
+                        60 = 2 × 2 × 3 × 5{"\n\n"}
+                        In exponential form:{"\n"}
+                        60 = 2² × 3 × 5
+                      </p>
+
+                      {/* Example 460 */}
+                      <h4 className="mb-2 text-slate-800 text-[1.1em] font-semibold mt-6">
+                        {item.heading7}
+                      </h4>
+                      <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para7}</p>
+                      <div className="overflow-x-auto my-3">
+                        <table className="min-w-full bg-white border border-gray-300">
+                          <thead className="bg-orange-50">
+                            <tr>
+                              <th className="border border-slate-800 py-2 px-4 text-left font-semibold">Division</th>
+                              <th className="border border-slate-800 py-2 px-4 text-left font-semibold">Quotient</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr><td className="border border-slate-800 py-2 px-4">460 ÷ 2</td><td className="border border-slate-800 py-2 px-4">230</td></tr>
+                            <tr><td className="border border-slate-800 py-2 px-4">230 ÷ 2</td><td className="border border-slate-800 py-2 px-4">115</td></tr>
+                            <tr><td className="border border-slate-800 py-2 px-4">115 ÷ 5</td><td className="border border-slate-800 py-2 px-4">23</td></tr>
+                            <tr><td className="border border-slate-800 py-2 px-4">23 ÷ 23</td><td className="border border-slate-800 py-2 px-4">1</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">
+                        Therefore:{"\n"}
+                        460 = 2 × 2 × 5 × 23{"\n\n"}
+                        In exponential form:{"\n"}
+                        460 = 2² × 5 × 23
+                      </p>
+
+                      {/* Section: 2. Prime Factorization by Factor Tree Method */}
+                      <h3 className="mb-2 text-slate-800 text-[1.25em] font-semibold mt-6">
+                        {item.heading8}
+                      </h3>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para8}</p>
+
+                      {/* Section: Prime Factorization Solved Examples */}
+                      <h2 className="mb-2 text-slate-800 text-[1.4em] font-semibold mt-6">
+                        {item.heading9}
+                      </h2>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para9}</p>
+
+                      <div className="space-y-4 mt-3">
+                        <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                          <h4 className="font-semibold text-slate-900 mb-1">{item.heading10}</h4>
+                          <p className="text-gray-800 whitespace-pre-line">{item.para10}</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                          <h4 className="font-semibold text-slate-900 mb-1">{item.heading11}</h4>
+                          <p className="text-gray-800 whitespace-pre-line">{item.para11}</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                          <h4 className="font-semibold text-slate-900 mb-1">{item.heading12}</h4>
+                          <p className="text-gray-800 whitespace-pre-line">{item.para12}</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                          <h4 className="font-semibold text-slate-900 mb-1">{item.heading13}</h4>
+                          <p className="text-gray-800 whitespace-pre-line">{item.para13}</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                          <h4 className="font-semibold text-slate-900 mb-1">{item.heading14}</h4>
+                          <p className="text-gray-800 whitespace-pre-line">{item.para14}</p>
+                        </div>
+                      </div>
+
+                      {/* Section: Difference Between the Division Method and Factor Tree Method */}
+                      <h2 className="mb-2 text-slate-800 text-[1.4em] font-semibold mt-6">
+                        {item.heading15}
+                      </h2>
+                      <div className="overflow-x-auto my-3">
+                        <table className="min-w-full bg-white border border-gray-300">
+                          <thead className="bg-orange-50">
+                            <tr>
+                              <th className="border border-slate-800 py-2 px-4 text-left font-semibold">Division method</th>
+                              <th className="border border-slate-800 py-2 px-4 text-left font-semibold">Factor tree method</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Divides the number repeatedly by prime numbers</td>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Splits the number into pairs of factors</td>
+                            </tr>
+                            <tr>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Continues until the quotient becomes 1</td>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Continues until all final factors are prime</td>
+                            </tr>
+                            <tr>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Prime divisors are collected during division</td>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Prime factors are collected at the ends of the branches</td>
+                            </tr>
+                            <tr>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Useful for systematic step-by-step calculations</td>
+                              <td className="border border-slate-800 py-2 px-4 align-top">Useful for visually understanding how a number breaks down</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p className="mb-2 mt-2 text-gray-800 font-medium">{item.para15}</p>
+
+                      {/* Section: How Is Prime Factorization Used to Find HCF and LCM? */}
+                      <h2 className="mb-2 text-slate-800 text-[1.4em] font-semibold mt-6">
+                        {item.heading16}
+                      </h2>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para16}</p>
+
+                      {/* Section: Practice Questions on Prime Factorization */}
+                      <h2 className="mb-2 text-slate-800 text-[1.4em] font-semibold mt-6">
+                        {item.heading17}
+                      </h2>
+                      <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para17}</p>
+
+                      {/* Section: Explore More CBSE Mathematics Topics */}
+                      <h2 className="mb-2 font-semibold text-orange-600 text-[1.2em] mt-6">
+                        {item.heading49}
+                      </h2>
+                      <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">
+                        {item.para49}
+                      </p>
+                      <div className="mt-4 mb-6">
+                        <Link
+                          href="/MathsFormula"
+                          role="button"
+                          className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow transition-colors duration-200 text-center"
+                        >
+                          Explore All Topics
+                        </Link>
+                      </div>
+
+                      {/* Dynamic FAQs */}
+                      <DynamicFAQSection slug={slug} />
+
+                      {/* Conclusion */}
+                      <div className="mt-6 mb-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                        <h2 className="mb-2 font-bold text-slate-800 text-[1.2em]">Conclusion</h2>
+                        <p className="text-gray-800 whitespace-pre-line leading-relaxed">
+                          Prime factorization helps students understand the relationship between prime numbers and composite numbers. The division method provides a systematic way to find prime factors, while the factor tree method makes the process easier to visualise.{"\n\n"}
+                          Practising both methods with different numbers will help students improve their calculation skills and understand how prime factorization is used in HCF and LCM problems.
+                        </p>
+                      </div>
+
+                      {/* Maths Related Links */}
+                      <div className="flex flex-col mt-5 border border-slate-800 rounded-lg p-1">
+                        <h2 className="font-bold text-[1em] p-2">{item.heading6}</h2>
+                        {item.list3 && item.list3.length > 0 && (
+                          <ol className="flex flex-wrap gap-2 w-full text-[.8em] p-4 text-orange-600 mb-2">
+                            {item.list3.map((listItem, index) => (
+                              <li
+                                key={index}
+                                className="mb-1 w-[48%] bg-gray-200 rounded-lg font-semibold hover:bg-orange-600 hover:text-white hover:font-bold transition-all ease-in-out duration-150"
+                              >
+                                <Link
+                                  href={`/Mathematicstopic/${encodeURIComponent(listItem.toLowerCase().replace(/\s+/g, "-"))}`}
+                                  className="block w-full h-full p-4"
+                                >
+                                  {listItem}
+                                </Link>
+                              </li>
+                            ))}
+                          </ol>
+                        )}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
                 <div key={item.id} className="mb-4">
                   <h1 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold">
                     {item.heading1}
@@ -1595,7 +1821,43 @@ const DataTable = ({ params }) => {
                   <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
                     {item.heading49}
                   </h1>
-                  <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para49}</p>
+                  {item.para49 && (
+                    <div>
+                      {item.para49.split("\n\n").map((paragraph, pIdx) => {
+                        let text = paragraph;
+                        if (
+                          text.includes("Explore more CBSE mathematics topics for Classes 6 to 12 to strengthen your understanding")
+                        ) {
+                          text =
+                            "To understand other mathematical concepts and study related topics, explore our guide to CBSE mathematics topics for Classes 6 to 12.";
+                        }
+                        const isTarget =
+                          text.includes(
+                            "To understand other mathematical concepts and study related topics, explore our guide to CBSE mathematics topics for Classes 6 to 12"
+                          ) ||
+                          text.includes(
+                            "explore our guide to CBSE mathematics topics for Classes 6 to 12"
+                          );
+
+                        return (
+                          <React.Fragment key={pIdx}>
+                            {isTarget ? (
+                              <p className="mb-2 mt-1">
+                                <Link
+                                  href="/MathsFormula"
+                                  className="text-orange-600 hover:text-orange-700 hover:underline transition-colors whitespace-pre-line font-medium"
+                                >
+                                  {text}
+                                </Link>
+                              </p>
+                            ) : (
+                              <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{text}</p>
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
+                    </div>
+                  )}
 
 
 
@@ -1638,7 +1900,8 @@ const DataTable = ({ params }) => {
                 
 
                 </div>
-              ))
+              );
+            })
             ) : (
               <PageNotFound />
             )}

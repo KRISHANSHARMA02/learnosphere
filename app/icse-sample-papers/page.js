@@ -1,8 +1,10 @@
 import ClientPage from '@/components/client/icse-sample-papers';
 
 export const metadata = {
-  title: "ICSE Practice Papers for Exam Preparation",
-  description: "Use ICSE practice papers to review key concepts, assess your preparation and become more familiar with school exam questions."
+  title: {
+    absolute: "ICSE Sample Papers for Classes 8 to 10 | Learnosphere",
+  },
+  description: "Explore ICSE sample papers for Classes 8, 9 and 10. Access Maths practice papers, question sets and available solutions for exam preparation."
 };
 
 export default function Page(props) {

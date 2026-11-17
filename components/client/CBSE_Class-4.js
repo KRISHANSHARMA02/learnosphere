@@ -1,20 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
-import { ImBook } from "react-icons/im";
-import { FaBook } from "react-icons/fa";
-import DownloadFormModal from "@/components/DownloadFormModal";
+import { FaBook, FaChevronDown, FaChevronUp, FaGraduationCap, FaCheckCircle, FaLightbulb } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
+import DownloadFormModal from "@/components/DownloadFormModal";
 
 export default function FourthClass() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPdf, setSelectedPdf] = useState("");
-  const [hasDownloaded, setHasDownloaded] = useState(false); // Track if a PDF has been downloaded
+  const [hasDownloaded, setHasDownloaded] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
-    // Check session storage to see if the form has been filled
     const hasFilledForm = sessionStorage.getItem("hasFilledForm") === "true";
     setHasDownloaded(hasFilledForm);
   }, []);
@@ -24,7 +24,7 @@ export default function FourthClass() {
     if (!hasDownloaded) {
       setIsModalOpen(true);
     } else {
-      await downloadPdf(pdfUrl); // Download directly
+      await downloadPdf(pdfUrl);
     }
   };
 
@@ -36,7 +36,7 @@ export default function FourthClass() {
 
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = url.split("/").pop();
+      link.download = url.split("/").pop().split("?")[0];
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -48,1390 +48,565 @@ export default function FourthClass() {
 
   const handleFormSubmit = (formData) => {
     setIsModalOpen(false);
-    setHasDownloaded(true); // Update state
-
-    // Set session storage to indicate form has been filled
+    setHasDownloaded(true);
     sessionStorage.setItem("hasFilledForm", "true");
-
-    // Trigger PDF download
     downloadPdf(selectedPdf);
   };
 
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  // English Chapters (Marigold)
+  const englishChapters = [
+    { unit: "Unit-1", chNum: 1, title: "Wake Up", url: "https://learnosphere.in/public_pdf/Class-4 English/Wake Up And Neha Alarm Clock.pdf" },
+    { unit: "Unit-1", chNum: 2, title: "Neha's Alarm Clock", url: "https://learnosphere.in/public_pdf/Class-4 English/Wake Up And Neha Alarm Clock.pdf" },
+    { unit: "Unit-2", chNum: 3, title: "Noses", url: "https://learnosphere.in/public_pdf/Class-4 English/Noses And The Little Fir Tree.pdf" },
+    { unit: "Unit-2", chNum: 4, title: "The Little Fir Tree", url: "https://learnosphere.in/public_pdf/Class-4 English/Noses And The Little Fir Tree.pdf" },
+    { unit: "Unit-3", chNum: 5, title: "Run", url: "https://learnosphere.in/public_pdf/Class-4 English/Run And Nasruddin’s Aim.pdf" },
+    { unit: "Unit-3", chNum: 6, title: "Nasruddin’s Aim", url: "https://learnosphere.in/public_pdf/Class-4 English/Run And Nasruddin’s Aim.pdf" },
+    { unit: "Unit-4", chNum: 7, title: "Why", url: "https://learnosphere.in/public_pdf/Class-4 English/Why And Alice In Wonderland.pdf" },
+    { unit: "Unit-4", chNum: 8, title: "Alice in Wonderland", url: "https://learnosphere.in/public_pdf/Class-4 English/Why And Alice In Wonderland.pdf" },
+    { unit: "Unit-5", chNum: 9, title: "Don’t Be Afraid of the Dark", url: "https://learnosphere.in/public_pdf/Class-4 English/Don’t Be Afraid Of The Dark And Helen Keller.pdf" },
+    { unit: "Unit-5", chNum: 10, title: "Helen Keller", url: "https://learnosphere.in/public_pdf/Class-4 English/Don’t Be Afraid Of The Dark And Helen Keller.pdf" },
+    { unit: "Unit-6", chNum: 11, title: "Hiawatha", url: "https://learnosphere.in/public_pdf/Class-4 English/Hiawatha and Chapter And The Scholars Mother Tongue.pdf" },
+    { unit: "Unit-6", chNum: 12, title: "The Scholar's Mother Tongue", url: "https://learnosphere.in/public_pdf/Class-4 English/Hiawatha and Chapter And The Scholars Mother Tongue.pdf" },
+    { unit: "Unit-7", chNum: 13, title: "A Watering Rhyme", url: "https://learnosphere.in/public_pdf/Class-4 English/A Watering Rhyme The Giving Tree.pdf" },
+    { unit: "Unit-7", chNum: 14, title: "The Giving Tree", url: "https://learnosphere.in/public_pdf/Class-4 English/A Watering Rhyme The Giving Tree.pdf" },
+    { unit: "Unit-8", chNum: 15, title: "Books", url: "https://learnosphere.in/public_pdf/Class-4 English/Books And Going To Buy A Book.pdf" },
+    { unit: "Unit-8", chNum: 16, title: "Going to Buy a Book", url: "https://learnosphere.in/public_pdf/Class-4 English/Books And Going To Buy A Book.pdf" },
+    { unit: "Unit-9", chNum: 17, title: "The Naughty Boy", url: "https://learnosphere.in/public_pdf/Class-4 English/The Naughty Boy And Pinocchio.pdf" },
+    { unit: "Unit-9", chNum: 18, title: "Pinocchio", url: "https://learnosphere.in/public_pdf/Class-4 English/The Naughty Boy And Pinocchio.pdf" },
+  ];
+
+  // Hindi Chapters (Rimjhim)
+  const hindiChapters = [
+    { num: 1, title: "मन के भोले -भाले बादल", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/मन के भोले -भाले बादल.pdf" },
+    { num: 2, title: "जैसा सवाल वैसा जवाब", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/जैसा सवाल वैसा जवाब.pdf" },
+    { num: 3, title: "किरमिच की गेंद", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/किरमिच की गेंद.pdf" },
+    { num: 4, title: "पापा जब बच्चे थे", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/पापा जब बच्चे थे.pdf" },
+    { num: 5, title: "दोस्त की पोशाक", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/दोस्त की पोशाक.pdf" },
+    { num: 6, title: "नाव बनाओ नाव बनाओ", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/नाव बनाओ नाव बनाओ.pdf" },
+    { num: 7, title: "दान का हिसाब", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/दान का हिसाब.pdf" },
+    { num: 8, title: "कौन", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/कौन.pdf" },
+    { num: 9, title: "स्वतंत्रता की ओर", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/स्वतंत्रता की ओर.pdf" },
+    { num: 10, title: "थप्प रोटी थप्प दाल", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/थप्प रोटी थप्प दाल.pdf" },
+    { num: 11, title: "पढ़क्कू की सूझ", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/पढ़क्कू की सूझ.pdf" },
+    { num: 12, title: "सुनीता की पहिया कुर्सी", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/सुनीता की पहिया कुर्सी.pdf" },
+    { num: 13, title: "हुदहुद", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/हुदहुद.pdf" },
+    { num: 14, title: "मुफ्त ही मुफ्त", url: "https://learnosphere.in/public_pdf/Class-4 Hindi/मुफ्त ही मुफ्त.pdf" },
+  ];
+
+  // Mathematics Chapters (Math-Magic)
+  const mathChapters = [
+    { num: 1, title: "Building With Bricks", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Building With Bricks.pdf" },
+    { num: 2, title: "Long And Short", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Long And Short.pdf" },
+    { num: 3, title: "A Trip To Bhopal", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/A Trip To Bhopal.pdf" },
+    { num: 4, title: "Tick-Tick-Tick", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Tick-Tick-Tick.pdf" },
+    { num: 5, title: "The Way The World Looks", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/The Way The World Looks.pdf" },
+    { num: 6, title: "The Junk Seller", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/The Junk Seller.pdf" },
+    { num: 7, title: "Jugs And Mugs", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Jugs And Mugs.pdf" },
+    { num: 8, title: "Carts And Wheels", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Carts And Wheels.pdf" },
+    { num: 9, title: "Halves And Quarters", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Halves And Quarters.pdf" },
+    { num: 10, title: "Play With Patterns", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Play With Patterns.pdf" },
+    { num: 11, title: "Tables And Shares", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Tables And Shares.pdf" },
+    { num: 12, title: "How Heavy? How Light?", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/How Heavy How Light.pdf" },
+    { num: 13, title: "Fields And Fences", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Fields And Fences.pdf" },
+    { num: 14, title: "Smart Charts", url: "https://learnosphere.in/public_pdf/Class-4 Mathematics/Smart Charts.pdf" },
+  ];
+
+  // EVS Chapters (Looking Around)
+  const evsChapters = [
+    { num: 1, title: "Going To School", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Going To School.pdf" },
+    { num: 2, title: "Ear To Ear", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Ear To Ear.pdf" },
+    { num: 3, title: "A Day With Nandu", url: "https://learnosphere.in/public_pdf/Class-4 Evs/A Day With Nandu.pdf" },
+    { num: 4, title: "The Story Of Amrita", url: "https://learnosphere.in/public_pdf/Class-4 Evs/The Story Of Amrita.pdf" },
+    { num: 5, title: "Anita And The Honeybees", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Anita And The Honeybees.pdf" },
+    { num: 6, title: "Omana’s Journey", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Omana’s Journey.pdf" },
+    { num: 7, title: "From The Window", url: "https://learnosphere.in/public_pdf/Class-4 Evs/From The Window.pdf" },
+    { num: 8, title: "Reaching Grandmother’s House", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Reaching Grandmother’s House.pdf" },
+    { num: 9, title: "Changing Families", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Changing Families.pdf" },
+    { num: 10, title: "Hu Tu Tu, Hu Tu Tu", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Hu Tu Tu, Hu Tu Tu.pdf" },
+    { num: 11, title: "The Valley Of Flowers", url: "https://learnosphere.in/public_pdf/Class-4 Evs/The Valley Of Flowers.pdf" },
+    { num: 12, title: "Changing Times", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Changing Times.pdf" },
+    { num: 13, title: "A River’s Tale", url: "https://learnosphere.in/public_pdf/Class-4 Evs/A River’s Tale.pdf" },
+    { num: 14, title: "Basva’s Farm", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Basva’s Farm.pdf" },
+    { num: 15, title: "From Market To Home", url: "https://learnosphere.in/public_pdf/Class-4 Evs/From Market To Home.pdf" },
+    { num: 16, title: "A Busy Month", url: "https://learnosphere.in/public_pdf/Class-4 Evs/A Busy Month.pdf" },
+    { num: 17, title: "Nandita In Mumbai", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Nandita In Mumbai.pdf" },
+    { num: 18, title: "Too Much Water, Too Little Water", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Too Much Water, Too Little Water.pdf" },
+    { num: 19, title: "Abdul In The Garden", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Abdul In The Garden.pdf" },
+    { num: 20, title: "Eating Together", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Eating Together.pdf" },
+    { num: 21, title: "Food And Fun", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Food And Fun.pdf" },
+    { num: 22, title: "The World In My Home", url: "https://learnosphere.in/public_pdf/Class-4 Evs/The World In My Home.pdf" },
+    { num: 23, title: "Pochampalli", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Pochampalli.pdf" },
+    { num: 24, title: "Home And Abroad", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Home And Abroad.pdf" },
+    { num: 25, title: "Spicy Riddles", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Spicy Riddles.pdf" },
+    { num: 26, title: "Defence Officer: Wahida", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Defence Officer Wahida.pdf" },
+    { num: 27, title: "Chuskit Goes To School", url: "https://learnosphere.in/public_pdf/Class-4 Evs/Chuskit Goes To School.pdf" },
+  ];
+
+  const subjects = [
+    { subject: "English", focus: "Reading, comprehension, vocabulary, grammar and writing" },
+    { subject: "Hindi", focus: "Reading, vocabulary, language understanding and written expression" },
+    { subject: "Mathematics", focus: "Numbers, calculations, patterns, shapes, measurement and problem-solving" },
+    { subject: "Environmental Studies", focus: "People, places, nature, the environment and everyday life" },
+    { subject: "Arts Education", focus: "Creative expression through drawing, music and other art activities" },
+    { subject: "Physical Education", focus: "Movement, games, fitness and healthy habits" },
+  ];
+
+  const ncertBooks = [
+    { subject: "English", book: "Santoor" },
+    { subject: "Hindi", book: "Veena" },
+    { subject: "Mathematics", book: "Maths Mela" },
+    { subject: "Environmental Studies", book: "Our Wondrous World" },
+  ];
+
+  const faqs = [
+    {
+      q: "1. What is the CBSE Class 4 syllabus?",
+      a: "The CBSE Class 4 syllabus covers languages, Mathematics, Environmental Studies and other learning areas followed by the school. It develops reading, writing, calculation, reasoning and practical learning skills."
+    },
+    {
+      q: "2. What are the main subjects in Class 4?",
+      a: "The main learning areas generally include English, Hindi, Mathematics and Environmental Studies. Schools may also teach Arts, Physical Education, Computer Education and other subjects."
+    },
+    {
+      q: "3. Which NCERT books are used in Class 4?",
+      a: "The main NCERT textbooks include Santoor for English, Veena for Hindi, Maths Mela for Mathematics and Our Wondrous World for Environmental Studies."
+    },
+    {
+      q: "4. Has the Class 4 NCERT syllabus changed?",
+      a: "NCERT introduced updated competency-based textbooks for Grade 4. The new books replaced older textbooks such as Marigold, Rimjhim, Math-Magic and Looking Around."
+    },
+    {
+      q: "5. Is the Class 4 syllabus the same in every CBSE school?",
+      a: "Not necessarily. Schools may have different additional subjects, books, activities and assessment plans. Parents should check the latest syllabus issued by their child's school."
+    },
+    {
+      q: "6. How can students practise for Class 4 subjects?",
+      a: "Students can practise by revising textbook lessons, solving Mathematics problems, reading passages, completing written exercises and attempting subject-based quizzes."
+    },
+    {
+      q: "7. Where can students take an online quiz for Class 4?",
+      a: "Students can attempt the Learnosphere online quiz for Class 4 to practise and check their understanding through quiz questions."
+    }
+  ];
+
   return (
-    <div className="font-Poppins">
+    <div className="bg-gray-50 min-h-screen font-Poppins">
       <Navbar />
-      <div className="p-0 md:p-12  flex flex-col font-Poppins justify-center mt-12">
-        <div className="">
-          <h1 className=" p-4  text-2xl md:text-4xl mt-10 font-extrabold bg-black text-orange-500 shadow-orange-900 shadow-2xl  w-full md:w-[55%] rounded-lg text-center m-auto">
-            Class 4th{" "}
+
+      <main className="p-4 md:p-12 max-w-6xl mx-auto mt-12">
+        {/* Page Title */}
+        <div className="text-center mb-8">
+          <h1 className="p-4 text-2xl md:text-4xl mt-10 font-bold bg-black text-orange-500 shadow-orange-900 shadow-2xl w-full md:w-[70%] rounded-lg text-center mx-auto leading-tight">
+            CBSE Class 4 Syllabus: Subjects and NCERT Books
           </h1>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="w-full md:w-[45%]  flex flex-col gap-6 mt-8  md:text-start text-center  pt-6">
-            <p className=" font-Poppins">
-              CBSE (Central Board of Secondary Education) Class 4 is an
-              essential stage in a student's academic journey, focusing on
-              building foundational knowledge and skills.
-            </p>
-            <p>
-              CBSE Class 4 includes a range of subjects designed to build
-              foundational knowledge. Mathematics covers basic arithmetic,
-              geometry, and introductory measurement concepts. Science
-              introduces students to the basics of plants, animals, the human
-              body, and simple machines. English focuses on enhancing reading,
-              writing, grammar, and comprehension skills. Hindi aims to improve
-              vocabulary, grammar, and writing abilities through various prose
-              and poetry. Social Studies includes topics on community helpers,
-              festivals, and early history to give students a basic
-              understanding of society. Environmental Studies (EVS) integrates
-              basic science and social studies to help students understand their
-              surroundings and the importance of environmental conservation.
-              This well-rounded curriculum aims at the holistic development of
-              young learners
-            </p>
-            <p>
-              The CBSE Class 4 curriculum also includes co-curricular
-              activities, sports, and arts to ensure holistic development.
-              Emphasis is placed on interactive learning, with activities and
-              projects designed to make education enjoyable and meaningful for
-              young learners
-            </p>
-          </div>
+        {/* Introduction */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8 space-y-4 text-gray-700 leading-relaxed">
+          <p>
+            The CBSE Class 4 syllabus helps students strengthen their understanding of languages, mathematics and the world around them. At this stage, students develop reading comprehension, writing, numerical skills, logical thinking and practical understanding through classroom activities and subject-based learning.
+          </p>
+          <p>
+            NCERT has introduced updated competency-based textbooks for Grade 4. The main NCERT textbooks include <strong className="text-slate-800">Santoor</strong> for English, <strong className="text-slate-800">Veena</strong> for Hindi, <strong className="text-slate-800">Maths Mela</strong> for Mathematics and <strong className="text-slate-800">Our Wondrous World</strong> for Environmental Studies. These replaced the older books previously listed on many Class 4 syllabus pages.
+          </p>
+          <p>
+            The subjects and additional learning areas followed by a student may vary between schools. Parents should also check the latest book list and syllabus shared by their child's school.
+          </p>
+        </div>
 
-          <div className="w-full md:w-[55%]   mt-14  rounded-lg">
-            <table className="w-full border-collapse border border-gray-400">
-              <thead className="bg-orange-500 ">
-                <tr>
-                  <th className="border border-gray-300 p-2 font-Poppins">
-                    Subject
-                  </th>
-                  <th className="border border-gray-300 p-2 font-Poppins">
-                    Description
-                  </th>
+        {/* CBSE Class 4 Subjects Table */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
+          <h2 className="text-xl font-bold text-slate-800 mb-2 border-l-4 border-orange-500 pl-3">
+            CBSE Class 4 Subjects
+          </h2>
+          <p className="text-gray-700 text-sm mb-4 leading-relaxed">
+            Class 4 students generally study languages, mathematics and environmental studies. Schools may also include additional learning areas such as arts, physical education, computer education and general knowledge.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
+              <thead>
+                <tr className="bg-orange-600 text-white font-bold text-sm">
+                  <th className="border border-orange-700 py-3 px-4 text-left w-1/3">Subject</th>
+                  <th className="border border-orange-700 py-3 px-4 text-left">Main learning focus</th>
                 </tr>
               </thead>
-              <tbody className=" text-white">
-                <tr>
-                  <td className="border bg-amber-600  border-gray-300 p-2  font-Poppins text-md text-center">
-                    English
-                  </td>
-                  <td className="border bg-amber-500 border-gray-300 p-2 px-5 font-Poppins font-light text-xs md:text-[1em]">
-                    {" "}
-                    Class 4 English develops reading and comprehension through
-                    stories, poems, and literary forms like fables and fairy
-                    tales. Grammar basics include parts of speech and sentence
-                    structure, while vocabulary is expanded with new words and
-                    their meanings to enhance language skills.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border bg-amber-600  border-gray-300 p-2 text-md text-center font-Poppins">
-                    Mathematics
-                  </td>
-                  <td className="border bg-amber-500 border-gray-300 p-2 px-5 font-Poppins font-light text-xs md:text-[1em]">
-                    {" "}
-                    Class 4 Mathematics includes arithmetic operations
-                    (addition, subtraction, multiplication, division), basic
-                    geometry (shapes and symmetry), measurement (length, weight,
-                    volume, time), and data handling (charts and graphs). These
-                    topics build a foundation in problem-solving and analytical
-                    skills.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border bg-amber-600  border-gray-300 p-2 text-md text-center font-Poppins">
-                    Hindi
-                  </td>
-                  <td className="border bg-amber-500 border-gray-300 p-2 px-5 font-Poppins font-light text-xs md:text-[1em]">
-                    Class 4 Hindi focuses on reading diverse texts, including
-                    stories and poems, and writing essays and letters. Grammar
-                    covers essential elements such as nouns, verbs, and sentence
-                    formation. Vocabulary development includes learning new
-                    words and their usage in sentences.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border bg-amber-600  border-gray-300 p-2 text-md text-center font-Poppins">
-                    Environmental Studies
-                  </td>
-                  <td className="border bg-amber-500 border-gray-300 p-2 px-5 font-Poppins font-light text-xs md:text-[1em]">
-                    {" "}
-                    Class 4 EVS explores plants, animals, human body systems,
-                    and natural resources like water and soil. It emphasizes
-                    environmental conservation and community roles, along with
-                    understanding local festivals and cultural practices to
-                    foster environmental awareness.
-                  </td>
-                </tr>
+              <tbody className="text-sm text-gray-800">
+                {subjects.map((s, idx) => (
+                  <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="border border-gray-300 py-2.5 px-4 font-semibold text-orange-700">{s.subject}</td>
+                    <td className="border border-gray-300 py-2.5 px-4 text-gray-700">{s.focus}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
+          <p className="text-xs text-gray-500 italic mt-3">
+            The exact subject combination, additional books and assessment pattern can differ between schools.
+          </p>
         </div>
 
-        <div className="flex flex-col gap-5">
-          <p className="font-extrabold border-2 border-orange-500 p-4 mt-14 rounded-lg  text-center  w-full md:w-[40%] m-auto  text-2xl   bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent  from-orange-500 to-red-600  ">
-            A Comprehensive Guide for Class 4{" "}
+        {/* Class 4 NCERT Books Table */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
+          <h2 className="text-xl font-bold text-slate-800 mb-2 border-l-4 border-orange-500 pl-3">
+            Class 4 NCERT Books
+          </h2>
+          <p className="text-gray-700 text-sm mb-4 leading-relaxed">
+            NCERT has introduced new textbooks for Grade 4 as part of the curriculum changes aligned with the National Curriculum Framework for School Education.
           </p>
-          <p className="font-bold text-md  shadow-2xl text-white bg-gradient-to-r from-orange-600 to-orange-500    w-[55%] md:w-[13%] p-4 rounded-tl-lg rounded-tr-lg   mt-8 border-b-2 border-orange-800">
-            Class 4 English
-          </p>
-          <p className="text-center">
-            {" "}
-            In Class 4, English focuses on developing reading and comprehension
-            skills through engaging stories, poems, and passages suited for
-            their age. Students are introduced to various literary forms such as
-            fables, fairy tales, and simple poetry. Grammar instruction includes
-            fundamental concepts like parts of speech (nouns, verbs,
-            adjectives), basic sentence structure, and punctuation. Vocabulary
-            is expanded by learning new words, their meanings, and using them in
-            context to enhance language skills.
-          </p>
-          <div className="flex flex-wrap gap-8 px-7 md:px-20">
-            <div className=" flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold text-black  flex items-center gap-1 text-[1.1em] ">
-                <FaBook className="text-orange-500 " size={20} />
-                Marigold English
-              </p>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-1</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Wake Up And Neha Alarm Clock.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 1 :</span>Wake
-                Up{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Wake Up And Neha Alarm Clock.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 2 :</span>Neha
-                Alarm Clock{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-2</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Noses And The Little Fir Tree.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 3 :</span>Noses{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Noses And The Little Fir Tree.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 4 :</span>The
-                Little Fir Tree{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-3</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Run And Nasruddin’s Aim.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 5 :</span>Run{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Run And Nasruddin’s Aim.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 6 :</span>
-                Nasruddin’s Aim{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-4</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Why And Alice In Wonderland.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 7 :</span>Why{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Why And Alice In Wonderland.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 8 :</span>{" "}
-                Alice In Wonderland
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-5</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Don’t Be Afraid Of The Dark And Helen Keller.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 9 :</span>Don’t
-                Be Afraid Of The Dark{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Don’t Be Afraid Of The Dark And Helen Keller.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 10 :</span>
-                Helen Keller{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-6</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Hiawatha and Chapter And The Scholars Mother Tongue.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 11 :</span>
-                Hiawatha and Chapter{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Hiawatha and Chapter And The Scholars Mother Tongue.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter -12 :</span>The
-                Scholars Mother Tongue{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-            </div>
-
-            <ol className="list-disc flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-7</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/A Watering Rhyme The Giving Tree.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 13 :</span>A
-                Watering Rhyme{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/A Watering Rhyme The Giving Tree.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 14 :</span>The
-                Giving Tree{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-8</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Books And Going To Buy A Book.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 15 :</span>{" "}
-                Books{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/Books And Going To Buy A Book.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 16 :</span>
-                Going To Buy A Book{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <p className="font-bold text-orange-600 p-2 text-md ">Unit-9</p>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/The Naughty Boy And Pinocchio.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 17 :</span>The
-                Naughty Boy{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 English/The Naughty Boy And Pinocchio.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 18 :</span>
-                Pinocchio{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-
-              <p className="font-bold  ml-6 text-orange-500  ">Reading:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Comprehension:</span> Stories
-                and poems designed to improve understanding and interpretive
-                skills.
-              </li>
-              <li className="ml-14 ">
-                <span className="font-semibold ">Literature:</span> Introduction
-                to various literary forms, including fables, fairy tales, and
-                poems.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Grammar:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Parts of Speech: </span>
-                Fundamentals of nouns, verbs, adjectives, and adverbs.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Sentence Structure:</span>{" "}
-                Basics of sentence formation, punctuation, and tenses.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Vocabulary:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Word Meanings: </span> Learning
-                new words and their meanings.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Synonyms and Antonyms:</span>{" "}
-                Expanding vocabulary through similar and opposite words.
-              </li>
-            </ol>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
+              <thead>
+                <tr className="bg-orange-600 text-white font-bold text-sm">
+                  <th className="border border-orange-700 py-3 px-4 text-left w-1/2">Subject</th>
+                  <th className="border border-orange-700 py-3 px-4 text-left">NCERT textbook</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm text-gray-800">
+                {ncertBooks.map((b, idx) => (
+                  <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="border border-gray-300 py-2.5 px-4 font-semibold text-orange-700">{b.subject}</td>
+                    <td className="border border-gray-300 py-2.5 px-4 font-bold text-slate-800">{b.book}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <p className="font-bold text-md  shadow-2xl text-white bg-gradient-to-r from-orange-600 to-orange-500    w-[55%] md:w-[13%] p-4 rounded-tl-lg rounded-tr-lg   mt-8 border-b-2 border-orange-800">
-            Class 4 Hindi
+          <p className="text-sm text-gray-700 mt-4 leading-relaxed">
+            NCERT also provides learning resources for areas such as Arts Education and Physical Education and Well-being. Schools may use these alongside the main subject textbooks.
           </p>
-          <p className="text-center">
-            {" "}
-            For Class 4, Hindi aims to improve reading skills with diverse texts
-            including stories, folk tales, and poems. Writing practice involves
-            creating essays, letters, and simple creative pieces, emphasizing
-            clarity and structure. Grammar lessons cover essential elements such
-            as nouns, pronouns, verbs, and sentence formation. Vocabulary
-            development includes understanding new words, their meanings, and
-            effective usage in both written and spoken Hindi.
-          </p>
-          <div className="flex flex-wrap gap-8 px-7 md:px-20">
-            <div className=" flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold text-black  flex items-center gap-1 text-[1.1em] ">
-                <FaBook className="text-orange-500 " size={20} />
-                Rimjhim
-              </p>
-
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Hindi/मन के भोले -भाले बादल.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 1 :</span> मन
-                के भोले -भाले बादल
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/जैसा सवाल वैसा जवाब.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 2 :</span> जैसा
-                सवाल वैसा जवाब
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/किरमिच की गेंद.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 3 :</span>
-                किरमिच की गेंद
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/पापा जब बच्चे थे.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 4 :</span>पापा
-                जब बच्चे थे
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/दोस्त की पोशाक.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 5 :</span>दोस्त
-                की पोशाक
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/नाव बनाओ नाव बनाओ.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 6 :</span>नाव
-                बनाओ नाव बनाओ
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/दान का हिसाब.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 7 :</span>दान
-                का हिसाब
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() => handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/कौन.pdf")}
-              >
-                <span className="font-bold text-[1em]">Chapter - 8 :</span> कौन
-                ?
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/स्वतंत्रता की ओर.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 9 :</span>{" "}
-                स्वतंत्रता की ओर
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/थप्प रोटी थप्प दाल.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 10 :</span>थप्प
-                रोटी थप्प दाल
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/पढ़क्कू की सूझ.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 11 :</span>{" "}
-                पढ़क्कू की सूझ
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Hindi/सुनीता की पहिया कुर्सी.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 12 :</span>
-                सुनीता की पहिया कुर्सी
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() => handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/हुदहुद.pdf")}
-              >
-                <span className="font-bold text-[1em]">Chapter - 13 :</span>{" "}
-                हुदहुद
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Hindi/मुफ्त ही मुफ्त.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 14 :</span>
-                मुफ्त ही मुफ्त (गुजराती लोककथा)
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-            </div>
-            <ol className="list-disc flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold  ml-6 text-orange-500  ">Reading:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Comprehension:</span>Stories
-                and passages to enhance reading and understanding abilities.
-              </li>
-              <li className="ml-14 ">
-                <span className="font-semibold ">Literature:</span> Exposure to
-                folk tales, poems, and simple literary texts in Hindi.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Grammar:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Parts of Speech: </span>Study
-                of nouns, pronouns, verbs, and their uses.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Sentence Structure:</span>{" "}
-                Basics of sentence formation and punctuation.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Vocabulary:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">New Words: </span>Study of
-                nouns, pronouns, verbs, and their uses.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Usage:</span> Basics of
-                sentence formation and punctuation.
-              </li>
-            </ol>
-          </div>
-          <p className="font-bold text-md  shadow-2xl text-white bg-gradient-to-r from-orange-600 to-orange-500   w-[60%] md:w-[17%] p-4 rounded-tl-lg rounded-tr-lg   mt-8 border-b-2 border-orange-800">
-            Class 4 Mathematics
-          </p>
-          <p className="text-center">
-            {" "}
-            In Class 4 Mathematics, students learn fundamental arithmetic
-            operations such as addition, subtraction, multiplication, and
-            division. Geometry is introduced through basic shapes, their
-            properties, and concepts of symmetry. Measurement topics include
-            units of length, weight, volume, and time, with practical
-            application of these concepts. Data handling involves simple methods
-            for collecting, organizing, and representing data using charts and
-            graphs to develop analytical skills.
-          </p>
-          <div className="flex flex-wrap gap-8 px-7 md:px-20">
-            <div className=" flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold text-black  flex items-center gap-1 text-[1.1em] ">
-                <FaBook className="text-orange-500 " size={20} />
-                Math Magic
-              </p>
-
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/Building With Bricks.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 1 :</span>{" "}
-                Building With Bricks
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Mathematics/Long And Short.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 2 :</span>Long
-                And Short{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/A Trip To Bhopal.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 3 :</span>A
-                Trip To Bhopal{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Mathematics/Tick-Tick-Tick.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 4 :</span>
-                Tick-Tick-Tick{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/The Way The World Looks.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 5 :</span>The
-                Way The World Looks
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/The Junk Seller.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 6 :</span>The
-                Junk Seller
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Mathematics/Jugs And Mugs.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 7 :</span>Jugs
-                And Mugs
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/Carts And Wheels.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 8 :</span>Carts
-                And Wheels{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/Halves And Quarters.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 9 :</span>{" "}
-                Halves And Quarters{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/Play With Patterns.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 10 :</span>Play
-                With Patterns{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/Tables And Shares.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 11 :</span>
-                Tables And Shares{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/How Heavy And How Light.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 12 :</span> How
-                Heavy ? How Light ?{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Mathematics/Fields And Fences.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 13 :</span>{" "}
-                Fields And Fences
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Mathematics/Smart Chartsr.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 14 :</span>
-                Smart Chartsr
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-            </div>
-            <ol className="list-disc flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold  ml-6 text-orange-500  ">
-                Number Concepts:
-              </p>
-              <li className="ml-14">
-                <span className="font-semibold ">Operations:</span>Addition,
-                subtraction, multiplication, and division.
-              </li>
-              <li className="ml-14 ">
-                <span className="font-semibold ">Patterns:</span> Understanding
-                ones, tens, hundreds.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Geometry:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Shapes: </span> Understanding
-                properties of basic shapes like circles, squares, and triangles.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Symmetry:</span> Exploring
-                symmetrical shapes and patterns.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Measurement:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Units: </span> Learning units
-                of length, weight, volume, and time.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Practical Measurement:</span>{" "}
-                Using measurement tools and solving related problems.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">
-                Data Handling:
-              </p>
-              <li className="ml-14">
-                <span className="font-semibold ">Charts and Graphs: </span>{" "}
-                Representing and interpreting data using bar graphs and
-                pictograms.
-              </li>
-            </ol>
-          </div>
-          <p className="font-bold text-md  shadow-2xl text-white bg-gradient-to-r from-orange-600 to-orange-500    w-[80%] md:w-[23%] p-4 rounded-tl-lg rounded-tr-lg   mt-8 border-b-2 border-orange-800">
-            Class 4 Environmental Studies
-          </p>
-          <p className="text-center">
-            {" "}
-            For Class 4, EVS provides an understanding of the natural world by
-            studying various plants and animals, their characteristics, and
-            their habitats. The curriculum includes basic human body systems,
-            focusing on health, hygiene, and well-being. Students learn about
-            natural resources like water, air, and soil, and the importance of
-            conserving these resources. The subject also covers community roles,
-            environmental conservation practices, and cultural aspects such as
-            local festivals and traditions.
-          </p>
-          <div className="flex flex-wrap gap-8 px-7 md:px-20">
-            <div className=" flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <p className="font-bold text-black  flex items-center gap-1 text-[1.1em] ">
-                <FaBook className="text-orange-500 " size={20} />
-                Looking Around
-              </p>
-
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Going To School.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 1 :</span>Going
-                To School{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Ear To Ear.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 2 :</span> Ear
-                To Ear{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/A Day With Nandu.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 3 :</span>A Day
-                With Nandu{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/The Story of Amrita.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 4 :</span> The
-                Story of Amrita{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Evs/Anita  And The Honeybees.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 5 :</span>Anita
-                And The Honeybees{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Omana’s Journey.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 6 :</span>
-                Omana’s Journey{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/From The Window.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 7 :</span>From
-                The Window{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Evs/Reaching Grand Mother’s House.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 8 :</span>{" "}
-                Reaching Grand Mother’s House
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Changing Families.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 9 :</span>{" "}
-                Changing Families
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Hu Tu Tu Hu Tu Tu.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 10 :</span> Hu
-                Tu Tu Hu Tu Tu{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Valley Of Flowers.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 11 :</span>
-                Valley Of Flowers{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Changing Times.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 12 :</span>{" "}
-                Changing Times{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/A River’s Tale.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 13 :</span>A
-                River’s Tale{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Basva’s Farm.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 14 :</span>
-                Basva’s Farm{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/From Market To Home.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 15 :</span>{" "}
-                From Market To Home{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/A Busy Month.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 16 :</span>A
-                Busy Month{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Nandita In Mumbai.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 17 :</span>
-                Nandita In Mumbai{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick(
-                    "https://learnosphere.in/public_pdf/Class-4 Evs/Too Much Water Too Little Water.pdf"
-                  )
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 18 :</span> Too
-                Much Water Too Little Water{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Abdul In The Garden.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 19 :</span>
-                Abdul In The Garden{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Eating Together.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 20 :</span>{" "}
-                Eating Together{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Food And Fun.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 21 :</span>Food
-                And Fun{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/The World In My Home.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 22 :</span>The
-                World In My Home{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-            </div>
-
-            <ol className="list-disc flex flex-col gap-4  w-[300px] md:w-[500px] p-6 border-2 border-gray-200 rounded-xl shadow-2xl shadow-orange-200">
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Pochampalli.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 23 :</span>
-                Pochampalli{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Home And Abroad.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 24 :</span>Home
-                And Abroad{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Spicy Riddles.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 25 :</span>
-                Spicy Riddles{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Defence Officer Wahida.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 26 :</span>
-                Defence Officer: Wahida{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-              <a
-                className="text-[.9em] flex gap-2 hover:underline cursor-pointer"
-                onClick={() =>
-                  handleDownloadClick("https://learnosphere.in/public_pdf/Class-4 Evs/Chuskit Goes To School.pdf")
-                }
-              >
-                <span className="font-bold text-[1em]">Chapter - 27 :</span>{" "}
-                Chuskit Goes To School{" "}
-                <MdDownload
-                  className="text-orange-600 transition-all ease-in-out hover:scale-110 duration-300"
-                  size={22}
-                />
-              </a>
-
-              <p className="font-bold  ml-6 text-orange-500  ">
-                Plants and Animals:
-              </p>
-              <li className="ml-14">
-                <span className="font-semibold ">Classification: </span> Types
-                of plants and animals, their characteristics, and habitats.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Adaptations:</span>{" "}
-                Understanding how different species adapt to their environments.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">Human Body:</p>
-              <li className="ml-14">
-                <span className="font-semibold ">Systems: </span> Basic overview
-                of body systems like digestive and respiratory.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Health:</span> Importance of
-                hygiene and maintaining a healthy lifestyle.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">
-                Natural Resources:
-              </p>
-              <li className="ml-14">
-                <span className="font-semibold ">Types: </span> Water, air, and
-                soil, and their significance.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Conservation::</span>Methods to
-                conserve natural resources and protect the environment.
-              </li>
-              <p className="font-bold  ml-6 text-orange-500  ">
-                Community and Environment:
-              </p>
-              <li className="ml-14">
-                <span className="font-semibold ">Roles: </span>Functions of
-                community helpers and their impact.
-              </li>
-              <li className="ml-14">
-                <span className="font-semibold ">Festivals:</span>Learning about
-                major festivals and their cultural significance.
-              </li>
-            </ol>
+          
+          {/* Important Alert Callout */}
+          <div className="mt-4 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
+            <p className="text-sm text-amber-900 leading-relaxed font-medium">
+              <strong>Important:</strong> Older Class 4 syllabus pages may still show Marigold, Rimjhim, Math-Magic and Looking Around. These are the previous textbook names. Students should follow the books prescribed by their school rather than relying on an outdated online chapter list.
+            </p>
           </div>
         </div>
-      </div>
+
+        {/* Chapter-wise Guide Section */}
+        <div className="mb-10">
+          <p className="font-extrabold border-2 border-orange-500 p-4 mb-8 rounded-lg text-center w-full md:w-[60%] mx-auto text-xl md:text-2xl bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
+            A Comprehensive Guide for Class 4
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Class 4 English Card */}
+            <div className="bg-white p-6 border-2 border-gray-200 rounded-xl shadow-lg flex flex-col gap-4">
+              <div className="border-b border-gray-200 pb-3">
+                <div className="flex items-center gap-2">
+                  <FaBook className="text-orange-500" size={22} />
+                  <h3 className="font-bold text-slate-800 text-lg">Class 4 English (Santoor / Marigold)</h3>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">
+                  English learning focuses on developing reading, comprehension, vocabulary, grammar and writing with confidence.
+                </p>
+              </div>
+
+              <div className="space-y-1.5 max-h-96 overflow-y-auto pr-2">
+                {englishChapters.map((ch, idx) => (
+                  <a
+                    key={idx}
+                    onClick={() => handleDownloadClick(ch.url)}
+                    className="text-sm flex items-center justify-between p-2 rounded hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition border-b border-gray-100 last:border-0"
+                  >
+                    <span>
+                      <span className="font-semibold text-orange-600 text-xs mr-2">[{ch.unit}]</span>
+                      <span className="font-bold text-slate-700">Ch {ch.chNum}:</span> {ch.title}
+                    </span>
+                    <MdDownload className="text-orange-600 hover:scale-110 transition shrink-0 ml-2" size={18} />
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-3 border-t border-gray-200 text-xs text-gray-600">
+                Prescribed textbook: <strong>Santoor</strong>. Refer to school lesson plans for exact editions.
+              </div>
+            </div>
+
+            {/* Class 4 Hindi Card */}
+            <div className="bg-white p-6 border-2 border-gray-200 rounded-xl shadow-lg flex flex-col gap-4">
+              <div className="border-b border-gray-200 pb-3">
+                <div className="flex items-center gap-2">
+                  <FaBook className="text-orange-500" size={22} />
+                  <h3 className="font-bold text-slate-800 text-lg">Class 4 Hindi (Veena / Rimjhim)</h3>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">
+                  Hindi learning develops reading, writing, vocabulary, grammar and language comprehension.
+                </p>
+              </div>
+
+              <div className="space-y-1.5 max-h-96 overflow-y-auto pr-2">
+                {hindiChapters.map((ch, idx) => (
+                  <a
+                    key={idx}
+                    onClick={() => handleDownloadClick(ch.url)}
+                    className="text-sm flex items-center justify-between p-2 rounded hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition border-b border-gray-100 last:border-0"
+                  >
+                    <span>
+                      <span className="font-bold text-slate-700">Chapter - {ch.num} : </span>
+                      {ch.title}
+                    </span>
+                    <MdDownload className="text-orange-600 hover:scale-110 transition shrink-0 ml-2" size={18} />
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-3 border-t border-gray-200 text-xs text-gray-600">
+                Prescribed textbook: <strong>Veena</strong>. Practice reading and writing daily.
+              </div>
+            </div>
+
+            {/* Class 4 Mathematics Card */}
+            <div className="bg-white p-6 border-2 border-gray-200 rounded-xl shadow-lg flex flex-col gap-4">
+              <div className="border-b border-gray-200 pb-3">
+                <div className="flex items-center gap-2">
+                  <FaBook className="text-orange-500" size={22} />
+                  <h3 className="font-bold text-slate-800 text-lg">Class 4 Mathematics (Maths Mela / Math-Magic)</h3>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">
+                  Mathematics develops number sense, arithmetic calculations, geometric patterns and problem-solving.
+                </p>
+              </div>
+
+              <div className="space-y-1.5 max-h-96 overflow-y-auto pr-2">
+                {mathChapters.map((ch, idx) => (
+                  <a
+                    key={idx}
+                    onClick={() => handleDownloadClick(ch.url)}
+                    className="text-sm flex items-center justify-between p-2 rounded hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition border-b border-gray-100 last:border-0"
+                  >
+                    <span>
+                      <span className="font-bold text-slate-700">Chapter - {ch.num} : </span>
+                      {ch.title}
+                    </span>
+                    <MdDownload className="text-orange-600 hover:scale-110 transition shrink-0 ml-2" size={18} />
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-3 border-t border-gray-200 text-xs text-gray-600">
+                Prescribed textbook: <strong>Maths Mela</strong>. Practice calculations and word problems regularly.
+              </div>
+            </div>
+
+            {/* Class 4 Environmental Studies Card */}
+            <div className="bg-white p-6 border-2 border-gray-200 rounded-xl shadow-lg flex flex-col gap-4">
+              <div className="border-b border-gray-200 pb-3">
+                <div className="flex items-center gap-2">
+                  <FaBook className="text-orange-500" size={22} />
+                  <h3 className="font-bold text-slate-800 text-lg">Class 4 EVS (Our Wondrous World / Looking Around)</h3>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">
+                  EVS explores nature, community life, resources, health and environmental awareness.
+                </p>
+              </div>
+
+              <div className="space-y-1.5 max-h-96 overflow-y-auto pr-2">
+                {evsChapters.map((ch, idx) => (
+                  <a
+                    key={idx}
+                    onClick={() => handleDownloadClick(ch.url)}
+                    className="text-sm flex items-center justify-between p-2 rounded hover:bg-orange-50 hover:text-orange-600 cursor-pointer transition border-b border-gray-100 last:border-0"
+                  >
+                    <span>
+                      <span className="font-bold text-slate-700">Chapter - {ch.num} : </span>
+                      {ch.title}
+                    </span>
+                    <MdDownload className="text-orange-600 hover:scale-110 transition shrink-0 ml-2" size={18} />
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-3 border-t border-gray-200 text-xs text-gray-600">
+                Prescribed textbook: <strong>Our Wondrous World</strong>. Connect topics with everyday surroundings.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed Subject-wise Learning Areas Section */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8 space-y-6">
+          <h2 className="text-xl font-bold text-slate-800 border-l-4 border-orange-500 pl-3">
+            Subject-Wise Detailed Syllabus & Learning Areas
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            {/* English Syllabus */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <h3 className="font-bold text-slate-800 text-base mb-2 text-orange-600">Class 4 English Syllabus</h3>
+              <p className="text-gray-700 mb-3">
+                English learning in Class 4 focuses on developing the ability to read, understand, speak and write with greater confidence.
+              </p>
+              <ul className="list-disc pl-5 space-y-1 text-gray-600 text-xs">
+                <li>Reading stories, poems and short passages</li>
+                <li>Understanding the meaning of a passage</li>
+                <li>Learning new words and using them in sentences</li>
+                <li>Basic grammar and sentence formation</li>
+                <li>Correct spelling and punctuation</li>
+                <li>Writing short paragraphs and simple descriptions</li>
+                <li>Listening and speaking activities</li>
+              </ul>
+              <p className="text-xs text-gray-500 italic mt-3">
+                Prescribed NCERT textbook: <strong>Santoor</strong>.
+              </p>
+            </div>
+
+            {/* Hindi Syllabus */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <h3 className="font-bold text-slate-800 text-base mb-2 text-orange-600">Class 4 Hindi Syllabus</h3>
+              <p className="text-gray-700 mb-3">
+                Hindi learning develops reading, writing, vocabulary and language comprehension.
+              </p>
+              <ul className="list-disc pl-5 space-y-1 text-gray-600 text-xs">
+                <li>Reading stories, poems and other passages</li>
+                <li>Understanding the meaning of words and sentences</li>
+                <li>Vocabulary development</li>
+                <li>Basic Hindi grammar</li>
+                <li>Sentence formation</li>
+                <li>Paragraph writing and short written responses</li>
+                <li>Reading and writing practice</li>
+              </ul>
+              <p className="text-xs text-gray-500 italic mt-3">
+                Prescribed NCERT textbook: <strong>Veena</strong>.
+              </p>
+            </div>
+
+            {/* Mathematics Syllabus */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <h3 className="font-bold text-slate-800 text-base mb-2 text-orange-600">Class 4 Mathematics Syllabus</h3>
+              <p className="text-gray-700 mb-3">
+                Mathematics helps students develop number sense, calculation skills, logical reasoning and problem-solving abilities.
+              </p>
+              <ul className="list-disc pl-5 space-y-1 text-gray-600 text-xs">
+                <li>Understanding numbers and number patterns</li>
+                <li>Addition, subtraction, multiplication and division</li>
+                <li>Solving mathematical problems</li>
+                <li>Recognising shapes and geometric patterns</li>
+                <li>Measurement and comparison</li>
+                <li>Understanding time and everyday measurements</li>
+                <li>Reading and interpreting simple data</li>
+              </ul>
+              <p className="text-xs text-gray-500 italic mt-3">
+                Prescribed NCERT textbook: <strong>Maths Mela</strong>. Practice through examples and word problems.
+              </p>
+            </div>
+
+            {/* Environmental Studies Syllabus */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <h3 className="font-bold text-slate-800 text-base mb-2 text-orange-600">Class 4 Environmental Studies Syllabus</h3>
+              <p className="text-gray-700 mb-3">
+                Environmental Studies helps students understand their surroundings and the relationship between people, nature and everyday life.
+              </p>
+              <ul className="list-disc pl-5 space-y-1 text-gray-600 text-xs">
+                <li>Plants, animals and their surroundings</li>
+                <li>Family and community life</li>
+                <li>Food, water and daily needs</li>
+                <li>Homes, travel and different places</li>
+                <li>Natural resources and environmental awareness</li>
+                <li>Health, hygiene and responsible habits</li>
+                <li>Observing and understanding the world around us</li>
+              </ul>
+              <p className="text-xs text-gray-500 italic mt-3">
+                Prescribed NCERT textbook: <strong>Our Wondrous World</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* How to Prepare */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
+          <h2 className="text-xl font-bold text-slate-800 mb-2 border-l-4 border-orange-500 pl-3">
+            How to Prepare for Class 4
+          </h2>
+          <p className="text-gray-700 text-sm mb-4">
+            Students can improve their understanding of Class 4 subjects through regular practice and revision:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-50 border border-gray-200">
+              <FaCheckCircle className="text-orange-600 mt-1 shrink-0" />
+              <span><strong className="text-slate-800">1. Follow the school syllabus:</strong> Use the latest syllabus and book list provided by the school.</span>
+            </div>
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-50 border border-gray-200">
+              <FaCheckCircle className="text-orange-600 mt-1 shrink-0" />
+              <span><strong className="text-slate-800">2. Read every day:</strong> Practise reading English and Hindi passages to improve comprehension and vocabulary.</span>
+            </div>
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-50 border border-gray-200">
+              <FaCheckCircle className="text-orange-600 mt-1 shrink-0" />
+              <span><strong className="text-slate-800">3. Practise Mathematics:</strong> Solve a few calculations and word problems regularly.</span>
+            </div>
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-50 border border-gray-200">
+              <FaCheckCircle className="text-orange-600 mt-1 shrink-0" />
+              <span><strong className="text-slate-800">4. Revise lessons:</strong> Review important concepts after completing each chapter.</span>
+            </div>
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-50 border border-gray-200">
+              <FaCheckCircle className="text-orange-600 mt-1 shrink-0" />
+              <span><strong className="text-slate-800">5. Use practice questions:</strong> Attempt topic-based questions to identify areas that need more attention.</span>
+            </div>
+            <div className="flex items-start gap-2.5 p-3 rounded-lg bg-gray-50 border border-gray-200">
+              <FaCheckCircle className="text-orange-600 mt-1 shrink-0" />
+              <span><strong className="text-slate-800">6. Take quizzes:</strong> Short quizzes can help students check what they have understood and practise recalling concepts.</span>
+            </div>
+          </div>
+
+          {/* Interactive Quiz Callout Banner */}
+          <div className="mt-6 p-4 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl text-white text-center shadow-md">
+            <p className="text-sm md:text-base font-semibold flex items-center justify-center gap-2">
+              <FaLightbulb size={18} />
+              Students can also use Learnosphere's interactive quizzes for Class 4 to practise and check their understanding across subjects.
+            </p>
+          </div>
+        </div>
+
+        {/* FAQs Section */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
+          <h2 className="text-xl font-bold text-slate-800 mb-6 border-l-4 border-orange-500 pl-3">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg overflow-hidden transition-all duration-200"
+              >
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="w-full flex justify-between items-center p-4 text-left font-semibold text-slate-800 hover:bg-orange-50 transition"
+                >
+                  <span className="pr-4 text-sm md:text-base">{faq.q}</span>
+                  {openFaq === index ? (
+                    <FaChevronUp className="text-orange-600 shrink-0" size={16} />
+                  ) : (
+                    <FaChevronDown className="text-gray-400 shrink-0" size={16} />
+                  )}
+                </button>
+                {openFaq === index && (
+                  <div className="p-4 bg-orange-50/50 border-t border-gray-100 text-sm text-gray-700 leading-relaxed">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Conclusion */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
+          <h2 className="text-xl font-bold text-slate-800 mb-3 border-l-4 border-orange-500 pl-3">
+            Conclusion
+          </h2>
+          <p className="text-gray-700 text-sm leading-relaxed">
+            The Class 4 syllabus builds important academic and practical skills that students use in higher classes. Parents should refer to the latest NCERT textbooks and their school's syllabus to keep learning materials up to date. Regular reading, Mathematics practice, revision and quizzes can help students develop a stronger understanding of each subject.
+          </p>
+        </div>
+      </main>
+
       <Footer1 />
       <Footer />
+
       <DownloadFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

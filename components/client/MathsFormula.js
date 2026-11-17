@@ -214,6 +214,20 @@ const MathFormula = () => {
               </ol>
             </div>
           </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 md:p-6 my-6 font-Poppins">
+            <p className="text-gray-900 text-base md:text-lg leading-relaxed">
+              Explore more CBSE mathematics topics for Classes 6 to 12 to strengthen your understanding of mathematical concepts and calculations.
+            </p>
+            <div className="mt-4">
+              <Link
+                href="/Mathematicstopic"
+                role="button"
+                className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow transition-colors duration-200 text-center"
+              >
+                Explore All Topics
+              </Link>
+            </div>
+          </div>
           <div>
             <h3 className="text-[1.1em] md:text-[1.4em] font-semibold mt-4 p-2">
               Maths Formula Chart

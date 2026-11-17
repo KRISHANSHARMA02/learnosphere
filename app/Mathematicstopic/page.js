@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { GrNotes } from "react-icons/gr";
+import { HiArrowRightCircle } from "react-icons/hi2";
 import { CgNotes } from "react-icons/cg";
 import { IoNewspaperSharp } from "react-icons/io5";
 import { FaNoteSticky, FaSquareWhatsapp } from "react-icons/fa6";
@@ -108,13 +109,28 @@ const MathematicsTopic = () => {
               </li>
             </ol>
           </div>
-          <div className="bg-gray-50 p-2">
-            <div className="mt-4 text-gray-900">
+          <div className="bg-gray-50 p-4 rounded-lg my-6">
+            <div className="mt-2 text-gray-900">
               <h3 className="text-[1.1em] md:text-[1.4em] font-semibold">
-
+                Class 6 to 12 Mathematics Topics
               </h3>
             </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link
+                href="/Mathematicstopic/square-root-of-7"
+                className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-blue-600 hover:text-orange-600 font-semibold flex justify-between items-center transition-all duration-150"
+              >
+                <span>Square Root of 7</span>
+                <HiArrowRightCircle size={27} className="text-orange-600" />
+              </Link>
+              <Link
+                href="/Mathematicstopic/hcf-of-two-numbers"
+                className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-blue-600 hover:text-orange-600 font-semibold flex justify-between items-center transition-all duration-150"
+              >
+                <span>HCF of Two Numbers</span>
+                <HiArrowRightCircle size={27} className="text-orange-600" />
+              </Link>
+            </div>
           </div>
 
 
