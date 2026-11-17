@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, use } from "react";
 import Banner from "@/public/Banner.jpeg";
-import Logo from "@/public/Logo.png";
 
 import Link from "next/link";
 import Footer1 from "@/components/Footer1";
@@ -142,7 +141,6 @@ const DataTable = props => {
                     <h1 className="text-white text-[1.4em] font-bold flex-1">
                       {item.heading1}
                     </h1>
-                    <Image src={Logo} alt="Learnosphere Logo" width={80} height={80} className="bg-white rounded-lg p-1 shadow-sm" />
                   </div>
                   {/* Global PDF viewer if page itself has a pdfUrl */}
                   {item.pdfUrl && (

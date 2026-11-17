@@ -1831,29 +1831,28 @@ const DataTable = ({ params }) => {
                           text =
                             "To understand other mathematical concepts and study related topics, explore our guide to CBSE mathematics topics for Classes 6 to 12.";
                         }
-                        const isTarget =
-                          text.includes(
-                            "To understand other mathematical concepts and study related topics, explore our guide to CBSE mathematics topics for Classes 6 to 12"
-                          ) ||
-                          text.includes(
-                            "explore our guide to CBSE mathematics topics for Classes 6 to 12"
+                        const targetPhrase = "CBSE mathematics topics for Classes 6 to 12";
+
+                        if (text.includes(targetPhrase)) {
+                          const parts = text.split(targetPhrase);
+                          return (
+                            <p key={pIdx} className="mb-2 mt-1 text-gray-800 whitespace-pre-line">
+                              {parts[0]}
+                              <Link
+                                href="/MathsFormula"
+                                className="text-orange-600 hover:text-orange-700 hover:underline transition-colors font-medium"
+                              >
+                                {targetPhrase}
+                              </Link>
+                              {parts.slice(1).join(targetPhrase)}
+                            </p>
                           );
+                        }
 
                         return (
-                          <React.Fragment key={pIdx}>
-                            {isTarget ? (
-                              <p className="mb-2 mt-1">
-                                <Link
-                                  href="/MathsFormula"
-                                  className="text-orange-600 hover:text-orange-700 hover:underline transition-colors whitespace-pre-line font-medium"
-                                >
-                                  {text}
-                                </Link>
-                              </p>
-                            ) : (
-                              <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{text}</p>
-                            )}
-                          </React.Fragment>
+                          <p key={pIdx} className="mb-2 mt-1 text-gray-800 whitespace-pre-line">
+                            {text}
+                          </p>
                         );
                       })}
                     </div>
