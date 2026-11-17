@@ -1,5 +1,5 @@
 const mathsFormulaCustomTitles = {
-  "Maths-Formulas-For-Class-6": "Maths Formulas for Class 6: Quick Reference | Learnosphere",
+  "Maths-Formulas-For-Class-6": "Class 6 Maths Formulas: Chapter-wise List & Examples | Learnosphere",
   "Maths-Formulas-For-Class-7": "Class 7 Maths Formulas for Quick Revision | Learnosphere",
   "Maths-Formulas-For-Class-8": "Maths Formulas for Class 8 Students | Learnosphere",
   "Maths-Formulas-For-Class-9": "Class 9 Maths Formulas Handy List | Learnosphere",
@@ -15,6 +15,7 @@ export async function generateMetadata({ params }) {
     "Maths-Formulas-For-Class-12": "Important Maths Formulas for Class 12",
   };
   const descriptionMap = {
+    "Maths-Formulas-For-Class-6": "Find important Class 6 Maths formulas, rules and solved examples chapter-wise. Revise key concepts from NCERT Ganita Prakash with a simple reference guide.",
     "Maths-Formulas-For-Class-12": "Get chapter-wise Class 12 Maths formulas for quick revision, problem-solving practice and exam preparation.",
   };
 

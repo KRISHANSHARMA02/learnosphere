@@ -11,7 +11,7 @@ import Logo from "@/public/Logo.png";
 import Link from "next/link";
 import Footer1 from "@/components/Footer1";
 import Footer from "@/components/Footer";
-import { FaTimes, FaWhatsapp } from "react-icons/fa";
+import { FaTimes, FaWhatsapp, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import WhatsappModal from "@/components/whatsappModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -52,6 +52,7 @@ const DataTable = props => {
   const [loading, setLoading] = useState(true);
 
   const [showButton, setShowButton] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -151,18 +152,363 @@ const DataTable = props => {
                       </a>
                     </div>
                   )}
-                  <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
+                  <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para1}</p>
 
                   {item.list1 && item.list1.length > 0 && (
                     <ol className="list-disc text-orange-600 pl-5 mb-2">
                       {item.list1.map((listItem, index) => (
                         <li key={index} className="mb-1">
-                          {listItem}
+                          {item.anotherField && item.anotherField[0]?.chapterNumber ? (
+                            <a href={`#chapter-${index + 1}`} className="hover:underline">{listItem}</a>
+                          ) : (
+                            listItem
+                          )}
                         </li>
                       ))}
                     </ol>
                   )}
 
+                  {item.anotherField && item.anotherField.length > 0 && typeof item.anotherField[0] === 'object' && item.anotherField[0]?.chapterNumber ? (
+                    <>
+                      {/* Quick Reference Section */}
+                      {item.heading2 && (
+                        <h2 className="mb-2 mt-6 text-slate-800 text-[1.25em] font-bold">
+                          {item.heading2}
+                        </h2>
+                      )}
+                      {item.para12 && <p className="mb-4 text-gray-700">{item.para12}</p>}
+
+                      {/* Quick Reference Table */}
+                      {item.anotherField2 && item.anotherField2.length > 0 && (
+                        <div className="overflow-x-auto my-4">
+                          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
+                            <tbody>
+                              {item.anotherField2.map((concept, index) => {
+                                const formula = item.anotherField3 && item.anotherField3[index];
+                                if (index === 0) {
+                                  return (
+                                    <tr key={index} className="bg-orange-600 text-white font-bold">
+                                      <td className="border border-orange-700 py-2.5 px-4">{concept}</td>
+                                      <td className="border border-orange-700 py-2.5 px-4">{formula}</td>
+                                    </tr>
+                                  );
+                                }
+                                return (
+                                  <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}>
+                                    <td className="border border-gray-300 py-2 px-4 font-medium text-slate-800">{concept}</td>
+                                    <td className="border border-gray-300 py-2 px-4 font-mono font-semibold text-orange-600">{formula}</td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {item.para13 && (
+                        <p className="mb-6 text-sm text-gray-600 italic bg-gray-50 border-l-4 border-orange-400 p-3 rounded-r">
+                          {item.para13}
+                        </p>
+                      )}
+
+                      {/* Chapter-wise Class 6 Maths Formulas and Rules */}
+                      {item.heading8 && (
+                        <h2 className="mb-2 mt-8 text-slate-800 text-[1.3em] font-bold border-b-2 border-orange-500 pb-2">
+                          {item.heading8}
+                        </h2>
+                      )}
+                      {item.para26 && <p className="mb-6 text-gray-700">{item.para26}</p>}
+
+                      {/* Detailed Chapters 1 to 10 */}
+                      <div className="space-y-8">
+                        {item.anotherField.map((ch) => (
+                          <div key={ch.chapterNumber} id={`chapter-${ch.chapterNumber}`} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                            <h3 className="text-xl font-bold text-orange-600 mb-2">
+                              {ch.title}
+                            </h3>
+                            {ch.description && <p className="text-gray-700 mb-4">{ch.description}</p>}
+                            {ch.introNote && <p className="text-sm italic text-gray-600 bg-amber-50 border-l-4 border-amber-400 p-2.5 rounded-r mb-4">{ch.introNote}</p>}
+
+                            {ch.sectionHeading && (
+                              <h4 className="text-lg font-semibold text-slate-800 mb-3 border-l-4 border-orange-500 pl-2">
+                                {ch.sectionHeading}
+                              </h4>
+                            )}
+
+                            {ch.items && (
+                              <div className="space-y-4">
+                                {ch.items.map((itemObj, i) => (
+                                  <div key={i} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                    <h5 className="font-bold text-slate-800 text-base mb-1">{itemObj.title}</h5>
+                                    {itemObj.desc && <p className="text-gray-700 text-sm mb-2">{itemObj.desc}</p>}
+                                    {itemObj.rule && (
+                                      <div className="text-sm bg-orange-50 text-orange-800 px-3 py-1.5 rounded border border-orange-200 inline-block mb-2 font-mono">
+                                        Rule: {itemObj.rule}
+                                      </div>
+                                    )}
+                                    {itemObj.formula && (
+                                      <div className="text-sm bg-amber-50 text-amber-900 px-3 py-1.5 rounded border border-amber-300 inline-block mb-2 font-mono font-semibold">
+                                        Formula: {itemObj.formula}
+                                      </div>
+                                    )}
+                                    {itemObj.example && (
+                                      <div className="text-sm text-gray-700 bg-white border border-gray-200 p-2 rounded whitespace-pre-line mb-1">
+                                        <span className="font-semibold text-slate-700">Example: </span>{itemObj.example}
+                                      </div>
+                                    )}
+                                    {itemObj.examples && Array.isArray(itemObj.examples) ? (
+                                      <div className="text-sm text-gray-700 bg-white border border-gray-200 p-2 rounded mb-1">
+                                        <span className="font-semibold text-slate-700">Examples: </span>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 mt-1 font-mono text-xs text-orange-700">
+                                          {itemObj.examples.map((ex, eIdx) => <div key={eIdx} className="bg-gray-50 px-2 py-1 rounded">{ex}</div>)}
+                                        </div>
+                                      </div>
+                                    ) : itemObj.examples && (
+                                      <div className="text-sm text-gray-700 bg-white border border-gray-200 p-2 rounded mb-1">
+                                        <span className="font-semibold text-slate-700">Examples: </span>{itemObj.examples}
+                                      </div>
+                                    )}
+                                    {itemObj.bullets && (
+                                      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 my-2">
+                                        {itemObj.bullets.map((b, bIdx) => <li key={bIdx}>{b}</li>)}
+                                      </ul>
+                                    )}
+                                    {itemObj.note && <p className="text-xs text-gray-500 italic mt-2">{itemObj.note}</p>}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {ch.factsHeading && (
+                              <h4 className="text-lg font-semibold text-slate-800 mt-6 mb-3 border-l-4 border-orange-500 pl-2">
+                                {ch.factsHeading}
+                              </h4>
+                            )}
+                            {ch.facts && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                                {ch.facts.map((fact, fIdx) => (
+                                  <div key={fIdx} className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                    <span className="font-bold text-slate-800 text-sm block mb-1">{fact.title}</span>
+                                    <span className="text-gray-700 text-sm">{fact.desc}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {ch.solvedExample && (
+                              <div className="bg-blue-50/70 border border-blue-200 rounded-lg p-4 my-4">
+                                <h5 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
+                                  <span>Solved Example</span>
+                                </h5>
+                                <p className="font-semibold text-slate-800 text-sm mb-2">{ch.solvedExample.question}</p>
+                                <div className="bg-white border border-blue-100 rounded p-3 text-sm text-gray-700 space-y-1 font-mono">
+                                  {ch.solvedExample.solution.map((step, sIdx) => (
+                                    <div key={sIdx} className={step.startsWith("Answer") ? "font-bold text-orange-600 pt-1" : ""}>
+                                      {step}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {ch.table && (
+                              <div className="my-4">
+                                <h5 className="font-bold text-slate-800 text-sm mb-2">{ch.table.title}</h5>
+                                <div className="overflow-x-auto">
+                                  <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
+                                    <thead>
+                                      <tr className="bg-orange-600 text-white font-bold text-sm">
+                                        {ch.table.headers.map((h, hIdx) => (
+                                          <th key={hIdx} className="border border-orange-700 py-2 px-4 text-left">{h}</th>
+                                        ))}
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {ch.table.rows.map((row, rIdx) => (
+                                        <tr key={rIdx} className={rIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                                          {row.map((cell, cIdx) => (
+                                            <td key={cIdx} className="border border-gray-300 py-2 px-4 text-sm text-gray-800">
+                                              {cell}
+                                            </td>
+                                          ))}
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                </div>
+                                {ch.table.example && (
+                                  <div className="text-sm text-gray-700 bg-gray-50 border border-gray-200 p-3 rounded mt-2 whitespace-pre-line font-mono">
+                                    {ch.table.example}
+                                  </div>
+                                )}
+                                {ch.table.remember && (
+                                  <div className="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r mt-3">
+                                    <span className="font-bold text-xs uppercase tracking-wider text-amber-800 block mb-1">Remember:</span>
+                                    <ul className="list-disc pl-5 text-sm text-amber-900 space-y-1">
+                                      {ch.table.remember.map((rem, rIdx) => <li key={rIdx}>{rem}</li>)}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {ch.commonFactorsHeading && (
+                              <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                <h5 className="font-bold text-slate-800 text-base mb-2">{ch.commonFactorsHeading}</h5>
+                                {ch.commonFactorsBullets && (
+                                  <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-2">
+                                    {ch.commonFactorsBullets.map((b, bIdx) => <li key={bIdx}>{b}</li>)}
+                                  </ul>
+                                )}
+                                {ch.commonFactorsExample && (
+                                  <div className="text-sm bg-white border border-gray-200 p-2.5 rounded font-mono text-gray-700 whitespace-pre-line">
+                                    {ch.commonFactorsExample}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {ch.perimeterHeading && (
+                              <div className="mt-4">
+                                <h4 className="text-base font-bold text-slate-800 mb-2 border-l-4 border-orange-500 pl-2">{ch.perimeterHeading}</h4>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                  {ch.perimeterItems.map((pi, pIdx) => (
+                                    <div key={pIdx} className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                      <span className="font-bold text-slate-800 text-sm block mb-1">{pi.title}</span>
+                                      <span className="text-xs bg-amber-50 text-amber-900 border border-amber-200 font-mono px-2 py-0.5 rounded inline-block mb-1">{pi.formula}</span>
+                                      {pi.example && <p className="text-xs text-gray-600 mt-1">{pi.example}</p>}
+                                      {pi.note && <p className="text-xs text-gray-500 italic mt-1">{pi.note}</p>}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {ch.areaHeading && (
+                              <div className="mt-4">
+                                <h4 className="text-base font-bold text-slate-800 mb-2 border-l-4 border-orange-500 pl-2">{ch.areaHeading}</h4>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                  {ch.areaItems.map((ai, aIdx) => (
+                                    <div key={aIdx} className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                      <span className="font-bold text-slate-800 text-sm block mb-1">{ai.title}</span>
+                                      <span className="text-xs bg-amber-50 text-amber-900 border border-amber-200 font-mono px-2 py-0.5 rounded inline-block mb-1">{ai.formula}</span>
+                                      {ai.example && <p className="text-xs text-gray-600 mt-1">{ai.example}</p>}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {ch.remindersHeading && (
+                              <div className="mt-4 bg-orange-50/60 border border-orange-200 rounded-lg p-4">
+                                <h5 className="font-bold text-orange-900 mb-2">{ch.remindersHeading}</h5>
+                                {ch.reminders && (
+                                  <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-700">
+                                    {ch.reminders.map((rem, rIdx) => <li key={rIdx}>{rem}</li>)}
+                                  </ul>
+                                )}
+                              </div>
+                            )}
+
+                            {ch.pointsHeading && (
+                              <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                <h5 className="font-bold text-slate-800 mb-2">{ch.pointsHeading}</h5>
+                                {ch.points && (
+                                  <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-2">
+                                    {ch.points.map((pt, pIdx) => <li key={pIdx}>{pt}</li>)}
+                                  </ul>
+                                )}
+                                {ch.example && (
+                                  <p className="text-sm text-slate-700 italic border-t border-gray-200 pt-2 mt-2">
+                                    <span className="font-semibold not-italic">Example: </span>{ch.example}
+                                  </p>
+                                )}
+                              </div>
+                            )}
+
+                            {ch.note && <p className="text-xs text-gray-500 italic mt-3">{ch.note}</p>}
+                            {ch.summary && <p className="text-xs text-gray-600 italic bg-gray-50 border-l-2 border-gray-400 p-2 rounded mt-3">{ch.summary}</p>}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Common Mistakes Section */}
+                      {item.heading7 && (
+                        <div className="mt-8 bg-red-50/50 border border-red-200 rounded-xl p-6 shadow-sm">
+                          <h2 className="text-xl font-bold text-red-900 mb-2">
+                            {item.heading7}
+                          </h2>
+                          {item.para21 && <p className="text-gray-700 mb-4">{item.para21}</p>}
+                          {item.anotherField7 && item.anotherField7.length > 0 && (
+                            <ol className="space-y-2">
+                              {item.anotherField7.map((mistake, mIdx) => (
+                                <li key={mIdx} className="flex items-start gap-3 bg-white border border-red-100 rounded-lg p-3 text-sm text-slate-800">
+                                  <span className="w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0 text-xs">
+                                    {mIdx + 1}
+                                  </span>
+                                  <span>{typeof mistake === 'string' ? mistake.replace(/^\d+\.\s*/, '') : JSON.stringify(mistake)}</span>
+                                </li>
+                              ))}
+                            </ol>
+                          )}
+                        </div>
+                      )}
+
+                      {/* How to Learn and Revise Section */}
+                      {item.heading15 && (
+                        <div className="mt-8 bg-emerald-50/50 border border-emerald-200 rounded-xl p-6 shadow-sm">
+                          <h2 className="text-xl font-bold text-emerald-900 mb-2">
+                            {item.heading15}
+                          </h2>
+                          {item.para28 && <p className="text-gray-700 mb-4">{item.para28}</p>}
+                          {item.anotherField8 && item.anotherField8.length > 0 && (
+                            <ol className="space-y-2">
+                              {item.anotherField8.map((tip, tIdx) => (
+                                <li key={tIdx} className="flex items-start gap-3 bg-white border border-emerald-100 rounded-lg p-3 text-sm text-slate-800">
+                                  <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 text-xs">
+                                    {tIdx + 1}
+                                  </span>
+                                  <span>{typeof tip === 'string' ? tip.replace(/^\d+\.\s*/, '') : JSON.stringify(tip)}</span>
+                                </li>
+                              ))}
+                            </ol>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Frequently Asked Questions Section */}
+                      {item.heading16 && (
+                        <div className="mt-8 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                          <h2 className="text-xl font-bold text-slate-800 mb-4 pb-2 border-b border-gray-200">
+                            {item.heading16}
+                          </h2>
+                          {item.anotherField9 && item.anotherField9.length > 0 && (
+                            <div className="space-y-3">
+                              {item.anotherField9.map((faq, fIdx) => (
+                                <div key={fIdx} className="border border-gray-200 rounded-lg overflow-hidden transition">
+                                  <button
+                                    type="button"
+                                    onClick={() => setOpenFaq(openFaq === fIdx ? null : fIdx)}
+                                    className="w-full flex justify-between items-center p-4 text-left font-semibold text-slate-800 bg-gray-50 hover:bg-orange-50 hover:text-orange-600 transition"
+                                  >
+                                    <span className="text-sm sm:text-base">{faq.question}</span>
+                                    <span className="text-orange-600 font-bold text-lg ml-2">
+                                      {openFaq === fIdx ? <FaChevronUp size={14} /> : <FaChevronDown size={14} />}
+                                    </span>
+                                  </button>
+                                  {openFaq === fIdx && (
+                                    <div className="p-4 bg-white text-gray-700 text-sm border-t border-gray-200 leading-relaxed">
+                                      <p>{faq.answer}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
                   <h1 className="mb-2 text-slate-800 text-[1.2em]">
                     {item.heading2}
                   </h1>
@@ -699,6 +1045,8 @@ const DataTable = props => {
                     </div>
                   ) : null}
                 </div>
+                    </>
+                  )}
 
                   <div key={item.id} className="mb-4">
                     {item.heading21 && (
