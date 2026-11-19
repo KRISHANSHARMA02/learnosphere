@@ -18,12 +18,19 @@ import FormSection from "@/components/FormGeneral";
 import PageNotFound from "@/app/not-found";
 import DynamicFAQSection from "@/components/DynamicFAQSection";
 
-const DataTable = ({ params }) => {
+const MathHeading = ({ text, className = "mb-2 text-slate-800 text-[1.4em] font-semibold", defaultTag = "h2" }) => {
+  if (!text) return null;
+  const isH3 = /^(?:\d+\.|\bChapter\b|\([a-z0-9]+\))/i.test(String(text).trim());
+  const Tag = isH3 ? "h3" : defaultTag;
+  return <Tag className={className}>{text}</Tag>;
+};
+
+const DataTable = ({ params, initialData = [] }) => {
   const routeParams = useParams();
   const [Class, setClass] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [slug, setSlug] = useState(routeParams?.slug || "");  
+  const [slug, setSlug] = useState(params?.slug || routeParams?.slug || "");  
 
   useEffect(() => {
     if (routeParams?.slug) {
@@ -56,10 +63,10 @@ const DataTable = ({ params }) => {
     }
   }, []);
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(initialData && initialData.length > 0 ? initialData : []);
 
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(initialData && initialData.length > 0 ? false : true);
 
   const [showButton, setShowButton] = useState(false);
 
@@ -75,6 +82,7 @@ const DataTable = ({ params }) => {
     AOS.init({ duration: 800, easing: "ease-in-out" }); // Initialize AOS with smooth settings
   }, []);
   useEffect(() => {
+    if (initialData && initialData.length > 0) return;
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -458,9 +466,7 @@ const DataTable = ({ params }) => {
                     </div>
                   )}
 
-                  <h1 className="mb-2 text-slate-800 text-[1.5em]">
-                    {item.heading2}
-                  </h1>
+                  <MathHeading text={item.heading2} className="mb-2 text-slate-800 text-[1.5em]" />
                   <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para2}</p>
 
                   {item.list2 && item.list2.length > 0 && (
@@ -490,9 +496,7 @@ const DataTable = ({ params }) => {
                     </div>
                   )}
 
-                  <h1 className=" text-slate-800 mt-4 text-[1.3em]">
-                    {item.heading3}
-                  </h1>
+                  <MathHeading text={item.heading3} className=" text-slate-800 mt-4 text-[1.3em]" />
                   <p className="mb-2 mt-2 text-gray-800 whitespace-pre-line">{item.para3}</p>
 
                   {item.anotherField1 && item.anotherField1.length > 0 && (
@@ -537,9 +541,7 @@ const DataTable = ({ params }) => {
                   )}
 
 
-                  <h1 className=" text-slate-800 text-[1.2em]">
-                    {item.heading4}
-                  </h1>
+                  <MathHeading text={item.heading4} className=" text-slate-800 text-[1.2em]" />
                   <p className="mt-4">{item.para4}</p>
 
                   {item.list4 && item.list4.length > 0 && (
@@ -569,9 +571,7 @@ const DataTable = ({ params }) => {
                     </div>
                   )}
 
-                  <h1 className="mb-2 text-slate-800 mt-2 text-[1.5em]">
-                    {item.heading5}
-                  </h1>
+                  <MathHeading text={item.heading5} className="mb-2 text-slate-800 mt-2 text-[1.5em]" />
                   <p className="mb-2 mt-4 text-gray-800 whitespace-pre-line">{item.para5}</p>
 
                   {item.list5 && item.list5.length > 0 && (
@@ -586,9 +586,7 @@ const DataTable = ({ params }) => {
                     </div>
                   )}
 
-                  <h1 className="mb-2 text-slate-800 text-[1.5em]">
-                    {item.heading7}
-                  </h1>
+                  <MathHeading text={item.heading7} className="mb-2 text-slate-800 text-[1.5em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para7}</p>
 
                   {item.imageUrls3 && item.imageUrls3.length > 0 && (
@@ -647,9 +645,7 @@ const DataTable = ({ params }) => {
                   )}
 
 
-                  <h1 className="mb-1 text-slate-800 mt-2  text-[1.5em]">
-                    {item.heading8}
-                  </h1>
+                  <MathHeading text={item.heading8} className="mb-1 text-slate-800 mt-2  text-[1.5em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para8}</p>
                   {item.list7 && item.list7.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -664,9 +660,7 @@ const DataTable = ({ params }) => {
                   )}
 
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading9}
-                  </h1>
+                  <MathHeading text={item.heading9} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para9}</p>
                   {item.list8 && item.list8.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -695,9 +689,7 @@ const DataTable = ({ params }) => {
                     </div>
                   )}
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading10}
-                  </h1>
+                  <MathHeading text={item.heading10} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para10}</p>
                   {/*border para*/}
                   {item.para6 > 0 && (
@@ -715,9 +707,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading11}
-                  </h1>
+                  <MathHeading text={item.heading11} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para11}</p>
 
 
@@ -734,9 +724,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading12}
-                  </h1>
+                  <MathHeading text={item.heading12} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para12}</p>
                   {item.imageUrls5 && item.imageUrls5.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -753,13 +741,9 @@ const DataTable = ({ params }) => {
                     </div>
                   )}
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading13}
-                  </h1>
+                  <MathHeading text={item.heading13} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para13}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading14}
-                  </h1>
+                  <MathHeading text={item.heading14} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para14}</p>
                   {item.list11 && item.list11.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -787,9 +771,7 @@ const DataTable = ({ params }) => {
                       ))}
                     </div>
                   )}
-                  <h1 className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading15}
-                  </h1>
+                  <MathHeading text={item.heading15} className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para15}</p>
                   {item.imageUrls7 && item.imageUrls7.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -817,9 +799,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading16}
-                  </h1>
+                  <MathHeading text={item.heading16} className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para16}</p>
                   {item.para59 > 0 && (
 
@@ -852,9 +832,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading17}
-                  </h1>
+                  <MathHeading text={item.heading17} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para17}</p>
 
                   <div className="grid gap-4">
@@ -911,9 +889,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading18}
-                  </h1>
+                  <MathHeading text={item.heading18} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para18}</p>
                   {item.para57 > 0 && (
 
@@ -946,9 +922,7 @@ const DataTable = ({ params }) => {
                       ))}
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading19}
-                  </h1>
+                  <MathHeading text={item.heading19} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para19}</p>
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para63}</p>
 
@@ -978,13 +952,9 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading20}
-                  </h1>
+                  <MathHeading text={item.heading20} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para20}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading21}
-                  </h1>
+                  <MathHeading text={item.heading21} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para21}</p>
 
                   {item.list16 && item.list16.length > 0 && (
@@ -998,9 +968,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading22}
-                  </h1>
+                  <MathHeading text={item.heading22} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para22}</p>
                   {item.list37 && item.list37.length > 0 && (
                     <div className=" rounded-lg">
@@ -1013,13 +981,9 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading23}
-                  </h1>
+                  <MathHeading text={item.heading23} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para23}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading24}
-                  </h1>
+                  <MathHeading text={item.heading24} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para24}</p>
                   {item.list17 && item.list17.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -1087,9 +1051,7 @@ const DataTable = ({ params }) => {
 
 
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading25}
-                  </h1>
+                  <MathHeading text={item.heading25} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para25}</p>
                   {item.imageUrls11 && item.imageUrls11.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -1105,13 +1067,9 @@ const DataTable = ({ params }) => {
                       ))}
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading26}
-                  </h1>
+                  <MathHeading text={item.heading26} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para26}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading27}
-                  </h1>
+                  <MathHeading text={item.heading27} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para27}</p>
 
                   {item.list18 && item.list18.length > 0 && (
@@ -1125,9 +1083,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading28}
-                  </h1>
+                  <MathHeading text={item.heading28} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para28}</p>
                   {item.imageUrls12 && item.imageUrls12.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -1196,13 +1152,9 @@ const DataTable = ({ params }) => {
 
 
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading29}
-                  </h1>
+                  <MathHeading text={item.heading29} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para29}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading30}
-                  </h1>
+                  <MathHeading text={item.heading30} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para30}</p>
                   {item.imageUrls13 && item.imageUrls13.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -1229,9 +1181,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading31}
-                  </h1>
+                  <MathHeading text={item.heading31} className="mb-2 mt-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para31}</p>
 
                   {item.list38 && item.list38.length > 0 && (
@@ -1323,9 +1273,7 @@ const DataTable = ({ params }) => {
 
 
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading32}
-                  </h1>
+                  <MathHeading text={item.heading32} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para32}</p>
 
                   {item.list27 && item.list27.length > 0 && (
@@ -1339,9 +1287,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading33}
-                  </h1>
+                  <MathHeading text={item.heading33} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para33}</p>
                   {item.list39 && item.list39.length > 0 && (
                     <div className=" rounded-lg">
@@ -1367,13 +1313,9 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading34}
-                  </h1>
+                  <MathHeading text={item.heading34} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para34}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading35}
-                  </h1>
+                  <MathHeading text={item.heading35} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para35}</p>
                   {item.imageUrls15 && item.imageUrls15.length > 0 && (
                     <div className="flex gap-4 mt-4">
@@ -1441,9 +1383,7 @@ const DataTable = ({ params }) => {
                   </div>
 
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading36}
-                  </h1>
+                  <MathHeading text={item.heading36} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para36}</p>
 
                   <div className="grid gap-4">
@@ -1521,13 +1461,9 @@ const DataTable = ({ params }) => {
                       ))}
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading37}
-                  </h1>
+                  <MathHeading text={item.heading37} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para37}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading38}
-                  </h1>
+                  <MathHeading text={item.heading38} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para38}</p>
                   {item.list22 && item.list22.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -1566,13 +1502,9 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading39}
-                  </h1>
+                  <MathHeading text={item.heading39} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para39}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading40}
-                  </h1>
+                  <MathHeading text={item.heading40} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para40}</p>
 
                   {item.imageUrls18 && item.imageUrls18.length > 0 && (
@@ -1612,13 +1544,9 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading41}
-                  </h1>
+                  <MathHeading text={item.heading41} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para41}</p>
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading42}
-                  </h1>
+                  <MathHeading text={item.heading42} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para42}</p>
 
                   {item.imageUrls19 && item.imageUrls19.length > 0 && (
@@ -1647,9 +1575,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading43}
-                  </h1>
+                  <MathHeading text={item.heading43} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para43}</p>
 
                   {item.list31 && item.list31.length > 0 && (
@@ -1663,9 +1589,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading44}
-                  </h1>
+                  <MathHeading text={item.heading44} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para44}</p>
                   {item.list32 && item.list32.length > 0 && (
                     <div className=" rounded-lg">
@@ -1678,9 +1602,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading45}
-                  </h1>
+                  <MathHeading text={item.heading45} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para45}</p>
                   {item.list24 && item.list24.length > 0 && (
                     <div className="p-4 border border-gray-300 rounded-lg">
@@ -1757,9 +1679,7 @@ const DataTable = ({ params }) => {
 
 
 
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading46}
-                  </h1>
+                  <MathHeading text={item.heading46} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para46}</p>
                   {item.list34 && item.list34.length > 0 && (
                     <div className=" rounded-lg">
@@ -1787,9 +1707,7 @@ const DataTable = ({ params }) => {
                       ))}
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading47}
-                  </h1>
+                  <MathHeading text={item.heading47} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para47}</p>
                   {item.list35 && item.list35.length > 0 && (
                     <div className=" rounded-lg">
@@ -1802,9 +1720,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading48}
-                  </h1>
+                  <MathHeading text={item.heading48} className="mb-2 font-semibold text-orange-600 text-[1em]" />
 
                   <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para48}</p>
                   {item.list36 && item.list36.length > 0 && (
@@ -1818,9 +1734,7 @@ const DataTable = ({ params }) => {
                       </ol>
                     </div>
                   )}
-                  <h1 className="mb-2 font-semibold text-orange-600 text-[1em]">
-                    {item.heading49}
-                  </h1>
+                  <MathHeading text={item.heading49} className="mb-2 font-semibold text-orange-600 text-[1em]" />
                   {item.para49 && (
                     <div>
                       {item.para49.split("\n\n").map((paragraph, pIdx) => {
@@ -1862,19 +1776,17 @@ const DataTable = ({ params }) => {
 
                   {item.heading50 && (
                     <div>
-                      <h1 className="mb-2 font-bold text-black text-[1.3em]">
-                        {item.heading50}
-                      </h1>
+                      <MathHeading text={item.heading50} className="mb-2 font-bold text-black text-[1.3em]" />
                       <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para50}</p>
-                      {item.heading51 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading51}</h1>}
+                      {item.heading51 && <MathHeading text={item.heading51} className="mb-2 font-semibold text-black text-[1em]" />}
                       {item.para51 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para51}</p>}
-                      {item.heading52 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading52}</h1>}
+                      {item.heading52 && <MathHeading text={item.heading52} className="mb-2 font-semibold text-black text-[1em]" />}
                       {item.para52 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para52}</p>}
-                      {item.heading53 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading53}</h1>}
+                      {item.heading53 && <MathHeading text={item.heading53} className="mb-2 font-semibold text-black text-[1em]" />}
                       {item.para53 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para53}</p>}
-                      {item.heading54 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading54}</h1>}
+                      {item.heading54 && <MathHeading text={item.heading54} className="mb-2 font-semibold text-black text-[1em]" />}
                       {item.para54 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para54}</p>}
-                      {item.heading55 && <h1 className="mb-2 font-semibold text-black text-[1em]">{item.heading55}</h1>}
+                      {item.heading55 && <MathHeading text={item.heading55} className="mb-2 font-semibold text-black text-[1em]" />}
                       {item.para55 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para55}</p>}
                       {item.para56 && <p className="mb-2 mt-1 text-gray-800 whitespace-pre-line">{item.para56}</p>}
                     </div>
@@ -1882,7 +1794,7 @@ const DataTable = ({ params }) => {
                   <DynamicFAQSection slug={slug} />
 
                   <div className='flex flex-col  mt-5 border  border-slate-800  rounded-lg p-1'>
-                  <h1 className=' font-bold text-[1em]'>{item.heading6}</h1>
+                  <h2 className=' font-bold text-[1em]'>{item.heading6}</h2>
 
                   {item.list3 && item.list3.length > 0 && (
                     <ol className="  flex flex-wrap gap-2 w-full text-[.8em] p-4 text-orange-600  mb-2">

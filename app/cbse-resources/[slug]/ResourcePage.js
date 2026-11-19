@@ -83,6 +83,72 @@ export default function ResourcePage({ slug, initialContent = null }) {
             ))}
           </div>
 
+          {content.sections && content.sections.length > 0 && (
+            <div className="my-6 space-y-6">
+              {content.sections.map((sec, i) => (
+                <div key={i} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                  {sec.heading && (
+                    <h2 className="text-slate-800 text-[1.25em] font-bold mb-3 border-b pb-2">
+                      {sec.heading}
+                    </h2>
+                  )}
+                  {sec.paragraphs && sec.paragraphs.length > 0 && (
+                    <div className="space-y-3">
+                      {sec.paragraphs.map((para, pIdx) => (
+                        <p key={pIdx} className="text-gray-800 leading-relaxed text-justify">
+                          {para}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                  {sec.list && sec.list.length > 0 && (
+                    <ul className="list-disc pl-6 mt-3 space-y-1.5 text-gray-800">
+                      {sec.list.map((item, lIdx) => (
+                        <li key={lIdx} className="text-[0.98em]">{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {sec.orderedList && sec.orderedList.length > 0 && (
+                    <ol className="list-decimal pl-6 mt-3 space-y-1.5 text-gray-800">
+                      {sec.orderedList.map((item, oIdx) => (
+                        <li key={oIdx} className="text-[0.98em]">{item}</li>
+                      ))}
+                    </ol>
+                  )}
+                  {sec.subsections && sec.subsections.length > 0 && (
+                    <div className="mt-4 space-y-4">
+                      {sec.subsections.map((sub, sIdx) => (
+                        <div key={sIdx} className="pt-2">
+                          {sub.heading && (
+                            <h3 className="text-slate-800 text-[1.1em] font-semibold mb-2">
+                              {sub.heading}
+                            </h3>
+                          )}
+                          {sub.paragraphs && sub.paragraphs.length > 0 && (
+                            <div className="space-y-2">
+                              {sub.paragraphs.map((para, spIdx) => (
+                                <p key={spIdx} className="text-gray-800 leading-relaxed text-justify">
+                                  {para}
+                                </p>
+                              ))}
+                            </div>
+                          )}
+                          {sub.list && sub.list.length > 0 && (
+                            <ul className="list-disc pl-6 mt-2 space-y-1 text-gray-800">
+                              {sub.list.map((item, slIdx) => (
+                                <li key={slIdx} className="text-[0.95em]">{item}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="my-8">
             <h2 className="mb-2 p-4 text-white text-[1.4em] bg-orange-600 font-bold rounded-lg shadow-md">
               Syllabus Links
@@ -166,7 +232,7 @@ export default function ResourcePage({ slug, initialContent = null }) {
           </div>
 
           <div className="flex flex-col text-[.8em] mt-5 border border-slate-800 rounded-lg p-1 mb-8">
-            <h1 className="font-semibold text-slate-800 px-3 mt-2 text-[1.2em]">Similar Links</h1>
+            <h2 className="font-semibold text-slate-800 px-3 mt-2 text-[1.2em]">Similar Links</h2>
             <ol className="flex flex-wrap gap-2 w-full p-4 text-orange-600 mb-2">
               {content.relatedLinks.map((link, i) => (
                 <li key={i} className="mb-1 w-full sm:w-[48%] bg-gray-200 rounded-lg font-semibold hover:bg-orange-600 hover:text-white hover:font-bold transition-all ease-in-out duration-150 overflow-hidden">

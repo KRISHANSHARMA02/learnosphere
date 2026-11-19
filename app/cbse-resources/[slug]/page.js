@@ -6,7 +6,18 @@ const cbseResourceCustomTitles = {
   "class-7th-science-sample-question-paper": "Class 7 Science Sample Question Paper (CBSE) | Learnosphere",
   "cbse-class-6-science": "CBSE Class 6 Science: Chapters and Study Material | Learnosphere",
   "cbse-class-7-maths": "CBSE Class 7 Maths: Chapters and Study Material | Learnosphere",
-  "chemistry-notes-for-class-12": "Class 12 Chemistry Notes for CBSE Board Revision | Learnosphere"
+  "chemistry-notes-for-class-12": "Class 12 Chemistry Notes for CBSE Board Revision | Learnosphere",
+  "5th-class-maths-book": "Class 5 Maths Book – Chapters, Topics & Study Material | Learnosphere",
+  "structure-of-atom-class-11": "Structure of Atom Class 11 – Notes, Topics & Questions | Learnosphere",
+  "ncert-solutions-for-class-11-chemistry": "NCERT Solutions for Class 11 Chemistry: Chapter-Wise Answers, Important Topics and Study Material | Learnosphere",
+  "4th-class-science": "CBSE Class 4 Science – Topics, Learning Activities and Study Material | Learnosphere"
+};
+
+const cbseResourceCustomDescriptions = {
+  "5th-class-maths-book": "Explore the Class 5 Maths Book, chapter-wise topics, NCERT Maths Mela, exercises and useful study resources for CBSE students.",
+  "structure-of-atom-class-11": "Explore Structure of Atom Class 11 with important topics, atomic models, quantum numbers, formulas and Chemistry study material.",
+  "ncert-solutions-for-class-11-chemistry": "NCERT Solutions for Class 11 Chemistry: Chapter-wise answers, important topics, concepts, and study material for CBSE students.",
+  "4th-class-science": "CBSE Class 4 Science: Explore chapter-wise topics, learning activities, worksheets, and study material for Class 4 Science and EVS students."
 };
 
 import { notFound } from "next/navigation";
@@ -33,9 +44,13 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const cleanSlug = slug.toLowerCase().trim();
+  const customTitle = cbseResourceCustomTitles[cleanSlug] || cbseResourceCustomTitles[slug] || content.metaTitle;
+  const customDesc = cbseResourceCustomDescriptions[cleanSlug] || cbseResourceCustomDescriptions[slug] || content.metaDescription;
+
   return {
-    title: `${content.title} | Learnosphere`,
-    description: content.description?.[0] || `Comprehensive CBSE resources for ${content.title}.`,
+    title: customTitle ? { absolute: customTitle } : `${content.title} | Learnosphere`,
+    description: customDesc || content.description?.[0] || `Comprehensive CBSE resources for ${content.title}.`,
   };
 }
 

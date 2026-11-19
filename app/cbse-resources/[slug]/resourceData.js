@@ -1,3 +1,4 @@
+import curatedCbseData from "./curatedCbseData.json";
 /**
  * Known CBSE Resource slugs from database (cbsepreviousquestions.list3) and API (cbseRelatedData.json).
  */
@@ -24,7 +25,12 @@ export const STATIC_DB_RESOURCE_SLUGS = new Set([
   "parabola",
   "coordination-compounds-class-12-notes",
   "combustion-and-flame-class-8-important-questions",
-  "cbse-class-9-exam-prep-tips"
+  "cbse-class-9-exam-prep-tips",
+  // Google Doc 13 tabs
+  "5th-class-maths-book",
+  "structure-of-atom-class-11",
+  "ncert-solutions-for-class-11-chemistry",
+  "4th-class-science",
 ]);
 
 export function isCurriculumPattern(slug) {
@@ -100,6 +106,9 @@ async function getDynamicDatabaseSlugs() {
 export async function validateCbseResourceSlug(slug) {
   if (!slug || typeof slug !== "string") return false;
   const cleanSlug = slug.toLowerCase().trim();
+  if (curatedCbseData && curatedCbseData[cleanSlug]) {
+    return true;
+  }
 
   // Basic sanity check: prevent invalid characters or extreme length
   if (!/^[a-z0-9-]+$/.test(cleanSlug) || cleanSlug.length > 150) {
@@ -141,6 +150,9 @@ export async function validateCbseResourceSlug(slug) {
 export function getResourceContent(slug) {
   if (!slug) return null;
   const cleanSlug = slug.toLowerCase().trim();
+  if (curatedCbseData && curatedCbseData[cleanSlug]) {
+    return curatedCbseData[cleanSlug];
+  }
 
   // 1. Convert the slug back to a readable title
   const title = slug

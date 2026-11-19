@@ -10,7 +10,10 @@ const mathTopicTitles = {
   "hcf-of-two-numbers": "HCF of Two Numbers: Formula, Methods & Examples | Learnosphere",
   "prime-factorization": "Prime Factorization: Methods & Solved Examples | Learnosphere",
   "prime-factorization-": "Prime Factorization: Methods & Solved Examples | Learnosphere",
-  "Prime-Factorization": "Prime Factorization: Methods & Solved Examples | Learnosphere"
+  "Prime-Factorization": "Prime Factorization: Methods & Solved Examples | Learnosphere",
+  "fundamental-principle-of-counting": "Fundamental Principle of Counting: Definition, Rules, Examples and Applications | Learnosphere",
+  "class-8-maths-syllabus": "Class 8 Maths Syllabus: Chapters, Topics and Study Material | Learnosphere",
+  "class-10-maths-syllabus": "CBSE Class 10 Maths Syllabus 2026–27 – Chapter-Wise Topics and Marks Distribution | Learnosphere"
 };
 
 const mathTopicsDescriptions = {
@@ -27,7 +30,10 @@ const mathTopicsDescriptions = {
   "hcf-of-two-numbers": "Learn how to find the HCF of two numbers using prime factorisation and the division method. Understand the HCF formula with step-by-step examples.",
   "prime-factorization": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions.",
   "prime-factorization-": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions.",
-  "Prime-Factorization": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions."
+  "Prime-Factorization": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions.",
+  "fundamental-principle-of-counting": "The Fundamental Principle of Counting is an important concept in Mathematics that helps students calculate the total number of possible outcomes in different situations.",
+  "class-8-maths-syllabus": "Class 8 Maths Syllabus: Explore chapter-wise topics, NCERT curriculum, study material, and preparation tips for Class 8 Mathematics students.",
+  "class-10-maths-syllabus": "CBSE Class 10 Maths Syllabus 2026–27: Chapter-wise topics, exam pattern, course structure, and unit-wise marks distribution for board exam preparation."
 };
 
 import ClientPage from '@/components/client/Mathematicstopic_slug';
@@ -45,6 +51,17 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function Page(props) {
-  return <ClientPage {...props} />;
+export default async function Page({ params, searchParams }) {
+  const { slug } = await params;
+  let initialData = [];
+  try {
+    const res = await fetch(`http://localhost:4000/api/route/mathematicsTopic/${slug}`, { cache: 'no-store' });
+    const json = await res.json();
+    if (json?.data && Array.isArray(json.data)) {
+      initialData = json.data;
+    }
+  } catch (err) {
+    // fallback to client-side fetch
+  }
+  return <ClientPage params={{ slug }} initialData={initialData} />;
 }
