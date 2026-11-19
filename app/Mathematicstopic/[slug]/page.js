@@ -55,7 +55,7 @@ export default async function Page({ params, searchParams }) {
   const { slug } = await params;
   let initialData = [];
   try {
-    const res = await fetch(`http://localhost:4000/api/route/mathematicsTopic/${slug}`, { cache: 'no-store' });
+    const res = await fetch(`https://learnospherebackend.learnosphere.in/api/route/mathematicsTopic/${slug}`, { cache: 'no-store' });
     const json = await res.json();
     if (json?.data && Array.isArray(json.data)) {
       initialData = json.data;
