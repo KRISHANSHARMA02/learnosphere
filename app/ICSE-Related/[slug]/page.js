@@ -9,31 +9,18 @@ const icseRelatedTitles = {
   "ICSE-Passing-Marks": "ICSE Passing Marks: Minimum Marks Required to Pass | Learnosphere",
   "ICSE-School-List-With-Details": "ICSE School List with Details | Learnosphere",
   "ICSE-Solutions-Class-10-Chapter-1-Force": "ICSE Class 10 Physics Chapter 1 Force: Solutions | Learnosphere",
-  "ICSE-Class-6-Maths": "ICSE Class 6 Maths: Study Material and Practice | Learnosphere",
-  "ICSE-Class-8-Biology-Selina-Solutions-Chapter-2": "ICSE Class 8 Biology Selina Solutions: Chapter 2 | Learnosphere",
-  "ICSE-Board-Papers-2016": "ICSE Board Papers 2016: Past Year Question Papers | Learnosphere",
-  "ICSE-Solutions-Class-10-Chapter-8-Current-Electricity": "ICSE Class 10 Physics Current Electricity: Chapter 8 | Learnosphere",
-  "ICSE-Syllabus-for-Class-10-for-the-Year-2023-24": "ICSE Class 10 Syllabus for 2023-24 Session | Learnosphere",
-  "ICSE-vs-CBSE-Which-is-Better-CBSE-or-ICSE": "ICSE vs CBSE: Which Board Is Better for Your Child? | Learnosphere",
-  "ICSE-Class-6-Maths-Syllabus": "ICSE Class 6 Maths Syllabus: Chapters and Topics | Learnosphere",
-  "ICSE-Class-9-Chemistry-Selina-Solutions-Chapter-2": "ICSE Class 9 Chemistry Selina Solutions: Chapter 2 | Learnosphere",
-  "ISC-2017-Schedule": "ISC 2017 Exam Schedule: Class 12 Date Sheet | Learnosphere",
-  "ICSE-Class-7-Questions-Papers": "ICSE Class 7 Question Papers for Practice | Learnosphere",
-  "ICSE-Class-8-Maths-Selina-Solutions-Chapter-17": "ICSE Class 8 Maths Selina Solutions: Chapter 17 | Learnosphere",
-  "ICSE-Class-8-Maths-Selina-Solutions-Chapter-13": "Selina ICSE Class 8 Maths Chapter 13 Solutions | Learnosphere",
-  "ICSE-Books-For-Class-10": "ICSE Books for Class 10: Textbooks & Reference List | Learnosphere",
-  "ICSE-Physics-Questions-Paper-2014-Solved": "ICSE Physics 2014 Question Paper with Solutions | Learnosphere",
-  "ICSE-Selina-Class-9-Maths": "Selina ICSE Class 9 Maths Chapter Solutions | Learnosphere",
-  "List-of-ICSE-Schools-in-India": "List of ICSE Schools Across India | Learnosphere",
-  "ICSE-ISC-Class-11-Maths-Book": "ISC Class 11 Maths Book for ICSE Students | Learnosphere",
-  "ICSE-Solutions-Class-10-Chapter-1-Periodic-Table-Periodic-Property-And-Variations-Of-Properties": "ICSE Class 10 Chemistry: Periodic Table & Properties | Learnosphere",
-  "ICSE-Class-9-Biology-Selina-Solutions-Chapter-1": "ICSE Class 9 Biology Selina Solutions: Chapter 1 | Learnosphere",
-  "Concise-Mathematics-Class-10-ICSE-Guide": "Concise Mathematics Class 10 ICSE Guide | Learnosphere",
-  "ICSE-Class-8-Chemistry-Selina-Solutions-Chapter-8": "ICSE Class 8 Chemistry Selina Solutions: Chapter 8 | Learnosphere",
-  "ICSE-Class-8-Chemistry-Selina-Solutions-Chapter-6": "Selina ICSE Class 8 Chemistry Chapter 6 Solutions | Learnosphere",
-  "Selina-Solutions-Class-10-Chapter-5-Refraction-Through-A-Lens": "Refraction Through a Lens: ICSE Class 10 Selina Ch 5 | Learnosphere",
-  "ICSE-Class-7": "ICSE Class 7: Subjects, Syllabus and Study Material | Learnosphere",
-  "ICSE-Selina-Solution-Concise-Biology-Class-10-Chapter-3-Genetics-Some-Basic-Fundamentals": "Genetics: ICSE Class 10 Biology Selina Ch 3 Solutions | Learnosphere"
+  "ICSE-Solutions-Class-10-Chapter-8-Current-Electricity": "Current Electricity Class 10 ICSE: Important Concepts, Formulas and Solutions | Learnosphere",
+  "icse-solutions-class-10-chapter-8-current-electricity": "Current Electricity Class 10 ICSE: Important Concepts, Formulas and Solutions | Learnosphere",
+  "ICSE-Class-7": "ICSE Class 7: Syllabus, Subjects, Study Material and Learning Resources | Learnosphere",
+  "icse-class-7": "ICSE Class 7: Syllabus, Subjects, Study Material and Learning Resources | Learnosphere",
+  "ICSE-Selina-Solution-Concise-Biology-Class-10-Chapter-3-Genetics-Some-Basic-Fundamentals": "Genetics Class 10 ICSE: Important Concepts, Mendel's Laws and Selina Solutions | Learnosphere",
+  "icse-selina-solution-concise-biology-class-10-chapter-3-genetics-some-basic-fundamentals": "Genetics Class 10 ICSE: Important Concepts, Mendel's Laws and Selina Solutions | Learnosphere",
+  "ICSE-Class-9-Biology-Selina-Solutions-Chapter-1": "ICSE Class 9 Biology Selina Solutions Chapter 1 – Introducing Biology | Learnosphere",
+  "icse-class-9-biology-selina-solutions-chapter-1": "ICSE Class 9 Biology Selina Solutions Chapter 1 – Introducing Biology | Learnosphere",
+  "ICSE-Class-8-Maths-Selina-Solutions-Chapter-13": "ICSE Class 8 Maths Selina Solutions Chapter 13 – Factorisation | Learnosphere",
+  "icse-class-8-maths-selina-solutions-chapter-13": "ICSE Class 8 Maths Selina Solutions Chapter 13 – Factorisation | Learnosphere",
+  "ICSE-Class-6-Maths": "ICSE Class 6 Maths – Selina Solutions, Chapters and Study Material | Learnosphere",
+  "icse-class-6-maths": "ICSE Class 6 Maths – Selina Solutions, Chapters and Study Material | Learnosphere"
 };
 
 
@@ -169,11 +156,15 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const customTitle = icseRelatedTitles[slug] || (cleanSlug && icseRelatedTitles[cleanSlug]) || data.metaTitle;
+  const metaDescription =
+    data.metaDescription ||
+    data.introPoints?.[0] ||
+    `Comprehensive ICSE study resources and syllabus for ${data.title}.`;
+
   return {
-    title: `${data.title} | Learnosphere`,
-    description:
-      data.introPoints?.[0] ||
-      `Comprehensive ICSE study resources and syllabus for ${data.title}.`,
+    title: customTitle ? { absolute: customTitle } : `${data.title} | Learnosphere`,
+    description: metaDescription,
   };
 }
 

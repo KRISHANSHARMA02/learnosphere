@@ -139,6 +139,72 @@ export default function RelatedPageClient({ initialData, slug }) {
               </div>
             )}
 
+            {data.sections && data.sections.length > 0 && (
+              <div className="mb-8 space-y-6">
+                {data.sections.map((sec, index) => (
+                  <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    {sec.heading && (
+                      <h2 className="text-slate-800 text-[1.25em] font-bold mb-3 border-b pb-2">
+                        {sec.heading}
+                      </h2>
+                    )}
+                    {sec.paragraphs && sec.paragraphs.length > 0 && (
+                      <div className="space-y-3">
+                        {sec.paragraphs.map((para, pIndex) => (
+                          <p key={pIndex} className="text-gray-800 leading-relaxed text-justify">
+                            {para}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                    {sec.list && sec.list.length > 0 && (
+                      <ul className="list-disc pl-6 mt-3 space-y-1.5 text-gray-800">
+                        {sec.list.map((item, lIndex) => (
+                          <li key={lIndex} className="text-[0.98em]">{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {sec.orderedList && sec.orderedList.length > 0 && (
+                      <ol className="list-decimal pl-6 mt-3 space-y-1.5 text-gray-800">
+                        {sec.orderedList.map((item, oIndex) => (
+                          <li key={oIndex} className="text-[0.98em]">{item}</li>
+                        ))}
+                      </ol>
+                    )}
+                    {sec.subsections && sec.subsections.length > 0 && (
+                      <div className="mt-4 space-y-4">
+                        {sec.subsections.map((sub, sIdx) => (
+                          <div key={sIdx} className="pt-2">
+                            {sub.heading && (
+                              <h3 className="text-slate-800 text-[1.1em] font-semibold mb-2">
+                                {sub.heading}
+                              </h3>
+                            )}
+                            {sub.paragraphs && sub.paragraphs.length > 0 && (
+                              <div className="space-y-2">
+                                {sub.paragraphs.map((para, spIdx) => (
+                                  <p key={spIdx} className="text-gray-800 leading-relaxed text-justify">
+                                    {para}
+                                  </p>
+                                ))}
+                              </div>
+                            )}
+                            {sub.list && sub.list.length > 0 && (
+                              <ul className="list-disc pl-6 mt-2 space-y-1 text-gray-800">
+                                {sub.list.map((item, slIdx) => (
+                                  <li key={slIdx} className="text-[0.95em]">{item}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
             {data.syllabus && (
               <div className="mb-8 border border-slate-800 bg-white">
                 <h2 className="text-white bg-orange-600 p-4 font-bold text-center text-[1.2em]">
