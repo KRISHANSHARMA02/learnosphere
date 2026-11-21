@@ -1048,5 +1048,576 @@
         "href": "/CBSE"
       }
     ]
+  },
+  "ncert-solutions-class-9-maths": {
+    "title": "NCERT Solutions for Class 9 Maths – Chapter-Wise Exercise Solutions",
+    "metaTitle": "NCERT Solutions for Class 9 Maths – Chapter-Wise Exercise Solutions | Learnosphere",
+    "metaDescription": "NCERT Solutions for Class 9 Maths provide structured chapter-wise answers, important formulas, and exercise solutions to prepare for CBSE examinations.",
+    "classLevel": "Class 9",
+    "subject": "Mathematics",
+    "description": [
+      "Mathematics is an important subject that helps students develop logical thinking, problem-solving abilities, and analytical skills. NCERT Solutions for Class 9 Maths provide a structured way to understand mathematical concepts and solve textbook questions with confidence.",
+      "Students can use these solutions to understand different methods of solving problems, learn important formulas, and improve their understanding of the CBSE Class 9 Maths syllabus. Each exercise helps students build a strong foundation for higher-level mathematics.",
+      "With step-by-step solutions, detailed explanations, and regular practice questions, Learnosphere makes Class 9 Maths revision simple and effective."
+    ],
+    "sections": [
+      {
+        "heading": "Chapter-Wise NCERT Solutions for Class 9 Maths",
+        "level": "h2",
+        "paragraphs": [
+          "NCERT Class 9 Mathematics covers 12 core chapters that introduce students to fundamental mathematical concepts:",
+          "Number Systems, Polynomials, Coordinate Geometry, Linear Equations in Two Variables, Introduction to Euclid's Geometry, Lines and Angles, Triangles, Quadrilaterals, Circles, Heron's Formula, Surface Areas and Volumes, and Statistics."
+        ],
+        "list": [
+          "Chapter 1: Number Systems – Real numbers, rationalisation, and laws of exponents",
+          "Chapter 2: Polynomials – Factorisation, algebraic identities, and zero of a polynomial",
+          "Chapter 3: Coordinate Geometry – Cartesian plane, coordinates of a point, and quadrants",
+          "Chapter 4: Linear Equations in Two Variables – Solutions and graphical representation",
+          "Chapter 5: Introduction to Euclid's Geometry – Definitions, axioms, and postulates",
+          "Chapter 6: Lines and Angles – Vertically opposite angles, transversal lines, and angle sum",
+          "Chapter 7: Triangles – Congruence criteria (SAS, ASA, AAS, SSS, RHS) and properties",
+          "Chapter 8: Quadrilaterals – Properties of parallelograms and mid-point theorem",
+          "Chapter 9: Circles – Chords, arcs, subtended angles, and cyclic quadrilaterals",
+          "Chapter 10: Heron's Formula – Area of triangles and application in quadrilaterals",
+          "Chapter 11: Surface Areas and Volumes – Cubes, cuboids, cylinders, cones, and spheres",
+          "Chapter 12: Statistics – Graphical representation of data, bar graphs, and histograms"
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "Importance of NCERT Solutions for Class 9 Maths",
+        "level": "h2",
+        "paragraphs": [
+          "Studying with structured NCERT Solutions offers numerous advantages for Class 9 students preparing for annual examinations."
+        ],
+        "list": [
+          "Step-by-Step Problem Solving: Learn the standard methods and presentation required for school examinations.",
+          "Concept Clarity: Build a thorough understanding of theorems, proofs, and algebraic methods.",
+          "Strong Foundation for Class 10: Class 9 geometry, algebra, and mensuration concepts directly feed into Class 10 board preparation.",
+          "Exam-Oriented Practice: Gain confidence tackling various question formats, from MCQs to multi-step descriptive problems."
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "How to Prepare for Class 9 Mathematics?",
+        "level": "h2",
+        "paragraphs": [
+          "To excel in Class 9 Mathematics, students should follow a disciplined study routine:",
+          "Maintain a dedicated formula notebook for quick revision before exams. Practise solving NCERT textbook examples before attempting exercise questions. Dedicate extra time to geometry proofs and algebraic factorisation, as these areas require precision and regular practice."
+        ],
+        "list": [],
+        "orderedList": [],
+        "subsections": []
+      }
+    ],
+    "syllabusLinks": [
+      {
+        "name": "CBSE Class 9 Maths Syllabus",
+        "href": "/CBSE_Syllabus"
+      },
+      {
+        "name": "Class 9 Maths Sample Papers",
+        "href": "/cbse-sample-papers"
+      }
+    ],
+    "pypLinks": [
+      {
+        "name": "CBSE Class 9 Practice Papers",
+        "href": "/CBSE-Sample-Papers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How many chapters are in NCERT Class 9 Maths?",
+        "a": "The updated rationalised NCERT Class 9 Maths textbook contains 12 chapters covering Number Systems, Algebra, Geometry, Coordinate Geometry, Mensuration, and Statistics."
+      },
+      {
+        "q": "Are NCERT solutions enough for Class 9 Maths annual exams?",
+        "a": "Yes, NCERT solutions thoroughly cover the core CBSE Class 9 syllabus. Practising all exercise questions and examples builds the conceptual clarity needed to score top marks."
+      },
+      {
+        "q": "Which are the most scoring chapters in Class 9 Maths?",
+        "a": "Number Systems, Coordinate Geometry, Heron's Formula, and Statistics are considered straightforward and scoring chapters when practised consistently."
+      },
+      {
+        "q": "How does Class 9 Maths help in Class 10 board preparation?",
+        "a": "Key topics like Polynomials, Linear Equations, Triangles, Coordinate Geometry, Circles, and Surface Areas and Volumes form direct prerequisites for Class 10 topics."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "name": "Class 9 Science Resources",
+        "href": "/cbse-resources"
+      },
+      {
+        "name": "Class 9 Study Material",
+        "href": "/cbse-resources"
+      }
+    ]
+  },
+  "cbse-class-10-maths-objective-questions": {
+    "title": "CBSE Class 10 Maths Objective Questions",
+    "metaTitle": "CBSE Class 10 Maths Objective Questions & Practice | Learnosphere",
+    "metaDescription": "Practise CBSE Class 10 Maths Objective Questions chapter-wise. Improve concept clarity, calculation accuracy and exam preparation with useful study resources.",
+    "classLevel": "Class 10",
+    "subject": "Mathematics",
+    "description": [
+      "CBSE Class 10 Maths Objective Questions are an essential component of the CBSE board examination pattern. Section A of the mathematics board paper consists of 20 one-mark objective questions, including multiple-choice questions (MCQs) and assertion-reason questions.",
+      "Practising objective questions helps students sharpen their speed, calculation accuracy, and conceptual grasp across all 14 chapters of the Class 10 Mathematics syllabus.",
+      "Learnosphere provides a rich bank of chapter-wise objective questions with step-by-step solutions to ensure students score maximum marks in the objective section."
+    ],
+    "sections": [
+      {
+        "heading": "Importance of Objective Questions in Class 10 Maths",
+        "level": "h2",
+        "paragraphs": [
+          "Objective questions test quick thinking and exact concept application without lengthy derivations. Consistent practice of MCQs helps students in several key ways:"
+        ],
+        "list": [
+          "Speed and Time Management: Solving 20 one-mark questions accurately in the first 30–35 minutes leaves ample time for Section B, C, D, and E.",
+          "Concept Precision: Objective questions often test boundary conditions, properties, and definitions where precision matters.",
+          "Elimination Techniques: Learn how to eliminate incorrect options using estimation, parity checks, and substitution.",
+          "Formula Recall: Reinforce direct formula application across coordinate geometry, trigonometry, arithmetic progressions, and probability."
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "Chapter-Wise Topics for Class 10 Maths Objective Questions",
+        "level": "h2",
+        "paragraphs": [
+          "Explore the key objective question patterns across major units:"
+        ],
+        "list": [
+          "Real Numbers: HCF and LCM relationship (HCF × LCM = a × b), terminating/non-terminating decimal expansions, and irrationality conditions.",
+          "Polynomials: Sum and product of roots (α + β = -b/a, αβ = c/a), number of zeroes from graphs.",
+          "Pair of Linear Equations: Conditions for consistency (unique solution, infinitely many solutions, no solution).",
+          "Quadratic Equations: Nature of roots using discriminant D = b² - 4ac (real and distinct, equal, or no real roots).",
+          "Arithmetic Progressions: Finding common difference d, nth term a_n = a + (n-1)d, and sum S_n.",
+          "Coordinate Geometry: Distance formula, section formula coordinates, midpoint formula, and distance from origin.",
+          "Introduction to Trigonometry: Values of standard trigonometric ratios (0°, 30°, 45°, 60°, 90°) and basic Pythagorean identities.",
+          "Statistics & Probability: Empirical relationship (3 Median = Mode + 2 Mean), class marks, and probability of complementary events P(E) + P(not E) = 1."
+        ],
+        "orderedList": [],
+        "subsections": []
+      }
+    ],
+    "syllabusLinks": [
+      {
+        "name": "CBSE Class 10 Maths Syllabus",
+        "href": "/Mathematicstopic/class-10-maths-syllabus"
+      },
+      {
+        "name": "Class 10 Maths Sample Papers",
+        "href": "/CBSE-Sample-Papers/CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard"
+      }
+    ],
+    "pypLinks": [
+      {
+        "name": "CBSE Class 10 Previous Year Papers",
+        "href": "/cbsepreviouspaperspdf"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How many objective questions are asked in CBSE Class 10 Maths board exam?",
+        "a": "Section A of the CBSE Class 10 Maths board question paper contains 20 objective questions (18 multiple choice questions and 2 assertion-reason questions), each carrying 1 mark."
+      },
+      {
+        "q": "What is the best strategy to solve Maths MCQs in board exams?",
+        "a": "Read the question carefully, check units, eliminate obviously incorrect options, use substitution or graphical inspection where applicable, and avoid rough work errors."
+      },
+      {
+        "q": "Are assertion-reason questions included in Class 10 Maths?",
+        "a": "Yes, questions 19 and 20 in Section A are typically assertion-reason questions testing deep conceptual comprehension."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "name": "NCERT Class 10 Maths Solutions",
+        "href": "/cbse-resources/ncert-solutions-class-10-maths"
+      },
+      {
+        "name": "Class 10 Science Solutions",
+        "href": "/cbse-resources/ncert-solutions-class-10-science"
+      }
+    ]
+  },
+  "ncert-solutions-class-10-science": {
+    "title": "NCERT Solutions Class 10 Science",
+    "metaTitle": "NCERT Solutions Class 10 Science – Chapter Wise Answers | Learnosphere",
+    "metaDescription": "Explore NCERT Solutions Class 10 Science with chapter-wise answers, detailed explanations and study resources for CBSE board exam preparation.",
+    "classLevel": "Class 10",
+    "subject": "Science",
+    "description": [
+      "NCERT Solutions Class 10 Science provide chapter-wise answers, detailed explanations, and conceptual clarity across Physics, Chemistry, and Biology. Designed strictly according to the CBSE syllabus, these solutions serve as an essential study companion for board exam preparation.",
+      "By studying step-by-step textbook solutions, students learn the correct terminology, chemical equations, ray diagrams, and biological processes needed to write high-scoring board answers.",
+      "Learnosphere provides complete NCERT Class 10 Science solutions with labeled diagrams, balanced reactions, and practice questions."
+    ],
+    "sections": [
+      {
+        "heading": "Chapter-Wise Breakdown of Class 10 Science",
+        "level": "h2",
+        "paragraphs": [
+          "The CBSE Class 10 Science curriculum is organized into Chemistry, Biology, and Physics units:"
+        ],
+        "list": [
+          "Chemical Reactions and Equations: Types of chemical reactions (combination, decomposition, displacement, double displacement, redox), balancing equations, corrosion and rancidity.",
+          "Acids, Bases and Salts: Properties, pH scale, preparation and uses of Bleaching Powder, Baking Soda, Washing Soda, and Plaster of Paris.",
+          "Metals and Non-Metals: Physical and chemical properties, reactivity series, ionic compounds, extraction of metals, and prevention of corrosion.",
+          "Carbon and Its Compounds: Covalent bonding, versatile nature of carbon, homologous series, functional groups, and chemical reactions of ethanol and ethanoic acid.",
+          "Life Processes: Nutrition, respiration, transportation in plants and animals, and excretion in human beings.",
+          "Control and Coordination: Nervous system, reflex arc, human brain structure, plant hormones (auxins, gibberellins, cytokinins, abscisic acid), and animal hormones.",
+          "How do Organisms Reproduce?: Asexual and sexual reproduction, reproductive health, contraceptive methods, and flowering plant reproduction.",
+          "Heredity: Mendel's experiments, laws of inheritance (monohybrid and dihybrid cross), and sex determination in human beings.",
+          "Light – Reflection and Refraction: Spherical mirrors, mirror formula, magnification, refraction through glass slab, lens formula, and power of a lens.",
+          "The Human Eye and the Colourful World: Eye defects (myopia, hypermetropia, presbyopia) and corrections, refraction through prism, dispersion, and atmospheric refraction.",
+          "Electricity: Electric current, potential difference, Ohm's law, resistance factors, series and parallel resistor combinations, heating effect of electric current, and electric power.",
+          "Magnetic Effects of Electric Current: Magnetic field lines, Right-Hand Thumb Rule, force on current-carrying conductor, Fleming's Left-Hand Rule, and domestic electric circuits.",
+          "Our Environment: Ecosystem components, food chains, food webs, 10 percent energy flow law, ozone layer depletion, and waste management."
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "Why Are NCERT Solutions for Class 10 Science Important?",
+        "level": "h2",
+        "paragraphs": [
+          "CBSE board examination question papers are framed directly around NCERT textbook exercises, in-text questions, and exemplar problems. Thorough preparation using these solutions guarantees maximum coverage of exam concepts."
+        ],
+        "list": [
+          "Accurate Chemical Equations: Master balanced symbol equations and reaction conditions required by CBSE marking schemes.",
+          "Standard Ray Diagrams: Learn exact ray diagram rules for concave and convex mirrors and lenses.",
+          "Biological Process Flowcharts: Gain high scores with clear step-by-step descriptions of photosynthesis, cellular respiration, and double circulation.",
+          "Numerical Problem Practice: Develop confidence solving electricity and optics numericals using proper units and signs."
+        ],
+        "orderedList": [],
+        "subsections": []
+      }
+    ],
+    "syllabusLinks": [
+      {
+        "name": "CBSE Class 10 Syllabus",
+        "href": "/CBSE-10thsyllabus"
+      }
+    ],
+    "pypLinks": [
+      {
+        "name": "Class 10 Science Sample Papers",
+        "href": "/cbse-sample-papers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Are NCERT solutions sufficient for scoring 95+ in Class 10 Science?",
+        "a": "Yes. NCERT textbooks are the primary reference for CBSE board exams. Mastering all in-text questions, chapter-end exercises, and activities covers over 90% of exam questions."
+      },
+      {
+        "q": "How important are diagrams in Class 10 Science?",
+        "a": "Diagrams carry significant weightage in Biology (human heart, excretory system, neuron) and Physics (ray diagrams, electric circuits, magnetic field lines). Clean, labeled diagrams earn full marks."
+      },
+      {
+        "q": "How many chapters are in Class 10 Science?",
+        "a": "The CBSE rationalised syllabus for Class 10 Science includes 13 chapters across Chemical Substances, World of Living, Natural Phenomena, Effects of Current, and Natural Resources."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "name": "Class 10 Maths Objective Questions",
+        "href": "/cbse-resources/cbse-class-10-maths-objective-questions"
+      },
+      {
+        "name": "Class 10 Maths NCERT Solutions",
+        "href": "/cbse-resources/ncert-solutions-class-10-maths"
+      }
+    ]
+  },
+  "chemistry-notes-for-class-12": {
+    "title": "Class 12 Chemistry Notes",
+    "metaTitle": "Class 12 Chemistry Notes – Chapter-Wise Study Material | Learnosphere",
+    "metaDescription": "Explore Class 12 Chemistry Notes with important formulas, reactions, chapter-wise explanations and study material for CBSE students.",
+    "classLevel": "Class 12",
+    "subject": "Chemistry",
+    "description": [
+      "Class 12 Chemistry Notes provide a comprehensive, chapter-wise revision resource covering Physical Chemistry, Inorganic Chemistry, and Organic Chemistry. Designed for CBSE Class 12 board examinees and competitive aspirants, these notes simplify complex reaction mechanisms, thermodynamic formulas, and coordination structures.",
+      "With clear reaction pathways, named reactions, numerical formulas, and key NCERT points, students can revise efficiently and score top marks in theory and practical exams.",
+      "Explore detailed study material, important formulas, chemical equations, and revision notes on Learnosphere."
+    ],
+    "sections": [
+      {
+        "heading": "Three Main Branches of Class 12 Chemistry",
+        "level": "h2",
+        "paragraphs": [
+          "The CBSE Class 12 Chemistry syllabus is divided into three major branches, each demanding a distinct preparation strategy:"
+        ],
+        "list": [
+          "Physical Chemistry: Focuses on numericals, formulas, and laws. Key chapters: Solutions, Electrochemistry, and Chemical Kinetics.",
+          "Inorganic Chemistry: Emphasizes electronic configurations, oxidation states, periodic trends, and coordination complexes. Key chapters: d- and f-Block Elements, and Coordination Compounds.",
+          "Organic Chemistry: Centers around named reactions, reaction mechanisms, functional group interconversions, and biomolecules. Key chapters: Haloalkanes and Haloarenes, Alcohols Phenols and Ethers, Aldehydes Ketones and Carboxylic Acids, Amines, and Biomolecules."
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "Chapter-Wise Highlights in Class 12 Chemistry",
+        "level": "h2",
+        "paragraphs": [
+          "Important topics covered across the 10 prescribed CBSE units:"
+        ],
+        "list": [
+          "Solutions: Raoult's Law, colligative properties (relative lowering of vapour pressure, elevation of boiling point, depression of freezing point, osmotic pressure), van 't Hoff factor, and ideal/non-ideal solutions.",
+          "Electrochemistry: Nernst equation, standard electrode potentials, Kohlrausch's law, molar conductivity, Faraday's laws of electrolysis, and battery types.",
+          "Chemical Kinetics: Rate of reaction, rate law and order, integrated rate equations for zero and first order reactions, Arrhenius equation, and collision theory.",
+          "d- and f-Block Elements: Transition metals properties, variable oxidation states, lanthanoid contraction, and preparation of K2Cr2O7 and KMnO4.",
+          "Coordination Compounds: Werner's theory, IUPAC nomenclature, isomerism, Valence Bond Theory, Crystal Field Theory, and magnetic properties.",
+          "Haloalkanes and Haloarenes: SN1 and SN2 reaction mechanisms, optical rotation, and electrophilic substitution reactions.",
+          "Alcohols, Phenols and Ethers: Preparation methods, acidic nature of phenol, Kolbe's reaction, Reimer-Tiemann reaction, and Williamson ether synthesis.",
+          "Aldehydes, Ketones and Carboxylic Acids: Nucleophilic addition mechanisms, Aldol condensation, Cannizzaro reaction, and acidity of carboxylic acids.",
+          "Amines: Basicity of amines in aqueous and gas phase, Gabriel phthalimide synthesis, Hofmann bromamide degradation, and diazotisation.",
+          "Biomolecules: Classification of carbohydrates, glucose structure, peptide linkage in proteins, primary/secondary/tertiary structures, DNA/RNA structures."
+        ],
+        "orderedList": [],
+        "subsections": []
+      }
+    ],
+    "syllabusLinks": [
+      {
+        "name": "CBSE Class 12 Syllabus",
+        "href": "/CBSE_Syllabus"
+      }
+    ],
+    "pypLinks": [
+      {
+        "name": "Class 12 Chemistry Sample Papers",
+        "href": "/cbse-sample-papers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Where can I find Chemistry Notes for Class 12?",
+        "a": "Students can explore chapter-wise Chemistry Notes for Class 12 on Learnosphere to understand important concepts, formulas, chemical reactions, and topics."
+      },
+      {
+        "q": "How many chapters are included in CBSE Class 12 Chemistry?",
+        "a": "The CBSE Class 12 Chemistry theory syllabus includes 10 prescribed units covering Physical, Inorganic, and Organic Chemistry."
+      },
+      {
+        "q": "Which topics are important in Class 12 Chemistry?",
+        "a": "Solutions, Electrochemistry, Chemical Kinetics, Coordination Compounds, Organic Named Reactions, Amines, and Biomolecules are critical high-weightage topics."
+      },
+      {
+        "q": "How should I prepare Physical Chemistry for Class 12?",
+        "a": "Master formulas, understand underlying thermodynamic and electrochemical principles, memorize unit conversions, and practise numerical calculations from NCERT exercises."
+      },
+      {
+        "q": "Are NCERT books important for Class 12 Chemistry?",
+        "a": "Yes. NCERT textbooks are the definitive resource for CBSE Chemistry. Board examinations directly draw theoretical questions and numerical problems from NCERT."
+      },
+      {
+        "q": "How can I improve my Organic Chemistry preparation?",
+        "a": "Focus on reaction mechanisms, functional groups, chemical properties, conversions, and important named reactions. Maintain a dedicated reaction chart for daily revision."
+      },
+      {
+        "q": "What are the three main branches of Class 12 Chemistry?",
+        "a": "The three main branches are Physical Chemistry, Inorganic Chemistry, and Organic Chemistry."
+      },
+      {
+        "q": "How can I revise Class 12 Chemistry before board exams?",
+        "a": "Revise chapter-wise notes, practise formulas and reactions, solve sample papers, and review previous years' CBSE question papers."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "name": "Class 12 Physics Sample Papers",
+        "href": "/CBSE-Sample-Papers/CBSE-Sample-Papers-for-Class-12-Physics"
+      },
+      {
+        "name": "Class 12 Maths Sample Paper Set 9",
+        "href": "/CBSE-Sample-Question-Paper/Cbse-Maths-Sample-Paper-Class-12-Set-9"
+      }
+    ]
+  },
+  "cbse-class-7-maths": {
+    "title": "CBSE Class 7 Maths – Study Material, Notes, Solutions & Syllabus",
+    "metaTitle": "CBSE Class 7 Maths – NCERT Solutions, Notes & Study Material | Learnosphere",
+    "metaDescription": "Explore CBSE Class 7 Maths study material, NCERT solutions, chapter-wise notes, formulas and practice questions on Learnosphere.",
+    "classLevel": "Class 7",
+    "subject": "Mathematics",
+    "description": [
+      "Mathematics is an important subject that helps students develop logical thinking, problem-solving abilities and analytical skills. CBSE Class 7 Maths introduces students to important mathematical concepts that build a strong foundation for higher classes.",
+      "Learnosphere provides useful Class 7 Maths Study Material to help students understand different topics, practise mathematical problems and prepare for school examinations. Students can explore chapter-wise learning resources, important formulas, notes and practice questions to improve their understanding of mathematics.",
+      "Clear concepts, step-by-step solutions, and structured study plans make Class 7 Mathematics engaging and rewarding."
+    ],
+    "sections": [
+      {
+        "heading": "CBSE Class 7 Maths Syllabus and Chapters",
+        "level": "h2",
+        "paragraphs": [
+          "The NCERT Class 7 Mathematics curriculum covers the following key chapters designed to advance numerical and geometrical reasoning:"
+        ],
+        "list": [
+          "Integers: Properties of addition, subtraction, multiplication, and division of integers (closure, commutative, associative, and distributive properties).",
+          "Fractions and Decimals: Multiplication and division of fractions and decimals, real-life applications in measurements and money.",
+          "Data Handling: Collection and organization of data, arithmetic mean, median, mode of ungrouped data, and constructing bar graphs.",
+          "Simple Equations: Setting up equations, solving linear equations by balancing and transposing methods.",
+          "Lines and Angles: Complementary and supplementary angles, adjacent angles, linear pairs, vertically opposite angles, and angles formed by parallel lines cut by a transversal.",
+          "The Triangle and its Properties: Medians, altitudes, exterior angle property, angle sum property, and Pythagoras theorem in right-angled triangles.",
+          "Comparing Quantities: Ratios, percentages, converting decimals/fractions to percentages, profit and loss calculations, and simple interest (I = PRT/100).",
+          "Rational Numbers: Positive and negative rational numbers, representation on number lines, equivalent rational numbers, and arithmetic operations.",
+          "Perimeter and Area: Squares, rectangles, triangles, parallelograms, and circles (circumference = 2πr, area = πr²).",
+          "Algebraic Expressions: Terms, factors, coefficients, monomials, binomials, trinomials, polynomials, like and unlike terms, addition and subtraction of algebraic expressions.",
+          "Exponents and Powers: Laws of exponents (a^m × a^n = a^(m+n), a^m / a^n = a^(m-n), (a^m)^n = a^(mn)), expressing large numbers in scientific standard form.",
+          "Symmetry: Lines of symmetry for regular polygons, rotational symmetry, order of rotational symmetry, and center of rotation."
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "Benefits of Using Class 7 Maths Study Material",
+        "level": "h2",
+        "paragraphs": [
+          "Using structured notes and step-by-step exercise solutions helps Class 7 students develop independent learning habits and master problem-solving skills."
+        ],
+        "list": [
+          "Step-by-step problem breakdown removes math anxiety and builds self-confidence.",
+          "Topic summaries provide quick recall of formulas and geometry theorems before tests.",
+          "Worksheets and practice questions reinforce conceptual learning with varied difficulty levels."
+        ],
+        "orderedList": [],
+        "subsections": []
+      }
+    ],
+    "syllabusLinks": [
+      {
+        "name": "CBSE Class 7 Syllabus",
+        "href": "/CBSE_Syllabus"
+      }
+    ],
+    "pypLinks": [
+      {
+        "name": "Class 7 Sample Papers",
+        "href": "/cbse-sample-papers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "What are the important chapters in Class 7 Maths?",
+        "a": "Integers, Fractions and Decimals, The Triangle and its Properties, Comparing Quantities, and Perimeter and Area are foundational chapters that carry high importance."
+      },
+      {
+        "q": "How can Class 7 students prepare effectively for Mathematics exams?",
+        "a": "Practise daily, understand formulas and properties instead of memorising, solve textbook exercises completely, and review mistakes carefully."
+      },
+      {
+        "q": "Does Learnosphere provide chapter-wise practice questions for Class 7 Maths?",
+        "a": "Yes, Learnosphere offers chapter-wise study notes, practice problems, formulas, and guidance for CBSE Class 7 students."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "name": "Class 6 Maths Resources",
+        "href": "/ICSE-Related/ICSE-Class-6-Maths"
+      },
+      {
+        "name": "Class 8 Maths Syllabus",
+        "href": "/Mathematicstopic/class-8-maths-syllabus"
+      }
+    ]
+  },
+  "ncert-solutions-class-10-maths": {
+    "title": "NCERT Solutions for Class 10 Maths – Chapter-Wise Questions and Answers",
+    "metaTitle": "NCERT Solutions for Class 10 Maths – Chapter-Wise Questions and Answers | Learnosphere",
+    "metaDescription": "NCERT Solutions for Class 10 Maths provide step-by-step answers to textbook questions, helping students understand concepts and prepare for CBSE board exams.",
+    "classLevel": "Class 10",
+    "subject": "Mathematics",
+    "description": [
+      "Mathematics is an important subject in Class 10, as it helps students develop logical thinking, analytical abilities, and problem-solving skills. To understand mathematical concepts and prepare effectively for examinations, students need regular practice and clear explanations.",
+      "NCERT Solutions for Class 10 Maths provide step-by-step answers to textbook questions, helping students understand the correct methods and learn how to solve different types of problems. These solutions are useful for homework, revision, and CBSE board exam preparation.",
+      "Learnosphere provides educational resources to help students strengthen their mathematical concepts, practise questions, and improve their understanding of important topics."
+    ],
+    "sections": [
+      {
+        "heading": "Chapter-Wise NCERT Solutions for Class 10 Maths",
+        "level": "h2",
+        "paragraphs": [
+          "The commonly listed NCERT Class 10 Maths chapters include the following 14 chapters:"
+        ],
+        "list": [
+          "Chapter 1: Real Numbers – Fundamental Theorem of Arithmetic, proving irrationality of √2, √3, √5, and prime factorisation.",
+          "Chapter 2: Polynomials – Geometrical meaning of zeroes, relationship between zeroes and coefficients of quadratic polynomials.",
+          "Chapter 3: Pair of Linear Equations in Two Variables – Graphical method, substitution method, elimination method, and consistency conditions.",
+          "Chapter 4: Quadratic Equations – Standard form ax² + bx + c = 0, factorisation method, quadratic formula, and discriminant nature of roots.",
+          "Chapter 5: Arithmetic Progressions – General term a_n = a + (n-1)d, sum of first n terms S_n, and everyday word problems.",
+          "Chapter 6: Triangles – Basic Proportionality Theorem (Thales' theorem) and its converse, criteria for similarity of triangles (AAA, SSS, SAS).",
+          "Chapter 7: Coordinate Geometry – Distance formula, section formula (internal division), and midpoint formula.",
+          "Chapter 8: Introduction to Trigonometry – Trigonometric ratios (sin, cos, tan, cosec, sec, cot) of acute angles, standard angle values (0°, 30°, 45°, 60°, 90°), and trigonometric identity sin²θ + cos²θ = 1.",
+          "Chapter 9: Some Applications of Trigonometry – Heights and distances, angles of elevation and depression, single and double triangle word problems.",
+          "Chapter 10: Circles – Tangent to a circle at point of contact, theorem proving tangents drawn from external point are equal in length.",
+          "Chapter 11: Areas Related to Circles – Sector and segment areas, arc lengths, and composite plane figure areas.",
+          "Chapter 12: Surface Areas and Volumes – Combinations of cubes, cuboids, spheres, hemispheres, and right circular cylinders/cones.",
+          "Chapter 13: Statistics – Mean, median, and mode of grouped data using direct and assumed mean methods.",
+          "Chapter 14: Probability – Classical definition of probability, simple events, and complementary events."
+        ],
+        "orderedList": [],
+        "subsections": []
+      },
+      {
+        "heading": "Why Are NCERT Maths Solutions Important for Class 10?",
+        "level": "h2",
+        "paragraphs": [
+          "Using Class 10 Maths NCERT Solutions helps students prepare systematically for board exams:"
+        ],
+        "list": [
+          "Step-by-step explanations ensure students master the exact working required for CBSE marking schemes.",
+          "Builds strong conceptual foundation for senior secondary mathematics (Class 11 & 12).",
+          "Comprehensive coverage of all exercise questions and examples leaves no topic unpractised.",
+          "Improves speed and calculation accuracy, reducing avoidable algebraic and arithmetic errors."
+        ],
+        "orderedList": [],
+        "subsections": []
+      }
+    ],
+    "syllabusLinks": [
+      {
+        "name": "CBSE Class 10 Maths Syllabus 2026-27",
+        "href": "/Mathematicstopic/class-10-maths-syllabus"
+      },
+      {
+        "name": "Class 10 Maths Sample Papers",
+        "href": "/CBSE-Sample-Papers/CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard"
+      }
+    ],
+    "pypLinks": [
+      {
+        "name": "Class 10 Previous Year Papers",
+        "href": "/cbsepreviouspaperspdf"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Are NCERT solutions enough to score 100 in Class 10 Maths?",
+        "a": "NCERT textbook questions and exemplar problems form the core of the CBSE Class 10 Maths board exam. Practising all exercises along with sample papers and past year papers ensures top performance."
+      },
+      {
+        "q": "What is the difference between Maths Basic and Maths Standard in Class 10?",
+        "a": "Both courses share the exact same NCERT syllabus and textbooks. Maths Basic examination questions test direct concepts and simple calculations, while Maths Standard includes more analytical and multi-step problem-solving."
+      },
+      {
+        "q": "Which units carry the highest marks in Class 10 Maths?",
+        "a": "Algebra (20 marks) and Geometry (15 marks) carry the highest marks, followed by Trigonometry (12 marks) and Statistics & Probability (11 marks)."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "name": "Class 10 Maths Objective Questions",
+        "href": "/cbse-resources/cbse-class-10-maths-objective-questions"
+      },
+      {
+        "name": "Class 10 Science Solutions",
+        "href": "/cbse-resources/ncert-solutions-class-10-science"
+      }
+    ]
   }
 }

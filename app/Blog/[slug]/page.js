@@ -20,7 +20,12 @@ export async function generateStaticParams() {
   }));
 }
 
+const blogCustomTitles = {
+  "simplifying-education-for-teachers-and-students": "Online Learning Platform for Teachers and Students | Learnosphere",
+};
+
 const blogMetaDescriptions = {
+  "simplifying-education-for-teachers-and-students": "Explore an online learning platform that connects teachers and students with study materials, digital resources and interactive learning opportunities.",
   "10-best-ai-tools-for-teaching-to-boost-engagement-in-2025": "Discover 10 AI tools teachers can use to boost classroom engagement, save prep time and personalise learning. Practical picks for Indian educators.",
   "2024-2025-board-exam-success-top-tips-from-tutors": "Board exam tips from experienced tutors: revision plans, time management and answer-writing strategies to help CBSE students score higher.",
   "2025-new-year-of-unstoppable-success": "Start the new year with clear goals, smart study habits and steady motivation. Learnosphere shares ideas to help students and families aim higher in 2025.",
@@ -65,7 +70,6 @@ const blogMetaDescriptions = {
   "pariksha-pe-charcha-2025": "Pariksha Pe Charcha 2025: key takeaways on exam stress, focus and confidence for students, parents and teachers.",
   "redefining-modern-education": "Redefining modern education: how technology, personalised learning and one-on-one tutoring are shaping the way students learn today.",
   "revolutionary-dashboard-for-students": "Discover a student dashboard to track progress, manage learning and stay on top of studies with Learnosphere.",
-  "simplifying-education-for-teachers-and-students": "Simplifying education for teachers and students: see how digital tools make teaching, learning and tracking progress easier.",
   "sof-imo-result-2024-25": "SOF IMO result 2024-25: how to check your International Mathematics Olympiad result, understand the scorecard and plan next steps.",
   "ssc-cgl-syllabus-2025-for-tier-1-tier-2-exam-pattern-topics-and-preparation-tips": "SSC CGL syllabus 2025 for Tier 1 and Tier 2: exam pattern, topics and preparation tips to plan your study.",
   "state-boards-of-education-in-india-everything-you-need-to-know-in-2025": "State boards of education in India explained for 2025: how they work, how they differ from CBSE and what students should know.",
@@ -99,7 +103,8 @@ export async function generateMetadata({ params }) {
     return { title: "Blog post not found" };
   }
 
-  const meta = { title: blogs[0].title.rendered };
+  const customTitle = blogCustomTitles[slug];
+  const meta = { title: customTitle ? { absolute: customTitle } : blogs[0].title.rendered };
   if (blogMetaDescriptions[slug]) {
     meta.description = blogMetaDescriptions[slug];
   }

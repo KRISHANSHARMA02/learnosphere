@@ -17,6 +17,11 @@ const nextConfig = {
         destination: '/Mathematicstopic/square-root-of-7',
         permanent: true,
       },
+      {
+        source: '/Mathermaticstopic/:slug',
+        destination: '/Mathematicstopic/:slug',
+        permanent: true,
+      },
     ];
   },
   images: {

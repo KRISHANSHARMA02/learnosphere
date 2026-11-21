@@ -13,7 +13,15 @@ const mathTopicTitles = {
   "Prime-Factorization": "Prime Factorization: Methods & Solved Examples | Learnosphere",
   "fundamental-principle-of-counting": "Fundamental Principle of Counting: Definition, Rules, Examples and Applications | Learnosphere",
   "class-8-maths-syllabus": "Class 8 Maths Syllabus: Chapters, Topics and Study Material | Learnosphere",
-  "class-10-maths-syllabus": "CBSE Class 10 Maths Syllabus 2026–27 – Chapter-Wise Topics and Marks Distribution | Learnosphere"
+  "class-10-maths-syllabus": "CBSE Class 10 Maths Syllabus 2026–27 – Chapter-Wise Topics and Marks Distribution | Learnosphere",
+  "beta-distribution": "Beta Distribution: Definition, Formula, Properties and Applications | Learnosphere",
+  "factoring-polynomials": "Factoring Polynomials – Meaning, Methods and Examples | Learnosphere",
+  "three-dimensional-geometry-class-12": "Three Dimensional Geometry Class 12 – Notes & Formulas | Learnosphere",
+  "types-of-symmetry": "Different Forms of Symmetry in Geometry | Learnosphere",
+  "construction-of-quadrilaterals": "Construction of Quadrilaterals – Methods & Examples | Learnosphere",
+  "complex-numbers": "Complex Numbers: Definition, Formulas & Examples | Learnosphere",
+  "singular-matrix-example": "Singular Matrix Example – Definition, Properties & Solved Examples | Learnosphere",
+  "hexagon-lines-of-symmetry": "Hexagon Lines of Symmetry – Diagram, Properties & Examples | Learnosphere"
 };
 
 const mathTopicsDescriptions = {
@@ -33,7 +41,15 @@ const mathTopicsDescriptions = {
   "Prime-Factorization": "Learn prime factorization using the division and factor tree methods. Understand the steps with solved examples, prime factors and practice questions.",
   "fundamental-principle-of-counting": "The Fundamental Principle of Counting is an important concept in Mathematics that helps students calculate the total number of possible outcomes in different situations.",
   "class-8-maths-syllabus": "Class 8 Maths Syllabus: Explore chapter-wise topics, NCERT curriculum, study material, and preparation tips for Class 8 Mathematics students.",
-  "class-10-maths-syllabus": "CBSE Class 10 Maths Syllabus 2026–27: Chapter-wise topics, exam pattern, course structure, and unit-wise marks distribution for board exam preparation."
+  "class-10-maths-syllabus": "CBSE Class 10 Maths Syllabus 2026–27: Chapter-wise topics, exam pattern, course structure, and unit-wise marks distribution for board exam preparation.",
+  "beta-distribution": "The Beta Distribution is a continuous probability distribution used in statistics to represent random variables that take values between 0 and 1. Learn formulas, properties and applications.",
+  "factoring-polynomials": "Learn factoring polynomials with definition, methods (GCF, grouping, splitting middle term, identities), formulas and solved examples.",
+  "three-dimensional-geometry-class-12": "Learn Three Dimensional Geometry Class 12 with important formulas, equations of lines and planes, concepts and practice questions.",
+  "types-of-symmetry": "Learn types of symmetry in geometry: reflective, rotational, translational and glide reflection symmetry with diagrams and simple examples.",
+  "construction-of-quadrilaterals": "Learn construction of quadrilaterals using given sides, angles and diagonals. Explore geometry methods, examples and important concepts.",
+  "complex-numbers": "Learn complex numbers, their types, properties, formulas and arithmetic operations with simple explanations and examples.",
+  "singular-matrix-example": "Learn singular matrix definition, properties, determinant formula and solved examples. Understand how to identify singular matrices in linear algebra.",
+  "hexagon-lines-of-symmetry": "Learn the 6 lines of symmetry of a regular hexagon, with geometric properties, interior angle formulas, examples and easy explanations."
 };
 
 import ClientPage from '@/components/client/Mathematicstopic_slug';

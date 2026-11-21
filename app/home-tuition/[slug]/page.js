@@ -1,4 +1,13 @@
 const homeTuitionTitles = {
+  "home-tuition-in-Ajmer": "Home Tuition in Ajmer | Expert Home Tutors – Learnosphere",
+  "home-tuition-in-ajmer": "Home Tuition in Ajmer | Expert Home Tutors – Learnosphere",
+  "ajmer": "Home Tuition in Ajmer | Expert Home Tutors – Learnosphere",
+  "home-tuition-in-udaipur": "Home Tuition in Udaipur | Find Expert Home Tutors – Learnosphere",
+  "home-tuition-in-Udaipur": "Home Tuition in Udaipur | Find Expert Home Tutors – Learnosphere",
+  "udaipur": "Home Tuition in Udaipur | Find Expert Home Tutors – Learnosphere",
+  "home-tuition-in-Patna": "Home Tuition in Patna | Best Home Tutors for Classes 1–12",
+  "home-tuition-in-patna": "Home Tuition in Patna | Best Home Tutors for Classes 1–12",
+  "patna": "Home Tuition in Patna | Best Home Tutors for Classes 1–12",
   "home-tuition-in-Lalsot": "Home Tuition in Lalsot | Find a Home Tutor | Learnosphere",
   "home-tuition-in-Pulwama": "Home Tuition in Pulwama | Find a Home Tutor | Learnosphere",
   "home-tuition-in-Sedam": "Home Tuition in Sedam | Find a Home Tutor | Learnosphere",
@@ -703,6 +712,18 @@ function generateHeadline(city) {
   return statements[randomIndex];
 }
 
+const homeTuitionDescriptions = {
+  "home-tuition-in-Ajmer": "Looking for home tuition in Ajmer? Learnosphere connects students with experienced home tutors for Classes 1 to 12, offering personalised learning at home.",
+  "home-tuition-in-ajmer": "Looking for home tuition in Ajmer? Learnosphere connects students with experienced home tutors for Classes 1 to 12, offering personalised learning at home.",
+  "ajmer": "Looking for home tuition in Ajmer? Learnosphere connects students with experienced home tutors for Classes 1 to 12, offering personalised learning at home.",
+  "home-tuition-in-udaipur": "Find home tuition in Udaipur with Learnosphere. Explore home tutors for Classes 1 to 12 and get personalised academic guidance for better learning.",
+  "home-tuition-in-Udaipur": "Find home tuition in Udaipur with Learnosphere. Explore home tutors for Classes 1 to 12 and get personalised academic guidance for better learning.",
+  "udaipur": "Find home tuition in Udaipur with Learnosphere. Explore home tutors for Classes 1 to 12 and get personalised academic guidance for better learning.",
+  "home-tuition-in-Patna": "Find the best home tuition in Patna with Learnosphere. Explore home tutors for Classes 1–12, CBSE, ICSE and State Board subjects.",
+  "home-tuition-in-patna": "Find the best home tuition in Patna with Learnosphere. Explore home tutors for Classes 1–12, CBSE, ICSE and State Board subjects.",
+  "patna": "Find the best home tuition in Patna with Learnosphere. Explore home tutors for Classes 1–12, CBSE, ICSE and State Board subjects.",
+};
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   if (!slug) return { title: "Page Not Found | Learnosphere" };
@@ -728,10 +749,12 @@ export async function generateMetadata({ params }) {
   }
 
   const customTitle = homeTuitionTitles[slug] || homeTuitionTitles[decodedSlug] || homeTuitionTitles[cityName];
+  const customDesc = homeTuitionDescriptions[slug] || homeTuitionDescriptions[decodedSlug] || homeTuitionDescriptions[cityName];
+
   if (customTitle) {
     return {
       title: { absolute: customTitle },
-      description: `Find top home tutors in ${cityName} with Learnosphere.`,
+      description: customDesc || `Find top home tutors in ${cityName} with Learnosphere.`,
     };
   }
 
@@ -745,7 +768,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `Home Tuition in ${cityData.city} | Learnosphere`,
-    description: `Find top home tutors in ${cityData.city} with Learnosphere.`,
+    description: customDesc || `Find top home tutors in ${cityData.city} with Learnosphere.`,
   };
 }
 
