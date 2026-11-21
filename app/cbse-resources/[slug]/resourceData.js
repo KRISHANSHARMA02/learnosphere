@@ -31,6 +31,10 @@ export const STATIC_DB_RESOURCE_SLUGS = new Set([
   "structure-of-atom-class-11",
   "ncert-solutions-for-class-11-chemistry",
   "4th-class-science",
+  "ncert-solutions-class-9-maths",
+  "cbse-class-10-maths-objective-questions",
+  "ncert-solutions-class-10-science",
+  "ncert-solutions-class-10-maths",
 ]);
 
 export function isCurriculumPattern(slug) {

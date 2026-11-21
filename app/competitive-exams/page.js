@@ -124,24 +124,34 @@ export default function CompetitiveExamPage() {
     }
   ];
 
-  const faqs = [
+  const generalFaqs = [
     {
-      q: `Are the ${examName} courses live or recorded?`,
-      a: "We offer both live and recorded classes. Students can attend interactive live sessions and also access recorded lectures for revision anytime."
+      q: "Which competitive exams can students prepare for?",
+      a: "Students can explore preparation resources for examinations such as IIT JEE, NEET and Olympiads."
     },
     {
-      q: `What subjects are covered in the ${examName} batches?`,
-      a: `Our batches comprehensively cover ${examSubjects}. We provide deep dives into theory, practical problem solving, and extensive mock tests.`
+      q: "Which subjects are important for IIT JEE?",
+      a: "Physics, Chemistry and Mathematics are the main subjects covered in IIT JEE preparation."
     },
     {
-      q: `How can I enrol in a ${examName} batch?`,
-      a: "You can enrol directly through this website. Simply choose your preferred batch, click on 'Enroll Now', and follow the payment instructions to start your learning journey."
+      q: "Which subjects are covered in NEET?",
+      a: "NEET preparation covers Physics, Chemistry and Biology."
     },
     {
-      q: "Are there any mock tests included?",
-      a: "Yes! All our premium batches include weekly minor tests and full-syllabus major mock tests designed strictly according to the latest exam pattern."
+      q: "Why are mock tests important for competitive exams?",
+      a: "Mock tests help students practise questions, understand examination patterns and identify topics requiring further revision."
+    },
+    {
+      q: "How can students prepare for Olympiad examinations?",
+      a: "Students can prepare by understanding subject concepts, practising logical reasoning questions and solving relevant practice exercises."
+    },
+    {
+      q: "Does Learnosphere provide competitive exam study materials?",
+      a: "Students can explore available educational resources and competitive exam preparation materials on Learnosphere. Availability depends on the resources listed on the website."
     }
   ];
+
+  const currentFaqs = !slug ? generalFaqs : faqs;
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -217,12 +227,20 @@ export default function CompetitiveExamPage() {
               </span>
               
               <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-snug tracking-tight pb-2">
-                Master the <br className="hidden md:block" />
-                <span className="text-orange-600">{examName}</span> {slug ? "Exam" : ""}
+                {!slug ? (
+                  "Competitive Exam Preparation for JEE, NEET & Olympiad"
+                ) : (
+                  <>
+                    Master the <br className="hidden md:block" />
+                    <span className="text-orange-600">{examName}</span> Exam
+                  </>
+                )}
               </h1>
               
               <p className="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed mx-auto md:mx-0">
-                Comprehensive preparation, expert guidance, and top-tier study materials to help you conquer your {examName} target.
+                {!slug
+                  ? "Find study materials, notes, practice questions and test series for JEE, NEET and Olympiad exams in one place."
+                  : `Comprehensive preparation, expert guidance, and top-tier study materials to help you conquer your ${examName} target.`}
               </p>
             </div>
 
@@ -461,7 +479,7 @@ export default function CompetitiveExamPage() {
           </div>
           
           <div className="space-y-4">
-            {faqs.map((faq, idx) => {
+            {currentFaqs.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div 

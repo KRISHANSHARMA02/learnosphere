@@ -71,7 +71,7 @@ export default function HomeTuitionContent({
 
   const cityContent = cityContentMap[cityKey];
 
-  const faqs = [
+  const defaultFaqs = [
     {
       question: " How does Learnosphere match the right tutor with a student?",
 
@@ -115,6 +115,8 @@ export default function HomeTuitionContent({
         "Yes, we provide expert tutors for CBSE, ICSE, and all major State Boards across India.",
     },
   ];
+
+  const faqs = (cityContent?.faqs && cityContent.faqs.length > 0) ? cityContent.faqs : defaultFaqs;
 
   const FeatureCard = ({ title, desc }) => (
     <motion.div
@@ -238,6 +240,38 @@ export default function HomeTuitionContent({
             {cityContent.paragraph}
           </p>
         </section>
+      )}
+
+      {cityContent?.sections && (
+        <div className="max-w-6xl mx-auto px-6 space-y-10 my-8">
+          {cityContent.sections.map((section, idx) => (
+            <div key={idx} className="bg-gray-50/80 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{section.title}</h3>
+              {section.content && (
+                <p className="text-gray-700 leading-relaxed mb-4">{section.content}</p>
+              )}
+              {section.items && (
+                <ul className="space-y-3">
+                  {section.items.map((item, itemIdx) => (
+                    <li key={itemIdx} className="text-gray-700 flex items-start gap-2">
+                      <span className="text-orange-500 font-bold mt-1">•</span>
+                      <span>
+                        {typeof item === "string" ? (
+                          item
+                        ) : (
+                          <>
+                            <strong className="text-gray-900">{item.title}: </strong>
+                            {item.description}
+                          </>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
       )}
 
       <section className="py-14 px-6 max-w-5xl mx-auto text-center">

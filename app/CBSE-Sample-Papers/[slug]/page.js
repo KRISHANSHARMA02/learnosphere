@@ -10,7 +10,7 @@ const cbseSampleCustomTitles = {
   "CBSE-Sample-Papers-for-Class-12-Maths": "Class 12 Maths Sample Papers: Practice Sets for CBSE | Learnosphere",
   "CBSE-Sample-Papers-for-Class-12-Business-Study": "Class 12 Business Studies Sample Papers: CBSE Practice | Learnosphere",
   "CBSE-Sample-Papers-for-Class-12-English": "CBSE Class 12 English Sample Papers for Exam Prep | Learnosphere",
-  "CBSE-Sample-Papers-for-Class-12-Physics": "Class 12 Physics Sample Papers: CBSE Board Practice | Learnosphere",
+  "CBSE-Sample-Papers-for-Class-12-Physics": "CBSE Class 12 Physics Sample Papers PDF (2026–27) | Learnosphere",
   "CBSE-Sample-Papers-for-Class-8-Maths": "CBSE Class 8 Maths Sample Papers for Practice | Learnosphere"
 };
 
@@ -49,6 +49,7 @@ export async function generateMetadata({ params }) {
     "CBSE-Sample-Papers-for-Class-11-Maths": "CBSE Class 11 Maths Sample Papers | Practice Papers",
   };
   const descriptionMap = {
+    "CBSE-Sample-Papers-for-Class-12-Physics": "Download CBSE Class 12 Physics Sample Papers PDF for 2026–27. Practise important questions, revise concepts and prepare for board exams.",
     "CBSE-Class-10-Maths-Sample-Paper-Basic-and-Standard": "Practice CBSE Class 10 Maths Sample Paper for Basic and Standard levels. Prepare for board exams with useful questions, practice papers and revision resources.",
     "CBSE-Sample-Papers-for-Class-9-Maths": "Explore CBSE Class 9 Maths practice papers to revise important concepts, solve questions and strengthen your mathematics skills before exams.",
     "CBSE-Sample-Papers-for-Class-11-Maths": "Practice CBSE Class 11 Maths Sample Papers with useful questions and revision resources. Strengthen your concepts and prepare effectively for exams.",

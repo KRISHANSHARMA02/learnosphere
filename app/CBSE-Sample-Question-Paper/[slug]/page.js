@@ -1,4 +1,5 @@
 const samplePaperTitles = {
+  "Cbse-Maths-Sample-Paper-Class-12-Set-9": "CBSE Class 12 Maths Sample Paper – Set 9 | Learnosphere",
   "Cbse-Sample-Paper-For-Class-9-Maths-Set-7": "CBSE Class 9 Maths Sample Paper Set 7 | Learnosphere",
   "Cbse-Sample-Paper-For-Class-9-Maths-Set-6": "CBSE Class 9 Maths Set 6: Sample Paper Practice | Learnosphere",
   "Cbse-Sample-Paper-For-Class-9-Maths-Set-9": "CBSE Class 9 Maths Set 9: Sample Paper Practice | Learnosphere",
@@ -49,6 +50,7 @@ const samplePaperTitles = {
 };
 
 const samplePaperMetaDescriptions = {
+  "Cbse-Maths-Sample-Paper-Class-12-Set-9": "Download CBSE Class 12 Maths Sample Paper Set 9. Practice important questions, understand question patterns and prepare effectively for board exams.",
   "Cbse-Class-10-Maths-Sample-Papers-Set-1": "CBSE Class 10 Maths Sample Paper Set 1: practise exam-style questions and test your preparation before the exam. Try it on Learnosphere.",
   "Cbse-Class-10-Maths-Sample-Papers-Set-2": "CBSE Class 10 Maths Sample Paper Set 2: solve exam-pattern questions, find weak topics and revise with confidence. Try it on Learnosphere.",
   "Cbse-Class-10-Maths-Sample-Papers-Set-3": "CBSE Class 10 Maths Sample Paper Set 3: practise important question types and improve speed and accuracy. Try it on Learnosphere.",
