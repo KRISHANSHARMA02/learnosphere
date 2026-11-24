@@ -1,8 +1,10 @@
 import ClientPage from '@/components/client/CBSE_Class-12-Math';
 
 export const metadata = {
-  title: "CBSE Class 12 Maths Exam Preparation Guide | Learnosphere",
-  description: "CBSE Class 12 Maths preparation: calculus, matrices and probability explained step by step, with expert tutors to boost board exam scores."
+  title: {
+    absolute: "CBSE Class 12 Maths Syllabus, Chapters & Exam Pattern | Learnosphere",
+  },
+  description: "Explore the CBSE Class 12 Maths syllabus with all 13 chapters, unit-wise marks distribution, exam pattern, internal assessment and official syllabus PDF."
 };
 
 export default function Page(props) {

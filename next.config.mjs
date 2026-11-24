@@ -22,6 +22,16 @@ const nextConfig = {
         destination: '/Mathematicstopic/:slug',
         permanent: true,
       },
+      {
+        source: '/resources-and-support',
+        destination: '/resource-&-support',
+        permanent: true,
+      },
+      {
+        source: '/cbse-resources',
+        destination: '/CBSE',
+        statusCode: 301,
+      },
     ];
   },
   images: {
