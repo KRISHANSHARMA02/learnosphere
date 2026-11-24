@@ -122,8 +122,7 @@ const Studentloginextra = () => {
           Find Expert Tutors for Academic Excellence?
           </h3>
           <p className="font-normal text-lg md:text-xl font-Poppins pt-2 m-1">
-          <span>Learnosphere</span>
-          Learnosphere connects you with expert tutors to help you achieve your academic goals. Whether you need support in Math, Science, English, or want to explore non-academic areas like music and languages, our tutoring services have the perfect fit for you. With flexible, one-on-one lessons tailored to your needs, you can enhance your academics at your own pace. Contact us today to find the ideal tutor and begin your learning journey at home! 
+          <span>Learnosphere</span> connects you with expert tutors to help you achieve your academic goals. Whether you need support in Math, Science, English, or want to explore non-academic areas like music and languages, our tutoring services have the perfect fit for you. With flexible, one-on-one lessons tailored to your needs, you can enhance your academics at your own pace. Contact us today to find the ideal tutor and begin your learning journey at home! 
           </p>
         </div>
 

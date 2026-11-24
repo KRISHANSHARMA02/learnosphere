@@ -8,6 +8,7 @@ import {
   getSamplePapersPDFSlug,
   getIcseSamplePapersSlug,
 } from "@/src/lib/actions/sample_papers_data_fetch";
+import { getHomeTuitionSlugs } from "@/src/lib/actions/home_tuition";
 
 // Escape XML entities
 function escapeXml(unsafe) {
@@ -168,6 +169,21 @@ export default async function sitemap() {
     }))
   );
   
+  const homeTuitionRoutes = [];
+  try {
+    const homeTuitionSlugs = await getHomeTuitionSlugs();
+    homeTuitionRoutes.push(
+      ...homeTuitionSlugs
+        .filter((slug) => slug && typeof slug === "string")
+        .map((slug) => ({
+          url: `${baseUrl}/home-tuition/${encodeURIComponent(slug)}`,
+          priority: 0.7,
+          lastModified: new Date(),
+        }))
+    );
+  } catch (err) {
+    console.error("Error fetching home tuition slugs for sitemap:", err);
+  }
 
   return [
     ...staticRoutes,
@@ -175,6 +191,7 @@ export default async function sitemap() {
     ...samplePapersRoutes,
     ...samplePapersPDFRoutes,
     ...IcseSamplePapersRoutes,
-    ...StateBoardRoutes
+    ...StateBoardRoutes,
+    ...homeTuitionRoutes,
   ];
 }
