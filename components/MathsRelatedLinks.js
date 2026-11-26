@@ -7,6 +7,7 @@ export default function MathsRelatedLinks({
   links = [
     { title: "Square Root of 7", href: "/Mathematicstopic/square-root-of-7" },
     { title: "HCF of Two Numbers", href: "/Mathematicstopic/hcf-of-two-numbers" },
+    {title: "Roman Numerals", href: "/roman-numerals"},
   ],
 }) {
   return (
