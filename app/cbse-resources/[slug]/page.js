@@ -34,6 +34,8 @@ import { notFound } from "next/navigation";
 import ResourcePage from "./ResourcePage";
 import { validateCbseResourceSlug, getResourceContent } from "./resourceData";
 
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   if (!slug) return { title: "Page Not Found | Learnosphere" };
@@ -43,6 +45,9 @@ export async function generateMetadata({ params }) {
     return {
       title: "Page Not Found | Learnosphere",
       robots: { index: false, follow: false },
+      alternates: {
+        canonical: buildCanonicalUrl(["cbse-resources", slug]),
+      },
     };
   }
 
@@ -51,6 +56,9 @@ export async function generateMetadata({ params }) {
     return {
       title: "Page Not Found | Learnosphere",
       robots: { index: false, follow: false },
+      alternates: {
+        canonical: buildCanonicalUrl(["cbse-resources", slug]),
+      },
     };
   }
 
@@ -61,6 +69,9 @@ export async function generateMetadata({ params }) {
   return {
     title: customTitle ? { absolute: customTitle } : `${content.title} | Learnosphere`,
     description: customDesc || content.description?.[0] || `Comprehensive CBSE resources for ${content.title}.`,
+    alternates: {
+      canonical: buildCanonicalUrl(["cbse-resources", slug]),
+    },
   };
 }
 

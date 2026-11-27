@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import PartTime from "@/components/client/PartTimeTutorJob";
 
 export const metadata = {
@@ -8,6 +9,9 @@ export const metadata = {
     canonical: "https://learnosphere.in/part-time-tutor-jobs",
   },
 
+  alternates: {
+    canonical: buildCanonicalUrl("part-time-tutor-jobs"),
+  },
 };
 
 export default function Page() {

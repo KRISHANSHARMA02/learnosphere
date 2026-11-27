@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const icseRelatedTitles = {
   "ICSE-Biology": "ICSE Biology Study Resources and Chapter Help | Learnosphere",
   "ICSE-Mathematics-Class-10-Solutions": "ICSE Class 10 Maths Solutions: Chapter-Wise Answers | Learnosphere",
@@ -165,6 +166,9 @@ export async function generateMetadata({ params }) {
   return {
     title: customTitle ? { absolute: customTitle } : `${data.title} | Learnosphere`,
     description: metaDescription,
+    alternates: {
+      canonical: buildCanonicalUrl(["ICSE-Related", slug]),
+    },
   };
 }
 

@@ -1,8 +1,13 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
+
 export const metadata = {
-  title: "Competitive Exam Preparation for JEE, NEET & Olympiad | Learnosphere",
-  description: "Explore competitive exam preparation resources for JEE, NEET and Olympiad with study materials, practice tests, expert guidance and structured learning support.",
+  title: "Competitive Exam Preparation | Learnosphere",
+  description: "Prepare for competitive exams including IIT JEE, NEET, and Olympiads with expert tutors and study resources.",
+  alternates: {
+    canonical: buildCanonicalUrl("competitive-exams"),
+  },
 };
 
 export default function Layout({ children }) {
-  return <>{children}</>;
+  return children;
 }

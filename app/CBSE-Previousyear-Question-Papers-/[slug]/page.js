@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const cbsePrevYearTitles = {
   "Cbse-Class-12-Maths-Question-Paper-2011": "CBSE Class 12 Maths Question Paper 2011 | Learnosphere",
   "Cbse-Class-12-Maths-Question-Paper-2012": "Class 12 Maths 2012 Paper: CBSE Previous Year | Learnosphere",
@@ -113,5 +114,11 @@ export async function generateMetadata({ params }) {
   const customTitle = cbsePrevYearTitles[slug] || cbsePrevYearTitles[slug?.toLowerCase()];
   const title = (slug || "CBSE Previous Year Question Paper").replace(/-/g, " ");
   const description = `Download ${title} with solutions on Learnosphere.`;
-  return { title: customTitle ? { absolute: customTitle } : title, description };
+  return {
+    title: customTitle ? { absolute: customTitle } : title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["CBSE-Previousyear-Question-Papers-", slug]),
+    },
+  };
 }

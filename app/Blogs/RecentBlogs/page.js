@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import RecentBlogsCards from "./recentBlogsCards";
 import { getRecentBlogs } from "@/src/lib/actions/blogs";
 
@@ -13,4 +14,7 @@ export default async function CoursePage() {
 export const metadata = {
   title: { absolute: "Latest Education News & Board Exam Updates | Learnosphere" },
   description: "Read the latest education blogs from Learnosphere: study tips, exam updates, CBSE news and guides for students, parents and tutors.",
+  alternates: {
+    canonical: buildCanonicalUrl(["Blogs", "RecentBlogs"]),
+  },
 };

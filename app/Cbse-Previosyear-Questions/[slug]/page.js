@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const cbsePyqCustomTitles = {
   "CBSE-Previous-Year-Question-Paper-for-Class-12-Physics": "Class 12 Physics Previous Year Question Papers: CBSE | Learnosphere",
   "CBSE-Previous-Year-Question-Paper-for-Class-12-BusinessStudy": "CBSE Class 12 Business Studies Previous Year Papers | Learnosphere",
@@ -43,5 +44,11 @@ export async function generateMetadata({ params }) {
   const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description = descriptionMap[slug] || "Download CBSE previous year question papers with solutions.";
   
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["Cbse-Previosyear-Questions", slug]),
+    },
+  };
 }

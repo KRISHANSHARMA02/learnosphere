@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -1126,6 +1127,7 @@ const Class10 = () => {
 
 export default Class10;
 
+
 export const generateMetadata = () => ({
   title: "Roman Numerals 1 to 100: Chart, Rules & Examples | Learnosphere",
   description:
@@ -1133,3 +1135,4 @@ export const generateMetadata = () => ({
   keywords:
     "Roman Numerals, Roman Numbers, Roman Letters, Roman Numerals to Numbers, Subtractive Rule for Roman Numerals, Solved Examples, Practice Questions, FAQs",
 });
+

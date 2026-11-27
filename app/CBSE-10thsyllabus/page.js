@@ -1,8 +1,12 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import ClientPage from '@/components/client/CBSE-10thsyllabus';
 
 export const metadata = {
   title: "Best 10th CBSE Tuition Classes in Jaipur | Learnosphere",
-  description: "Join 10th CBSE tuition classes in Jaipur at Learnosphere for expert guidance and personalized coaching to excel in your exams. Enroll today and boost your results!"
+  description: "Join 10th CBSE tuition classes in Jaipur at Learnosphere for expert guidance and personalized coaching to excel in your exams. Enroll today and boost your results!",
+  alternates: {
+    canonical: buildCanonicalUrl("CBSE-10thsyllabus"),
+  },
 };
 
 export default function Page(props) {

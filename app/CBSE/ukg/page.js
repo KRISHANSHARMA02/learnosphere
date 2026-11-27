@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 import Footer1 from "@/components/Footer1";
 import Navbar from "@/components/Navbar";
@@ -111,5 +112,8 @@ export const generateMetadata = () => {
     title: "UKG Syllabus - Learnosphere",
     description: "UKG is one of the most significant classes for students as they are introduced to brand-new subjects and chapters.",
     keywords: "UKG Syllabus, UKG Curriculum, UKG Subjects, UKG Mathematics, UKG English, UKG Hindi, UKG General Awareness, UKG Environmental Science",
-  };
+      alternates: {
+      canonical: buildCanonicalUrl("CBSE/ukg"),
+    },
+};
 }

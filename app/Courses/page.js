@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 export const dynamic = "force-dynamic"; // 👈 add this at the top
 export const revalidate = 60; // ✅ re-fetch from WordPress every 60s
 
@@ -143,4 +144,7 @@ export default async function Page() {
 export const metadata = {
   title: "Online Learning Courses for Students",
   description: "Discover learning courses for students to strengthen subject knowledge, develop skills and support academic growth.",
+  alternates: {
+    canonical: buildCanonicalUrl("Courses"),
+  },
 };

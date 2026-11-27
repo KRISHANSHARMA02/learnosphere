@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -475,4 +476,7 @@ export default PrivacyPolicy;
 export const metadata = {
   title: { absolute: "Privacy Policy: How Learnosphere Handles Your Data" },
   description: "Read the Learnosphere privacy policy to learn how we collect, use and protect your personal information when you use our platform.",
+  alternates: {
+    canonical: buildCanonicalUrl("privacy-policy"),
+  },
 };

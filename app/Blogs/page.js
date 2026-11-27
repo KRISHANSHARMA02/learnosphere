@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import { IoRemoveOutline } from "react-icons/io5";
 import Image from "next/image";
 import { LiaPagerSolid } from "react-icons/lia";
@@ -303,4 +304,7 @@ export default async function Blogs  () {
 export const metadata = {
   title: " Home Tuition | Study Tips, Guides & Resources",
   description: "Explore helpful home tuition guides, study tips and educational resources for students and parents. Discover practical learning advice and useful tuition insights.",
+  alternates: {
+    canonical: buildCanonicalUrl("Blogs"),
+  },
 };

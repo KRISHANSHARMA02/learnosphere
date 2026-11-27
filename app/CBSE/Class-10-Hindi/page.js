@@ -1,8 +1,12 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import ClientPage from '@/components/client/CBSE_Class-10-Hindi';
 
 export const metadata = {
   title: "CBSE Class 10 Hindi | Notes & Study Material | Learnosphere",
-  description: "Explore CBSE Class 10 Hindi notes, chapter summaries, grammar topics and study material. Prepare for exams with useful learning resources from Learnosphere."
+  description: "Explore CBSE Class 10 Hindi notes, chapter summaries, grammar topics and study material. Prepare for exams with useful learning resources from Learnosphere.",
+  alternates: {
+    canonical: buildCanonicalUrl("CBSE/Class-10-Hindi"),
+  },
 };
 
 export default function Page(props) {

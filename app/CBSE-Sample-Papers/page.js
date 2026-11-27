@@ -1,8 +1,12 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import ClientPage from '@/components/client/CBSE-Sample-Papers';
 
 export const metadata = {
   title: "CBSE Sample Papers | Practice Papers for Classes 1–12",
-  description: "Practice CBSE sample papers for Classes 1 to 12 and prepare effectively for exams with useful questions, revision material and study resources."
+  description: "Practice CBSE sample papers for Classes 1 to 12 and prepare effectively for exams with useful questions, revision material and study resources.",
+  alternates: {
+    canonical: buildCanonicalUrl("CBSE-Sample-Papers"),
+  },
 };
 
 export default function Page(props) {

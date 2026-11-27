@@ -23,18 +23,6 @@ import Footer from "@/components/Footer";
 const OnilneQuiz = () => {
   return (
     <div>
-      <head>
-        <title>Online Quiz | Learnosphere</title>
-        <meta
-          name="description"
-          content="Engage your young learner with fun and interactive online quizzes for All Classes. Covering basic subjects like Math, English, and Science, these quizzes help reinforce early learning, track progress, and build confidence. Start today and make learning enjoyable!"
-        />
-        <meta
-          name="keywords"
-          content="Online Quiz, Certification Quiz, Practice Quiz, Quizzes"
-        />
-        <link rel="canonical" href="https://learnosphere.in/Online-Quiz" />
-      </head>
       <Navbar />
       <div className="flex flex-col gap-2 mt-14 justify-center items-center p-8">
         <h1

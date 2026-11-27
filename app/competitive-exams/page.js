@@ -160,11 +160,13 @@ export default function CompetitiveExamPage() {
         const apiSlug = slug || "default"; 
         const response = await axios.get(`${WEB_BACKEND_URL}/api/courses/${apiSlug}`);
         
-        if (response.data && response.data.length > 0) {
-          setCourses(response.data);
-        } else {
-          setCourses([]); 
-        }
+        const resData = response.data;
+        const coursesList = Array.isArray(resData)
+          ? resData
+          : Array.isArray(resData?.data)
+          ? resData.data
+          : [];
+        setCourses(coursesList);
       } catch (error) {
         console.error("Failed to fetch courses:", error);
         setCourses([]); 

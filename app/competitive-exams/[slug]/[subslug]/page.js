@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const compExamsCustomTitles = {
   "neet/study-notes": "NEET Study Notes: Biology, Physics & Chemistry | Learnosphere",
   "iitjee/study-notes": "IIT JEE Study Notes: Physics, Chemistry & Maths | Learnosphere"
@@ -21,7 +22,13 @@ export async function generateMetadata({ params }) {
   const title = customTitle ? { absolute: customTitle } : (titleMap[key] || titleMap[subslug] || "Learnosphere");
   const description = descriptionMap[key] || descriptionMap[subslug] || "Revision notes and study materials for competitive exams.";
   
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["competitive-exams", slug, subslug]),
+    },
+  };
 }
 
 export default function Page(props) {

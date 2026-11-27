@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const academicsSubDescriptions = {
   "study-notes": "Computer science study notes for students: clear explanations of key topics to help you learn, revise and prepare for exams."
 };
@@ -10,6 +11,9 @@ export async function generateMetadata({ params }) {
   return {
     title: { absolute: "Computer Science Study Notes and Topic Guides | Learnosphere" },
     ...(description ? { description } : {}),
+    alternates: {
+      canonical: buildCanonicalUrl(["academics", slug, subslug]),
+    },
   };
 }
 
