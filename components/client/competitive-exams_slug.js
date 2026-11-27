@@ -79,6 +79,11 @@ export default function CompetitiveExamPage() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openFaq, setOpenFaq] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // 🗑️ REMOVED fallbackCourses entirely
 
@@ -220,12 +225,14 @@ export default function CompetitiveExamPage() {
 
             <div className="flex-1 w-full flex justify-center items-center">
               <div className="w-[300px] h-[300px] md:w-[400px] md:h-[350px] relative">
-                <Player
-                  autoplay
-                  loop
-                  src={currentAnimation} 
-                  style={{ height: '100%', width: '100%' }}
-                />
+                {isMounted && (
+                  <Player
+                    autoplay
+                    loop
+                    src={currentAnimation} 
+                    style={{ height: '100%', width: '100%' }}
+                  />
+                )}
               </div>
             </div>
 

@@ -274,8 +274,7 @@ const navigateToCourse = useCourseNavigation();
                 })
               ) : (
                 <p className="text-center col-span-full text-gray-500">
-                  Learn<b className="text-orange-600">O</b>sphere Loading
-                  courses...
+                  No courses available at the moment. Please check back soon.
                 </p>
               )}
             </div>

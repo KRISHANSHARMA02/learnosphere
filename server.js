@@ -5,7 +5,7 @@ const next = require('next')
  
 const dev = process.env.NODE_ENV !== 'production'
 const hostname = 'localhost'
-const port = parseInt(process.env.PORT, 10) || 6000
+const port = 6000
 
 
 

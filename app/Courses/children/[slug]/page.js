@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Script from "next/script";
 
 const BASE_URL = "https://learnosphere.in";
+const isValidObjectId = (id) => typeof id === "string" && /^[0-9a-fA-F]{24}$/.test(id);
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -12,7 +13,7 @@ export async function generateMetadata(props) {
   // Extract course ID (expecting slug like "kids-math-course-123")
   const courseId = slug?.split("-").pop();
 
-  if (!courseId) {
+  if (!courseId || !isValidObjectId(courseId)) {
     return {
       title: "Learnosphere Children's Courses",
       description: "Explore kids courses and learning programs at Learnosphere.",
@@ -70,7 +71,7 @@ export default async function CoursePage(props) {
   const slug = params.slug;
   const courseId = slug?.split("-").pop();
 
-   if (!courseId) return notFound();
+   if (!courseId || !isValidObjectId(courseId)) return notFound();
 
   const course = await getCourseById(courseId);
 
