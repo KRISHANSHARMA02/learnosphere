@@ -1,5 +1,4 @@
 const { createServer } = require('http')
-const { parse } = require('url')
 const next = require('next')
 
  
@@ -16,10 +15,9 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   createServer(async (req, res) => {
     try {
-      // Be sure to pass `true` as the second argument to `url.parse`.
-      // This tells it to parse the query portion of the URL.
-      const parsedUrl = parse(req.url, true)
-      const { pathname, query } = parsedUrl
+      const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`)
+      const pathname = parsedUrl.pathname
+      const query = Object.fromEntries(parsedUrl.searchParams)
  
       if (pathname === '/a') {
         await app.render(req, res, '/a', query)

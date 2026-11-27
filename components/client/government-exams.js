@@ -18,7 +18,7 @@ import Footer1 from "@/components/Footer1";
 
 export default function GovernmentExamsMainPage() {
   const [exams, setExams] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Quick Links (Same as Competitive Exams)
   const quickLinks = [
@@ -48,7 +48,7 @@ export default function GovernmentExamsMainPage() {
     },
   ];
 
-  // Dummy Data for Exams (Replace with API call later if needed)
+  // Government exam navigation categories (taxonomy data linking to exam sub-pages)
   const displayExams = [
     {
       id: 1,
@@ -88,11 +88,7 @@ export default function GovernmentExamsMainPage() {
   ];
 
   useEffect(() => {
-    // Simulating loading state
-    setTimeout(() => {
-      setExams(displayExams);
-      setLoading(false);
-    }, 500);
+    setExams(displayExams);
   }, []);
 
   return (

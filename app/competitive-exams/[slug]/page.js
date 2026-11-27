@@ -1,5 +1,10 @@
 import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
-import ClientPage from '@/components/client/competitive-exams_slug';
+import dynamic from 'next/dynamic';
+
+const ClientPage = dynamic(
+  () => import('@/components/client/competitive-exams_slug'),
+  { ssr: false }
+);
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

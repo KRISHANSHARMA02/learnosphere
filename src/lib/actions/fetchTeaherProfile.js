@@ -10,7 +10,9 @@ export async function fetchTeacherProfileData(teacherId, studentIso) {
     );
 
     if (!res.ok) {
-      console.error("Failed to fetch teacher data");
+      if (res.status !== 404) {
+        console.warn(`Failed to fetch teacher data: HTTP ${res.status}`);
+      }
       return null;
     }
 
