@@ -1,3 +1,5 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
+
 const icseSampleCustomTitles = {
   "ICSE-Sample-Papers-for-Class-9-Maths": "ICSE Class 9 Maths Sample Papers for Practice | Learnosphere"
 };
@@ -62,5 +64,8 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    alternates: {
+      canonical: buildCanonicalUrl(["icse-sample-papers", slug]),
+    },
   };
 }

@@ -27,11 +27,6 @@ const nextConfig = {
         destination: '/resource-&-support',
         permanent: true,
       },
-      {
-        source: '/cbse-resources',
-        destination: '/CBSE',
-        statusCode: 301,
-      },
     ];
   },
   images: {

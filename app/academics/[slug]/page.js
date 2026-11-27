@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const academicsDescriptions = {
   "computer-science": "Learn computer science and IT online with Learnosphere: explore courses, study notes and book expert tutors for coding and theory support."
 };
@@ -10,6 +11,9 @@ export async function generateMetadata({ params }) {
   return {
     title: { absolute: "Computer Science & IT Courses and Study Resources | Learnosphere" },
     ...(description ? { description } : {}),
+    alternates: {
+      canonical: buildCanonicalUrl(["academics", slug]),
+    },
   };
 }
 

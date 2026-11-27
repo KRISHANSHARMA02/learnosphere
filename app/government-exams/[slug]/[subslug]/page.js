@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import ClientPage from '@/components/client/government-exams_slug_subslug';
 
 export async function generateMetadata({ params }) {
@@ -15,7 +16,13 @@ export async function generateMetadata({ params }) {
   const title = titleMap[key] || titleMap[subslug] || "Learnosphere";
   const description = descriptionMap[key] || descriptionMap[subslug] || "Study notes and revision resources for government examinations.";
 
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["government-exams", slug, subslug]),
+    },
+  };
 }
 
 export default function Page(props) {

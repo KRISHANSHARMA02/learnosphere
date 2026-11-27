@@ -111,6 +111,8 @@ export default async function SamplePapersPDF({ params }) {
   return <DataTable data={data} slug={slug} />;
 }
 
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const description = samplePaperMetaDescriptions[slug];
@@ -121,5 +123,8 @@ export async function generateMetadata({ params }) {
   return {
     title: customTitle ? { absolute: customTitle } : formattedTitle,
     ...(description ? { description } : {}),
+    alternates: {
+      canonical: buildCanonicalUrl(["CBSE-Sample-Question-Paper", slug]),
+    },
   };
 }

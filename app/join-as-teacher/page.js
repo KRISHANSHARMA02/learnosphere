@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import JoinAsTeacher from "@/components/client/JoinAsTeacher";
 
 export const metadata = {
@@ -8,6 +9,9 @@ export const metadata = {
     canonical: "https://learnosphere.in/join-as-teacher",
   },
 
+  alternates: {
+    canonical: buildCanonicalUrl("join-as-teacher"),
+  },
 };
 
 export default function Page() {

@@ -1,3 +1,5 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
+
 const homeTuitionTitles = {
   "home-tuition-in-Ajmer": "Home Tuition in Ajmer | Expert Home Tutors – Learnosphere",
   "home-tuition-in-ajmer": "Home Tuition in Ajmer | Expert Home Tutors – Learnosphere",
@@ -755,6 +757,9 @@ export async function generateMetadata({ params }) {
     return {
       title: { absolute: customTitle },
       description: customDesc || `Find top home tutors in ${cityName} with Learnosphere.`,
+      alternates: {
+        canonical: buildCanonicalUrl(["home-tuition", slug]),
+      },
     };
   }
 
@@ -763,12 +768,18 @@ export async function generateMetadata({ params }) {
     return {
       title: "Page Not Found | Learnosphere",
       robots: { index: false, follow: false },
+      alternates: {
+        canonical: buildCanonicalUrl(["home-tuition", slug]),
+      },
     };
   }
 
   return {
     title: `Home Tuition in ${cityData.city} | Learnosphere`,
     description: customDesc || `Find top home tutors in ${cityData.city} with Learnosphere.`,
+    alternates: {
+      canonical: buildCanonicalUrl(["home-tuition", slug]),
+    },
   };
 }
 

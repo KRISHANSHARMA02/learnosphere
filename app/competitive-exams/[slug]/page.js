@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import ClientPage from '@/components/client/competitive-exams_slug';
 
 export async function generateMetadata({ params }) {
@@ -14,7 +15,13 @@ export async function generateMetadata({ params }) {
   const title = titleMap[slug] || "Learnosphere";
   const description = descriptionMap[slug] || "Preparation guide and study resources for competitive exams.";
   
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["competitive-exams", slug]),
+    },
+  };
 }
 
 export default function Page(props) {

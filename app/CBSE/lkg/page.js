@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -236,5 +237,8 @@ export const generateMetadata = () => {
       "LKG is a crucial stage where children are moulded into young learners who will go on to become the driving force of society and keep the learning wheel moving. It is imperative that students and parents are aware of the updated syllabus for each of the subjects taught in the CBSE curriculum, like English, Mathematics, General Awareness, Environmental Sciences (EVS), etc",
     keywords:
       "LKG Syllabus, LKG Syllabus CBSE, LKG Syllabus India, LKG Syllabus 2021, LKG Syllabus 2022, LKG Syllabus 2023, LKG Syllabus 2024, LKG Syllabus 2025,",
-  };
+      alternates: {
+      canonical: buildCanonicalUrl("CBSE/lkg"),
+    },
+};
 };

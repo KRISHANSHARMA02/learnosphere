@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 import Footer1 from "@/components/Footer1";
 import Navbar from "@/components/Navbar";
@@ -176,5 +177,8 @@ export const generateMetadata = () => {
       "Prepare for the Sainik School Entrance Exam with resources and guidance on Learnosphere.",
     keywords:
       "sainik school entrance exam, sainik school entrance exam preparation, sainik school entrance exam syllabus, sainik school entrance exam pattern, sainik school entrance exam resources, sainik school entrance exam tips,",
-  };
+      alternates: {
+      canonical: buildCanonicalUrl("pages/sainik"),
+    },
+};
 };

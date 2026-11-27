@@ -46,7 +46,7 @@ export async function generateMetadata(props) {
         url: `${BASE_URL}/middle-east/${slug}`
       },
 
-      // ⭐ AUTOMATIC CANONICAL URL
+      // ⭐ AUTOMATIC CANONICAL URL,
       alternates: {
         canonical: `${BASE_URL}/middle-east/${slug}`,
       },

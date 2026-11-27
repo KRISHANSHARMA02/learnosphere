@@ -7,6 +7,38 @@ import {
   fetchTeacherProfileData,
   fetchSimilarTeachers,
 } from "@/src/lib/actions/fetchTeaherProfile";
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
+
+export async function generateMetadata({ params }) {
+  const { slug, subject, id } = await params;
+  const teacher = await fetchTeacherProfileData(id, "IN");
+
+  if (!teacher) {
+    return {
+      title: "Teacher Profile Not Found | Learnosphere",
+      robots: { index: false, follow: false },
+      alternates: {
+        canonical: buildCanonicalUrl(["home-tuition", slug, "lessons", subject, id]),
+      },
+    };
+  }
+
+  const teacherName = teacher.name || "Home Tutor";
+  const formattedSubject = subject
+    ? subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ")
+    : "All Subjects";
+  const formattedCity = slug
+    ? slug.replace(/^home-tuition-in-/, "").replace(/-/g, " ")
+    : "India";
+
+  return {
+    title: `${teacherName} - ${formattedSubject} Home Tutor in ${formattedCity} | Learnosphere`,
+    description: `Book classes with ${teacherName}, verified home tutor for ${formattedSubject} in ${formattedCity}. Verified reviews, qualifications, and affordable fees.`,
+    alternates: {
+      canonical: buildCanonicalUrl(["home-tuition", slug, "lessons", subject, id]),
+    },
+  };
+}
 
 export default async function Page({ params }) {
   const { id } = await params;

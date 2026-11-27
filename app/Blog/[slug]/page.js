@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import React from "react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
@@ -100,15 +101,22 @@ export async function generateMetadata({ params }) {
   const blogs = await res.json();
 
   if (!blogs || blogs.length === 0) {
-    return { title: "Blog post not found" };
+    return {
+      title: "Blog post not found",
+      alternates: {
+        canonical: buildCanonicalUrl(["Blog", slug]),
+      },
+    };
   }
 
   const customTitle = blogCustomTitles[slug];
-  const meta = { title: customTitle ? { absolute: customTitle } : blogs[0].title.rendered };
-  if (blogMetaDescriptions[slug]) {
-    meta.description = blogMetaDescriptions[slug];
-  }
-  return meta;
+  return {
+    title: customTitle ? { absolute: customTitle } : blogs[0].title.rendered,
+    ...(blogMetaDescriptions[slug] ? { description: blogMetaDescriptions[slug] } : {}),
+    alternates: {
+      canonical: buildCanonicalUrl(["Blog", slug]),
+    },
+  };
 }
 
 

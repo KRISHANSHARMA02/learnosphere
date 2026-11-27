@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import React from "react";
 import { notFound } from "next/navigation";
 import StateBoardSlug from "@/components/StateBoardSlug";
@@ -81,6 +82,9 @@ export async function generateMetadata({ params }) {
     return {
       title: titleMap[slug],
       description: boardDesc || descriptionMap[slug] || "",
+      alternates: {
+        canonical: buildCanonicalUrl(["State_Board", slug]),
+      },
     };
   }
 
@@ -91,7 +95,12 @@ export async function generateMetadata({ params }) {
     });
 
     if (!res.ok) {
-      return { title: "Learnosphere | State Board" };
+      return {
+        title: "Learnosphere | State Board",
+        alternates: {
+          canonical: buildCanonicalUrl(["State_Board", slug]),
+        },
+      };
     }
 
     const data = await res.json();
@@ -100,9 +109,18 @@ export async function generateMetadata({ params }) {
     return {
       title: `Learnosphere | ${heading} Study Materials, Model Papers & Exam Updates`,
       ...(boardDesc ? { description: boardDesc } : {}),
+      alternates: {
+        canonical: buildCanonicalUrl(["State_Board", slug]),
+      },
     };
   } catch (e) {
-    return { title: "Learnosphere | State Board", ...(boardDesc ? { description: boardDesc } : {}) };
+    return {
+      title: "Learnosphere | State Board",
+      ...(boardDesc ? { description: boardDesc } : {}),
+      alternates: {
+        canonical: buildCanonicalUrl(["State_Board", slug]),
+      },
+    };
   }
 }
 

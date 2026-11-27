@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import Footer from "@/components/Footer";
 import Footer1 from "@/components/Footer1";
 import Navbar from "@/components/Navbar";
@@ -36,4 +37,7 @@ export default Instructions;
 export const metadata = {
   title: { absolute: "Tutor Instructions: Guidelines for Learnosphere Educators" },
   description: "Tutor instructions on Learnosphere: read the guidelines for educators on profiles, classes and best practices before you start teaching.",
+  alternates: {
+    canonical: buildCanonicalUrl("Tutor-Instructions"),
+  },
 };

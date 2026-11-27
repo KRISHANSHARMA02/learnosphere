@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 
 const TermsOfUse = () => {
@@ -149,4 +150,7 @@ const terms = [
 export const metadata = {
   title: "Terms and Conditions | Learnosphere",
   description: "Read the Learnosphere terms and conditions covering use of our platform, tutor and student responsibilities, bookings and policies.",
+  alternates: {
+    canonical: buildCanonicalUrl("terms-and-conditions"),
+  },
 };

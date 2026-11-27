@@ -1,8 +1,12 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import ClientPage from '@/components/client/CBSE_Class-6';
 
 export const metadata = {
   title: "Class 6 CBSE Learning Guide | Learnosphere",
-  description: "Help students learn effectively with Class 6 CBSE educational resources, important concepts and useful guides for developing subject knowledge."
+  description: "Help students learn effectively with Class 6 CBSE educational resources, important concepts and useful guides for developing subject knowledge.",
+  alternates: {
+    canonical: buildCanonicalUrl("CBSE/Class-6"),
+  },
 };
 
 export default function Page(props) {

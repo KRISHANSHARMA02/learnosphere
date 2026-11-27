@@ -52,6 +52,7 @@ const mathTopicsDescriptions = {
   "hexagon-lines-of-symmetry": "Learn the 6 lines of symmetry of a regular hexagon, with geometric properties, interior angle formulas, examples and easy explanations."
 };
 
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import ClientPage from '@/components/client/Mathematicstopic_slug';
 
 export async function generateMetadata({ params }) {
@@ -64,6 +65,9 @@ export async function generateMetadata({ params }) {
   return {
     title: customTitle ? { absolute: customTitle } : formattedTitle,
     ...(description ? { description } : {}),
+    alternates: {
+      canonical: buildCanonicalUrl(["Mathematicstopic", slug]),
+    },
   };
 }
 

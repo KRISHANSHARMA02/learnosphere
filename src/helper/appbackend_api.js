@@ -38,6 +38,24 @@ export async function backendFetch(endpoint, options = {}) {
       }
     }
 
+    // If localhost returned 404/not ok (e.g. port 5000 running another app or missing route), fallback to live backend
+    if ((url.includes("localhost") || url.includes("127.0.0.1")) && (!res || res.status === 404 || !res.ok)) {
+      const fallbackBase = "https://mobileapp.backend.learnosphere.in";
+      const fallbackUrl = `${fallbackBase}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+      try {
+        const fallbackRes = await fetch(fallbackUrl, {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            ...(options.headers || {}),
+          },
+        });
+        if (fallbackRes.ok) {
+          res = fallbackRes;
+        }
+      } catch (_) {}
+    }
+
     // 🟡 CASE 1: 404 Not Found → Return JSON without throwing
     if (res.status === 404) {
       const errorJson = await res.json().catch(() => ({}));

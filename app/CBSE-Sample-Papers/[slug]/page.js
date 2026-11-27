@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const cbseSampleCustomTitles = {
   "CBSE-Sample-Papers-for-Class-12-Hindi": "CBSE Class 12 Hindi Sample Papers | Learnosphere",
   "CBSE-Sample-Papers-for-Class-12-Political-Science": "CBSE Class 12 Political Science Sample Papers | Learnosphere",
@@ -32,6 +33,7 @@ export default async function SamplePapersPage({ params }) {
   return <DataTable data={data} />;
 }
 
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   if (!slug) return { title: "Page Not Found | Learnosphere" };
@@ -40,6 +42,9 @@ export async function generateMetadata({ params }) {
   if (!data || data.length === 0) {
     return {
       title: "Page Not Found | Learnosphere",
+      alternates: {
+        canonical: buildCanonicalUrl(["CBSE-Sample-Papers", slug]),
+      },
     };
   }
 
@@ -59,5 +64,11 @@ export async function generateMetadata({ params }) {
   const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description = descriptionMap[slug] || "Practice CBSE sample papers for Classes 1 to 12 and prepare effectively for exams with useful questions, revision material and study resources.";
 
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["CBSE-Sample-Papers", slug]),
+    },
+  };
 }

@@ -1,6 +1,6 @@
 // pages/syllabus.js
 "use client";
-import { APP_BACKEND_URL } from "@/src/helper/appbackend_api";
+import { APP_BACKEND_URL, backendFetch } from "@/src/helper/appbackend_api";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import React from "react";
@@ -81,25 +81,26 @@ const cou = [
   },
 ];
 
-export default function Syllabus() {
+export default function Syllabus({ initialSyllabus = null, slug: propSlug = null }) {
   useEffect(() => {
     AOS.init({ duration: 1000 });
      trackEvent(EVENT_NAMES.SYLLABUS_PAGE_VISIT, { page: 'CBSE_Syllabus_Slug', slug: window?.location?.pathname });
   }, []);
 
-  const { slug } = useParams();
+  const routeParams = useParams();
+  const slug = propSlug || routeParams?.slug;
   const containerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [syllabus, setSyllabus] = useState(null); // Store data from backend
-  const [loading, setLoading] = useState(true);
+  const [syllabus, setSyllabus] = useState(initialSyllabus); // Store data from backend
+  const [loading, setLoading] = useState(!initialSyllabus);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [papers, setPapers] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [samplePapers, setSamplePapers] = useState([]);
-  const [faqs, setFaqs] = useState([]);
+  const [papers, setPapers] = useState(initialSyllabus?.papers || []);
+  const [courses, setCourses] = useState(initialSyllabus?.courses || []);
+  const [samplePapers, setSamplePapers] = useState(initialSyllabus?.samplePpr || []);
+  const [faqs, setFaqs] = useState(initialSyllabus?.faqs || []);
   const faqSchema = {
       "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -172,8 +173,11 @@ export default function Syllabus() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Fetch syllabus from backend
+  // Fetch syllabus from backend if not already available or if className changed
   useEffect(() => {
+    if (initialSyllabus && syllabus && String(syllabus.className) === String(className)) {
+      return;
+    }
     const fetchSyllabus = async () => {
       if (!className) {
         setError("Invalid class slug in URL.");
@@ -181,12 +185,30 @@ export default function Syllabus() {
         return;
       }
       try {
-        const response = await axios.get(
-          `${APP_BACKEND_URL}/api/route/getSyllabusByClass`,
-          { params: { className } }
-        );
-        if (response.data && response.data.length > 0) {
-          const syllabusData = response.data[0];
+        setLoading(true);
+        setError(null);
+        let syllabusData = null;
+
+        try {
+          const res = await backendFetch(`/api/route/getSyllabusByClass?className=${className}`);
+          if (Array.isArray(res) && res.length > 0) {
+            syllabusData = res[0];
+          } else if (res?.data && Array.isArray(res.data) && res.data.length > 0) {
+            syllabusData = res.data[0];
+          }
+        } catch (_) {}
+
+        if (!syllabusData) {
+          const response = await axios.get(
+            `https://mobileapp.backend.learnosphere.in/api/route/getSyllabusByClass`,
+            { params: { className } }
+          );
+          if (response.data && response.data.length > 0) {
+            syllabusData = response.data[0];
+          }
+        }
+
+        if (syllabusData) {
           setSyllabus(syllabusData);
 
           // <-- add this to capture papers for dropdown
@@ -491,19 +513,21 @@ export default function Syllabus() {
                 {syllabus.description2}
               </p>
             )}
-            <div className=" md:px-2 py-1 md:py-4  text-base  ">
-              <ul className="gap-4">
-                {syllabus.points.map((point, index) => (
-                  <li
-                    key={index}
-                    className="bg-gradient-to-r from-orange-50 to-red-50 p-4 mb-4 rounded-xl shadow-sm hover:shadow-md transition"
-                  >
-                    <FaCheckCircle className="inline text-orange-500 mr-2" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {syllabus?.points && Array.isArray(syllabus.points) && syllabus.points.length > 0 && (
+              <div className=" md:px-2 py-1 md:py-4  text-base  ">
+                <ul className="gap-4">
+                  {syllabus.points.map((point, index) => (
+                    <li
+                      key={index}
+                      className="bg-gradient-to-r from-orange-50 to-red-50 p-4 mb-4 rounded-xl shadow-sm hover:shadow-md transition"
+                    >
+                      <FaCheckCircle className="inline text-orange-500 mr-2" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {syllabus.heading2 && (
               <h3 className="text-xl font-semibold text-center text-gray-800 py-4">
                 {syllabus.heading2}

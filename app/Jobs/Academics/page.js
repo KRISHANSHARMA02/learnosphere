@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import React from "react";
@@ -147,4 +148,7 @@ export default Academics;
 export const metadata = {
   title: { absolute: "Academic Jobs and Teaching Roles at Learnosphere" },
   description: "Academic tutor jobs at Learnosphere: apply to teach students online or at home, set your subjects and start earning as an educator.",
+  alternates: {
+    canonical: buildCanonicalUrl("Jobs/Academics"),
+  },
 };

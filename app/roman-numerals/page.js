@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -326,5 +327,8 @@ export const generateMetadata = () => {
       "Roman Numerals is a special kind of numerical notation that was earlier used by the Romans. The Roman numeral is an additive and subtractive system in which letters are used to denote certain base numbers and arbitrary numbers in the number system.",
     keywords:
       "Roman Numerals, Roman Numbers, Roman Letters, Roman Numerals to Numbers, Subtractive Rule for Roman Numerals, Solved Examples, Practice Questions, FAQs",
-  };
+      alternates: {
+      canonical: buildCanonicalUrl("roman-numerals"),
+    },
+};
 };

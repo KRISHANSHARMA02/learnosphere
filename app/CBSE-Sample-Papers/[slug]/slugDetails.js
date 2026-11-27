@@ -185,6 +185,116 @@ const DataTable = ({ data }) => {
     );
   };
 
+  const renderStructuredArray = (arr) => {
+    if (!arr || arr.length === 0) return null;
+
+    if (arr[0] && (arr[0].route || arr[0].value)) {
+      return (
+        <div className="flex flex-wrap gap-2 my-3">
+          {arr.map((linkItem, idx) => (
+            <Link
+              key={idx}
+              href={linkItem.route || "#"}
+              className="inline-block px-3 py-1.5 bg-orange-50 text-orange-700 hover:bg-orange-100 rounded-lg border border-orange-200 text-sm font-medium transition"
+            >
+              {linkItem.value || linkItem.title}
+            </Link>
+          ))}
+        </div>
+      );
+    }
+
+    const isPaperOrTitleItem = (item) => {
+      if (typeof item === "string") return true;
+      if (typeof item === "object" && item !== null) {
+        return !!(item.title || item.name);
+      }
+      return false;
+    };
+
+    if (arr.every(isPaperOrTitleItem)) {
+      const hasPaperIndicators = arr.some((item) => {
+        const t = typeof item === "string" ? item : (item.title || item.name || "");
+        return /sample\s*paper|set\s*\d+|solution|exam|term|pdf|cbse\s*class/i.test(t);
+      });
+
+      if (hasPaperIndicators) {
+        return (
+          <div className="flex flex-col gap-2 my-3">
+            {arr.map((item, idx) => {
+              const itemTitle = typeof item === "string" ? item : (item.title || item.name);
+              return (
+                <div key={item.id || idx} className="p-3 bg-white border border-gray-200 rounded-lg hover:shadow-sm">
+                  <a
+                    href="#"
+                    onClick={(e) => handlePaperClick(e, itemTitle)}
+                    className="text-blue-600 font-semibold hover:underline block"
+                  >
+                    {itemTitle}
+                  </a>
+                  {renderPdfViewer(itemTitle)}
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      return (
+        <div className="my-3 overflow-x-auto">
+          <table className="min-w-full bg-white border border-slate-700">
+            <tbody>
+              {arr.map((item, idx) => {
+                const val = typeof item === "string" ? item : (item.title || item.name || "");
+                const isHeader = idx === 0;
+                return (
+                  <tr key={idx} className={isHeader ? "bg-orange-50 font-semibold text-slate-900 border-b border-slate-700" : "border-b border-slate-200 hover:bg-gray-50"}>
+                    <td className="py-2 px-4 text-center">{val}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const renderParagraphContent = (content, customClass = "mb-2 mt-4 text-gray-800") => {
+    if (!content) return null;
+    if (typeof content !== "string") {
+      if (Array.isArray(content)) {
+        return renderStructuredArray(content);
+      }
+      return <p className={customClass}>{String(content)}</p>;
+    }
+
+    const trimmed = content.trim();
+    if ((trimmed.startsWith("[") && trimmed.endsWith("]")) || (trimmed.startsWith("{") && trimmed.endsWith("}"))) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) {
+          return renderStructuredArray(parsed);
+        } else if (typeof parsed === "object" && parsed !== null) {
+          if (parsed.title) {
+            return (
+              <div className="my-2 p-3 bg-white border border-gray-200 rounded-lg hover:shadow-sm">
+                <a href="#" onClick={(e) => handlePaperClick(e, parsed.title)} className="text-blue-600 font-semibold hover:underline block">
+                  {parsed.title}
+                </a>
+                {renderPdfViewer(parsed.title)}
+              </div>
+            );
+          }
+        }
+      } catch (err) {}
+    }
+
+    return <p className={customClass}>{content}</p>;
+  };
+
   const handleKeyDown = (e) => {
     // Trigger the redirect when the Enter key is pressed
     if (e.key === "Enter" && searchQuery) {
@@ -274,12 +384,12 @@ const DataTable = ({ data }) => {
                   <Link href="https://sarvgyat.learnosphere.in/">
                     <Image className="mt-3 rounded-lg " src={Banner} alt="" />
                   </Link>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para1}</p>
+                  {renderParagraphContent(item.para1)}
 
                   <h2 className="mb-2 text-slate-800 text-[1.2em]">
                     {item.heading2}
                   </h2>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para2}</p>
+                  {renderParagraphContent(item.para2)}
                   {item.list1 && item.list1.length > 0 && (
                     <ol className="list-disc text-orange-600 pl-5 mb-2">
                       {item.list1.map((listItem, index) => (
@@ -291,7 +401,7 @@ const DataTable = ({ data }) => {
                   )}
                   <div>
                     <h2 className="text-[1.2em] font-bold">{item.heading14}</h2>
-                    <p className=" ">{item.para14}</p>
+                    {renderParagraphContent(item.para14, " ")}
                     {(item.heading3 ||
                       item.para3 ||
                       (item.tableData && item.tableData.length > 0) ||
@@ -305,7 +415,7 @@ const DataTable = ({ data }) => {
                           )}
 
                           {/* Display paragraph if item.para3 has content */}
-                          {item.para3 && <p className="">{item.para3}</p>}
+                          {renderParagraphContent(item.para3, "")}
 
                           {/* Display table only if either tableData or anotherField has content */}
                           {(item.tableData && item.tableData.length > 0) ||
@@ -380,7 +490,7 @@ const DataTable = ({ data }) => {
                   <h2 className="mb-2 font-bold text-slate-800 mt-3 text-[1.2em]">
                     {item.heading4}
                   </h2>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para4}</p>
+                  {renderParagraphContent(item.para4)}
                   {item.list2 && item.list2.length > 0 && (
                     <ol className="list-disc text-gray-800 pl-5 mb-2">
                       {item.list2.map((listItem, index) => (
@@ -404,7 +514,7 @@ const DataTable = ({ data }) => {
                         )}
 
                         {/* Display paragraph if item.para5 has content */}
-                        {item.para5 && <p className="">{item.para5}</p>}
+                        {renderParagraphContent(item.para5, "")}
 
                         {/* Display table only if anotherField1 has content */}
                         {item.anotherField1 && item.anotherField1.length > 0 && (
@@ -444,7 +554,7 @@ const DataTable = ({ data }) => {
                   <h2 className="mb-2 text-slate-800 mt-3 font-bold text-[1.2em]">
                     {item.heading15}
                   </h2>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para15}</p>
+                  {renderParagraphContent(item.para15)}
                    {item.list4 && item.list4.length > 0 && (
                     <section className="mb-8 mt-2">
                       <div className="grid gap-2 ">
@@ -510,7 +620,7 @@ const DataTable = ({ data }) => {
                       </div>
                     )}
 
-                  <p className="mb-2 mt-4 text-gray-800">{item.para6}</p>
+                  {renderParagraphContent(item.para6)}
                   <Link href="https://sarvgyat.learnosphere.in/">
                     <Image className="mt-3" src={Banner1} alt="" />
                   </Link>
@@ -520,7 +630,7 @@ const DataTable = ({ data }) => {
                         <h2 className="text-[1.2em] font-bold text-orange-600">
                           {item.heading7}
                         </h2>
-                        <p>{item.para7}</p>
+                        {renderParagraphContent(item.para7, "")}
                       </>
                     )}
 
@@ -529,7 +639,7 @@ const DataTable = ({ data }) => {
                         <h2 className="font-bold text-[1em]">
                           {item.heading8}
                         </h2>
-                        <p className="mb-2 mt-4 text-gray-800">{item.para8}</p>
+                        {renderParagraphContent(item.para8)}
                       </>
                     )}
 
@@ -538,7 +648,7 @@ const DataTable = ({ data }) => {
                         <h2 className="font-bold text-[1em]">
                           {item.heading9}
                         </h2>
-                        <p className="mb-2 mt-4 text-gray-800">{item.para9}</p>
+                        {renderParagraphContent(item.para9)}
                       </>
                     )}
 
@@ -547,7 +657,7 @@ const DataTable = ({ data }) => {
                         <h2 className="font-bold text-[1em]">
                           {item.heading10}
                         </h2>
-                        <p className="mb-2 mt-4 text-gray-800">{item.para10}</p>
+                        {renderParagraphContent(item.para10)}
                       </>
                     )}
 
@@ -556,7 +666,7 @@ const DataTable = ({ data }) => {
                         <h2 className="font-bold text-[1em]">
                           {item.heading11}
                         </h2>
-                        <p className="mb-2 mt-4 text-gray-800">{item.para11}</p>
+                        {renderParagraphContent(item.para11)}
                       </>
                     )}
 
@@ -565,10 +675,7 @@ const DataTable = ({ data }) => {
                         <h2 className="font-bold text-[1em]">
                           {item.heading12}
                         </h2>
-                        <p className="mb-2 mt-4 text-gray-800">
-                          {" "}
-                          {item.para12}
-                        </p>
+                        {renderParagraphContent(item.para12)}
                       </>
                     )}
                   </div>
@@ -679,8 +786,8 @@ const DataTable = ({ data }) => {
                   <h2 className="font-bold text-[1.2em]">
                     {item.heading27}
                   </h2>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para16}</p>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para17}</p>
+                  {renderParagraphContent(item.para16)}
+                  {renderParagraphContent(item.para17)}
 
                   <div
                     className={`grid mt-4 ${item.heading16 ||
@@ -695,7 +802,7 @@ const DataTable = ({ data }) => {
                         {item.heading16}
                       </h2>
                     ) : null}
-                    <p className="">{item.para18}</p>
+                    {renderParagraphContent(item.para18, "")}
                     {(item.anotherField6 && item.anotherField6.length > 0) ||
                       (item.anotherField7 && item.anotherField7.length > 0) ? (
                       <table className="min-w-full bg-white border border-gray-300">
@@ -760,14 +867,14 @@ const DataTable = ({ data }) => {
                     ) : null}
                   </div>
 
-                  <p className="mb-2 mt-4 text-gray-800">{item.para19}</p>
+                  {renderParagraphContent(item.para19)}
 
                   {item.heading17 && item.para20 && (
                     <>
                       <h2 className="font-semibold text-[1em]">
                         {item.heading17}
                       </h2>
-                      <p>{item.para20}</p>
+                      {renderParagraphContent(item.para20, "")}
                     </>
                   )}
 
@@ -784,7 +891,7 @@ const DataTable = ({ data }) => {
                         {item.heading18}
                       </h2>
                     ) : null}
-                    <p className="">{item.para21}</p>
+                    {renderParagraphContent(item.para21, "")}
                     {(item.anotherField8 && item.anotherField8.length > 0) ||
                       (item.anotherField9 && item.anotherField9.length > 0) ? (
                       <table className="min-w-full bg-white border border-gray-300">
@@ -863,7 +970,7 @@ const DataTable = ({ data }) => {
                       </h2>
                     ) : null}
 
-                    <p className="">{item.para22}</p>
+                    {renderParagraphContent(item.para22, "")}
 
                     {(item.anotherField10 && item.anotherField10.length > 0) ||
                       (item.anotherField11 && item.anotherField11.length > 0) ? (
@@ -932,13 +1039,13 @@ const DataTable = ({ data }) => {
                     ) : null}
                   </div>
 
-                  <p className="mb-2 mt-4 text-gray-800"> {item.para23}</p>
+                  {renderParagraphContent(item.para23)}
                   {item.heading21 && item.para24 && (
                     <>
                       <h2 className="font-bold mt-2 text-[1em]">
                         {item.heading21}
                       </h2>
-                      <p className="mb-2 mt-4 text-gray-800">{item.para24}</p>
+                      {renderParagraphContent(item.para24)}
                     </>
                   )}
 
@@ -956,7 +1063,7 @@ const DataTable = ({ data }) => {
                       </h2>
                     ) : null}
 
-                    <p className="">{item.para25}</p>
+                    {renderParagraphContent(item.para25, "")}
 
                     {(item.anotherField12 && item.anotherField12.length > 0) ||
                       (item.anotherField13 && item.anotherField13.length > 0) ? (
@@ -1025,14 +1132,14 @@ const DataTable = ({ data }) => {
                     ) : null}
                   </div>
 
-                  <p className="mb-2 mt-4 text-gray-800">{item.para26}</p>
-                  <p className="mb-2 mt-4 text-gray-800">{item.para27}</p>
+                  {renderParagraphContent(item.para26)}
+                  {renderParagraphContent(item.para27)}
                   {item.heading23 && item.para28 && (
                     <>
                       <h2 className="font-bold mt-3 text-[1em]">
                         {item.heading23}
                       </h2>
-                      <p className="mb-2 mt-4 text-gray-800">{item.para28}</p>
+                      {renderParagraphContent(item.para28)}
                     </>
                   )}
 
@@ -1050,7 +1157,7 @@ const DataTable = ({ data }) => {
                       </h2>
                     ) : null}
 
-                    <p className="">{item.para29}</p>
+                    {renderParagraphContent(item.para29, "")}
 
                     {(item.anotherField14 && item.anotherField14.length > 0) ||
                       (item.anotherField15 && item.anotherField15.length > 0) ? (
@@ -1132,7 +1239,7 @@ const DataTable = ({ data }) => {
                       </h2>
                     ) : null}
 
-                    <p>{item.para30}</p>
+                    {renderParagraphContent(item.para30, "")}
 
                     {item.anotherField16 && item.anotherField16.length > 0 && (
                       <div className="flex flex-col items-center justify-center gap-4">
@@ -1175,7 +1282,7 @@ const DataTable = ({ data }) => {
                         {item.heading13}
                       </h2>
                     )}
-                    <p>{item.para13}</p>
+                    {renderParagraphContent(item.para13, "")}
                     {item.list3 && item.list3.length > 0 && (
                       <ol className="flex flex-wrap gap-2 w-full text-orange-600 mb-2">
                         {item.list3.map((listItem, index) => {

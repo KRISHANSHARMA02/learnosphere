@@ -1,3 +1,7 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
+import ClientPage from '@/components/client/CBSE_Syllabus_slug';
+import { backendFetch } from '@/src/helper/appbackend_api';
+
 const cbseSyllabusCustomTitles = {
   "class2-cbse-syllabus-2025-26": "CBSE Class 2 Syllabus 2025-26: Subjects and Topics | Learnosphere",
   "class7-cbse-syllabus-2025-26": "CBSE Class 7 Syllabus 2025-26: Subject-Wise Topics | Learnosphere",
@@ -5,8 +9,6 @@ const cbseSyllabusCustomTitles = {
   "class8-cbse-syllabus-2025-26": "CBSE Class 8 Syllabus 2025-26: Chapters by Subject | Learnosphere",
   "class5-cbse-syllabus-2025-26": "CBSE Class 5 Syllabus 2025-26 Overview | Learnosphere"
 };
-
-import ClientPage from '@/components/client/CBSE_Syllabus_slug';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -34,9 +36,33 @@ export async function generateMetadata({ params }) {
   const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description = descriptionMap[slug] || "Explore the CBSE syllabus for all classes with subject-wise topics, chapters and curriculum details for exam preparation.";
 
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["CBSE_Syllabus", slug]),
+    },
+  };
 }
 
-export default function Page(props) {
-  return <ClientPage {...props} />;
+export default async function Page({ params }) {
+  const { slug } = await params;
+  const classMatch = slug?.match(/class(\d+)/i);
+  const className = classMatch ? classMatch[1] : null;
+
+  let initialSyllabus = null;
+  if (className) {
+    try {
+      const res = await backendFetch(`/api/route/getSyllabusByClass?className=${className}`);
+      if (Array.isArray(res) && res.length > 0) {
+        initialSyllabus = res[0];
+      } else if (res?.data && Array.isArray(res.data) && res.data.length > 0) {
+        initialSyllabus = res.data[0];
+      }
+    } catch (err) {
+      console.error("Server fetch syllabus error:", err);
+    }
+  }
+
+  return <ClientPage initialSyllabus={initialSyllabus} slug={slug} />;
 }

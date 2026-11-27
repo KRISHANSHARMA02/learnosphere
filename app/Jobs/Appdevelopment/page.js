@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import Footer from '@/components/Footer'
 import Footer1 from '@/components/Footer1'
 import Navbar from '@/components/Navbar'
@@ -53,4 +54,7 @@ export default Appdevelopment
 export const metadata = {
   title: { absolute: "App Development Careers at Learnosphere" },
   description: "App development jobs at Learnosphere: explore open roles, see what we look for and apply to help build our learning platform.",
+  alternates: {
+    canonical: buildCanonicalUrl("Jobs/Appdevelopment"),
+  },
 };

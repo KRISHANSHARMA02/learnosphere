@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 import ClientPage from '@/components/client/ICSE-Previousyear-Questions_slug';
 
 export async function generateMetadata({ params }) {
@@ -15,7 +16,13 @@ export async function generateMetadata({ params }) {
   const title = titleMap[slug] || "Learnosphere";
   const description = descriptionMap[slug] || "Download and practice ICSE and ISC previous year question papers with solutions.";
   
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["ICSE-Previousyear-Questions", slug]),
+    },
+  };
 }
 
 export default function Page(props) {

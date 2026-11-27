@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import Footer from '@/components/Footer'
 import Footer1 from '@/components/Footer1'
 import Navbar from '@/components/Navbar'
@@ -54,4 +55,7 @@ export default Others
 export const metadata = {
   title: { absolute: "Other Job Openings at Learnosphere | Careers" },
   description: "Explore other job openings at Learnosphere: find roles beyond teaching, check requirements and apply to join our team.",
+  alternates: {
+    canonical: buildCanonicalUrl("Jobs/Others"),
+  },
 };

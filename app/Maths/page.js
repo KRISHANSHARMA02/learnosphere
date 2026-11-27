@@ -135,20 +135,12 @@ const Maths = () => {
   return (
     <div>
       <Navbar />
-      <head>
-        <title> Complete Mathematics Guide for CBSE & ICSE – Formulas, Concepts & Easy Explanations</title>
-        <meta
-          name="description"
-          content="Get answers to common questions about Learnosphere's tutoring, home tuition, and more."
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqSchema),
-          }}
-        />
-        <link rel="canonical" href="https://learnosphere.in/Maths" />
-      </head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
 
       <div className="flex flex-col md:flex-row gap-4 mt-24 px-4 md:px-8 xl:px-20 relative">
         <div className=" font-Poppins w-full md:w-[75%]">

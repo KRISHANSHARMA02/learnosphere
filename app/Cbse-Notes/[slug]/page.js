@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const cbseNotesTitles = {
   "combustion-and-flame-class-8-important-questions": "Combustion and Flame Class 8: Important Questions | Learnosphere",
   "science-projects-for-class-9": "Class 9 Science Projects: Ideas for CBSE Students | Learnosphere",
@@ -29,6 +30,9 @@ export async function generateMetadata({ params }) {
   return {
     title: customTitle ? { absolute: customTitle } : formattedTitle,
     ...(description ? { description } : {}),
+    alternates: {
+      canonical: buildCanonicalUrl(["Cbse-Notes", slug]),
+    },
   };
 }
 

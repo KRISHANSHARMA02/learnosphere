@@ -1,6 +1,7 @@
 // app/home-tuition/page.js
 import { WEB_BACKEND_URL } from "@/src/helper/webbackend_api";
 import CityPageClient from "./CityPageClient";
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 
 const EXCLUDED_CITIES = new Set(["janjgir - champa", "canning - ii"]);
 
@@ -21,4 +22,7 @@ export default async function Page() {
 export const metadata = {
   title: { absolute: "Home Tuition in India: Find Verified Home Tutors | Learnosphere" },
   description: "Book verified home tutors for CBSE, ICSE and state boards. Get one-on-one home tuition in India, choose your tutor and start with a free demo.",
+  alternates: {
+    canonical: buildCanonicalUrl("home-tuition"),
+  },
 };

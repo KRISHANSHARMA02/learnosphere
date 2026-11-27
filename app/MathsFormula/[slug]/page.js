@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const mathsFormulaCustomTitles = {
   "Maths-Formulas-For-Class-6": "Class 6 Maths Formulas: Chapter-wise List & Examples | Learnosphere",
   "Maths-Formulas-For-Class-7": "Class 7 Maths Formulas for Quick Revision | Learnosphere",
@@ -23,7 +24,13 @@ export async function generateMetadata({ params }) {
   const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description = descriptionMap[slug] || "Find essential maths formulas for quick revision and exam prep.";
   
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["MathsFormula", slug]),
+    },
+  };
 }
 
 export default function Page(props) {

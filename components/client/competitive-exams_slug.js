@@ -14,7 +14,11 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import axios from "axios";
-import { Player } from "@lottiefiles/react-lottie-player";
+import dynamic from "next/dynamic";
+const Player = dynamic(
+  () => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player),
+  { ssr: false }
+);
 
 export default function CompetitiveExamPage() {
   const params = useParams();
@@ -124,21 +128,23 @@ export default function CompetitiveExamPage() {
     }
   ];
 
-  // 🚀 FIXED: API Request Logic updated to only use backend data
+  // 🚀 Content fetching exclusively through Web Backend
   useEffect(() => {
     const fetchCourses = async () => {
       setLoading(true);
       try {
         const apiSlug = slug || "default"; 
         const response = await axios.get(`${WEB_BACKEND_URL}/api/courses/${apiSlug}`);
-        if (response.data && response.data.length > 0) {
-          setCourses(response.data);
-        } else {
-          setCourses([]); // API returned empty
-        }
+        const resData = response.data;
+        const coursesList = Array.isArray(resData)
+          ? resData
+          : Array.isArray(resData?.data)
+          ? resData.data
+          : [];
+        setCourses(coursesList);
       } catch (error) {
         console.error("Error fetching courses:", error);
-        setCourses([]); // API failed
+        setCourses([]);
       } finally {
         setLoading(false);
       }

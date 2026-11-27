@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
 const govExamsCustomTitles = {
   "railway": "Railway Exam Preparation – NTPC, Group D, ALP & JE | Learnosphere",
   "banking": "Banking Exam Preparation for IBPS and PO Aspirants | Learnosphere",
@@ -22,7 +23,13 @@ export async function generateMetadata({ params }) {
   const title = customTitle ? { absolute: customTitle } : (titleMap[slug] || "Learnosphere");
   const description = descriptionMap[slug] || "Exam preparation guide and study materials for government jobs.";
   
-  return { title, description };
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: buildCanonicalUrl(["government-exams", slug]),
+    },
+  };
 }
 
 export default function Page(props) {

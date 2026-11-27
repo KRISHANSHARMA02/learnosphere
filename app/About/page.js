@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import Brandapp from "@/components/Brandapp";
 import React from "react";
 import Head from "next/head";
@@ -17,7 +18,10 @@ export const generateMetadata = () => {
       "Learnosphere offers the best home tuition, online earning opportunities for tutors, and comprehensive exam preparation for UPSC, SSC, NEET, IIT, CBSE, and more. Find tuition near you and learn how to prepare for exams effectively.",
     keywords:
       "best home tuition, earn online, tuition near me, how to prepare for exam, UPSC, SSC, NEET, IIT, CBSE, Learnosphere, personalized education, online learning, quality education, educators, students, Jaipur, offline tuitions",
-  };
+      alternates: {
+      canonical: buildCanonicalUrl("About"),
+    },
+};
 };
 
 const About = () => {

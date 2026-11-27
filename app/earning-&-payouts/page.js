@@ -1,3 +1,4 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import EarningPayouts from "@/components/client/EarningAndPayouts";
 
 
@@ -9,6 +10,9 @@ export const metadata = {
     canonical: "https://learnosphere.in/earning-&-payouts",
   },
 
+  alternates: {
+    canonical: buildCanonicalUrl("earning-&-payouts"),
+  },
 };
 
 export default function Page() {

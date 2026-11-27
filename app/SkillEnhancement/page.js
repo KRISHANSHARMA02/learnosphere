@@ -1,8 +1,12 @@
+import { buildCanonicalUrl } from "@/src/utils/canonicalHelper";
 import ClientPage from '@/components/client/SkillEnhancement';
 
 export const metadata = {
   title: "Skill Development Courses for Students",
-  description: "Explore skill enhancement resources to develop practical abilities, improve knowledge and support personal and academic growth."
+  description: "Explore skill enhancement resources to develop practical abilities, improve knowledge and support personal and academic growth.",
+  alternates: {
+    canonical: buildCanonicalUrl("SkillEnhancement"),
+  },
 };
 
 export default function Page(props) {
