@@ -1,5 +1,5 @@
 import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
-import ClientPage from '@/components/client/academics';
+import AcademicsClientWrapper from '@/components/client/academics_wrapper';
 
 export const metadata = {
   description: "Explore academic courses on Learnosphere, including computer science and IT, with study notes, expert tutors and flexible online learning.",
@@ -9,5 +9,5 @@ export const metadata = {
 };
 
 export default function Page(props) {
-  return <ClientPage {...props} />;
+  return <AcademicsClientWrapper {...props} />;
 }

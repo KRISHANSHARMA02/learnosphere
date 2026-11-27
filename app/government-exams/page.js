@@ -1,5 +1,5 @@
 import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
-import ClientPage from '@/components/client/government-exams';
+import GovernmentExamsClientWrapper from '@/components/client/government-exams_wrapper';
 
 export const metadata = {
   title: "Government Exam Prep: UPSC, SSC, Railway & Banking | Learnosphere",
@@ -10,5 +10,5 @@ export const metadata = {
 };
 
 export default function Page(props) {
-  return <ClientPage {...props} />;
+  return <GovernmentExamsClientWrapper {...props} />;
 }

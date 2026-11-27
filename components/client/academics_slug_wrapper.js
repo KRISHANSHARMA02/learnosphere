@@ -1,0 +1,12 @@
+"use client";
+
+import dynamic from "next/dynamic";
+
+const ClientPage = dynamic(
+  () => import("@/components/client/academics_slug"),
+  { ssr: false }
+);
+
+export default function AcademicsSlugClientWrapper(props) {
+  return <ClientPage {...props} />;
+}

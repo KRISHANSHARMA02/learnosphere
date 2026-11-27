@@ -6,7 +6,7 @@ const govExamsCustomTitles = {
   "upsc": "UPSC Exam Preparation for IAS Aspirants | Learnosphere"
 };
 
-import ClientPage from '@/components/client/government-exams_slug';
+import GovernmentExamsSlugClientWrapper from '@/components/client/government-exams_slug_wrapper';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -33,5 +33,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function Page(props) {
-  return <ClientPage {...props} />;
+  return <GovernmentExamsSlugClientWrapper {...props} />;
 }

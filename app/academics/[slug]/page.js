@@ -3,7 +3,7 @@ const academicsDescriptions = {
   "computer-science": "Learn computer science and IT online with Learnosphere: explore courses, study notes and book expert tutors for coding and theory support."
 };
 
-import ClientPage from '@/components/client/academics_slug';
+import AcademicsSlugClientWrapper from '@/components/client/academics_slug_wrapper';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -18,5 +18,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function Page(props) {
-  return <ClientPage {...props} />;
+  return <AcademicsSlugClientWrapper {...props} />;
 }

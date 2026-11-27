@@ -1,10 +1,5 @@
 import { buildCanonicalUrl } from '@/src/utils/canonicalHelper';
-import dynamic from 'next/dynamic';
-
-const ClientPage = dynamic(
-  () => import('@/components/client/competitive-exams_slug'),
-  { ssr: false }
-);
+import CompetitiveExamClientWrapper from '@/components/client/competitive-exams_slug_wrapper';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -30,5 +25,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function Page(props) {
-  return <ClientPage {...props} />;
+  return <CompetitiveExamClientWrapper {...props} />;
 }
